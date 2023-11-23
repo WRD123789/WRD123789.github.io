@@ -1,0 +1,250 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>集合论 | Wangrd's Blog</title><meta name="author" content="Wangrd"><meta name="copyright" content="Wangrd"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="集合论 集合 定义 定义 定义明确的对象的集合. 对象被称为元素或集合的成员. 表示 集合通常用大写字母表示, 可以通过列出元素和用大括号包围元素来描述或定义.  例如: A &#x3D; {2, 3, 5, 7, 11} 或 A &#x3D; {ab\frac{a}{b}ba​ | a, b 为整数, b ≠\neq&#x3D; 0}.  如果 x 是 A 的一个元素, 则写作 x ∈\in∈ A, 如果 y 不是 A 的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="集合论">
+<meta property="og:url" content="http://example.com/2023/11/23/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/%E9%9B%86%E5%90%88%E8%AE%BA/index.html">
+<meta property="og:site_name" content="Wangrd&#39;s Blog">
+<meta property="og:description" content="集合论 集合 定义 定义 定义明确的对象的集合. 对象被称为元素或集合的成员. 表示 集合通常用大写字母表示, 可以通过列出元素和用大括号包围元素来描述或定义.  例如: A &#x3D; {2, 3, 5, 7, 11} 或 A &#x3D; {ab\frac{a}{b}ba​ | a, b 为整数, b ≠\neq&#x3D; 0}.  如果 x 是 A 的一个元素, 则写作 x ∈\in∈ A, 如果 y 不是 A 的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/cover5.png">
+<meta property="article:published_time" content="2023-11-23T09:16:43.000Z">
+<meta property="article:modified_time" content="2023-11-23T09:24:27.354Z">
+<meta property="article:author" content="Wangrd">
+<meta property="article:tag" content="离散数学">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/cover5.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/11/23/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/%E9%9B%86%E5%90%88%E8%AE%BA/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '集合论',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-11-23 17:24:27'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/head.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover5.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Wangrd's Blog"><span class="site-name">Wangrd's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">集合论</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-23T09:16:43.000Z" title="发表于 2023-11-23 17:16:43">2023-11-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-11-23T09:24:27.354Z" title="更新于 2023-11-23 17:24:27">2023-11-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/">离散数学</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>集合论</h1>
+<h2 id="集合">集合</h2>
+<h3 id="定义">定义</h3>
+<p><strong>定义</strong><br>
+定义明确的对象的集合. 对象被称为元素或集合的成员.</p>
+<p><strong>表示</strong><br>
+集合通常用大写字母表示, 可以通过列出元素和用大括号包围元素来描述或定义.</p>
+<ul>
+<li>例如: A = {2, 3, 5, 7, 11} 或 A = {<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mi>a</mi><mi>b</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{a}{b}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0404em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6954em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">b</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">a</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> | a, b 为整数, b <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo mathvariant="normal">≠</mo></mrow><annotation encoding="application/x-tex">\neq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mrel"><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="inner"><span class="mord"><span class="mrel"></span></span></span><span class="fix"></span></span></span></span></span><span class="mrel">=</span></span></span></span></span> 0}.</li>
+</ul>
+<p>如果 x 是 A 的一个元素, 则写作 x <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo></mrow><annotation encoding="application/x-tex">\in</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">∈</span></span></span></span> A, 如果 y 不是 A 的元素, 则写作 y <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo mathvariant="normal">∉</mo></mrow><annotation encoding="application/x-tex">\notin</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mrel"><span class="mord"><span class="mrel">∈</span></span><span class="mord vbox"><span class="thinbox"><span class="llap"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="inner"><span class="mord"><span class="mord">/</span><span class="mspace" style="margin-right:0.0556em;"></span></span></span><span class="fix"></span></span></span></span></span></span></span></span> A.</p>
+<p>如果两个集合 A 和 B 拥有相同的元素(元素的顺序和重复不重要), 则称集合 A 等于集合 B , 写作 A = B.</p>
+<h3 id="基数">基数</h3>
+<p><strong>定义</strong><br>
+一个集合中元素的个数, 称为集合的基数 (势), 写作 |A|.</p>
+<ul>
+<li>例如: A = {2, 3, 5, 7}, A 的基数为4, 即|A| = 4.</li>
+</ul>
+<p>一个集合的基数可以为0, 称为空集, 写作{} 或 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∅</mi></mrow><annotation encoding="application/x-tex">\emptyset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">∅</span></span></span></span> .一个集合也可以拥有无数个元素.</p>
+<h3 id="子集和真子集">子集和真子集</h3>
+<p><strong>子集</strong><br>
+如果一个集合 A 的每个元素都在集合 B 中, 那么 A 是 B 的一个子集, 写作 A <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⊆</mo></mrow><annotation encoding="application/x-tex">\subseteq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">⊆</span></span></span></span> B, B 是 A 的超集, 写作 B <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⊇</mo></mrow><annotation encoding="application/x-tex">\supseteq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">⊇</span></span></span></span> A.</p>
+<ul>
+<li>例如: A = {1, 2, 3}, B = {1, 2, 3, 4}, C = {1, 2, 3}, 则 A 是 B 的一个子集, A 也是 C 的一个子集.</li>
+</ul>
+<p><strong>真子集</strong><br>
+如果一个集合 A 的每个元素都在集合 B 中, 并且 B 中至少有一个元素不在 A 中, 则称 A 为 B 的一个真子集, 写作A <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⊂</mo></mrow><annotation encoding="application/x-tex">\subset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">⊂</span></span></span></span> B.</p>
+<ul>
+<li>例如: A = {1, 2, 3}, B = {1, 2, 3, 4}, C = {1, 2, 3}, 则 A 是 B 的一个真子集, 但A 不是 C 的一个真子集.</li>
+</ul>
+<p>空集是任何非空集合的真子集, 是任何集合的子集, 每个集合都是自身的子集.</p>
+<h3 id="交集和并集">交集和并集</h3>
+<p><strong>交集</strong><br>
+包含集合 A 和 集合 B 中共有的元素的集合, 称为集合 A 和集合 B 的交集, 写作 A <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∩</mo></mrow><annotation encoding="application/x-tex">\cap</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5556em;"></span><span class="mord">∩</span></span></span></span> B, 如果A <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∩</mo></mrow><annotation encoding="application/x-tex">\cap</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5556em;"></span><span class="mord">∩</span></span></span></span> B = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∅</mi></mrow><annotation encoding="application/x-tex">\emptyset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">∅</span></span></span></span>, 则称集合 A 和集合 B 不相交.</p>
+<ul>
+<li>例如: A = {1, 2, 3}, B = {2}, 则 A <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∩</mo></mrow><annotation encoding="application/x-tex">\cap</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5556em;"></span><span class="mord">∩</span></span></span></span> B = {2}.</li>
+</ul>
+<p><strong>并集</strong><br>
+包含集合 A 和 集合 B 中所有元素的集合, 称为集合 A 和集合 B 的并集, 写作 A <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∪</mo></mrow><annotation encoding="application/x-tex">\cup</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5556em;"></span><span class="mord">∪</span></span></span></span> B.</p>
+<ul>
+<li>例如: A = {1, 2}, B = {5, 1}, 则 A <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∪</mo></mrow><annotation encoding="application/x-tex">\cup</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5556em;"></span><span class="mord">∪</span></span></span></span> B = {1, 2, 5}.</li>
+</ul>
+<p>性质</p>
+<ul>
+<li>A <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∪</mo></mrow><annotation encoding="application/x-tex">\cup</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5556em;"></span><span class="mord">∪</span></span></span></span> B = B <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∪</mo></mrow><annotation encoding="application/x-tex">\cup</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5556em;"></span><span class="mord">∪</span></span></span></span> A</li>
+<li>A <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∪</mo></mrow><annotation encoding="application/x-tex">\cup</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5556em;"></span><span class="mord">∪</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∅</mi></mrow><annotation encoding="application/x-tex">\emptyset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">∅</span></span></span></span> = A</li>
+<li>A <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∩</mo></mrow><annotation encoding="application/x-tex">\cap</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5556em;"></span><span class="mord">∩</span></span></span></span> B = B <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∩</mo></mrow><annotation encoding="application/x-tex">\cap</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5556em;"></span><span class="mord">∩</span></span></span></span> A</li>
+<li>A <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∩</mo></mrow><annotation encoding="application/x-tex">\cap</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5556em;"></span><span class="mord">∩</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∅</mi></mrow><annotation encoding="application/x-tex">\emptyset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">∅</span></span></span></span> = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∅</mi></mrow><annotation encoding="application/x-tex">\emptyset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">∅</span></span></span></span></li>
+</ul>
+<h3 id="补集">补集</h3>
+<p>如果 A 和 B 是两个集合, 那么 A 在 B 中的相对补集, 或者 B 和 A 之间的集合差, 是一个包含 B 中元素, 但不包含 A 中元素的集合, 写作 B - A 或 B \ A, B \ A = {x <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo></mrow><annotation encoding="application/x-tex">\in</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">∈</span></span></span></span> B | x <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo mathvariant="normal">∉</mo></mrow><annotation encoding="application/x-tex">\notin</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mrel"><span class="mord"><span class="mrel">∈</span></span><span class="mord vbox"><span class="thinbox"><span class="llap"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="inner"><span class="mord"><span class="mord">/</span><span class="mspace" style="margin-right:0.0556em;"></span></span></span><span class="fix"></span></span></span></span></span></span></span></span> A}.</p>
+<ul>
+<li>例如: A = {1, 2, 3}, B = {3 ,5, 9}, B \ A = {5, 9}.</li>
+</ul>
+<p>性质</p>
+<ul>
+<li>A \ A = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∅</mi></mrow><annotation encoding="application/x-tex">\emptyset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">∅</span></span></span></span></li>
+<li>A \ <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∅</mi></mrow><annotation encoding="application/x-tex">\emptyset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">∅</span></span></span></span> = A</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∅</mi></mrow><annotation encoding="application/x-tex">\emptyset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">∅</span></span></span></span> \ A = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∅</mi></mrow><annotation encoding="application/x-tex">\emptyset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">∅</span></span></span></span></li>
+</ul>
+<h3 id="常见集合">常见集合</h3>
+<ul>
+<li>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">N</mi></mrow><annotation encoding="application/x-tex">\mathbb{N}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6889em;"></span><span class="mord mathbb">N</span></span></span></span> 表示所有自然数的集合: {0, 1, 2, 3, …}.</p>
+</li>
+<li>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">Z</mi></mrow><annotation encoding="application/x-tex">\mathbb{Z}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6889em;"></span><span class="mord mathbb">Z</span></span></span></span> 表示所有整数的集合: {… , -2, -1, 0, 1, 2, …}.</p>
+</li>
+<li>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">Q</mi></mrow><annotation encoding="application/x-tex">\mathbb{Q}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8556em;vertical-align:-0.1667em;"></span><span class="mord mathbb">Q</span></span></span></span> 表示所有实数的集合: {<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mi>a</mi><mi>b</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{a}{b}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0404em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6954em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">b</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">a</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> | a, b <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo></mrow><annotation encoding="application/x-tex">\in</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">∈</span></span></span></span> <em><strong>Z</strong></em>, b <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo mathvariant="normal">≠</mo></mrow><annotation encoding="application/x-tex">\neq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mrel"><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="inner"><span class="mord"><span class="mrel"></span></span></span><span class="fix"></span></span></span></span></span><span class="mrel">=</span></span></span></span></span> 0}.</p>
+</li>
+<li>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">R</mi></mrow><annotation encoding="application/x-tex">\mathbb{R}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6889em;"></span><span class="mord mathbb">R</span></span></span></span> 表示所有有理数的集合.</p>
+</li>
+<li>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">C</mi></mrow><annotation encoding="application/x-tex">\mathbb{C}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6889em;"></span><span class="mord mathbb">C</span></span></span></span> 表示所有复数的集合.</p>
+</li>
+</ul>
+<h3 id="笛卡尔积和幂集">笛卡尔积和幂集</h3>
+<p><strong>笛卡尔积</strong><br>
+两个集合 A 和 B 的笛卡尔积(也叫交叉乘积), 是所有第一个部分是 A 的元素, 第二个部分是 B 的元素的对的集合, 写作 A x B, A x B = {(a, b) | a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo></mrow><annotation encoding="application/x-tex">\in</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">∈</span></span></span></span> A, b <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo></mrow><annotation encoding="application/x-tex">\in</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">∈</span></span></span></span> B}.</p>
+<ul>
+<li>例如: A = {1, 2, 3}, B = {u, v}, A x B = {(1, u), (1, v), (2, u), (2, v), (3, u), (3, v)}.</li>
+</ul>
+<p><strong>幂集</strong><br>
+给定一个集合 S , S 的幂集是 S 所有子集的集合, 写作 P(S), P(S) = {T | T <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⊆</mo></mrow><annotation encoding="application/x-tex">\subseteq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">⊆</span></span></span></span> S}.</p>
+<ul>
+<li>例如: S = {1, 2, 3}, P(S) = { {1}, {2}, {3}, {1, 2}, {1, 3}, {2, 3}, {1, 2, 3} }.</li>
+</ul>
+<p>如果|S| = k, 则 |P(S)| = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">2^{k}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8491em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span></span></span></span></span>.</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/">离散数学</a></div><div class="post_share"><div class="social-share" data-image="/img/cover5.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/11/23/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/%E7%A8%B3%E5%AE%9A%E5%8C%B9%E9%85%8D%E9%97%AE%E9%A2%98/" title="稳定匹配问题"><img class="cover" src="/img/cover5.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">稳定匹配问题</div></div></a></div><div class="next-post pull-right"><a href="/2023/11/23/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/%E6%95%B0%E7%90%86%E9%80%BB%E8%BE%91/" title="数理逻辑"><img class="cover" src="/img/cover1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数理逻辑</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/11/23/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/%E7%A8%B3%E5%AE%9A%E5%8C%B9%E9%85%8D%E9%97%AE%E9%A2%98/" title="稳定匹配问题"><img class="cover" src="/img/cover5.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-23</div><div class="title">稳定匹配问题</div></div></a></div><div><a href="/2023/11/23/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/%E6%95%B0%E7%90%86%E9%80%BB%E8%BE%91/" title="数理逻辑"><img class="cover" src="/img/cover1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-23</div><div class="title">数理逻辑</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/head.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Wangrd</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/WRD123789" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2239646965@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">集合论</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E5%90%88"><span class="toc-number">1.1.</span> <span class="toc-text">集合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%95%B0"><span class="toc-number">1.1.2.</span> <span class="toc-text">基数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E9%9B%86%E5%92%8C%E7%9C%9F%E5%AD%90%E9%9B%86"><span class="toc-number">1.1.3.</span> <span class="toc-text">子集和真子集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E9%9B%86%E5%92%8C%E5%B9%B6%E9%9B%86"><span class="toc-number">1.1.4.</span> <span class="toc-text">交集和并集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A5%E9%9B%86"><span class="toc-number">1.1.5.</span> <span class="toc-text">补集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%9B%86%E5%90%88"><span class="toc-number">1.1.6.</span> <span class="toc-text">常见集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%9B%E5%8D%A1%E5%B0%94%E7%A7%AF%E5%92%8C%E5%B9%82%E9%9B%86"><span class="toc-number">1.1.7.</span> <span class="toc-text">笛卡尔积和幂集</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/%E7%A8%B3%E5%AE%9A%E5%8C%B9%E9%85%8D%E9%97%AE%E9%A2%98/" title="稳定匹配问题"><img src="/img/cover5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="稳定匹配问题"/></a><div class="content"><a class="title" href="/2023/11/23/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/%E7%A8%B3%E5%AE%9A%E5%8C%B9%E9%85%8D%E9%97%AE%E9%A2%98/" title="稳定匹配问题">稳定匹配问题</a><time datetime="2023-11-23T09:18:32.000Z" title="发表于 2023-11-23 17:18:32">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/%E9%9B%86%E5%90%88%E8%AE%BA/" title="集合论"><img src="/img/cover5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="集合论"/></a><div class="content"><a class="title" href="/2023/11/23/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/%E9%9B%86%E5%90%88%E8%AE%BA/" title="集合论">集合论</a><time datetime="2023-11-23T09:16:43.000Z" title="发表于 2023-11-23 17:16:43">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/%E6%95%B0%E7%90%86%E9%80%BB%E8%BE%91/" title="数理逻辑"><img src="/img/cover1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数理逻辑"/></a><div class="content"><a class="title" href="/2023/11/23/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/%E6%95%B0%E7%90%86%E9%80%BB%E8%BE%91/" title="数理逻辑">数理逻辑</a><time datetime="2023-11-23T09:14:15.000Z" title="发表于 2023-11-23 17:14:15">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/%E5%BE%AE%E7%A7%AF%E5%88%86/%E5%87%BD%E6%95%B0%E8%BF%9E%E7%BB%AD/" title="函数连续"><img src="/img/cover1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="函数连续"/></a><div class="content"><a class="title" href="/2023/11/23/%E5%BE%AE%E7%A7%AF%E5%88%86/%E5%87%BD%E6%95%B0%E8%BF%9E%E7%BB%AD/" title="函数连续">函数连续</a><time datetime="2023-11-23T09:00:22.000Z" title="发表于 2023-11-23 17:00:22">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/%E5%BE%AE%E7%A7%AF%E5%88%86/%E5%87%BD%E6%95%B0%E6%9E%81%E9%99%90/" title="函数极限"><img src="/img/cover6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="函数极限"/></a><div class="content"><a class="title" href="/2023/11/23/%E5%BE%AE%E7%A7%AF%E5%88%86/%E5%87%BD%E6%95%B0%E6%9E%81%E9%99%90/" title="函数极限">函数极限</a><time datetime="2023-11-23T08:57:44.000Z" title="发表于 2023-11-23 16:57:44">2023-11-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wangrd</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div></div></body></html>
