@@ -1,0 +1,278 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>规范 | Wangrd's Blog</title><meta name="author" content="Wangrd"><meta name="copyright" content="Wangrd"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="规范 规范是团队合作的关键. 没有规范,  委托实施方法的责任是不可能的. 规范起着合同的作用: 实施者负责满足合同,  使用该方法的客户端可以依赖合同. 实际上,  与真正的法律合同一样,  规范对双方都有要求: 当规范具有前提条件时,  客户也有责任. 规范对于模块的客户端是有益的,  有了规范,  你无需阅读模块的代码就可以理解模块的作用,  这使得模块更容易理解. 规范对于方法的实现者也是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="规范">
+<meta property="og:url" content="http://example.com/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%A7%84%E8%8C%83/index.html">
+<meta property="og:site_name" content="Wangrd&#39;s Blog">
+<meta property="og:description" content="规范 规范是团队合作的关键. 没有规范,  委托实施方法的责任是不可能的. 规范起着合同的作用: 实施者负责满足合同,  使用该方法的客户端可以依赖合同. 实际上,  与真正的法律合同一样,  规范对双方都有要求: 当规范具有前提条件时,  客户也有责任. 规范对于模块的客户端是有益的,  有了规范,  你无需阅读模块的代码就可以理解模块的作用,  这使得模块更容易理解. 规范对于方法的实现者也是">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/cover5.png">
+<meta property="article:published_time" content="2023-11-23T09:50:12.000Z">
+<meta property="article:modified_time" content="2023-11-23T09:55:11.083Z">
+<meta property="article:author" content="Wangrd">
+<meta property="article:tag" content="软件工程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/cover5.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%A7%84%E8%8C%83/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '规范',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-11-23 17:55:11'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/head.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover5.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Wangrd's Blog"><span class="site-name">Wangrd's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">规范</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-23T09:50:12.000Z" title="发表于 2023-11-23 17:50:12">2023-11-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-11-23T09:55:11.083Z" title="更新于 2023-11-23 17:55:11">2023-11-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>规范</h1>
+<p>规范是团队合作的关键. 没有规范,  委托实施方法的责任是不可能的. 规范起着合同的作用: 实施者负责满足合同,  使用该方法的客户端可以依赖合同. 实际上,  与真正的法律合同一样,  规范对双方都有要求: 当规范具有前提条件时,  客户也有责任.</p>
+<p>规范对于模块的客户端是有益的,  有了规范,  你无需阅读模块的代码就可以理解模块的作用,  这使得模块更容易理解.</p>
+<p>规范对于方法的实现者也是有益的,  因为它们给了实现者在不告知客户端的情况下更改实现的自由. 规范也可以使代码更快,  因为规范可以排除方法被调用的某些状态,  对输入的这种限制可能允许实现者跳过昂贵的检查,  而使用更有效的实现.</p>
+<p>规范作为合同起到客户和实施者之间的防火墙作用. 它保护客户免受模块工作细节的干扰: 作为客户, 如果你有模块的规范, 就不需要阅读模块的源代码. 它也保护实施者免受模块使用细节的干扰: 作为实施者, 你不必询问每个客户他们计划如何使用模块. 这种防火墙导致解耦, 允许模块代码和客户代码独立地进行更改, 只要这些更改遵守规范 - 每个人都遵守自己的义务.</p>
+<p><img src="/img/20230411113303.png" alt=""></p>
+<h2 id="规范结构">规范结构</h2>
+<p>方法的规范包括几个部分:</p>
+<ul>
+<li>方法签名: 包含方法名称、参数类型、返回类型和引发的异常.</li>
+<li>需求 (requires): 描述对参数的附加限制.</li>
+<li>结果 (effects): 描述方法的返回值、异常和其他结果.</li>
+</ul>
+<p>这些部分共同构成了该方法的<strong>前置条件</strong>和<strong>后置条件</strong></p>
+<ul>
+<li>前置条件是客户端 (方法的调用者) 的义务. 它是对调用方法时状态的一种条件, 该条件表示该方法被调用时系统或程序必须处于某种特定的状态下, 以确保方法能够正确执行. 前置条件包括方法签名中参数的数量和类型. 附加条件需要写在 requires 中. 包括:
+<ul>
+<li>缩小参数范围. (例如: x &gt;= 0 表示 int 类型的参数 x 必须是非负的 int)</li>
+<li>参数之间的交互. (例如: val 在 arr 中只出现一次)</li>
+</ul>
+</li>
+<li>后置条件是方法实施者的义务. 它包括 Java 可以静态检查的部分: 返回类型和声明的检查异常. 附加条件可以写在 effects 中, 包括:
+<ul>
+<li>返回值与输入的关系如何.</li>
+<li>会引发哪些异常, 以及何时引发异常.</li>
+<li>对象是否以及如何变化.</li>
+</ul>
+</li>
+</ul>
+<p>通常情况下, 后置条件是指在调用方法之后, 程序状态需要满足的条件, 前置条件是假设在方法调用之前已经成立的条件. 这种关系可以表达为逻辑蕴含式: 如果前置条件在方法调用时成立, 则当方法完成后必须满足后置条件. 如果前置条件在方法调用时不成立, 那么实现就不受后置条件的约束. 它可以任意操作, 包括不返回任何结果、抛出异常、返回任意结果、进行任意修改等.</p>
+<p><img src="/img/20230411130453.png" alt=""></p>
+<p><img src="/img/20230411130501.png" alt=""></p>
+<h2 id="Java-规范">Java 规范</h2>
+<p>有些语言将前置条件和后置条件作为语言的基本组成部分, 作为运行时系统 (甚至编译器) 可以自动检查的表达式, 以强制执行客户端和实现者之间的合同.</p>
+<p>Java 并没有完全采用这种方法, 但它的静态类型声明实际上是方法的前置条件和后置条件的一部分, 这部分条件由编译器自动检查和强制执行. 合同的其余部分 - 那些不能作为类型来编写的部分, 必须在方法前的注释中进行描述, 通常需要人工来检查和保证它的正确性.</p>
+<p>Java 有一个文档注释约定, 称为 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Javadoc">Javadoc</a>, 其中参数由 @param 子句描述, 结果由 @return 子句描述. 你应该尽可能将前置条件放入 @param , 将后置条件放入 @return.</p>
+<ul>
+<li>例如: 对于这样的规范  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">int</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span>[] arr, <span class="type">int</span> val)</span></span><br><span class="line"> <span class="keyword">requires</span>: `val` occurs exactly once in `arr`</span><br><span class="line">  effects: returns index `i` such that `arr[i]` = `val`</span><br></pre></td></tr></table></figure>
+在 Java 中可以这样呈现:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Find a value in an array.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> arr array to search, requires that val occurs exactly once</span></span><br><span class="line"><span class="comment"> *            in arr</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> val value to search for</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> index i such that arr[i] = val</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="type">int</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span>[] arr, <span class="type">int</span> val)</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="不允许空引用">不允许空引用</h2>
+<p>基本数据类型变量不允许被赋值 null, 而非基本数据类型变量允许被赋值变量, 但是不能调用指向 null 的变量的方法.</p>
+<p>空引用容易导致 Bug, 所以大多数方法会避免它们. 作为一般约定, 参数和返回值不允许使用 null 值, 除非规范明确另有说明. 因此每个方法在其参数中对对象和数组类型都有一个前置条件, 即它们是非空的 - 包括数组、集合等的元素. 每个可以隐式返回对象或数组类型的方法都有一个后置条件, 即它们的值是非空的, 同样包括集合类型的元素.</p>
+<p>如果一个方法在参数中允许空值, 它需要显式地声明它, 或者如果它可能在结果中返回空值, 它应该显式地声明它.</p>
+<p>当然, 最好的方法是避免空值, 在 Java 的一些扩展中, 允许你在类型声明中直接禁用空值, 例如:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">addAll</span><span class="params">(<span class="meta">@NonNull</span> List&lt;T&gt; list1, <span class="meta">@NonNull</span> List&lt;T&gt; list2)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>它可以在编译时或运行时自动检查.</li>
+</ul>
+<p>如果避免使用 null, 有时仍然需要一个参数或返回值来表示值的缺失. 解决这个问题的一个好工具是 Optional&lt;T&gt;. 它相当于一个长度为 1 的 List&lt;T&gt;. 它要么只包含一个 T 类型的元素, 要么为空. isPresent() 方法可以用来测试它是否为空, get() 和 getOrElse() 方法可以获取它包含的值. 在规范允许存在缺失值的情况下, Optional&lt;T&gt; 能够清晰地表达规范的意图.</p>
+<h2 id="测试与规范">测试与规范</h2>
+<p>在测试中, 我们讨论只考虑规范而选择的黑盒测试以及根据实际实现而选择的白盒测试. 但需要注意的是, 即使是白盒测试, 也必须遵循规范. 你的实现可能提供比规范所要求更强的保证, 或在规范未定义的情况下具有特定的行为.</p>
+<ul>
+<li>例如: 假设你正在测试这个 find 规范:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">int</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span>[] arr, <span class="type">int</span> val)</span></span><br><span class="line"><span class="keyword">requires</span>: `val` occurs in `arr`</span><br><span class="line"> effects: returns index `i` such that `arr[i]` = `val`</span><br></pre></td></tr></table></figure>
+<ul>
+<li>这个规范有一个很强的前置条件: 在 arr 中必须找到 val; 它有一个相当弱的后置条件: 如果 val 在数组中出现不止一次, 可以返回其中任意一个的索引.</li>
+<li>即使你实现 find 以便它总是返回最低的索引, 你的测试用例也不能假设特定的行为:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] array = <span class="keyword">new</span> <span class="title class_">int</span>[] &#123; <span class="number">7</span>, <span class="number">7</span>, <span class="number">7</span> &#125;;</span><br><span class="line"><span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> find(array, <span class="number">7</span>);</span><br><span class="line">assertEquals(<span class="number">0</span>, i);  <span class="comment">// bad test case: assumes too much, more than the postcondition promises</span></span><br><span class="line">assertEquals(<span class="number">7</span>, array[i]);  <span class="comment">// correct</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>类似的, 即使你实现 find 以便在找不到 val 时抛出异常, 而不是返回一些特殊的索引. 你的测试用例也不能假定这种行为.</li>
+</ul>
+</li>
+</ul>
+<p>这样的测试用例才能独立于实现且符合规范, 即使你更改了方法的实现, 也无需重新测试用例.</p>
+<p>对于我们编写的一个方法的单元测试, 它不应该因为其他方法不满足规范而失败.</p>
+<p>好的集成测试应该确保不同模块的规范兼容, 也就是说, 当一个方法作为调用者调用另一个方法时, 两个方法的输入和输出值应当符合对方期望的. 这有助于确保整个程序的功能正确性.</p>
+<p>当然, 集成测试不能取代单元测试, 因为单元测试的目标是对程序中的单个模块进行测试, 可以更加精细地控制测试的输入和输出, 从而发现并排除可能存在的潜在问题. 如果我们只依赖于集成测试, 那么我们可能会忽略程序中单个模块的一些特定场景, 从而导致漏洞或错误隐藏在程序中.</p>
+<h2 id="可变方法规范">可变方法规范</h2>
+<p>一个描述可变对象的方法的规范如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">addAll</span><span class="params">(List&lt;T&gt; list1, List&lt;T&gt; list2)</span></span><br><span class="line"> <span class="keyword">requires</span>: `list1` != `list2`</span><br><span class="line">  effects: modifies `list1` by adding the elements of `list2` to the end of it, and returns <span class="literal">true</span> <span class="keyword">if</span> `list1` changed as a result of call</span><br></pre></td></tr></table></figure>
+<ul>
+<li>该可变方法的规范在后置条件中提供了两个约束: 第一个约束告诉我们如何修改 list1, 第二个约束告诉我们如何确定返回值.</li>
+</ul>
+<p>正如除非另有说明, 否则 null 是隐式不允许的一样, 除非另有说明, 否则修改输入也是不允许的, 即在没有描述可变的后置条件下, 我们不能对输入进行修改.</p>
+<h2 id="异常">异常</h2>
+<p>方法的签名 – 它的名称、参数类型、返回类型 是其规范的核心部分,  签名还可能包括方法可能触发的<strong>异常</strong>.</p>
+<ul>
+<li><strong>发送 Bug 信号的异常</strong>:  这些异常通常指示代码中的 Bug,      当抛出异常时显示的信息可以帮助你查找和修复 Bug.
+<ul>
+<li>例如: IndexOutOfBoundsException (当列表索引超出列表的有效范围是抛出) 和 NullPointerException (当试图调用 null 对象引用的方法时抛出).</li>
+</ul>
+</li>
+<li><strong>特殊结果的异常</strong>: 这些异常可以用来改进包含特殊结果的函数的代码结构.
+<ul>
+<li>
+<p>例如: 对于以下方法</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">BirthdayBook</span> &#123;</span><br><span class="line">    LocalDate <span class="title function_">lookup</span><span class="params">(String name)</span> &#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>相比于在 BirthdayBook 中找不到 name 时返回特殊的返回值,      抛出一个异常是更好的方法:</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LocalDate <span class="title function_">lookup</span><span class="params">(String name)</span> <span class="keyword">throws</span> NotFoundException &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> ( ...not found... )</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NotFoundException</span>();</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p>调用方可以用 catch 子句来处理异常:</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">BirthdayBook</span> <span class="variable">birthdays</span> <span class="operator">=</span> ...</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="type">LocalDate</span> <span class="variable">birthdate</span> <span class="operator">=</span> birthdays.lookup(<span class="string">&quot;Alyssa&quot;</span>);</span><br><span class="line">    <span class="comment">// we know Alyssa&#x27;s birthday</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (NotFoundException nfe) &#123;</span><br><span class="line">    <span class="comment">// her birthday was not in the birthday book</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>Java 中,      异常可以分为两种类型:</p>
+<ul>
+<li><strong>Checked Exceptions</strong>: Checked Exceptions 是指那些在编译时需要明确处理的异常. 它们在方法的声明中被列出来,     表示该方法可能抛出这些异常. 当调用这种方法时,     必须要么使用 try-catch 块来捕获这些异常,     要么继续将这些异常抛出. 因为编译器会强制检查这些异常的处理,     所以 Checked Exceptions 常用于处理预期的问题,     例如文件未找到、网络连接失败等.</li>
+<li><strong>Unchecked Exceptions</strong>: 是指那些在编译时不需要强制处理的异常. 这些异常通常是由编程错误导致的,    例如空指针引用、数组越界、类型转换错误等等. 如果发生了这些异常,    程序将抛出一个未处理的异常并终止运行. 因为这些异常是由编程错误引起的,    所以它们不需要在方法的声明中被列出来,    也不需要在每个方法调用处进行 try-catch 处理. 但是,    为了确保程序的健壮性,    我们仍然需要在适当的时候捕获这些异常.</li>
+</ul>
+<p>在编写程序时,   我们需要根据实际情况来选择使用 Checked Exceptions 还是 unchecked Exceptions. 如果一个异常是预期可能发生的情况,   我们应该使用 Checked Exceptions 来强制处理这种异常. 如果一个异常是由编程错误导致的,   我们应该使用 unchecked Exceptions 来标识这些问题.</p>
+<p><img src="/img/20230413160926.png" alt=""></p>
+<p>在上述<strong>异常层次结构</strong>中:</p>
+<ul>
+<li>Exception 是 Checked Exceptions 的基类. 编译器将静态检查应用于使用这些异常的方法. 必须在可能引发异常时捕捉或声明 Checked Exceptions.</li>
+<li>RuntimeException 及其子类是 Unchecked Exception. 不必在抛出它们的方法的 throw 子句中声明,   也不必由此类方法的调用者捕捉或声明.</li>
+<li>Error 及其子类也是 Unchecked Exception. 它们应该被认为是不可恢复的,   所以不应该被代码捕捉.</li>
+</ul>
+<p>当你定义自己的异常时,   要么继承 Exception,   要么继承 RuntimeException,   而不应该继承 Error.</p>
+<p>当使用 try-catch 语句捕获异常时,  应该尽可能捕获最具体的异常类. 如果希望出现 FileNotFoundException,  那么 catch 语句应该使用该异常. 捕获一个广泛的异常类,  比如 Exception、RuntimeException 或 Error,  对于 Bug 或准备进行更改来说并不安全,  因为它捕获了这些异常的每一个可能的子类,  这可能会干扰静态检查并隐藏 Bug.</p>
+<p>由于异常是方法的可能输出, 因此可能必须在方法的后置条件中对其进行描述. 将异常记录为后置条件的 Java 方法是 Javadoc 注释中的@throw 子句. Java 还可能要求异常包含在方法签名中, 使用 throw 声明.</p>
+<ul>
+<li>对于 Checked Exceptions:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Compute the integer square root.</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> x value to take square root of</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span> square root of x</span></span><br><span class="line"><span class="comment">* <span class="doctag">@throws</span> NotPerfectSquareException if x is not a perfect square</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">integerSquareRoot</span><span class="params">(<span class="type">int</span> x)</span> <span class="keyword">throws</span> NotPerfectSquareException</span><br></pre></td></tr></table></figure>
+</li>
+<li>对于 Unchecked Exceptions:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Pops a value from this queue.</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span> next value in the queue, and removes the value from the queue</span></span><br><span class="line"><span class="comment">* <span class="doctag">@throws</span> EmptyQueueException if this queue is empty</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">pop</span><span class="params">()</span></span><br></pre></td></tr></table></figure>
+你应该用 @throw 记录它, 但不要把它包含在方法签名中.</li>
+<li>对于意外故障信号的异常 (客户端或实现中的错误) 不属于方法的后置条件, 因此它们不应该出现在 @throw 或方法签名的 throw 中.
+<ul>
+<li>例如: 规范中不需要提到 NullPointerException.</li>
+</ul>
+</li>
+</ul>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a></div><div class="post_share"><div class="social-share" data-image="/img/cover5.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83/" title="设计规范"><img class="cover" src="/img/cover1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">设计规范</div></div></a></div><div class="next-post pull-right"><a href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" title="代码审查"><img class="cover" src="/img/cover4.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">代码审查</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E6%B5%8B%E8%AF%95/" title="测试"><img class="cover" src="/img/cover4.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-23</div><div class="title">测试</div></div></a></div><div><a href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83/" title="设计规范"><img class="cover" src="/img/cover1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-23</div><div class="title">设计规范</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/head.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Wangrd</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/WRD123789" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2239646965@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">规范</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%84%E8%8C%83%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">规范结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-%E8%A7%84%E8%8C%83"><span class="toc-number">1.2.</span> <span class="toc-text">Java 规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%85%81%E8%AE%B8%E7%A9%BA%E5%BC%95%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">不允许空引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%A7%84%E8%8C%83"><span class="toc-number">1.4.</span> <span class="toc-text">测试与规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E5%8F%98%E6%96%B9%E6%B3%95%E8%A7%84%E8%8C%83"><span class="toc-number">1.5.</span> <span class="toc-text">可变方法规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8"><span class="toc-number">1.6.</span> <span class="toc-text">异常</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83/" title="设计规范"><img src="/img/cover1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="设计规范"/></a><div class="content"><a class="title" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83/" title="设计规范">设计规范</a><time datetime="2023-11-23T09:52:09.000Z" title="发表于 2023-11-23 17:52:09">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%A7%84%E8%8C%83/" title="规范"><img src="/img/cover5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="规范"/></a><div class="content"><a class="title" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%A7%84%E8%8C%83/" title="规范">规范</a><time datetime="2023-11-23T09:50:12.000Z" title="发表于 2023-11-23 17:50:12">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" title="代码审查"><img src="/img/cover4.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="代码审查"/></a><div class="content"><a class="title" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" title="代码审查">代码审查</a><time datetime="2023-11-23T09:48:43.000Z" title="发表于 2023-11-23 17:48:43">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E6%B5%8B%E8%AF%95/" title="测试"><img src="/img/cover4.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试"/></a><div class="content"><a class="title" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E6%B5%8B%E8%AF%95/" title="测试">测试</a><time datetime="2023-11-23T09:47:11.000Z" title="发表于 2023-11-23 17:47:11">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E9%9D%99%E6%80%81%E6%A3%80%E6%9F%A5/" title="静态检查"><img src="/img/cover1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="静态检查"/></a><div class="content"><a class="title" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E9%9D%99%E6%80%81%E6%A3%80%E6%9F%A5/" title="静态检查">静态检查</a><time datetime="2023-11-23T09:44:51.000Z" title="发表于 2023-11-23 17:44:51">2023-11-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wangrd</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"></div></div></body></html>

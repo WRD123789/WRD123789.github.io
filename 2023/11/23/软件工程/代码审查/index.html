@@ -1,0 +1,298 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>代码审查 | Wangrd's Blog</title><meta name="author" content="Wangrd"><meta name="copyright" content="Wangrd"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="代码审查 代码审查是指对软件开发过程中所编写的代码进行系统性的检查和评估, 以便识别和纠正潜在的问题或错误. 通过代码审查, 团队可以发现代码中的缺陷、漏洞、不一致性以及其他可能影响软件质量和性能的问题. 这有助于提高代码质量、减少缺陷和故障, 并且有助于团队成员之间相互学习和知识共享. 风格标准 大多数公司和大型项目都有编程风格标准, 其中 Google Java Style 被广泛使用. 不要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码审查">
+<meta property="og:url" content="http://example.com/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/index.html">
+<meta property="og:site_name" content="Wangrd&#39;s Blog">
+<meta property="og:description" content="代码审查 代码审查是指对软件开发过程中所编写的代码进行系统性的检查和评估, 以便识别和纠正潜在的问题或错误. 通过代码审查, 团队可以发现代码中的缺陷、漏洞、不一致性以及其他可能影响软件质量和性能的问题. 这有助于提高代码质量、减少缺陷和故障, 并且有助于团队成员之间相互学习和知识共享. 风格标准 大多数公司和大型项目都有编程风格标准, 其中 Google Java Style 被广泛使用. 不要">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/cover4.png">
+<meta property="article:published_time" content="2023-11-23T09:48:43.000Z">
+<meta property="article:modified_time" content="2023-11-23T09:49:46.807Z">
+<meta property="article:author" content="Wangrd">
+<meta property="article:tag" content="软件工程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/cover4.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '代码审查',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-11-23 17:49:46'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/head.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover4.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Wangrd's Blog"><span class="site-name">Wangrd's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">代码审查</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-23T09:48:43.000Z" title="发表于 2023-11-23 17:48:43">2023-11-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-11-23T09:49:46.807Z" title="更新于 2023-11-23 17:49:46">2023-11-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>代码审查</h1>
+<p><strong>代码审查</strong>是指对软件开发过程中所编写的代码进行系统性的检查和评估, 以便识别和纠正潜在的问题或错误. 通过代码审查, 团队可以发现代码中的缺陷、漏洞、不一致性以及其他可能影响软件质量和性能的问题. 这有助于提高代码质量、减少缺陷和故障, 并且有助于团队成员之间相互学习和知识共享.</p>
+<p><strong>风格标准</strong></p>
+<p>大多数公司和大型项目都有编程风格标准, 其中 <a target="_blank" rel="noopener" href="http://google.github.io/styleguide/javaguide.html">Google Java Style</a> 被广泛使用.</p>
+<p><strong>不要重复代码</strong></p>
+<p>重复的代码是对安全的威胁. 如果两个地方有相同或相似的代码, 那么基本的风险是两个副本都存在 Bug, 并且一些维护人员在修复了一个地方的 Bug 后, 可能会遗漏另一个地方的 Bug.</p>
+<p><strong>在需要的地方注释</strong></p>
+<p>好的注释使得代码更容易理解, 更安全地避免 Bug, 并且更容易进行修改.</p>
+<ul>
+<li>一种重要的注释是规范, 它出现在方法或类之上, 记录方法或类的行为.
+<ul>
+<li>在 Java 中, 这通常作为 Javadoc 注释编写, 它以 /** 开头, 并包含 @-语法.
+<ul>
+<li>例如:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Compute the hailstone sequence.</span></span><br><span class="line"><span class="comment"> * See http://en.wikipedia.org/wiki/Collatz_conjecture#Statement_of_the_problem</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> n starting number of sequence; requires n &gt; 0.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> the hailstone sequence starting at n and ending with 1.</span></span><br><span class="line"><span class="comment"> *         For example, hailstone(3)=[3,10,5,16,8,4,2,1].</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;Integer&gt; <span class="title function_">hailstoneSequence</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>另一个重要的注释是指定从其他地方复制或改编的代码片段的出处或来源.
+<ul>
+<li>例如:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// read a web page into a string</span></span><br><span class="line"><span class="comment">// see http://stackoverflow.com/questions/4328711/read-url-to-string-in-few-lines-of-java-code</span></span><br><span class="line"><span class="type">String</span> <span class="variable">mitHomepage</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(<span class="keyword">new</span> <span class="title class_">URL</span>(<span class="string">&quot;http://www.mit.edu&quot;</span>).openStream(), <span class="string">&quot;UTF-8&quot;</span>).useDelimiter(<span class="string">&quot;\\A&quot;</span>).next();</span><br></pre></td></tr></table></figure>
+</li>
+<li>记录来源的一个原因是为了避免侵犯版权. 从其他来源复制的代码可能是专有的, 或由其他类型的开放源码许可证涵盖, 这些许可证的限制性更强.</li>
+<li>另一个原因是代码可能过时.</li>
+</ul>
+</li>
+<li>应当注释晦涩难懂的代码, 简单的代码无需添加注释.</li>
+</ul>
+<p><strong>快速失败</strong></p>
+<p>快速失败意味着代码应该尽快发现它的 Bug. 越早发现问题, 就越容易修复. 静态检查比动态检查更快失败, 而动态检查比产生错误的答案更快失败.</p>
+<ul>
+<li>例如:
+<ul>
+<li>对于函数 dayOfYear  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">dayOfYear</span><span class="params">(<span class="type">int</span> month, <span class="type">int</span> dayOfMonth, <span class="type">int</span> year)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (month == <span class="number">2</span>) &#123;</span><br><span class="line">        dayOfMonth += <span class="number">31</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (month == <span class="number">3</span>) &#123;</span><br><span class="line">        dayOfMonth += <span class="number">59</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (month == <span class="number">4</span>) &#123;</span><br><span class="line">        dayOfMonth += <span class="number">90</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (month == <span class="number">5</span>) &#123;</span><br><span class="line">        dayOfMonth += <span class="number">31</span> + <span class="number">28</span> + <span class="number">31</span> + <span class="number">30</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (month == <span class="number">6</span>) &#123;</span><br><span class="line">        dayOfMonth += <span class="number">31</span> + <span class="number">28</span> + <span class="number">31</span> + <span class="number">30</span> + <span class="number">31</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (month == <span class="number">7</span>) &#123;</span><br><span class="line">        dayOfMonth += <span class="number">31</span> + <span class="number">28</span> + <span class="number">31</span> + <span class="number">30</span> + <span class="number">31</span> + <span class="number">30</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (month == <span class="number">8</span>) &#123;</span><br><span class="line">        dayOfMonth += <span class="number">31</span> + <span class="number">28</span> + <span class="number">31</span> + <span class="number">30</span> + <span class="number">31</span> + <span class="number">30</span> + <span class="number">31</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (month == <span class="number">9</span>) &#123;</span><br><span class="line">        dayOfMonth += <span class="number">31</span> + <span class="number">28</span> + <span class="number">31</span> + <span class="number">30</span> + <span class="number">31</span> + <span class="number">30</span> + <span class="number">31</span> + <span class="number">31</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (month == <span class="number">10</span>) &#123;</span><br><span class="line">        dayOfMonth += <span class="number">31</span> + <span class="number">28</span> + <span class="number">31</span> + <span class="number">30</span> + <span class="number">31</span> + <span class="number">30</span> + <span class="number">31</span> + <span class="number">31</span> + <span class="number">30</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (month == <span class="number">11</span>) &#123;</span><br><span class="line">        dayOfMonth += <span class="number">31</span> + <span class="number">28</span> + <span class="number">31</span> + <span class="number">30</span> + <span class="number">31</span> + <span class="number">30</span> + <span class="number">31</span> + <span class="number">31</span> + <span class="number">30</span> + <span class="number">31</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (month == <span class="number">12</span>) &#123;</span><br><span class="line">        dayOfMonth += <span class="number">31</span> + <span class="number">28</span> + <span class="number">31</span> + <span class="number">30</span> + <span class="number">31</span> + <span class="number">30</span> + <span class="number">31</span> + <span class="number">31</span> + <span class="number">30</span> + <span class="number">31</span> + <span class="number">31</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dayOfMonth;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>当函数的调用者对参数做出了错误的假设, 例如对换了 month 和 dayOfMonth, 只会产生错误的答案, 而不会被静态检查和动态检查捕捉到.</li>
+<li>如果修改函数的设计, 则可以加速失败, 当函数调用者对参数做出错误的假设使, 错误更容易被静态检查或动态检查捕捉到. 例如对上述 dayOfYear 进行以下修改可以加速失败:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fails faster-static error</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">dayOfYear</span><span class="params">(String month, <span class="type">int</span> dayOfMonth, <span class="type">int</span> year)</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Fails faster-dynamic error</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">dayOfYear</span><span class="params">(<span class="type">int</span> month, <span class="type">int</span> dayOfMonth, <span class="type">int</span> year)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (month &lt; <span class="number">1</span> || month &gt; <span class="number">12</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Fails faster-static error</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Month</span> &#123; JANUARY, FEBRUARY, MARCH, ..., DECEMBER &#125;;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">dayOfYear</span><span class="params">(Month month, <span class="type">int</span> dayOfMonth, <span class="type">int</span> year)</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>避免 magic numbers</strong></p>
+<p>Magic number 通常指的是一些特殊的常数值, 它们通常没有明显的解释或注释, 但它们在程序中可能扮演者重要的角色, 由于它们通常缺乏可读性和可维护性, 所以可能导致代码中的错误和混淆.</p>
+<p>虽然使用注释可以解释它们, 但更好的方法是使用常量或枚举, 因为:</p>
+<ul>
+<li>
+<p>名字比数字可读性更好.</p>
+<ul>
+<li>例如: 在 dayOfYear 函数中, 用 FEBRUARY, …, DECEMBER 比用 2, …, 12 更清楚.</li>
+</ul>
+</li>
+<li>
+<p>修改一个常量更方便. 使用命名常量, 如果需要修改值, 只需要修改一处, 而不是在多个地方重复修改.</p>
+<ul>
+<li>例如:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">10</span>; i += <span class="number">1</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (i % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">		num += <span class="number">7</span>;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		num -= <span class="number">7</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上述代码中如果要修改 num 加减的数需要同时修改两处, 如果以常量命名, 想要修改 num 加减的数时只需要修改一处即可.  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">int</span> <span class="variable">modifyed</span> <span class="operator">=</span> <span class="number">7</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">10</span>; i += <span class="number">1</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (i % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">		num += modifyed;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		num -= modifyed;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>有些常数可能依赖于其他常数.</p>
+<ul>
+<li>例如: 绘制一个规则的五边形:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">5</span>; ++i) &#123;</span><br><span class="line">    turtle.forward(<span class="number">36</span>);</span><br><span class="line">    turtle.turn(<span class="number">72</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上述代码中的 72 其实是 360 / 5 的结果, 上述代码直接硬编码 72 到代码中, 使得 360 和 5 之间的关系不可知. 合适的编写方式应该如下:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">double</span> <span class="variable">oneRevolution</span> <span class="operator">=</span> <span class="number">360.0</span>;</span><br><span class="line"><span class="keyword">final</span> <span class="type">int</span> <span class="variable">numSides</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line"><span class="keyword">final</span> <span class="type">int</span> <span class="variable">sideLength</span> <span class="operator">=</span> <span class="number">36</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; numSides; ++i) &#123;</span><br><span class="line">    turtle.forward(sideLength);</span><br><span class="line">    turtle.turn(oneRevolution / numSides);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>每个变量都有用途</strong></p>
+<p>不要重用参数和变量, 如果一个曾经意味着一件事情的变量突然在几行之后开始意味着不同的事情, 那么会影响代码的可读性.</p>
+<p>特别是方法参数, 它通常不应该被修改 (方法的其他部分可能想知道方法的原始参数), 对于方法参数尽量使用 final 来定义:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">dayOfYear</span><span class="params">(<span class="keyword">final</span> <span class="type">int</span> month, <span class="keyword">final</span> <span class="type">int</span> dayOfMonth, <span class="keyword">final</span> <span class="type">int</span> year)</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>使用好的变量名</strong></p>
+<p>好的方法名和变量名都很长且是自描述的, 通常可以通过使用好的名称来描述方法和变量使代码本身更易读来避免注释.</p>
+<ul>
+<li>例如: 你可以重写  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">tmp</span> <span class="operator">=</span> <span class="number">86400</span>;  <span class="comment">// tmp is the number of seconds in a day (don&#x27;t do this!)</span></span><br></pre></td></tr></table></figure>
+为:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">int</span> <span class="variable">secondsPerDay</span> <span class="operator">=</span> <span class="number">86400</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li>在 Python 和 Java 中, 类通常以大写字母开头, 变量名和方法名以小写字母开头.</li>
+<li>但是这两种语言在如何将多词短语呈现为方法或变量名称上有所不同
+<ul>
+<li>Python 使用下划线分隔短语中的单词.
+<ul>
+<li>例如: snake_case.</li>
+</ul>
+</li>
+<li>Java 将第一个单词后面的单词的首字母大写.
+<ul>
+<li>例如: startsWith、getFirstName.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Java 使用大写字母来区分全局常量 (public static final) 与变量和局部常量.
+<ul>
+<li>对于全局常量, 使用全部大写
+<ul>
+<li>例如:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Example</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">INSTANCE_MAX_VALUE</span> <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>对于局部常量和变量, 使用驼峰命名法
+<ul>
+<li>例如:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">exampleMethod</span><span class="params">()</span> &#123; </span><br><span class="line">	<span class="keyword">final</span> <span class="type">int</span> <span class="variable">maxCount</span> <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line">	<span class="type">int</span> <span class="variable">maxNumber</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>方法名通常使动词短语, 例如 getDate 或 isUpperCase, 而变量名和类名通常是名词短语. 应当选择简短的单词, 但是避免使用缩写.
+<ul>
+<li>例如: message 不应当写成 msg, word 不应当写成 wd.</li>
+</ul>
+</li>
+<li>完全避免使用单字符变量名, 除非它们很容易按照约定理解.
+<ul>
+<li>例如: x 和 y 对于坐标系有意义; i 和 j 在 for 循环中作为整数变量.</li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@rabinovichsagi/effectively-naming-software-thingies-fcea9d78a699">Effectively Naming Software Thingies</a> 有一些好的命名建议.</li>
+</ul>
+<p><strong>使用空格</strong></p>
+<p>不应当使用制表符进行缩进 (指的是不应当插入制表符, 在按制表符时, 可以将编译器设置为插入空格字符), 而应当使用空格字符, 因为不同的工具对制表符的处理不同, 有时将它们扩展为 4 个空格, 有时扩展为 2 个空格, 有时扩展为 8 个空格.</p>
+<p><strong>不使用全局变量</strong></p>
+<p>应当避免使用全局变量, 全局变量的值在程序中的任何位置都可以访问和改变, <a target="_blank" rel="noopener" href="http://c2.com/cgi/wiki?GlobalVariablesAreBad">Global Variables Are Bad</a> 有一个全局变量的危险清单.</p>
+<ul>
+<li>在 Java 中, 全局变量通常被声明为 public static.</li>
+<li>相比于全局变量, 全局常量可以在程序的任何位置被读取, 它的值不能改变, 所以不会有风险, 更有用且常用.</li>
+</ul>
+<p><strong>方法应该返回结果, 而不是打印它们</strong></p>
+<p>一般来说, 只有程序的最高级别部分应该与控制台或用户进行交互; 较低级别的部分应该将其输入作为参数, 并将其输出作为结果返回.</p>
+<p><strong>避免特殊情况处理代码</strong></p>
+<p>编写更广泛的、一般情况下的代码是值得的, 它对所处理的值的假设较少, 使得代码更容易理解. 在不必要的情况下添加特殊情况处理代码只会增加代码的复杂性.</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a></div><div class="post_share"><div class="social-share" data-image="/img/cover4.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%A7%84%E8%8C%83/" title="规范"><img class="cover" src="/img/cover5.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">规范</div></div></a></div><div class="next-post pull-right"><a href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E6%B5%8B%E8%AF%95/" title="测试"><img class="cover" src="/img/cover4.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">测试</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%A7%84%E8%8C%83/" title="规范"><img class="cover" src="/img/cover5.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-23</div><div class="title">规范</div></div></a></div><div><a href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E6%B5%8B%E8%AF%95/" title="测试"><img class="cover" src="/img/cover4.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-23</div><div class="title">测试</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/head.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Wangrd</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/WRD123789" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2239646965@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">代码审查</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83/" title="设计规范"><img src="/img/cover1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="设计规范"/></a><div class="content"><a class="title" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83/" title="设计规范">设计规范</a><time datetime="2023-11-23T09:52:09.000Z" title="发表于 2023-11-23 17:52:09">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%A7%84%E8%8C%83/" title="规范"><img src="/img/cover5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="规范"/></a><div class="content"><a class="title" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%A7%84%E8%8C%83/" title="规范">规范</a><time datetime="2023-11-23T09:50:12.000Z" title="发表于 2023-11-23 17:50:12">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" title="代码审查"><img src="/img/cover4.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="代码审查"/></a><div class="content"><a class="title" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" title="代码审查">代码审查</a><time datetime="2023-11-23T09:48:43.000Z" title="发表于 2023-11-23 17:48:43">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E6%B5%8B%E8%AF%95/" title="测试"><img src="/img/cover4.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="测试"/></a><div class="content"><a class="title" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E6%B5%8B%E8%AF%95/" title="测试">测试</a><time datetime="2023-11-23T09:47:11.000Z" title="发表于 2023-11-23 17:47:11">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E9%9D%99%E6%80%81%E6%A3%80%E6%9F%A5/" title="静态检查"><img src="/img/cover1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="静态检查"/></a><div class="content"><a class="title" href="/2023/11/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E9%9D%99%E6%80%81%E6%A3%80%E6%9F%A5/" title="静态检查">静态检查</a><time datetime="2023-11-23T09:44:51.000Z" title="发表于 2023-11-23 17:44:51">2023-11-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wangrd</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"></div></div></body></html>
