@@ -51,7 +51,7 @@
   isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2023-11-23 21:42:18'
+  postUpdate: '2023-11-23 22:37:13'
 }</script><script>(win=>{
       win.saveToLocal = {
         set: (key, value, ttl) => {
@@ -148,194 +148,228 @@
         }
       }
       detectApple()
-    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/head.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">63</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/img/index_img.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Wangrd's Blog"><span class="site-name">Wangrd's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Wangrd's Blog</h1><div id="site_social_icons"><a class="social-icon" href="https://github.com/WRD123789" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2239646965@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/Java/Java-%E5%A4%9A%E6%80%81%E6%80%A7/" title="Java 多态性"><img class="post-bg" src="/img/cover18.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 多态性"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E5%A4%9A%E6%80%81%E6%80%A7/" title="Java 多态性">Java 多态性</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:08:37.000Z" title="发表于 2023-11-23 20:08:37">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">多态性
-多态性是为不同数据类型的实体提供统一的接口.
-1234def print_larger(x, y):    if x.largerThan(y):        return x.str()    return y.str()
-此处的 print_larger 方法是统一的接口, 其中 largerThan 和 str 方法则取决于 x, y 的具体数据类型.
-自定义的可比对象
-一个可比对象是将自己与另一个同类型的对象进行比较, 它嵌入在对象本身的实现中, 并定义类型的自然顺序.
-尝试构造一个广义上的 max 函数, 即一个可以接受任意类型的数组, 并返回该数组中最大值的函数.
-为了能够根据需求对不同类型的实例以不同的方式比较大小 (例如有一个 Dog 类有名字和体型两个属性, 根据体型还是名字对 Dog 类的实例比较大小需要自己定义), 我们通过接口继承来解决这一问题.
-首先创建一个接口来保证任何实现类都包含一个比较方法 compareTo.
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/head.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">90</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/img/index_img.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Wangrd's Blog"><span class="site-name">Wangrd's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Wangrd's Blog</h1><div id="site_social_icons"><a class="social-icon" href="https://github.com/WRD123789" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2239646965@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/%E5%9B%9B%E6%95%B0%E4%B9%8B%E5%92%8C/" title="LeetCode 18. 四数之和"><img class="post-bg" src="/img/cover19.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode 18. 四数之和"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/%E5%9B%9B%E6%95%B0%E4%B9%8B%E5%92%8C/" title="LeetCode 18. 四数之和">LeetCode 18. 四数之和</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T13:54:35.000Z" title="发表于 2023-11-23 21:54:35">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/">LeetCode</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a></span></div><div class="content">LeetCode 18. 四数之和
+题目链接
+https://leetcode.cn/problems/4sum/
+题目描述
+给你一个由 n 个整数组成的数组 nums , 和一个目标值 target , 请你找出并返回满足下述全部条件且不重复的四元组 [nums[a],nums[b],nums[c],nums[d]][nums[a], nums[b], nums[c], nums[d]][nums[a],nums[b],nums[c],nums[d]] (若两个四元组元素一一对应, 则认为两个四元组重复):
+- 0 ≤\leq≤ a, b, c, d &lt; n
+- a、b、c 和 d 互不相同
+- nums[a] + nums[b] + nums[c] + nums[d] = target
+注意：你可以按 任意顺序 返回答案.
+示例 1:
+12输入：nums = [1,0,-1,0,-2,2], target = 0输出：[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
+示例 2:
+12输入：nums = [2,2,2,2,2], target = 8输出： ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/" title="LeetCode 15. 三数之和"><img class="post-bg" src="/img/cover2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode 15. 三数之和"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/" title="LeetCode 15. 三数之和">LeetCode 15. 三数之和</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T13:52:58.000Z" title="发表于 2023-11-23 21:52:58">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/">LeetCode</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a></span></div><div class="content">LeetCode 15. 三数之和
+题目链接
+https://leetcode.cn/problems/3sum/
+题目描述
+给你一个包含 n 个整数的数组 nums, 判断 nums 中是否存在三个元素 a, b, c.使得 a + b + c = 0 ? 请你找出所有和为 0 且不重复的三元组.
+注意：答案中不可以包含重复的三元组.
+示例 1:
+12345678输入：nums = [-1,0,1,2,-1,-4]输出：[[-1,-1,2],[-1,0,1]]解释：nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0 。nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0 。nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0 。不同的三元组是 [-1,0,1] 和 [-1,-1,2] 。注意，输出的顺序和三元组的顺序并不重要。
+示例 2:
+123输入：nums = [0,1,1]输出：[]解释：唯一可能的三元组和不为 0 。
+示例 3:
+123输入：nums ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/%E6%8E%A5%E9%9B%A8%E6%B0%B4/" title="LeetCode 42. 接雨水"><img class="post-bg" src="/img/cover17.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode 42. 接雨水"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/%E6%8E%A5%E9%9B%A8%E6%B0%B4/" title="LeetCode 42. 接雨水">LeetCode 42. 接雨水</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T13:51:02.000Z" title="发表于 2023-11-23 21:51:02">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/">LeetCode</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a></span></div><div class="content">LeetCode 42. 接雨水
+题目链接
+https://leetcode.cn/problems/trapping-rain-water/
+题目描述
+给定 n 个非负整数表示每个宽度为 1 的柱子的高度图, 计算按此排列的柱子, 下雨之后能接多少雨水.
+示例 1:
 
-此处 OurComparable 为接口, Dog 类为某一个能够使用自定义的 max 函数的数据类型.
-OurComparable ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/Java/Java-%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/" title="Java 高阶函数"><img class="post-bg" src="/img/cover19.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 高阶函数"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/" title="Java 高阶函数">Java 高阶函数</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:07:39.000Z" title="发表于 2023-11-23 20:07:39">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">高阶函数
-高阶函数就是以别的函数作为输入的函数.
-问题: 在 Java 的旧版本中, 因为 Java 中不能拥有指向函数的指针, 且在 Java 中有类型检查, 而并没有一个类型叫作函数, 所以只能另寻他法.
-解决: 利用类的继承来实现高阶函数, 具体如下:
-先创建一个接口 IntUnaryFunction, 该接口代表一个以整数为输入且以整数为输出的函数.
-123public interface IntUnaryFunction &#123;	public int apply(int x);&#125;
-再创建一个能将输入的整数乘以 10 倍的函数.
-123456public class TenX implements IntUnaryFunction &#123;	@Override	public int apply(int x) &#123;		return 10 * x;		&#125;&#125;
-然后便可以实现高阶函数:
-123456789public class HoFDemo &#123;	public static int do_twice(IntUnaryFunct ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/Java/Java-%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/" title="Java 强制类型转换"><img class="post-bg" src="/img/cover20.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 强制类型转换"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/" title="Java 强制类型转换">Java 强制类型转换</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:06:23.000Z" title="发表于 2023-11-23 20:06:23">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">强制类型转换
-Java 代码运行之前会进行类型检查, 此时编译器检查的是变量的静态类型, 此时会导致一些不易察觉的错误.
-例如:
-假设类 VengefulSLList 继承于类 SLList, 且 printLostItems 方法只有类 VengefulSLList 拥有.
-123456public static void main(String[] args) &#123;	VengefulSLList&lt;Integer&gt; vsl = new VengefulSLList&lt;Integer&gt;(9);	SLList&lt;Integer&gt; sl = vsl;	sl.printLostItems();	VengefulSLList&lt;Integer&gt; vsl2 = sl;&#125;
-如果从运行时的变量的动态类型来看, 变量 sl 和 vsl 的动态类型都是 VengefulSLList, 则 sl 拥有方法 printLostItems, 则 sl.printLostItems() 这一行代码应当能运行, sl 又是 VengefulSLList  ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/Java/Java-%E9%9D%99%E6%80%81%E5%88%86%E6%B4%BE%E4%B8%8E%E5%8A%A8%E6%80%81%E5%88%86%E6%B4%BE/" title="Java 静态分派与动态分派"><img class="post-bg" src="/img/cover9.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 静态分派与动态分派"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E9%9D%99%E6%80%81%E5%88%86%E6%B4%BE%E4%B8%8E%E5%8A%A8%E6%80%81%E5%88%86%E6%B4%BE/" title="Java 静态分派与动态分派">Java 静态分派与动态分派</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:05:08.000Z" title="发表于 2023-11-23 20:05:08">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">静态分派与动态分派
-静态类型与动态类型
-静态类型: 定义变量时声明的类型, 在编译阶段就可知.
-动态类型: 变量赋值时的实际类型, 在编译阶段不可知.
-例如:
-123456public static void main(String[] args) &#123;	LivingThing lt1;	lt1 = new Fox();	Animal a1 = lt1;	Fox h1 = a1;&#125;
-上述代码的静态类型和动态类型的情况如下表所示:
+123输入：height = [0,1,0,2,1,0,1,3,2,1,2,1]输出：6解释：上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。
+示例 2:
+12输入：height = [4,2,0,3,2,5]输出：9
+提示:
 
+nnn == height.lengthheight.lengthheight.length
+1 ≤\leq≤ nums[i]nums[i]nums[i] ≤\leq≤ 2 * 10410^{4}104
+0 ≤\leq≤ height[i]height[i]height[i] ≤\leq≤ 10510^{5}105
 
-
-变量
-静态类型
-动态类型
-
-
-
-
-lt1
-Animal
-Fox
+题解
+双指针
+算法流程
 
 
-a1
-Animal
-Fox
+变量:
+
+left_max: 左边的最大值, 它是从左往右 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/%E5%88%92%E5%88%86%E5%AD%97%E6%AF%8D%E5%8C%BA%E9%97%B4/" title="LeetCode 763. 划分字母区间"><img class="post-bg" src="/img/cover24.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode 763. 划分字母区间"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/%E5%88%92%E5%88%86%E5%AD%97%E6%AF%8D%E5%8C%BA%E9%97%B4/" title="LeetCode 763. 划分字母区间">LeetCode 763. 划分字母区间</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T13:49:57.000Z" title="发表于 2023-11-23 21:49:57">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/">LeetCode</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a></span></div><div class="content">LeetCode 763. 划分字母区间
+题目链接
+https://leetcode.cn/problems/partition-labels/description/
+题目描述
+给你一个字符串 s . 我们要把这个字符串划分为尽可能多的片段, 同一字母最多出现在一个片段中.
+注意, 划分结果需要满足：将所有划分结果按顺序连接, 得到的字符串仍然是 s .
+返回一个表示每个字符串片段的长度的列表.
+示例1:
+123456输入：s = &quot;ababcbacadefegdehijhklij&quot;输出：[9,7,8]解释：划分结果为 &quot;ababcbaca&quot;、&quot;defegde&quot;、&quot;hijhklij&quot; 。每个字母最多出现在一个片段中。像 &quot;ababcbacadefegde&quot;, &quot;hijhklij&quot; 这样的划分是错误的，因为划分的片段数较少。
+示例 2:
+12输入：s = &quot;eccbbbbdec&quot;输出：[10]
+提示:
+
+1 ≤\leq≤ s.length ≤\le ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84/" title="LeetCode88. 合并两个有序数组"><img class="post-bg" src="/img/cover21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode88. 合并两个有序数组"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84/" title="LeetCode88. 合并两个有序数组">LeetCode88. 合并两个有序数组</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T13:48:44.000Z" title="发表于 2023-11-23 21:48:44">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/">LeetCode</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a></span></div><div class="content">LeetCode88. 合并两个有序数组
+题目链接
+https://leetcode.cn/problems/merge-sorted-array/
+题目描述
+给你两个按非递减顺序排列的整数数组 nums1 和 nums2, 另有两个整数 m 和 n , 分别表示 nums1 和 nums2 中的元素数目.
+请你 合并 nums2 到 nums1 中, 使合并后的数组同样按非递减顺序排列.
+注意：最终, 合并后数组不应由函数返回, 而是存储在数组 nums1 中. 为了应对这种情况, nums1 的初始长度为 m + n, 其中前 m 个元素表示应合并的元素, 后 n 个元素为 0 , 应忽略. nums2 的长度为 n .
+示例 1:
+1234输入：nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3输出：[1,2,2,3,5,6]解释：需要合并 [1,2,3] 和 [2,5,6] 。合并结果是 [_**1**_,_**2**_,2,_**3**_,5,6] ，其中斜体加粗标注的为 nums1 中的元素。
+示例 2:
+1234输入： ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/%E5%88%86%E9%9A%94%E9%93%BE%E8%A1%A8/" title="LeetCode 86. 分隔链表"><img class="post-bg" src="/img/cover6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode 86. 分隔链表"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/%E5%88%86%E9%9A%94%E9%93%BE%E8%A1%A8/" title="LeetCode 86. 分隔链表">LeetCode 86. 分隔链表</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T13:47:09.000Z" title="发表于 2023-11-23 21:47:09">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/">LeetCode</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a></span></div><div class="content">LeetCode 86. 分隔链表
+题目链接
+https://leetcode.cn/problems/partition-list/description/
+题目描述
+给你一个链表的头节点 head 和一个特定值 x , 请你对链表进行分隔, 使得所有 小于 x 的节点都出现在 大于或等于 x 的节点之前.
+你应当 保留 两个分区中每个节点的初始相对位置.
+示例 1:
+
+12输入：head = [1,4,3,2,5,2], x = 3输出：[1,2,2,4,3,5]
+示例 2:
+12输入：head = [2,1], x = 2输出：[1,2]
+提示:
+
+链表中节点的数目在范围 [0, 200] 内
+-100 ≤\leq≤ Node.val ≤\leq≤ 100
+-200 ≤\leq≤ x ≤\leq≤ 200
+
+题解
+算法过程
+
+使用两个链表:
+
+lessHead 用来存放小于 x 的节点.
+greaterHead 用来存放大于等于 x 的节点.
 
 
-h1
-Fox
-Fox
+最后将 lessHead 和 greaterHead 链表首尾相连.
+
+时间复杂度分析
+只需要遍历一遍原始链表即可, 所以总的时间复杂 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8%E2%85%A1/" title="LeetCode 92. 反转链表 Ⅱ"><img class="post-bg" src="/img/cover11.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode 92. 反转链表 Ⅱ"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8%E2%85%A1/" title="LeetCode 92. 反转链表 Ⅱ">LeetCode 92. 反转链表 Ⅱ</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T13:45:27.000Z" title="发表于 2023-11-23 21:45:27">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/">LeetCode</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a></span></div><div class="content">LeetCode 92. 反转链表 Ⅱ
+题目链接
+https://leetcode.cn/problems/reverse-linked-list-ii/description/
+题目描述
+给你单链表的头指针 head 和两个整数 left 和 right , 其中 left ≤\leq≤ right . 请你反转从位置 left 到位置 right 的链表节点, 返回 反转后的链表 .
+示例 1:
+
+12输入：head = [1,2,3,4,5], left = 2, right = 4输出：[1,4,3,2,5]
+示例 2:
+12输入：head = [5], left = 1, right = 1输出：[5]
+提示:
+
+链表中节点数目为 n
+1 ≤\leq≤ n ≤\leq≤ 500
+-500 ≤\leq≤ Node.val ≤\leq≤ 500
+1 ≤\leq≤ left ≤\leq≤ right ≤\leq≤ n
+
+题解
+算法过程
+
+双指针
+用一个 preReversed 记录待反转链表的首节点的上一个节点, 用一个 nextReversed 记录待反转链表的尾节点的下一个节点 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/Linux/Linux-%E6%8C%87%E4%BB%A4/" title="Linux 指令"><img class="post-bg" src="/img/cover1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux 指令"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Linux/Linux-%E6%8C%87%E4%BB%A4/" title="Linux 指令">Linux 指令</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T13:39:31.000Z" title="发表于 2023-11-23 21:39:31">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Linux/">Linux</a></span></div><div class="content">指令
+基本指令
+
+打印当前工作目录 (绝对地址)
+
+1pwd
+其中最顶层的目录为根目录, 用 '' 表示, home 为主目录, 每个账号对应一个主目录.
+
+打印当前目录下的所有文件
+
+1ls
+不包含隐藏文件.
+1ls [target-path]
+可以在后面增加参数来查看指定路径的目录下的所有文件.
+1ls -l [target-path]
+查看指定路径的目录下的所有文件的详细信息 (以长列表的形式).
+1ls -l -h [target-path]
+查看指定路径的目录下的所有文件的详细信息 (以人类可读的形式).
+
+改变工作目录, 进入指定目录
+
+1cd [target-directory]
+. . 表示上一级目录.
+1cd ..
+表示返回上一级目录
+1cd ./../usr
+. 表示当前位置, . / . . 表示当前位置的上一级目录.
+
+查看文件帮助
+
+1[command] --help
+
+man 手册
+
+1man [command]
+1man [command] | less
+1man -k [single-keyword] | less
+搜索与某个关键词有关的命令.
+
+快捷键 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/CMake/CMake/" title="CMake"><img class="post-bg" src="/img/cover13.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CMake"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/CMake/CMake/" title="CMake">CMake</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T13:35:26.000Z" title="发表于 2023-11-23 21:35:26">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/CMake/">CMake</a></span></div><div class="content">CMake
+CMake 是一个跨平台的项目构建工具. 常见的项目构造工具还有 Makefile, 但是 Makefile 相比 CMake 更加依赖于当前编译平台, 而且编写工作量更大.
+CMake 会根据当前编译平台自动生成本地化的 Makefile 和工程文件, 最后用户只需要调用 make (执行 Makefile 文件中的指令) 即可编译生成可执行文件. 所以可以把 CMake 看成一款自动生成 Makefile 的工具, 其编译流程如下图所示:
 
 
+蓝色虚线表示使用 Makefile 构建项目的过程.
+红色实线表示使用 CMake 构建项目的过程.
 
-上述代码中, 静态类型为声明时的类型, 动态类型通过 new 或赋值获得.
-静态分派
-当发生方法重载时, 根据变量的静态类型来匹配调用方法的过程称为静态分派.
-例如:
-123456public interface List61B &#123;      ...	default public void print(double x) &#123;		System.out.println(&quot;It is L ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/Java/Java-%E6%B3%9B%E5%9E%8B/" title="Java 泛型"><img class="post-bg" src="/img/cover10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 泛型"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E6%B3%9B%E5%9E%8B/" title="Java 泛型">Java 泛型</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:02:23.000Z" title="发表于 2023-11-23 20:02:23">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">泛型
-泛型允许创建支持任何类型输入的其他.
+根目录: 是整个项目的顶级目录, 它是包含所有源代码、文档、配置文件等的目录.
+编译目录/构建目录: 用来存放项目构建过程中生成的文件的地方, 也就是执行 cmake 指令的文件夹.
+CMake 的指令必须放在 CMakeLists.txt 文件中
+注释
+使用 # 进行行注释:
+12# 这是一个 CMakeLists.txt 文件  cmake_minimum_required(VERSION 3.0.0)
+使用 #[[]] 进 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/CGDB/CGDB/" title="CGDB"><img class="post-bg" src="/img/cover9.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CGDB"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/CGDB/CGDB/" title="CGDB">CGDB</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T13:34:09.000Z" title="发表于 2023-11-23 21:34:09">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/CGDB/">CGDB</a></span></div><div class="content">CGDB
 
-泛型能够将类型参数化, 也就是说可以把类型当作一个参数传递给一个类或者一个方法.
-泛型提供了一种类型检测机制, 只有类型相匹配的数据才能正常赋值, 使得软件的安全性有所提高.
-泛型提高了程序代码的可读性, 使得程序员能够知道代码要操作的数据类型.
+编译时使可执行文件包含额外的调试信息.
 
-泛型类
-定义
-123public class Test&lt;T&gt; &#123;	T field1;&#125;
-上述代码中 “&lt; &gt;” 所包含的 T 被称为类型参数, 用于指代任何类型.
-如果一个类被 &lt;T&gt; 所修饰, 则该类被称为泛型类.
-但一般使用单个大写字母来表示类型参数.
-常见的如下:
+1gcc -g [c-file1-path] [c-file2-path] ... -o [executable-file-path]
 
-T 表示一般的任何类
-E 表示元素 (Element) 或异常 (Exception).
-K 表示键 (Key).
-V 表示值 (Value), 通常与 K 一起使用.
+对生成的可执行文件启动 CGDB
 
-创建
-12Test&lt;String&gt; test1 = new Test&lt;&gt;();Test&lt;Integer&gt; test2 = new Test&lt;&gt;();
-创建 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/Java/Java-%E5%8C%85/" title="Java 包"><img class="post-bg" src="/img/cover24.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 包"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E5%8C%85/" title="Java 包">Java 包</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T11:59:49.000Z" title="发表于 2023-11-23 19:59:49">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">包
-Java 中要求文件名和类名相同, 所以将多个类放在一起时, 很可能出现文件名冲突的情况, 这时 Java 提供一种解决该问题的方法, 那就是使用包将类进行分组.
-作用
+1cgdb [executable-file-path]
 
-将功能相近的类放在同一个包中, 方便查找和使用.
-由于在不同包中可以存在同名类, 所以使用包在一定程度上避免了命名的冲突.
-在Java中某些访问权限以包为单位.
+在 main 函数的第一行设置一个断点, 从第一行开始运行程序.
 
-创建包
-在类的源文件的顶端使用 package 语句实现包的创建:
-1package 包名;
-包的使用
+1start
 
+跳过函数 (Step over)
 
-使用长名引用包中的类只需要在每个类名前加上完整的包名即可. 例如, 创建 Round 类（保存在 com.lzw 包中）的对象实例化该对象的代码如下:
-  1com.law.Round round = new com.lzw.Round();
+12nextn
 
+进入函数 (Step to)
 
-使用 import 语句导入包中的类
+12steps
 
-语法结构如下:
+退出函数
 
-  1import 包名1[.包名2.……].类名|*;
+1finish
+
+打印值
+
+12print [value]p [value]
+不仅可以打印特定变量的值, 还可以打印指针解引用的值、结构体的成员和调用函数的结果.
+
+退出 CGDB
+
+12quitq
+
+设置断点
 
 
-当存在多个包时, 各个包之间用 “.” 分隔, 包和类名之间也用 “.” 分隔.
-例如: 引入 com.lzw 包中 Round 类的代码如下:
-  1import com.lzw.R ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/Java/Java-%E6%B5%8B%E8%AF%95/" title="Java 测试"><img class="post-bg" src="/img/cover5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 测试"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E6%B5%8B%E8%AF%95/" title="Java 测试">Java 测试</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T11:57:54.000Z" title="发表于 2023-11-23 19:57:54">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">测试
-流程:
+在指定文件的指定函数处设置断点
 
-先将大问题化解为数个小问题
-再对每个小问题编写测试
-最后写代码
+12break [c-file-path]:[specified-function]b [c-file-path]:[specified-function]
 
-JUnit
-JUnit 是一个 Java 编程语言编写的单元测试框架, 为简化测试的编写提供了许多有用的方法和功能.
-语法链接: http://junit.org/junit4/javadoc/4.12/org/junit/Assert.html
-测试注释:
+条件断点
 
-在每个测试方法前面加上 @org.junit.Test (没有分号).
-将每个测试方法更改为为非静态的 (即去掉关键字 static).
-从 Test 类中删除 main 方法.
-
-此时运行代码时所有测试都会执行, 而无需手动调用.
-导入库: 在文件的顶端添加 import static org.junit.Assert.*, 此时可以省略 org.junit.Assert. , 例如: 此时org.junit.Assert.assertEquals(expected, actual) 可以写成 assertEquals(expected, actual).
-</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/Java/Java-%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="Java 字符串"><img class="post-bg" src="/img/cover6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 字符串"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="Java 字符串">Java 字符串</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T11:56:07.000Z" title="发表于 2023-11-23 19:56:07">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">字符串
-当比较两个字符串大小的时候, 不能直接用运算符 &lt;, &gt;, ==, 而应当使用 str1.compareTo(str2)
-compareTo 方法返回值:
-
-如果 str1 &lt; str2, 返回负数.
-如果 str1 == str2, 返回0.
-如果 str1 &gt; str2, 返回正数.
-
-在 Java 中进行字符串连接时, 如果直接在字符串后面直接追加元素, 会直接创建一个新的字符串, 这需要大量时间.
-例如:
-123456789public String toString() &#123;    String returnString = &quot;&#123;&quot;;    for (int i = 0; i &lt; size; i += 1) &#123;        returnString += keys[i];        returnString += &quot;, &quot;;    &#125;    returnString += &quot;&#125;&quot;;    return returnString ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/Java/Java-%E6%9E%9A%E4%B8%BE/" title="Java 枚举"><img class="post-bg" src="/img/cover12.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 枚举"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E6%9E%9A%E4%B8%BE/" title="Java 枚举">Java 枚举</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T11:55:11.000Z" title="发表于 2023-11-23 19:55:11">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">枚举
-当在 Java 中需要一个固定数量的常量集合时, 可以使用枚举类型 (enum), 枚举类型是 Java 语言中一种特殊的类, 它被用来表示一个固定的值集合, 这些值在整个程序中是不可变的
-12345678910public enum Month &#123;     JANUARY, FEBRUARY, MARCH, APRIL,     MAY, JUNE, JULY, AUGUST,     SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER;&#125;public enum PenColor &#123;     BLACK, GRAY, RED, PINK, ORANGE,     YELLOW, GREEN, CYAN, BLUE, MAGENTA;&#125;
-枚举常量默认是 public static final 修饰的, 所以可以通过类名直接访问它们:
-12PenColor color = PenColor.RED;System.out.println(color);
-相比与用数字或字符串来表示一组有限的值, 用枚举类型更加安全, 它 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/Java/Java-%E9%9B%86%E5%90%88/" title="Java 集合"><img class="post-bg" src="/img/cover24.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 集合"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E9%9B%86%E5%90%88/" title="Java 集合">Java 集合</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T11:53:06.000Z" title="发表于 2023-11-23 19:53:06">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">集合
-列表
-
-
-在 Java 中, List 包含零个或多个对象的有序集合, 其中同一个对象可能出现多次.
-
-
-List 类有以下方法:
-
-计算列表 lst 中元素的数量  1int count = lst.size();
-
-在列表 lst 末尾添加一个元素 e  1lst.add(e);
-
-判断列表 lst 是否为空  1if (lst.isEmpty()) ...
-
-判断列表 lst 是否包含元素 e  1lst.contains(e);
-
-
-
-
-可以用如下形式在快照图中表示 List 对象 cities:
-
-
-
-映射
-
-
-在 Java 中, Map 对象能够将 hashable value 映射到任意对象, 即保存 hashable value 到对象的映射关系.
-
-
-Map 类有以下方法:
-
-在映射 map 中添加映射键 key →\rightarrow→ val  1map.put(key, val);
-
-得到映射 map 中的一个键 key 对应的值  1map.get(key);
-
-测试映射 map 是否拥有键值 key  1map.containsKey(key);
-
- ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/2/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#content-inner">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#content-inner">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/#content-inner">7</a><a class="extend next" rel="next" href="/page/4/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/head.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Wangrd</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">63</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/WRD123789" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2239646965@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/Linux/Linux-%E6%8C%87%E4%BB%A4/" title="Linux 指令"><img src="/img/cover1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux 指令"/></a><div class="content"><a class="title" href="/2023/11/23/Linux/Linux-%E6%8C%87%E4%BB%A4/" title="Linux 指令">Linux 指令</a><time datetime="2023-11-23T13:39:31.000Z" title="发表于 2023-11-23 21:39:31">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/CMake/CMake/" title="CMake"><img src="/img/cover13.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CMake"/></a><div class="content"><a class="title" href="/2023/11/23/CMake/CMake/" title="CMake">CMake</a><time datetime="2023-11-23T13:35:26.000Z" title="发表于 2023-11-23 21:35:26">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/CGDB/CGDB/" title="CGDB"><img src="/img/cover9.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CGDB"/></a><div class="content"><a class="title" href="/2023/11/23/CGDB/CGDB/" title="CGDB">CGDB</a><time datetime="2023-11-23T13:34:09.000Z" title="发表于 2023-11-23 21:34:09">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%92%8C%E5%9B%A0%E7%89%B9%E7%BD%91/" title="计算机网络和因特网"><img src="/img/cover2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机网络和因特网"/></a><div class="content"><a class="title" href="/2023/11/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%92%8C%E5%9B%A0%E7%89%B9%E7%BD%91/" title="计算机网络和因特网">计算机网络和因特网</a><time datetime="2023-11-23T13:28:37.000Z" title="发表于 2023-11-23 21:28:37">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/C++/STL-%E6%A0%87%E5%87%86%E5%BA%93/" title="STL 标准库"><img src="/img/cover2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="STL 标准库"/></a><div class="content"><a class="title" href="/2023/11/23/C++/STL-%E6%A0%87%E5%87%86%E5%BA%93/" title="STL 标准库">STL 标准库</a><time datetime="2023-11-23T12:55:33.000Z" title="发表于 2023-11-23 20:55:33">2023-11-23</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+12break [line] if [content]b [line] if [conte ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/2/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#content-inner">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#content-inner">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/#content-inner">9</a><a class="extend next" rel="next" href="/page/4/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/head.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Wangrd</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">90</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/WRD123789" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2239646965@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/LeetCode/%E5%85%B6%E4%BB%96/%E9%87%8D%E6%9E%84%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="LeetCode 767. 重构字符串"><img src="/img/cover21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode 767. 重构字符串"/></a><div class="content"><a class="title" href="/2023/11/23/LeetCode/%E5%85%B6%E4%BB%96/%E9%87%8D%E6%9E%84%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="LeetCode 767. 重构字符串">LeetCode 767. 重构字符串</a><time datetime="2023-11-23T14:18:42.000Z" title="发表于 2023-11-23 22:18:42">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/LeetCode/%E5%85%B6%E4%BB%96/%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2/" title="LeetCode3. 无重复字符的最长子串"><img src="/img/cover21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode3. 无重复字符的最长子串"/></a><div class="content"><a class="title" href="/2023/11/23/LeetCode/%E5%85%B6%E4%BB%96/%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2/" title="LeetCode3. 无重复字符的最长子串">LeetCode3. 无重复字符的最长子串</a><time datetime="2023-11-23T14:17:36.000Z" title="发表于 2023-11-23 22:17:36">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/LeetCode/%E5%85%B6%E4%BB%96/%E5%90%88%E5%B9%B6K%E4%B8%AA%E5%8D%87%E5%BA%8F%E9%93%BE%E8%A1%A8/" title="LeetCode 23. 合并 K 个升序链表"><img src="/img/cover22.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode 23. 合并 K 个升序链表"/></a><div class="content"><a class="title" href="/2023/11/23/LeetCode/%E5%85%B6%E4%BB%96/%E5%90%88%E5%B9%B6K%E4%B8%AA%E5%8D%87%E5%BA%8F%E9%93%BE%E8%A1%A8/" title="LeetCode 23. 合并 K 个升序链表">LeetCode 23. 合并 K 个升序链表</a><time datetime="2023-11-23T14:16:25.000Z" title="发表于 2023-11-23 22:16:25">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/LeetCode/%E5%85%B6%E4%BB%96/%E4%B8%B2%E8%81%94%E6%89%80%E6%9C%89%E5%8D%95%E8%AF%8D%E7%9A%84%E5%AD%90%E4%B8%B2/" title="LeetCode30. 串联所有单词的子串"><img src="/img/cover2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode30. 串联所有单词的子串"/></a><div class="content"><a class="title" href="/2023/11/23/LeetCode/%E5%85%B6%E4%BB%96/%E4%B8%B2%E8%81%94%E6%89%80%E6%9C%89%E5%8D%95%E8%AF%8D%E7%9A%84%E5%AD%90%E4%B8%B2/" title="LeetCode30. 串联所有单词的子串">LeetCode30. 串联所有单词的子串</a><time datetime="2023-11-23T14:14:10.000Z" title="发表于 2023-11-23 22:14:10">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/LeetCode/%E6%8E%92%E5%BA%8F/%E7%85%8E%E9%A5%BC%E6%8E%92%E5%BA%8F/" title="LeetCode969. 煎饼排序"><img src="/img/cover6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode969. 煎饼排序"/></a><div class="content"><a class="title" href="/2023/11/23/LeetCode/%E6%8E%92%E5%BA%8F/%E7%85%8E%E9%A5%BC%E6%8E%92%E5%BA%8F/" title="LeetCode969. 煎饼排序">LeetCode969. 煎饼排序</a><time datetime="2023-11-23T14:13:17.000Z" title="发表于 2023-11-23 22:13:17">2023-11-23</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
             <i class="fas fa-folder-open"></i>
             <span>分类</span>
             <a class="card-more-btn" href="/categories/" title="查看更多">
     <i class="fas fa-angle-right"></i></a>
             </div>
             <ul class="card-category-list" id="aside-cat-list">
-            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/"><span class="card-category-list-name">笔记</span><span class="card-category-list-count">63</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/C/"><span class="card-category-list-name">C</span><span class="card-category-list-count">10</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/C/"><span class="card-category-list-name">C++</span><span class="card-category-list-count">13</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/CGDB/"><span class="card-category-list-name">CGDB</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/CMake/"><span class="card-category-list-name">CMake</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/Git/"><span class="card-category-list-name">Git</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/Java/"><span class="card-category-list-name">Java</span><span class="card-category-list-count">16</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/Linux/"><span class="card-category-list-name">Linux</span><span class="card-category-list-count">1</span></a></li></ul></li>
-            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E5%BE%AE%E7%A7%AF%E5%88%86/" style="font-size: 1.3em; color: #99a1ac">微积分</a> <a href="/tags/C/" style="font-size: 1.43em; color: #99a6b9">C++</a> <a href="/tags/CGDB/" style="font-size: 1.1em; color: #999">CGDB</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" style="font-size: 1.17em; color: #999c9f">深入理解计算机系统</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 1.3em; color: #99a1ac">软件工程</a> <a href="/tags/Git/" style="font-size: 1.3em; color: #99a1ac">Git</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 1.1em; color: #999">计算机网络</a> <a href="/tags/C/" style="font-size: 1.37em; color: #99a4b2">C</a> <a href="/tags/Java/" style="font-size: 1.5em; color: #99a9bf">Java</a> <a href="/tags/CMake/" style="font-size: 1.1em; color: #999">CMake</a> <a href="/tags/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/" style="font-size: 1.23em; color: #999ea6">离散数学</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">63</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">63</div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-11-23T13:42:18.194Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wangrd</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"></div></div></body></html>
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/"><span class="card-category-list-name">笔记</span><span class="card-category-list-count">90</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/C/"><span class="card-category-list-name">C</span><span class="card-category-list-count">10</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/C/"><span class="card-category-list-name">C++</span><span class="card-category-list-count">13</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/CGDB/"><span class="card-category-list-name">CGDB</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/CMake/"><span class="card-category-list-name">CMake</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/Git/"><span class="card-category-list-name">Git</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/Java/"><span class="card-category-list-name">Java</span><span class="card-category-list-count">16</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/"><span class="card-category-list-name">LeetCode</span><span class="card-category-list-count">27</span></a></li></ul></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 1.23em; color: #999ea6">软件工程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 1.1em; color: #999">动态规划</a> <a href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" style="font-size: 1.37em; color: #99a4b2">双指针</a> <a href="/tags/C/" style="font-size: 1.41em; color: #99a5b7">C++</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/%E5%BE%AE%E7%A7%AF%E5%88%86/" style="font-size: 1.23em; color: #999ea6">微积分</a> <a href="/tags/%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88/" style="font-size: 1.14em; color: #999b9d">快慢指针</a> <a href="/tags/LeetCode/" style="font-size: 1.5em; color: #99a9bf">LeetCode</a> <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" style="font-size: 1.14em; color: #999b9d">位运算</a> <a href="/tags/Git/" style="font-size: 1.23em; color: #999ea6">Git</a> <a href="/tags/%E5%88%86%E6%B2%BB/" style="font-size: 1.1em; color: #999">分治</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E9%81%8D%E5%8E%86/" style="font-size: 1.28em; color: #99a0aa">深度优先遍历</a> <a href="/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" style="font-size: 1.1em; color: #999">二分查找</a> <a href="/tags/CGDB/" style="font-size: 1.1em; color: #999">CGDB</a> <a href="/tags/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/" style="font-size: 1.19em; color: #999da1">离散数学</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 1.1em; color: #999">计算机网络</a> <a href="/tags/CMake/" style="font-size: 1.1em; color: #999">CMake</a> <a href="/tags/%E5%8D%95%E8%B0%83%E6%A0%88/" style="font-size: 1.19em; color: #999da1">单调栈</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 1.1em; color: #999">排序</a> <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="font-size: 1.14em; color: #999b9d">滑动窗口</a> <a href="/tags/Java/" style="font-size: 1.46em; color: #99a7bb">Java</a> <a href="/tags/C/" style="font-size: 1.32em; color: #99a2ae">C</a> <a href="/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" style="font-size: 1.14em; color: #999b9d">深入理解计算机系统</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">90</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">90</div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-11-23T14:37:12.391Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wangrd</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"></div></div></body></html>
