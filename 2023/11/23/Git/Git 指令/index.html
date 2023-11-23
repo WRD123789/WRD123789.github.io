@@ -1,0 +1,422 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Git 指令 | Wangrd's Blog</title><meta name="author" content="Wangrd"><meta name="copyright" content="Wangrd"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Git 指令   创建存储库  1git init 把当前文件夹变成一个 Git 可以管理的仓库, 这个目录里面的所有文件都可以被 Git 管理, 每个文件的修改&#x2F;删除, Git 都能跟踪, 以便任何时刻都可以追踪历史, 或者在将来某个时刻还可以将文件”还原”, 此操作会产生一个隐藏的 .git 文件夹, 这个文件夹是 Git 用来跟踪管理版本的, 尽量不要修改:    跟踪指定文件  1git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git 指令">
+<meta property="og:url" content="http://example.com/2023/11/23/Git/Git%20%E6%8C%87%E4%BB%A4/index.html">
+<meta property="og:site_name" content="Wangrd&#39;s Blog">
+<meta property="og:description" content="Git 指令   创建存储库  1git init 把当前文件夹变成一个 Git 可以管理的仓库, 这个目录里面的所有文件都可以被 Git 管理, 每个文件的修改&#x2F;删除, Git 都能跟踪, 以便任何时刻都可以追踪历史, 或者在将来某个时刻还可以将文件”还原”, 此操作会产生一个隐藏的 .git 文件夹, 这个文件夹是 Git 用来跟踪管理版本的, 尽量不要修改:    跟踪指定文件  1git">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/cover1.png">
+<meta property="article:published_time" content="2023-11-23T08:07:28.000Z">
+<meta property="article:modified_time" content="2023-11-23T08:16:57.977Z">
+<meta property="article:author" content="Wangrd">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/cover1.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/11/23/Git/Git%20%E6%8C%87%E4%BB%A4/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Git 指令',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-11-23 16:16:57'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/head.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover1.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Wangrd's Blog"><span class="site-name">Wangrd's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Git 指令</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-23T08:07:28.000Z" title="发表于 2023-11-23 16:07:28">2023-11-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-11-23T08:16:57.977Z" title="更新于 2023-11-23 16:16:57">2023-11-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/Git/">Git</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>Git 指令</h1>
+<ol>
+<li>
+<p>创建存储库</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+<p>把当前文件夹变成一个 Git 可以管理的仓库, 这个目录里面的所有文件都可以被 Git 管理, 每个文件的修改/删除, Git 都能跟踪, 以便任何时刻都可以追踪历史, 或者在将来某个时刻还可以将文件”还原”, 此操作会产生一个隐藏的 .git 文件夹, 这个文件夹是 Git 用来跟踪管理版本的, <strong>尽量不要修改</strong>:</p>
+<p><img src="/img/20220725204056.png" alt=""></p>
+</li>
+<li>
+<p>跟踪指定文件</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add [file-name]</span><br></pre></td></tr></table></figure>
+<p>将当前文件夹内的改变存放到暂存区 (Staging Area).</p>
+<ul>
+<li>将文件 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>∼</mo><msub><mi>A</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">A_1 \sim A_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∼</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 加入暂存区.  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add A1 A2 ... An</span><br></pre></td></tr></table></figure>
+</li>
+<li>将所有改变的文件加入暂存区.  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add *</span><br><span class="line">git add --all</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="/img/20220725210102.png" alt=""></p>
+<p>git add 告诉 Git 需要跟踪哪些文件, 一个文件一旦被跟踪, 后面该文件的任何变化都会被捕捉到.</p>
+<p>注意: <strong>即使一个文件已经被跟踪, 但是如果该文件发生新的变化, 仍然要使用 git add 将其加入暂存区, 因为每次提交都会清除暂存区, 只有暂存区的文件才能被提交.</strong></p>
+</li>
+<li>
+<p>提交</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &quot;description&quot;</span><br></pre></td></tr></table></figure>
+<p>将暂存区中的所有文件作为一个块提交, 其中还包含了独一无二的编号 (哈希值), 提交信息的用户, 提交表述和提交时间, 并<strong>清除暂存区的数据</strong>:</p>
+<p><img src="/img/20220725211202.png" alt=""></p>
+<p><strong>新的提交是 HEAD 的直接子节点，同时当前分支的指针也会被更新以指向它.</strong></p>
+<ul>
+<li>
+<p>如果当前是第一次提交: 产生一个 master 和 HEAD 指针指向当前提交的版本.</p>
+<p>一般情况下master 指针总是指向 master 分支的最新提交, 当然也可以用命令移动 master 指针, 但是只有 HEAD 指针指向 master 指针时才能在 master 分支上添加新的提交, HEAD 指针通常情况下指向分支名</p>
+<p><img src="/img/20220725211918.png" alt=""></p>
+<p>此处 HEAD 指针其实是指向 master 指针.</p>
+</li>
+<li>
+<p>如果当前提交不是第一次提交:</p>
+<ol>
+<li>
+<p>克隆最近的提交 (猜测是因为 Git 只存储每次文件的变化, 所以需要比较上一次提交和此次的区别):</p>
+<p><img src="/img/20220725212054.png" alt=""></p>
+</li>
+<li>
+<p>用暂存区的数据修改新的提交, 并清除暂存区的数据:</p>
+<p><img src="/img/20220725212719.png" alt=""></p>
+</li>
+<li>
+<p>移动 master 和 HEAD 指针 :</p>
+<p><img src="/img/20220725212956.png" alt=""></p>
+<p>其中 commit0 为 commit1 的父节点.</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p>移动 HEAD 指针</p>
+<p>git checkout ID : 通过<strong>移动 HEAD 指针</strong>转移到指定编号 (哈希值) 的提交, 并修改文件夹中的文件使其匹配当前提交, 即 <strong>HEAD 指针控制文件夹中文件的状态 (版本)</strong>.</p>
+<p>ID 本质上是哈希值, 且此处不一定要输入完整的哈希值, 只要提供能够唯一标识提交记录的前几个字符即可.</p>
+<p>git checkout 不会改变提交历史记录.</p>
+<p>注意: <strong>checkout 会对所有因为回滚而改变的文件自动调用 git add</strong></p>
+<p>但某个提交有多个父提交时, 可以通过使用操作符 ^&lt;num&gt;  来选择移动到哪个父提交上, 如果后面不指定数字, 则默认移动到第一个父提交上 (第一个父提交一般指与当前提交在同一分支的父提交).</p>
+<p>例如:</p>
+<p><img src="/img/20220802123911.png" alt=""></p>
+<p>调用命令 git checkout main^ 如下:</p>
+<p><img src="/img/20220802123950.png" alt=""></p>
+<p>而调用命令 git checkout main^2 则如下:</p>
+<p><img src="/img/20220802124028.png" alt=""></p>
+<p>操作符 “^” 和 相对引用可以链式结合, 即可以连续使用.</p>
+<p>例如:</p>
+<p><img src="/img/20220802153600.png" alt=""></p>
+<p>使用命令 git checkout HEAD~^2~2 后如下所示:</p>
+<p><img src="/img/20220802153753.png" alt=""></p>
+</li>
+<li>
+<p>查看库状态</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+<p>检查当前库中每个文件的状态, 即未跟踪, 未修改,已修改和暂存这四个状态.</p>
+</li>
+<li>
+<p>查看库日志</p>
+<p><strong>查看所有提交过的版本信息</strong></p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br></pre></td></tr></table></figure>
+<p>获得当前库的日志, 即所有的提交信息.</p>
+<p><img src="/img/20220725221349.png" alt=""></p>
+<p><strong>记录从上到下按时间从近到远排列</strong>.</p>
+<p>–pretty=oneline 参数可以折叠记录, 只保留记录编号和提交说明.</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --pretty=oneline</span><br></pre></td></tr></table></figure>
+<p><strong>查看所有的提交过的版本信息 (即使被删除也能够查看)</strong></p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reflog</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查看提交内容</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git show [commit-name]</span><br></pre></td></tr></table></figure>
+<p>查看对应 ID  的提交的内容:</p>
+<p><img src="/img/20220726155422.png" alt=""></p>
+</li>
+<li>
+<p>修改提交</p>
+<p>git commit --amend: 修改最新的提交, 这个<strong>新的提交将取代原来旧的提交, 实际上旧的提交仍然存在</strong>.</p>
+<p>例如:</p>
+<p><img src="/img/20220731111716.png" alt=""></p>
+<p>使用git commit --amend 后如下:</p>
+<p><img src="/img/20220731111755.png" alt=""></p>
+</li>
+<li>
+<p>创建分支</p>
+<p><strong>在当前分支之外创建一个分支</strong> (以当前 HEAD 指针所指向的提交为起点):</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch [new-branch-name]</span><br></pre></td></tr></table></figure>
+<p>例如:</p>
+<p><img src="/img/20220731112114.png" alt=""></p>
+<p>执行完 git branch bugFix 后如下:</p>
+<p><img src="/img/20220731112145.png" alt=""></p>
+<p><strong>在指定提交处创建分支</strong>:</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch [new-branch-name] [commit-ID]</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>创建并进入分支</p>
+<p>创建一个新的分支并使 HEAD 指针指向该新分支(相当于 branch + checkout):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b [new-branch-name] [start-commit-name]</span><br></pre></td></tr></table></figure>
+<p>其中 [start-commit-name] 可以省略, 默认在 HEAD 所指向的提交处创建分支.<br>
+例如:</p>
+<p><img src="/img/20220731112338.png" alt=""></p>
+<p>执行完 git checkout -b bugFix 后如下:</p>
+<p><img src="/img/20220731112419.png" alt=""></p>
+</li>
+<li>
+<p>删除分支</p>
+<p>删除指定的分支:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -d [branch-to-delete]</span><br></pre></td></tr></table></figure>
+<p><strong>不能删除主分支或者 HEAD 当前指向的分支.</strong></p>
+<p>例如:</p>
+<p><img src="/img/20220731112505.png" alt=""></p>
+<p>此时无法删除分支 bugFix, 因为 HEAD 指针指向 bugFix 指针, 而 main 分支是主分支, 所以也无法删除.</p>
+<p>执行完</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git branch -d bugFix</span><br></pre></td></tr></table></figure>
+<p>如下:</p>
+<p><img src="/img/20220731113337.png" alt=""></p>
+<p>同时, <strong>该删除指令不是真正意义上的删除, 只是删除了指定分支的指针, 而提交没有删除.</strong></p>
+</li>
+<li>
+<p>返回当前所在分支</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -v</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>合并</p>
+<ul>
+<li>merge:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge [merged-branch-name]</span><br></pre></td></tr></table></figure>
+<p><strong>注意: 这里的 merge 后面跟的分支的名字是被合并的分支的名字, 即将 [merged-branch-name] 合并到 HEAD 所指向的分支上, 并移动 HEAD 指针指向新的提交</strong></p>
+<p>例如: 将 fixing-ai-heuristics 分支合并到 master 分支上:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br><span class="line">git merge fixing-ai-heuristics</span><br></pre></td></tr></table></figure>
+<p>合并前:<br>
+<img src="/img/20220727145014.png" alt=""></p>
+<p>合并后:<br>
+<img src="/img/20220727145035.png" alt=""></p>
+<p>此时产生一个新提交 C6, 这个新的提交将两个分支连在一起, 即它有两个父提交, 其中主分支 (master 分支) 上的提交称为它的第一父提交, 副分支 (fixing-ai-heuristics) 上的提交被称为第二父提交, 合并使主分支包含两条分支上的所有提交 (注意: <strong>因为是将副分支合并到主分支, 所以主分支的指针指向新的提交, 而副分支的指针保持不变</strong>)</p>
+<ul>
+<li>线性合并:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase [merge-branch-name] [merged-branch-name]</span><br></pre></td></tr></table></figure>
+<p>注意: 其中 [merged-branch-name] 可以省略, 默认将 HEAD 指针所指向的分支合并到 [merge-branch-name] 中, <strong>[merged-branch-name] 会指向合并后的分支的末尾, 且 HEAD 指针会指向 [merged-branch-name].</strong></p>
+<p>和 merge 合并不同, rebase 是提取一系列的提交记录, 将它们复制到要合并到的分支的末尾, rebase 可以创建更线性的提交历史, 使代码库的提交历史更加清晰.</p>
+<p>例如:</p>
+<p><img src="/img/20220729185015.png" alt=""></p>
+<p>使用 git rebase main 后如下:</p>
+<p><img src="/img/20220729185106.png" alt=""></p>
+<p>注意到被合并的分支的提交记录依然存在, 且 bugFix 分支的指针发生了改变.</p>
+<p>对比 merge 和 rebase:</p>
+<ul>
+<li>rebase 使你的提交树变得很干净, 即所有的提交都在一条线上.</li>
+<li>rebase 修改了树的提交历史, 而 merge 可以保留树的提交历史.</li>
+</ul>
+</li>
+<li>
+<p>移动分支</p>
+<p>移动分支, 改变指定分支名所指向的提交</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -f [branch-name] [commit-ID]</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>撤销提交</p>
+<ul>
+<li>reset</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset [commit-ID]</span><br></pre></td></tr></table></figure>
+<p>将提交记录回退到 ID 所对应的提交.</p>
+<p>注意: <strong>只有 HEAD 指向分支名而不是提交的时候才能用 reset, 且回退的记录并没有被删除.</strong></p>
+<p>例如:</p>
+<p><img src="/img/20220730135547.png" alt=""></p>
+<p>执行 git reset HEAD~1 后如下:</p>
+<p><img src="/img/20220730135622.png" alt=""></p>
+<ul>
+<li>revert</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git revert [commit-ID]</span><br></pre></td></tr></table></figure>
+<p>会在 HEAD 指针所指向的提交后面增加一个新的提交, 该新的提交的内容与指定 ID 的提交的<strong>父节点</strong>的内容相等.</p>
+<p>例如:</p>
+<p><img src="/img/20220730173201.png" alt=""></p>
+<p>使用 git revert HEAD 命令后:</p>
+<p><img src="/img/20220730173233.png" alt=""></p>
+<p>其中 C2’ 的内容与 C1 的内容一致.</p>
+</li>
+<li>
+<p>复制提交</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git cherry-pick &lt;提交号&gt;...</span><br></pre></td></tr></table></figure>
+<p>将指定的一系列提交复制到 HEAD 指针所指向的提交的后面.</p>
+<p>例如:</p>
+<p><img src="/img/20220730202150.png" alt=""></p>
+<p>执行完 git cherry-pick c2 c4 后如下:</p>
+<p><img src="/img/20220730202236.png" alt=""></p>
+</li>
+<li>
+<p>调整记录</p>
+<p>如果你想要从一系列记录中找到你想要的记录, 且你不清楚你想要的提交记录的哈希值, 可以使用交互式 rebase.</p>
+<p>交互式 rebase 使用带参数 --interactive 的 rebase 命令, 也可以简写成 -i, 即:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase -i/--interactive [start-commit]</span><br></pre></td></tr></table></figure>
+<p>该命令首先会打开一个 UI 界面, 列出从 start-commit 到 HEAD 指针之间的所有提交 (不包含 start-commit), 然后你可以做三件事:</p>
+<ul>
+<li>调整提交记录的顺序.</li>
+<li>删除不想要的提交记录 (通过切换 pick 的状态来完成, 关闭意味着你不想要该提交记录).</li>
+<li>合并提交 (允许你将多个提交记录合并成一个提交记录)<br>
+确认后, 会在 start-commit 处生成一条新的分支, 并将调整后的提交记录复制过去, 然后将 HEAD 指针移到该分支的末端.</li>
+</ul>
+<p>例如:</p>
+<p><img src="/img/20220801121006.png" alt=""></p>
+<p>调用命令 git rebase -i HEAD~3</p>
+<p>跳出一个 UI (图中所示只是一个模拟器, 实际的会与该图有所偏差):</p>
+<p><img src="/img/20220801121203.png" alt=""><br>
+<img src="/img/20220801121249.png" alt=""></p>
+<p>调整顺序并切换 pick 状态后确认:</p>
+<p><img src="/img/20220801121311.png" alt=""></p>
+</li>
+<li>
+<p>标签</p>
+<p>标签可以永久的指向某一个特定的提交记录, 它不会随着新的提交而移动, 也不能在某个标签上修改提交.</p>
+<p>给一个提交设置标签:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag [tag-name] [commit-name]</span><br></pre></td></tr></table></figure>
+<p>如果没有指定提交, 即没有指定 commit-name, 则默认给 HEAD 指针指向的提交设置标签.<br>
+例如:</p>
+<p><img src="/img/20220801194727.png" alt=""></p>
+<p>执行 git tag v1 c1后:</p>
+<p><img src="/img/20220801194753.png" alt=""></p>
+</li>
+<li>
+<p>查找最近标签</p>
+<p>描述离指定位置最近的标签:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git describe [ref]</span><br></pre></td></tr></table></figure>
+<p>其中 ref 是提交记录, 如果没有指定, 则默认 HEAD 所指向的提交记录.</p>
+<p>输出结果:</p>
+<ul>
+<li>ref 有标签: 只输出 ref 的标签的名称.</li>
+<li>ref 没有标签: 输出 &lt;tag&gt;_&lt;numCommits&gt;_ g&lt;hash&gt;, 其中 tag 是离 ref 最近的标签, numCommits 是 ref 和 tag 所在的提交记录之间相差多少个提交记录, hash 是你所给定的 ref 所表示的提交记录哈希值的前几位.</li>
+</ul>
+<p><img src="/img/20220801213234.png" alt=""></p>
+</li>
+<li>
+<p>查看文件修改</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git diff [file-name]</span><br></pre></td></tr></table></figure>
+<p>该命令只能查看文本文件的变化, 例如 txt 文件, 网页, 所有程序的代码等, 而图片, 视频等二进制文件的改变, 只能跟踪文件大小的变化,没办法跟踪文件内容的变化.</p>
+</li>
+</ol>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Git/">Git</a></div><div class="post_share"><div class="social-share" data-image="/img/cover1.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/11/23/Git/%E8%BF%9C%E7%A8%8B%E5%AD%98%E5%82%A8%E5%BA%93/" title="远程存储库"><img class="cover" src="/img/cover5.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">远程存储库</div></div></a></div><div class="next-post pull-right"><a href="/2023/11/23/Git/Git%20%E4%BB%8B%E7%BB%8D/" title="Git 介绍"><img class="cover" src="/img/cover3.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Git 介绍</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/11/23/Git/Git%20%E4%BB%8B%E7%BB%8D/" title="Git 介绍"><img class="cover" src="/img/cover3.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-23</div><div class="title">Git 介绍</div></div></a></div><div><a href="/2023/11/22/Git/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F/" title="版本控制系统"><img class="cover" src="/img/cover6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-22</div><div class="title">版本控制系统</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/head.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Wangrd</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/WRD123789" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2239646965@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">Git 指令</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/Git/%E7%9B%B8%E5%AF%B9%E5%BC%95%E7%94%A8/" title="相对引用"><img src="/img/cover6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="相对引用"/></a><div class="content"><a class="title" href="/2023/11/23/Git/%E7%9B%B8%E5%AF%B9%E5%BC%95%E7%94%A8/" title="相对引用">相对引用</a><time datetime="2023-11-23T08:18:22.000Z" title="发表于 2023-11-23 16:18:22">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/Git/%E8%BF%9C%E7%A8%8B%E5%AD%98%E5%82%A8%E5%BA%93/" title="远程存储库"><img src="/img/cover5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="远程存储库"/></a><div class="content"><a class="title" href="/2023/11/23/Git/%E8%BF%9C%E7%A8%8B%E5%AD%98%E5%82%A8%E5%BA%93/" title="远程存储库">远程存储库</a><time datetime="2023-11-23T08:12:47.000Z" title="发表于 2023-11-23 16:12:47">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/Git/Git%20%E6%8C%87%E4%BB%A4/" title="Git 指令"><img src="/img/cover1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git 指令"/></a><div class="content"><a class="title" href="/2023/11/23/Git/Git%20%E6%8C%87%E4%BB%A4/" title="Git 指令">Git 指令</a><time datetime="2023-11-23T08:07:28.000Z" title="发表于 2023-11-23 16:07:28">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/Git/Git%20%E4%BB%8B%E7%BB%8D/" title="Git 介绍"><img src="/img/cover3.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git 介绍"/></a><div class="content"><a class="title" href="/2023/11/23/Git/Git%20%E4%BB%8B%E7%BB%8D/" title="Git 介绍">Git 介绍</a><time datetime="2023-11-23T07:06:15.000Z" title="发表于 2023-11-23 15:06:15">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/22/Git/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F/" title="版本控制系统"><img src="/img/cover6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="版本控制系统"/></a><div class="content"><a class="title" href="/2023/11/22/Git/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F/" title="版本控制系统">版本控制系统</a><time datetime="2023-11-22T15:28:57.000Z" title="发表于 2023-11-22 23:28:57">2023-11-22</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wangrd</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div></div></body></html>
