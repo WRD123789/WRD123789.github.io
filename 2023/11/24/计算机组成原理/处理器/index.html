@@ -1,0 +1,536 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>处理器 | Wangrd's Blog</title><meta name="author" content="Wangrd"><meta name="copyright" content="Wangrd"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="处理器 状态 每个指令在执行期间读取并更新的状态:  寄存器 (x0 ... x31x_0 \ ... \ x_{31}x0​ ... x31​)  寄存器文件 Reg 保存 32 个寄存器: Reg[0] … Reg[31] 指令中 rs1 字段指定第一个读取的寄存器. 指令中 rs2 字段指定第二个读取的寄存器. 指令中 rd 字段指定写入的寄存器 (目的寄存器). x0x_0x0​ 寄存器永">
+<meta property="og:type" content="article">
+<meta property="og:title" content="处理器">
+<meta property="og:url" content="http://example.com/2023/11/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%A4%84%E7%90%86%E5%99%A8/index.html">
+<meta property="og:site_name" content="Wangrd&#39;s Blog">
+<meta property="og:description" content="处理器 状态 每个指令在执行期间读取并更新的状态:  寄存器 (x0 ... x31x_0 \ ... \ x_{31}x0​ ... x31​)  寄存器文件 Reg 保存 32 个寄存器: Reg[0] … Reg[31] 指令中 rs1 字段指定第一个读取的寄存器. 指令中 rs2 字段指定第二个读取的寄存器. 指令中 rd 字段指定写入的寄存器 (目的寄存器). x0x_0x0​ 寄存器永">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/cover16.png">
+<meta property="article:published_time" content="2023-11-24T08:02:10.000Z">
+<meta property="article:modified_time" content="2023-11-24T08:12:41.363Z">
+<meta property="article:author" content="Wangrd">
+<meta property="article:tag" content="计算机组成原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/cover16.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/11/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%A4%84%E7%90%86%E5%99%A8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '处理器',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-11-24 16:12:41'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/head.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">117</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover16.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Wangrd's Blog"><span class="site-name">Wangrd's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">处理器</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-24T08:02:10.000Z" title="发表于 2023-11-24 16:02:10">2023-11-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-11-24T08:12:41.363Z" title="更新于 2023-11-24 16:12:41">2023-11-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>处理器</h1>
+<h2 id="状态">状态</h2>
+<p>每个指令在执行期间读取并更新的状态:</p>
+<ul>
+<li>寄存器 (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub><mtext> </mtext><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mtext> </mtext><msub><mi>x</mi><mn>31</mn></msub></mrow><annotation encoding="application/x-tex">x_0 \ ... \ x_{31}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace"> </span><span class="mord">...</span><span class="mspace"> </span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">31</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>)
+<ul>
+<li>寄存器文件 Reg 保存 32 个寄存器: Reg[0] … Reg[31]</li>
+<li>指令中 rs1 字段指定第一个读取的寄存器.</li>
+<li>指令中 rs2 字段指定第二个读取的寄存器.</li>
+<li>指令中 rd 字段指定写入的寄存器 (目的寄存器).</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">x_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 寄存器永远为 0 (即写入 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">x_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 寄存器的操作可以忽略).</li>
+</ul>
+</li>
+<li>程序计数器 (PC):
+<ul>
+<li>保存当前指令的地址.</li>
+</ul>
+</li>
+<li>内存
+<ul>
+<li>将指令和数据保存在一个 32 位字节寻址的内存空间中.</li>
+<li>暂时将指令和数据分别存储.</li>
+<li>指令从指令内存中读取 (假设指令内存是只读的).</li>
+<li>加载/存储指令访问数据内存.</li>
+</ul>
+</li>
+</ul>
+<h2 id="单周期处理器">单周期处理器</h2>
+<p>数字系统中, <strong>各个子系统通过数据总线连接形成的数据传送路径称为数据通路</strong>.</p>
+<p>假设在时钟信号的每个周期内, 处理器执行一条指令且</p>
+<ul>
+<li>当前状态的输出为组合逻辑块的输入, 组合逻辑块的输出在下一个时钟信号的上升沿到达前稳定下来.</li>
+<li>当时钟信号的上升沿到达时, 用组合逻辑块的输出更新所有状态.</li>
+<li>为了简化指令/数据存储器, 存储器是异步读取 (不进行计时, 输入地址立刻输出值), 但同步写入 (计时, 需要等到时钟信号的上升沿才捕捉输入信号).</li>
+</ul>
+<p><img src="/img/20221104200528.png" alt=""></p>
+<p>例如:</p>
+<ul>
+<li>
+<p>add 操作时序图</p>
+<p><img src="/img/20221104200701.png" alt=""></p>
+</li>
+<li>
+<p>给 ALU 增加一个输入可以支持所有 R 型指令 (只需要改变 ALUSel), 其数据通路如下:</p>
+<p><img src="/img/20221105200545.png" alt=""></p>
+</li>
+<li>
+<p>增加一个立即数生成器和复用器可以支持 I 型指令 (同样通过改变 ALUSel), 其数据通路如下:</p>
+<p><img src="/img/20221105095129.png" alt=""></p>
+</li>
+<li>
+<p>为了支持加载操作, 即从内存中读取值, 需要在 ALU 后面增加一个数据存储器和一个复用器来判断输出来自 ALU 还是数据存储器, 其数据通路如下:</p>
+<p><img src="/img/20221105200717.png" alt=""></p>
+</li>
+<li>
+<p>为了支持存储操作, 需要给数据存储器增加一个写入数据的地址, 并用控制器的 MemRW 控制信号来判断是否写入, 其数据通路如下:</p>
+<p><img src="/img/20221105200743.png" alt=""></p>
+<p>立即数生成器</p>
+<p><img src="/img/20221105130816.png" alt=""></p>
+</li>
+<li>
+<p>为了支持分支操作, 需要额外增加一个分支比较器, 将寄存器 rs1 和寄存器 rs2 中内容的比较结果发送给控制器, 控制器根据分支比较器的输出设置 PCSel, PCSel 决定 PC 是否需要跳转到指定标签处, 其数据通路如下:</p>
+<p><img src="/img/20221105200841.png" alt=""></p>
+<p>分支比较器</p>
+<p><img src="/img/20221105201004.png" alt=""></p>
+</li>
+<li>
+<p>为了支持 jalr 操作, 其他不需要多少改变, 但是需要将 PC + 4 写入寄存器中, 其数据通路如下:</p>
+<p><img src="/img/20221105194749.png" alt=""></p>
+</li>
+<li>
+<p>支持 jal 操作, 不需要改变, 只是数据通路和之前的不同, 其数据通路如下:</p>
+<p><img src="/img/20221105194830.png" alt=""></p>
+</li>
+</ul>
+<h2 id="逻辑控制单元">逻辑控制单元</h2>
+<p>处理器由逻辑控制单元和数据通路组成, <strong>逻辑控制单元从数据通路中获取信号, 并返回信号给数据通路</strong>.</p>
+<p><img src="/img/20221105204453.png" alt=""></p>
+<p>逻辑控制单元只是一个组合逻辑块, 所以可以抽象出真值表:</p>
+<p><img src="/img/20221105204539.png" alt=""></p>
+<p><img src="/img/20221105220529.png" alt=""></p>
+<p>在上述编码表中, 只有蓝色框中的 9 位能够用来编码指令的类型, 其他位无关紧要, 所以只需要根据上表中蓝色框中的 9 位就能够编码指令类型, 再加上分支比较器提供的 2 位, 所以输入为 9 + 2 = 11 位.</p>
+<p>设计模型如下:</p>
+<p><img src="/img/20221105220926.png" alt=""></p>
+<p><strong>实现一、</strong></p>
+<p>根据真值表写逻辑方程, 用代数的方法来处理, 来简化它得到一个较好的逻辑控制单元实现.</p>
+<p>现在可以使用逻辑合成工具将真值表转换为门网络.</p>
+<p><strong>实现二、</strong></p>
+<p>用只读存储器 (ROM), 直接将指令和与之对应的所有控制位的设置存储在只读存储器中, 然后就可以在只读存储器中进行表搜索. 该实现方法方便修复错误, 也能够轻松添加新的指令.</p>
+<p><img src="/img/20221105222039.png" alt=""></p>
+<h2 id="指令时序">指令时序</h2>
+<p><img src="/img/20221106102740.png" alt=""></p>
+<p>假设每一阶段所需的时间如下:</p>
+<p><img src="/img/20221106102748.png" alt=""></p>
+<p>则可以根据上面的时间表, 计算每个指令所需的时间:</p>
+<p><img src="/img/20221106102827.png" alt=""></p>
+<p>由于所有指令使用同一个时钟信号, 为了保证所有指令都能在一个时钟信号的周期内完成, 所以选择所有指令中时间最长的作为时钟信号的周期, 即上图中的 lw 的时间.</p>
+<h2 id="性能">性能</h2>
+<p>性能为执行特定程序所花费的时间</p>
+<p>它可以分为三部分:</p>
+<p><img src="/img/20221106105847.png" alt=""></p>
+<ul>
+<li>
+<p>每个程序的指令数</p>
+<p><img src="/img/20221106123213.png" alt=""></p>
+<ul>
+<li>和任务难度有关, 难的任务程序更复杂, 指令数也就更多.</li>
+<li>和使用的算法有关,  (例如 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>N</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span>).</li>
+<li>和编程语言有关 (C 语言转成机器代码相对简洁, Java 语言转成机器代码相对多).</li>
+<li>和编译器有关, 有些编译器能够优化代码, 而有些编译器不能.</li>
+<li>和指令集架构有关, 有些指令集架构拥有复杂的指令, 则能够生成较少的指令数.</li>
+</ul>
+</li>
+<li>
+<p>每个指令的时钟周期</p>
+<p><img src="/img/20221106135639.png" alt=""></p>
+<ul>
+<li>和指令集架构有关, CSIC 指令集架构中一条指令可能有好几个周期, 而 RISC 中大多数指令都能在一个周期内完成.</li>
+<li>和处理器的实现方式有关, 例如之前所设计的单周期数据通路中每个指令的时钟周期为 1.</li>
+</ul>
+</li>
+<li>
+<p>每个周期所需的时间</p>
+<p><img src="/img/20221106141235.png" alt=""></p>
+<ul>
+<li>和处理器微架构有关 (确定通过逻辑门的关键路径).</li>
+<li>和工艺技术有关</li>
+<li>和供电电压有关, 较低的电压会降低晶体管速度, 但能提高能效.</li>
+</ul>
+</li>
+</ul>
+<p><strong>特定程序所需的能量</strong>为</p>
+<p><img src="/img/20221106142645.png" alt=""></p>
+<p>则</p>
+<p><img src="/img/20221106142705.png" alt=""></p>
+<p>C 为电路中实现数据通路和控制器所需的总电容, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>d</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{dd}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">dd</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 为控制电压.</p>
+<p>所以如果想要提供能源效率, 可以减小电容 (更简单的电路或更先进的集成电路技术) , 也可以减小控制电压.</p>
+<h2 id="CPU-流水线">CPU 流水线</h2>
+<p>采取流水线的形式来执行指令, 确保指令执行过程中的每个流程都有任务.</p>
+<p>假设指令执行中的每个流程所需的时间如下:</p>
+<p><img src="/img/20221106154434.png" alt=""></p>
+<p>以流水线的形式执行指令, 其中每个时钟信号的周期执行一个流程:</p>
+<p><img src="/img/20221106154854.png" alt=""></p>
+<p><img src="/img/20221106154515.png" alt=""></p>
+<p>则该数据通路中关键路径的时间为 1000 ps, 虽然大于原来的 800 ps, 但是执行所有指令所需的时间却大幅度减小:</p>
+<p><img src="/img/20221106154742.png" alt=""></p>
+<p>对于单周期处理器, 可以进行以下划分:</p>
+<p><img src="/img/20221108153041.png" alt=""></p>
+<p>为了使数据通路的每个阶段能够单独的工作, 所以使用寄存器来分隔数据通路中的每个阶段.</p>
+<p><img src="/img/20221108154338.png" alt=""></p>
+<p>每次都需将指令中后面需要用到的数据沿流水线传输, 后面不需要的数据直接舍弃.</p>
+<p><img src="/img/20221108155315.png" alt=""></p>
+<p>流水线不一定要划分为 5 个阶段, 可以更多或更少, 划分越多, 则同时能够处理的指令也就越多, 此时的时钟信号的频率就越高, 但是随之而来每个指令的周期越来越大, 其时钟信号的频率的增长有极限, 受到技术和能耗的限制.</p>
+<h3 id="流水线形式风险">流水线形式风险</h3>
+<ol>
+<li>
+<p>结构风险</p>
+<p>当两个或更多的指令同时对某一物理资源进行访问, 即资源使用冲突会导致结构风险.</p>
+<p>例如:</p>
+<ul>
+<li>
+<p>两条指令同时使用 ALU.</p>
+</li>
+<li>
+<p>两个指令同时访问主存储器中的指令和数据</p>
+<p><img src="/img/20221108162418.png" alt=""></p>
+</li>
+<li>
+<p>两个指令同时读写寄存器堆</p>
+<p><img src="/img/20221108162617.png" alt=""></p>
+</li>
+</ul>
+<p>解决方案:</p>
+<ul>
+<li>
+<p>先执行的指令先使用物理资源, 后执行的指令后使用物理资源, 由于后面的指令需要等待前面的指令使用完后才能继续进行, 所以会影响性能.</p>
+</li>
+<li>
+<p>对于每个物理资源, 准备多个器件 (例如: 准备 2 个 ALU), 这样会提高成本, 但能解决结构风险.</p>
+</li>
+<li>
+<p>对于寄存器, 有两个写端口和一个读端口, 使得可以同时对寄存器文件进行读写.</p>
+</li>
+<li>
+<p>使用独立的指令缓存和数据缓存 (相对来说比较快), 使得可以同时访问主存储器中的指令和数据</p>
+<p><img src="/img/20221108163106.png" alt=""></p>
+</li>
+<li>
+<p>RISC-V 指令集架构在设计上尽量避免了结构风险 (例如: 每条指令最多一次数据访问、每条指令的操作数有限).</p>
+</li>
+</ul>
+</li>
+<li>
+<p>数据风险</p>
+<p>某一个指令依赖于前面未执行完的指令时, 可能会发生数据风险.</p>
+<p>例如:</p>
+<p><img src="/img/20221108184846.png" alt=""></p>
+<p>指令 sw t0, 4(t3) 中的 t0 依赖于指令 add t0, t1, t2 中的 t0, 但是在流水线通路中两者同时访问寄存器文件, 难以判断 sw t0, 4(t3) 中 t0 的值.</p>
+<p>可以在发生数据风险时, 先写后读来解决上述问题.</p>
+<p>但是如下情况以上述方法难以解决:</p>
+<p><img src="/img/20221108185724.png" alt=""></p>
+<p>指令 sub t2, s0, t0 和指令 or t6, s0, t3 中的 s0 用的仍然是旧的 s0, 所以 sub t2, s0, t0 和 or t6, s0, t3 得到的是错误的答案.</p>
+<p>解决方案:</p>
+<ul>
+<li>
+<p>前递, 由于指令 add s0, t0, t1 中 s0 的值在 ALU 之后就确定, 而后面依赖于 add 的指令还未使用 s0, 所以可以在 add s0, t0, t1 计算完 s0 的值后更新其他依赖于 add 指令且需要更新的指令中的 s0:</p>
+<p><img src="/img/20221108192103.png" alt=""></p>
+<p>实现:</p>
+<ul>
+<li>
+<p>将当前指令的目的字段和新指令的源字段进行比较</p>
+</li>
+<li>
+<p>在数据通路中增加前递路径</p>
+<p><img src="/img/20221108192736.png" alt=""></p>
+</li>
+</ul>
+</li>
+<li>
+<p>暂停, 如果下一条指令依赖于当前指令, 可以暂停后面的指令 (通过在当前指令后面塞空指令, 即什么都不做)或优先执行其他不依赖于当前指令的指令:</p>
+<p><img src="/img/20221108190803.png" alt=""></p>
+<p>暂停会影响性能, 良好的编译器可以通过重新调整指令的顺序来避免暂停.</p>
+</li>
+</ul>
+<p>有些时候必须要暂停 (如果不通过编译器对指令顺序进行调整), 例如:</p>
+<p><img src="/img/20221108201035.png" alt=""></p>
+<p>lw $2, 20($1) 后面的指令 and $4, $2, $5 中的 $2 依赖于 lw 指令, 但是 lw 指令中的 $2 只有在读取数据存储器之后才能得到结果, 但同时 and 指令需要 $2, 此时只能通过暂停一周期或者将一条不依赖于 lw 的指令放到 and 指令之前才能解决问题.</p>
+<p><img src="/img/20221108201337.png" alt=""></p>
+<p>称加载指令之后的插槽为加载延迟插槽. 如果当前指令使用加载指令的结果, 则硬件将暂停一个周期, 即在加载延迟插槽中插入空指令或不依赖加载指令的指令, 插入空指令会影响性能, 当然也可以通过编译器的重新调整来避免暂停.</p>
+</li>
+<li>
+<p>控制风险<br>
+当执行分支和跳转指令时, 会遇到控制风险.</p>
+<p>例如:</p>
+<p><img src="/img/20221108204005.png" alt=""></p>
+<p>分支指令在 ALU 处判断是否需要跳转, 而此时下面的指令已经开始执行.</p>
+<p>解决方案:</p>
+<ul>
+<li>
+<p>如果不需要跳转, 则继续执行后面的分支; 如果需要跳转, 就将目的指令之前的指令转换为空指令 (因为在分支和跳转指令决定是否跳转时, 后续指令还未开始修改寄存器, 此时可以将这些文件的目的寄存器替换为 x0, 便相当于将这些指令转换为空指令).</p>
+<p><img src="/img/20221108220548.png" alt=""></p>
+</li>
+<li>
+<p>为了提高性能, 可以使用&quot;分支预测&quot;来猜测分支将跳到哪个位置, 如果预测不正确, 则刷新流水线.</p>
+<p><img src="/img/20221108221644.png" alt=""></p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="分支预测">分支预测</h2>
+<p>由于分支和跳转是 PC 相关的, 所以如果在获取指令后决定是否跳转并为 PC 计算新的位置, 就能够减少指令执行期间的暂停.</p>
+<p>方案:</p>
+<ul>
+<li>由于分支具有时间局部性:
+<ul>
+<li>循环: for (int x = 0; x &lt; n; …), 跳转的次数远大于不跳转的次数, 所以可以在每次遇到分支时假设一定跳转.</li>
+<li>错误: if (error) …, 由于程序中有些错误发生的概率较小, 所以可以在每次遇到分支时假设不跳转.</li>
+</ul>
+</li>
+<li>采用一个具有 N 行的直接映射的内存 A
+<ul>
+<li>当获取的指令是一个分支指令时, 检查该指令地址的低 10 位是否在A 中被设置过, 如果被设置过, 则将下一个程序计数器设置为程序计数器加上分支偏移量.
+<ul>
+<li>如果分支应该跳转但预测没跳转, 则停止未采用的指令.</li>
+<li>如果分支不应该跳转但预测跳转, 就停止预测的指令.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/img/20221116163106.png" alt=""></p>
+<ul>
+<li>
+<p>如果在 5 级流水线式 CPU 的 IF 阶段预测:</p>
+<ul>
+<li>
+<p>正确预测分支: 不暂停.</p>
+<p><img src="/img/20221116163205.png" alt=""></p>
+</li>
+<li>
+<p>错误预测分支: 暂停两次.</p>
+<ul>
+<li>
+<p>不应当采取分支而采取了:</p>
+<p><img src="/img/20221116163447.png" alt=""></p>
+</li>
+<li>
+<p>应当采取分支而没采取分支:</p>
+<p><img src="/img/20221116163604.png" alt=""></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>如果在 5 级流水线式 CPU 的 ID 阶段预测:</p>
+<ul>
+<li>
+<p>正确预测采取分支: 暂停一次.</p>
+<p><img src="/img/20221116163903.png" alt=""></p>
+</li>
+<li>
+<p>正确预测不采取分支: 不暂停.</p>
+<p><img src="/img/20221116164033.png" alt=""></p>
+</li>
+<li>
+<p>应当采取分支, 而没采取: 暂停两次.</p>
+<p><img src="/img/20221116164449.png" alt=""></p>
+</li>
+<li>
+<p>不应当采取分支, 而采取了: 暂停一次.</p>
+<p><img src="/img/20221116164609.png" alt=""></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="多核处理器">多核处理器</h2>
+<p><img src="/img/20221119151920.png" alt=""></p>
+<p>对称多处理器 (SMP):</p>
+<p><img src="/img/20221120161403.png" alt=""></p>
+<ul>
+<li>每一个处理器都有自己的 PC 和执行一个独立的指令流 (MIMD).</li>
+<li>不同的处理器可以访问相同的内存地址, 即所有处理器/核心通过共享单个物理地址空间来共享数据.</li>
+<li>为了避免结构风险, 每个核心必须使用单独的 L1 缓存, 而 L2 、L3 缓存是否共享根据芯片设计来决定.</li>
+<li>处理器通过内存中的共享变量进行协调和通信, 通过同步原语 (锁) 来协调共享数据的使用, 同步原语使得同一时间只有一个处理器访问数据.</li>
+</ul>
+<p><img src="/img/20221120190201.png" alt=""></p>
+<p>广播写</p>
+<ul>
+<li>需要保持一致性, 一个处理器的写入必须反映在其他处理器在短时间后读取的内存中, 即如果处理器 A 在时间 T 内对内存地址 L 进行写操作, 所有其他处理器都将看到写操作 (通过互连网络).</li>
+<li>为了保持一致性, 每个处理器的缓存都可以发送和接收信息, 这便是广播写.
+<ul>
+<li>假设处理器 A 希望写入地址 L
+<ul>
+<li>首先进行写分配.</li>
+<li>在缓存上设置脏位.</li>
+<li>广播信息表示正在写入地址 L.</li>
+</ul>
+</li>
+<li>其他处理器接收信息.
+<ul>
+<li>如果某个处理器的缓存中拥有地址为 L 的数据, 则使对应地址 L 的缓存行无效.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>广播读</p>
+<ul>
+<li>如果某个处理器中缓存未命中, 会广播信息查看是否有处理器对该地址进行过写入 (设置过脏位).
+<ul>
+<li>如果没有处理器对该地址进行过写入操作, 则从存储层次的上一级加载数据到缓存中, 并返回给处理器.</li>
+<li>如果有处理器对该地址进行过写入操作 (设置过脏位), 则该处理器将数据写入内存, 并清除脏位.</li>
+<li>然后将新值发送给发出请求的处理器.</li>
+</ul>
+</li>
+</ul>
+<p>使用方式:</p>
+<ul>
+<li>不同处理器执行不同的指令流和数据 (例如, 在操作系统中运行多个程序).</li>
+<li>使用多个处理器处理单个程序.</li>
+</ul>
+<h2 id="MOESI-协议">MOESI 协议</h2>
+<p>多处理器的缓存已包含 Valid 和 Dirty 位, 现在增加一个 <strong>Shared 位来表示对当前缓存行进行写时是否需要通知 (通过互连网络) 其他处理器的缓存</strong>.</p>
+<p>此时缓存行拥有五种状态:</p>
+<ul>
+<li>Shared: 拥有最新的数据, 其他缓存可能拥有该数据的副本, Valid 位和 Shared 位设置为 1.</li>
+<li>Modified: 拥有最新的数据, 已写, 其他处理器的缓存拥有副本, 内存中的数据已过时, Valid 位和 Dirty 位设置为 1.</li>
+<li>Exclusive: 拥有最新的数据, 其他处理器的缓存没有副本, 内存中拥有最新的数据, Valid 位为 1.</li>
+<li>Owner: 拥有最新的数据, 其他处理器的缓存拥有副本, 已写, 内存中的数据已过时, Valid 位、Dirty 位和 Shared 位设置为 1.</li>
+<li>Invalid: 拥有的数据已过时, Valid 位设置为 0.</li>
+</ul>
+<p>各个状态之间的转换如下:</p>
+<p><img src="/img/20221120201234.png" alt=""></p>
+<p>各个位所对应的状态如下:</p>
+<p><img src="/img/20221120201415.png" alt=""></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></div><div class="post_share"><div class="social-share" data-image="/img/cover16.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/11/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BC%93%E5%AD%98/" title="缓存"><img class="cover" src="/img/cover1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">缓存</div></div></a></div><div class="next-post pull-right"><a href="/2023/11/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/CMOS-%E6%99%B6%E4%BD%93%E7%AE%A1/" title="CMOS 晶体管"><img class="cover" src="/img/cover15.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CMOS 晶体管</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/11/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/CMOS-%E6%99%B6%E4%BD%93%E7%AE%A1/" title="CMOS 晶体管"><img class="cover" src="/img/cover15.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-24</div><div class="title">CMOS 晶体管</div></div></a></div><div><a href="/2023/11/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/I-O/" title="I&#x2F;O"><img class="cover" src="/img/cover19.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-24</div><div class="title">I&#x2F;O</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/head.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Wangrd</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">117</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/WRD123789" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2239646965@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">处理器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81"><span class="toc-number">1.1.</span> <span class="toc-text">状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E5%91%A8%E6%9C%9F%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">1.2.</span> <span class="toc-text">单周期处理器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E6%8E%A7%E5%88%B6%E5%8D%95%E5%85%83"><span class="toc-number">1.3.</span> <span class="toc-text">逻辑控制单元</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E6%97%B6%E5%BA%8F"><span class="toc-number">1.4.</span> <span class="toc-text">指令时序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD"><span class="toc-number">1.5.</span> <span class="toc-text">性能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU-%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="toc-number">1.6.</span> <span class="toc-text">CPU 流水线</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%BD%A2%E5%BC%8F%E9%A3%8E%E9%99%A9"><span class="toc-number">1.6.1.</span> <span class="toc-text">流水线形式风险</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%94%AF%E9%A2%84%E6%B5%8B"><span class="toc-number">1.7.</span> <span class="toc-text">分支预测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E6%A0%B8%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">1.8.</span> <span class="toc-text">多核处理器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MOESI-%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.9.</span> <span class="toc-text">MOESI 协议</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/I-O/" title="I/O"><img src="/img/cover19.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="I/O"/></a><div class="content"><a class="title" href="/2023/11/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/I-O/" title="I/O">I/O</a><time datetime="2023-11-24T08:10:18.000Z" title="发表于 2023-11-24 16:10:18">2023-11-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" title="虚拟内存"><img src="/img/cover17.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="虚拟内存"/></a><div class="content"><a class="title" href="/2023/11/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" title="虚拟内存">虚拟内存</a><time datetime="2023-11-24T08:08:56.000Z" title="发表于 2023-11-24 16:08:56">2023-11-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="操作系统"><img src="/img/cover8.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统"/></a><div class="content"><a class="title" href="/2023/11/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="操作系统">操作系统</a><time datetime="2023-11-24T08:07:53.000Z" title="发表于 2023-11-24 16:07:53">2023-11-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86/" title="并行处理"><img src="/img/cover23.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并行处理"/></a><div class="content"><a class="title" href="/2023/11/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86/" title="并行处理">并行处理</a><time datetime="2023-11-24T08:05:32.000Z" title="发表于 2023-11-24 16:05:32">2023-11-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BC%93%E5%AD%98/" title="缓存"><img src="/img/cover1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="缓存"/></a><div class="content"><a class="title" href="/2023/11/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BC%93%E5%AD%98/" title="缓存">缓存</a><time datetime="2023-11-24T08:03:56.000Z" title="发表于 2023-11-24 16:03:56">2023-11-24</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wangrd</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div></div></body></html>
