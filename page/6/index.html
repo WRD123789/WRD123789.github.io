@@ -51,7 +51,7 @@
   isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2023-11-23 22:37:13'
+  postUpdate: '2023-11-24 15:46:06'
 }</script><script>(win=>{
       win.saveToLocal = {
         set: (key, value, ttl) => {
@@ -148,251 +148,116 @@
         }
       }
       detectApple()
-    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/head.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">90</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/img/index_img.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Wangrd's Blog"><span class="site-name">Wangrd's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Wangrd's Blog</h1><div id="site_social_icons"><a class="social-icon" href="https://github.com/WRD123789" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2239646965@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/Java/Java-%E9%9D%99%E6%80%81%E5%88%86%E6%B4%BE%E4%B8%8E%E5%8A%A8%E6%80%81%E5%88%86%E6%B4%BE/" title="Java 静态分派与动态分派"><img class="post-bg" src="/img/cover9.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 静态分派与动态分派"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E9%9D%99%E6%80%81%E5%88%86%E6%B4%BE%E4%B8%8E%E5%8A%A8%E6%80%81%E5%88%86%E6%B4%BE/" title="Java 静态分派与动态分派">Java 静态分派与动态分派</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:05:08.000Z" title="发表于 2023-11-23 20:05:08">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">静态分派与动态分派
-静态类型与动态类型
-静态类型: 定义变量时声明的类型, 在编译阶段就可知.
-动态类型: 变量赋值时的实际类型, 在编译阶段不可知.
-例如:
-123456public static void main(String[] args) &#123;	LivingThing lt1;	lt1 = new Fox();	Animal a1 = lt1;	Fox h1 = a1;&#125;
-上述代码的静态类型和动态类型的情况如下表所示:
-
-
-
-变量
-静态类型
-动态类型
-
-
-
-
-lt1
-Animal
-Fox
-
-
-a1
-Animal
-Fox
-
-
-h1
-Fox
-Fox
-
-
-
-上述代码中, 静态类型为声明时的类型, 动态类型通过 new 或赋值获得.
-静态分派
-当发生方法重载时, 根据变量的静态类型来匹配调用方法的过程称为静态分派.
-例如:
-123456public interface List61B &#123;      ...	default public void print(double x) &#123;		System.out.println(&quot;It is L ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/Java/Java-%E6%B3%9B%E5%9E%8B/" title="Java 泛型"><img class="post-bg" src="/img/cover10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 泛型"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E6%B3%9B%E5%9E%8B/" title="Java 泛型">Java 泛型</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:02:23.000Z" title="发表于 2023-11-23 20:02:23">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">泛型
-泛型允许创建支持任何类型输入的其他.
-
-泛型能够将类型参数化, 也就是说可以把类型当作一个参数传递给一个类或者一个方法.
-泛型提供了一种类型检测机制, 只有类型相匹配的数据才能正常赋值, 使得软件的安全性有所提高.
-泛型提高了程序代码的可读性, 使得程序员能够知道代码要操作的数据类型.
-
-泛型类
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/head.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">103</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/img/index_img.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Wangrd's Blog"><span class="site-name">Wangrd's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Wangrd's Blog</h1><div id="site_social_icons"><a class="social-icon" href="https://github.com/WRD123789" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2239646965@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/C++/%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" title="命名空间"><img class="post-bg" src="/img/cover21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="命名空间"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/C++/%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" title="命名空间">命名空间</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:46:56.000Z" title="发表于 2023-11-23 20:46:56">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/C/">C++</a></span></div><div class="content">命名空间
 定义
-123public class Test&lt;T&gt; &#123;	T field1;&#125;
-上述代码中 “&lt; &gt;” 所包含的 T 被称为类型参数, 用于指代任何类型.
-如果一个类被 &lt;T&gt; 所修饰, 则该类被称为泛型类.
-但一般使用单个大写字母来表示类型参数.
-常见的如下:
+在 C++ 中, 命名空间 (namespace) 是一种用于组织代码的机制, 它可以防止名称冲突和命名重复. 命名空间可以将全局作用域内的一组变量、函数、类等实体组织在一起, 使得它们在不同的作用域 (不同的上下文) 中具有独立的标识符.
+通过将相关的实体放置在命名空间中, 可以确保这些实体的名称不会与其他命名空间或全局作用域中的实体名称冲突, 从而提高了代码的可维护性和可读性.
+命名空间的定义形式如下所示:
+123namespace namespace_name &#123;	// 实体的定义&#125;
+特性
+命名空间的特性如下所示:
 
-T 表示一般的任何类
-E 表示元素 (Element) 或异常 (Exception).
-K 表示键 (Key).
-V 表示值 (Value), 通常与 K 一起使用.
+只能在全局范围内定义, 例如, 以下为错误示例: 12345678void test() &#123;	// 局部定义命名空间不可取	namespace A &#123;		int a = 10;	&#125;	cout &lt;&lt; A::a &lt;&lt; endl;&#125;
 
-创建
-12Test&lt;String&gt; test1 = new Test&lt;&gt;();Test&lt;Integer&gt; test2 = new Test&lt;&gt;();
-创建 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/Java/Java-%E5%8C%85/" title="Java 包"><img class="post-bg" src="/img/cover24.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 包"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E5%8C%85/" title="Java 包">Java 包</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T11:59:49.000Z" title="发表于 2023-11-23 19:59:49">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">包
-Java 中要求文件名和类名相同, 所以将多个类放在一起时, 很可能出现文件名冲突的情况, 这时 Java 提供一种解决该问题的方法, 那就是使用包将类进行分组.
-作用
+命名空间可以嵌套定义, 例如: 123456789101112namespace A &#123;	int a = 1000;	namesp ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/C++/%E6%A8%A1%E6%9D%BF/" title="模板"><img class="post-bg" src="/img/cover11.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="模板"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/C++/%E6%A8%A1%E6%9D%BF/" title="模板">模板</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:44:44.000Z" title="发表于 2023-11-23 20:44:44">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/C/">C++</a></span></div><div class="content">模板
+类模板
+类模板是 C++ 中一种通用的类定义形式, 允许创建可以适用于多种数据类型的类, 这些类型参数可以在类实例化时被指定为具体的数据类型.
+类模板的定义形式如下所示:
+1234template &lt;typename T&gt;class ClassName &#123;	...&#125;
 
-将功能相近的类放在同一个包中, 方便查找和使用.
-由于在不同包中可以存在同名类, 所以使用包在一定程度上避免了命名的冲突.
-在Java中某些访问权限以包为单位.
+在上述定义中, T 是一个类型参数, 可以在类中用于表示一个通用的数据类型. 当我们实例化类模板时, 需要指定 T 的具体数据类型, 这样编译器会根据指定的类型生成一个具体的类.
 
-创建包
-在类的源文件的顶端使用 package 语句实现包的创建:
-1package 包名;
-包的使用
-
-
-使用长名引用包中的类只需要在每个类名前加上完整的包名即可. 例如, 创建 Round 类（保存在 com.lzw 包中）的对象实例化该对象的代码如下:
-  1com.law.Round round = new com.lzw.Round();
-
-
-使用 import 语句导入包中的类
-
-语法结构如下:
-
-  1import 包名1[.包名2.……].类名|*;
-
-
-当存在多个包时, 各个包之间用 “.” 分隔, 包和类名之间也用 “.” 分隔.
-例如: 引入 com.lzw 包中 Round 类的代码如下:
-  1import com.lzw.R ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/Java/Java-%E6%B5%8B%E8%AF%95/" title="Java 测试"><img class="post-bg" src="/img/cover5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 测试"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E6%B5%8B%E8%AF%95/" title="Java 测试">Java 测试</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T11:57:54.000Z" title="发表于 2023-11-23 19:57:54">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">测试
-流程:
-
-先将大问题化解为数个小问题
-再对每个小问题编写测试
-最后写代码
-
-JUnit
-JUnit 是一个 Java 编程语言编写的单元测试框架, 为简化测试的编写提供了许多有用的方法和功能.
-语法链接: http://junit.org/junit4/javadoc/4.12/org/junit/Assert.html
-测试注释:
-
-在每个测试方法前面加上 @org.junit.Test (没有分号).
-将每个测试方法更改为为非静态的 (即去掉关键字 static).
-从 Test 类中删除 main 方法.
-
-此时运行代码时所有测试都会执行, 而无需手动调用.
-导入库: 在文件的顶端添加 import static org.junit.Assert.*, 此时可以省略 org.junit.Assert. , 例如: 此时org.junit.Assert.assertEquals(expected, actual) 可以写成 assertEquals(expected, actual).
-</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/Java/Java-%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="Java 字符串"><img class="post-bg" src="/img/cover6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 字符串"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="Java 字符串">Java 字符串</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T11:56:07.000Z" title="发表于 2023-11-23 19:56:07">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">字符串
-当比较两个字符串大小的时候, 不能直接用运算符 &lt;, &gt;, ==, 而应当使用 str1.compareTo(str2)
-compareTo 方法返回值:
-
-如果 str1 &lt; str2, 返回负数.
-如果 str1 == str2, 返回0.
-如果 str1 &gt; str2, 返回正数.
-
-在 Java 中进行字符串连接时, 如果直接在字符串后面直接追加元素, 会直接创建一个新的字符串, 这需要大量时间.
 例如:
-123456789public String toString() &#123;    String returnString = &quot;&#123;&quot;;    for (int i = 0; i &lt; size; i += 1) &#123;        returnString += keys[i];        returnString += &quot;, &quot;;    &#125;    returnString += &quot;&#125;&quot;;    return returnString ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/Java/Java-%E6%9E%9A%E4%B8%BE/" title="Java 枚举"><img class="post-bg" src="/img/cover12.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 枚举"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E6%9E%9A%E4%B8%BE/" title="Java 枚举">Java 枚举</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T11:55:11.000Z" title="发表于 2023-11-23 19:55:11">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">枚举
-当在 Java 中需要一个固定数量的常量集合时, 可以使用枚举类型 (enum), 枚举类型是 Java 语言中一种特殊的类, 它被用来表示一个固定的值集合, 这些值在整个程序中是不可变的
-12345678910public enum Month &#123;     JANUARY, FEBRUARY, MARCH, APRIL,     MAY, JUNE, JULY, AUGUST,     SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER;&#125;public enum PenColor &#123;     BLACK, GRAY, RED, PINK, ORANGE,     YELLOW, GREEN, CYAN, BLUE, MAGENTA;&#125;
-枚举常量默认是 public static final 修饰的, 所以可以通过类名直接访问它们:
-12PenColor color = PenColor.RED;System.out.println(color);
-相比与用数字或字符串来表示一组有限的值, 用枚举类型更加安全, 它 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/Java/Java-%E9%9B%86%E5%90%88/" title="Java 集合"><img class="post-bg" src="/img/cover24.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 集合"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E9%9B%86%E5%90%88/" title="Java 集合">Java 集合</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T11:53:06.000Z" title="发表于 2023-11-23 19:53:06">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">集合
-列表
+12345678910111213141516171819202122template&lt;typename T&gt;class complex&#123;public:	complex (T r = 0, T i = 0)		: re (r), im (i)	&#123; &#125;	complex&amp; operator += (const complex&amp;);	T real () const &#123; return re; &#125;	T imag () const  ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/C++/%E5%A0%86%E3%80%81%E6%A0%88%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="堆、栈与内存管理"><img class="post-bg" src="/img/cover11.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="堆、栈与内存管理"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/C++/%E5%A0%86%E3%80%81%E6%A0%88%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="堆、栈与内存管理">堆、栈与内存管理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:43:06.000Z" title="发表于 2023-11-23 20:43:06">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/C/">C++</a></span></div><div class="content">堆、栈与内存管理
+堆
+在 C++ 中, 堆是一种用于动态分配内存的区域, 也称为自由存储区. 与栈不同, 堆的分配和释放不受程序的作用域限制, 允许在运行时动态地分配和释放内存.
+与栈不同, 堆的内存分配和释放需要手动进行. 程序员需要显式地使用特定的操作符来分配和释放堆上的内存.
+堆的大小不受限制, 通常比栈的空间更大. 堆的大小取决于系统的可用内存.
+在C++中, 使用 new 操作符来在堆上分配内存, 返回一个指向分配的内存块的指针. 使用 delete 操作符来释放先前分配的堆内存, 以防止内存泄漏.
+例如:
+12345678910int main() &#123;	int* ptr = new int; // 在堆上分配一个整数内存块	*ptr = 20;          // 将值存储到堆上新分配的内存块中	cout &lt;&lt; *ptr &lt;&lt; endl; // 输出: 20	delete ptr; // 释放 `ptr` 指向的堆上分配的内存块	return 0;&#125;
+使用堆时应谨慎管理内存, 确保分配和释放内存的操作成对出现, 并避免悬空指针 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/C++/%E4%B8%B4%E6%97%B6%E5%AF%B9%E8%B1%A1/" title="临时对象"><img class="post-bg" src="/img/cover2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="临时对象"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/C++/%E4%B8%B4%E6%97%B6%E5%AF%B9%E8%B1%A1/" title="临时对象">临时对象</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:42:20.000Z" title="发表于 2023-11-23 20:42:20">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/C/">C++</a></span></div><div class="content">临时对象
+临时对象, 也称为匿名对象或临时值, 是在表达式求值期间创建的对象, 它们在表达式结束后立即被销毁.
+临时对象的主要特点如下:
+
+创建方式: 临时对象可以通过在表达式中创建对象并使用其值, 而无需显式命名或分配变量.
+生命周期: 临时对象的生命周期仅限于表达式的求值过程中, 一旦表达式求值完成, 临时对象就会立即被销毁. 它们没有名称, 也不能在表达式之外使用.
+用途: 临时对象通常用于计算表达式结果或作为函数调用的参数.
+
+临时对象的创建和销毁是由编译器自动处理的, 无需显式控制. 编译器在需要临时对象的地方会自动生成临时对象, 并在不再需要时立即销毁.
+例如:
+12345678910int sum(int a, int b) &#123;	return a + b;&#125;int main() &#123;	int result = sum(2, 3);   // 临时对象用作函数调用的参数	double value = 2.0 * 3.0; // 临时对象用于计算表达式结果	return 0;&#125;
+临时对象的使用可以简化代码, 并避免显式定义和管理不必要的中 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/C++/%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92/" title="参数传递"><img class="post-bg" src="/img/cover12.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="参数传递"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/C++/%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92/" title="参数传递">参数传递</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:41:26.000Z" title="发表于 2023-11-23 20:41:26">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/C/">C++</a></span></div><div class="content">参数传递
+值传递
+
+值传递是指将参数的实际值复制一份,   然后传递给函数.
+在值传递中,   函数对参数的修改只在函数内部有效,   不会影响到函数外部的变量.
+
+示例代码:
+12345678910void increment(int x) &#123;	x++;&#125;int main() &#123;	int num = 10;	increment(num);	// num 的值依然是 10,   未被修改	return 0;&#125;
+引用传递
+
+引用传递是指将参数的引用 (内存地址) 传递给函数,   而不是复制参数的值.
+在引用传递中,   函数对参数的修改会直接反映到函数外部的变量上.
+
+示例代码:
+12345678910void increment(int&amp; x) &#123;	x++;&#125;int main() &#123;	int num = 10;	increment(num);	// num 的值变为 11, 被修改	return 0;&#125;
+引用
+引用允许一个已存在的变量作为另一个名称来引用. 引用提供了一个变量的别名,   可以通过 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/C++/%E7%B1%BB/" title="类"><img class="post-bg" src="/img/cover23.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="类"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/C++/%E7%B1%BB/" title="类">类</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:34:56.000Z" title="发表于 2023-11-23 20:34:56">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/C/">C++</a></span></div><div class="content">类
+类的声明
+类的声明  (以 complex 的声明为例) 如下所示:
+1234567891011121314151617181920212223class complex&#123;public:	complex (double r = 0, double i = 0)		: re (r), im (i)	&#123; &#125;	complex&amp; operator += (const complex&amp;);	double real () const &#123; return re; &#125;	double imag () const &#123; return im; &#125;private:	double re, im;	friend complex&amp; __doapl (complex*, const complex&amp;);&#125;;-----------------------------------------------------&#123;	...	complex c1(2, 1);	complex c2;	...&#125 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/C++/%E5%A4%B4%E6%96%87%E4%BB%B6/" title="头文件"><img class="post-bg" src="/img/cover10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="头文件"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/C++/%E5%A4%B4%E6%96%87%E4%BB%B6/" title="头文件">头文件</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:34:00.000Z" title="发表于 2023-11-23 20:34:00">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/C/">C++</a></span></div><div class="content">头文件
+防卫式声明
+C++ 中对头文件进行防卫式声明 (include guard 或 header guard) 是为了防止头文件被重复包含.
 
 
-在 Java 中, List 包含零个或多个对象的有序集合, 其中同一个对象可能出现多次.
+例如:
+  123456#ifndef __HEADER_NAME_H__ #define __HEADER_NAME_H__   // 头文件内容#endif // __HEADER_NAME_H__
 
-
-List 类有以下方法:
-
-计算列表 lst 中元素的数量  1int count = lst.size();
-
-在列表 lst 末尾添加一个元素 e  1lst.add(e);
-
-判断列表 lst 是否为空  1if (lst.isEmpty()) ...
-
-判断列表 lst 是否包含元素 e  1lst.contains(e);
-
-
-
-
-可以用如下形式在快照图中表示 List 对象 cities:
-
-
-
-映射
-
-
-在 Java 中, Map 对象能够将 hashable value 映射到任意对象, 即保存 hashable value 到对象的映射关系.
-
-
-Map 类有以下方法:
-
-在映射 map 中添加映射键 key →\rightarrow→ val  1map.put(key, val);
-
-得到映射 map 中的一个键 key 对应的值  1map.get(key);
-
-测试映射 map 是否拥有键值 key  1map.containsKey(key);
-
- ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/Java/Java-%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8F%AF%E5%8F%98%E7%B1%BB%E5%9E%8B/" title="Java 不可变类型与可变类型"><img class="post-bg" src="/img/cover10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 不可变类型与可变类型"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8F%AF%E5%8F%98%E7%B1%BB%E5%9E%8B/" title="Java 不可变类型与可变类型">Java 不可变类型与可变类型</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T11:52:18.000Z" title="发表于 2023-11-23 19:52:18">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">不可变类型与可变类型
-不可变类型
-
-不可变类型是指一旦对象被创建, 其状态就不能被更改.
-
-
-例如: 在 Java 中, String 类型是不可变类型, 如果我们有一个 String 变量 s, 我们对它进行赋值:
-  12String s = &quot;a&quot;;s = s + &quot;b&quot;;
-这只是重新创建了一个新的 String 类型的 “ab”, 这只会改变变量 s 的引用, 而不会改变原引用中的值:
-
-注: 图中双边框常用来强调对象的不可变性
+当头文件第一次被包含时, 预处理器会定义 _HEADER_NAME_H_ 这个宏, 然后编译器会编译头文件中的代码. 当头文件再次被包含时, 由于已经定义了_HEADER_NAME_H_ 这个宏, 预处理器会跳过头文件中的代码, 从而避免了重复定义的问题.
 
 
 
-在 Java 中, 基本类型如 int、double、char 等也是不可变类型. 但是基本类型的变量存储的是值本身, 而对象类型的变量存储的是引用 (指向对象的内存地址).
-优点
-
-不可变类型的对象是线程安全的, 因为它们不能被修改.
-不可变类型的对象可以被安全地共享, 它们的状态不能被修改.
-
-
-缺点
-
-对不可变类型的变量进行频繁修改会产生大量的临时拷贝.
-
-
-
-可变类型
-
-可变类型是指创建的对象的状态可以修改.
+头文件的布局
+头文件 (Header) 的布局如下所示:
+123456789101112131415161718#ifndef __HEADER_NAME_H__#define __HEADER_NAME_H__------------------------------前置声明 (forward declarations)--------------------------- ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/Java/Java-%E5%BA%8F%E5%88%97%E5%8C%96/" title="Java 序列化"><img class="post-bg" src="/img/cover2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 序列化"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E5%BA%8F%E5%88%97%E5%8C%96/" title="Java 序列化">Java 序列化</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:13:09.000Z" title="发表于 2023-11-23 20:13:09">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">序列化
+Java 通过序列化的方法将 Java 中的对象转换为一系列字节, 这些字节可以存储在文件中, 在需要时, Java 又可以通过反序列化的方法将存储在文件中的字节转化为对象.
+要使某一个类能够序列化, 只需要让该类实现 Serializable 接口, 该接口在 java.io 库中:
+12345import java.io.Serializable;public class Model implements Serializable &#123;	...&#125;
+该接口没有方法, 它只是标记了它的子类型, 以利于一些特殊的Java 类 (例如 ObjectOutputStream 和 ObjectInputStream) 对对象执行 I/O.
+将 m 转化为一个字节流, 并将其存储在文件中:
+12345678910Model m = ....;File outFile = new File(saveFileName);try &#123;    ObjectOutputStream out =        new ObjectOutputStream(new FileO ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/Java/Java-%E6%96%87%E4%BB%B6/" title="Java 文件"><img class="post-bg" src="/img/cover6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 文件"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E6%96%87%E4%BB%B6/" title="Java 文件">Java 文件</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:12:14.000Z" title="发表于 2023-11-23 20:12:14">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">文件
+Java 中常用的文件相关的函数如下:
 
 
-例如: 在 Java 中, StringBuilder (一个 Java 的内嵌类)  ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/11/23/Java/Java-%E7%B1%BB/" title="Java 类"><img class="post-bg" src="/img/cover17.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 类"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E7%B1%BB/" title="Java 类">Java 类</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T11:47:25.000Z" title="发表于 2023-11-23 19:47:25">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">类
-静态/动态
-静态属性、静态方法: 在属性或方法中包含关键字 static, 也称为类属性和类方法, 即可以通过类或实例来调用和访问的方法或属性, 但是静态方法中不能访问动态属性, 因为动态属性是实例的属性.
-动态属性、动态方法: 在属性或方法中不包含关键字 static, 也称为实例属性和实例方法, 即只能通过类的实例来调用和访问的方法或属性.
-访问修饰符
-访问权限主要有以下四种:
-
-默认 (即没有修饰符): 只在自己的包中可见.
-Public:  对所有类都可见.
-Private: 只在当前类中可见.
-Protected: 只在当前包或另一个包中当前类的子类中可见.
+将文件 dummy.txt 绑定到 File 实例 f, 并没有真正创建 dummy.txt 文件
+ 1File f = new File(&quot;dummy.txt&quot;);
 
 
-
-第一列表示类本身是否有权利访问由访问修饰符定义的成员.
-第二列表示当前类所属的包中的类是否有权利访问由访问修饰符定义的成员.
-第三列表示在此包外部声明的该类的子类是否有权访问由访问修饰符定义的成员.
-第四列表示所有类是否有权访问有访问修饰符定义的成员.
-
-嵌套类
-嵌套类分为两种:
+正式创建 f 所绑定的文件
+ 1f.createNewFile();
 
 
-非静态嵌套类: 可以访问其封闭类的任何成员, 即静态属性、静态方法、动态属性和动态方法, 包括以私有修饰符 Private 修饰 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/Java/Java-%E7%BC%96%E8%AF%91/" title="Java 编译"><img class="post-bg" src="/img/cover1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 编译"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E7%BC%96%E8%AF%91/" title="Java 编译">Java 编译</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T11:46:45.000Z" title="发表于 2023-11-23 19:46:45">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">编译
-终端执行:
+检查 f 所绑定的文件是否存在
+ 1f.exists();
 
 
-要运行 xxx.java 文件, 需要两步:
+正式创建 d 所绑定的文件夹
+ 12File d = new File(&quot;dummy&quot;);d.mkdir();
 
-javac xxx.java
-java xxx
-
-
-
-其中第一步会产生一个 xxx.class 文件
-
-
-运行 .java 文件其实如下图所示:
-
-
-
-将 xxx.java 文件给编译器, 生成其类文件, 即 xxx.class 文件, 然后再将该类文件给解释器, 解释器执行相应的事件.
-
-
-生成类文件原因:
-
-.class 文件经过变量的类型检查, 将经过类型检查的 .class 文件交给客户更安全, 可以减少错误.
-.class 文件更容易被机器执行, 所以 .class 文件执行更快.
-可以保护知识产权, 使别人无法知道你的代码实现 (因为交给别人的是 .class 文件而不是 .java 文件).
-
-</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/5/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/#content-inner">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/#content-inner">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/#content-inner">9</a><a class="extend next" rel="next" href="/page/7/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/head.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Wangrd</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">90</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/WRD123789" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2239646965@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/LeetCode/%E5%85%B6%E4%BB%96/%E9%87%8D%E6%9E%84%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="LeetCode 767. 重构字符串"><img src="/img/cover21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode 767. 重构字符串"/></a><div class="content"><a class="title" href="/2023/11/23/LeetCode/%E5%85%B6%E4%BB%96/%E9%87%8D%E6%9E%84%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="LeetCode 767. 重构字符串">LeetCode 767. 重构字符串</a><time datetime="2023-11-23T14:18:42.000Z" title="发表于 2023-11-23 22:18:42">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/LeetCode/%E5%85%B6%E4%BB%96/%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2/" title="LeetCode3. 无重复字符的最长子串"><img src="/img/cover21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode3. 无重复字符的最长子串"/></a><div class="content"><a class="title" href="/2023/11/23/LeetCode/%E5%85%B6%E4%BB%96/%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2/" title="LeetCode3. 无重复字符的最长子串">LeetCode3. 无重复字符的最长子串</a><time datetime="2023-11-23T14:17:36.000Z" title="发表于 2023-11-23 22:17:36">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/LeetCode/%E5%85%B6%E4%BB%96/%E5%90%88%E5%B9%B6K%E4%B8%AA%E5%8D%87%E5%BA%8F%E9%93%BE%E8%A1%A8/" title="LeetCode 23. 合并 K 个升序链表"><img src="/img/cover22.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode 23. 合并 K 个升序链表"/></a><div class="content"><a class="title" href="/2023/11/23/LeetCode/%E5%85%B6%E4%BB%96/%E5%90%88%E5%B9%B6K%E4%B8%AA%E5%8D%87%E5%BA%8F%E9%93%BE%E8%A1%A8/" title="LeetCode 23. 合并 K 个升序链表">LeetCode 23. 合并 K 个升序链表</a><time datetime="2023-11-23T14:16:25.000Z" title="发表于 2023-11-23 22:16:25">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/LeetCode/%E5%85%B6%E4%BB%96/%E4%B8%B2%E8%81%94%E6%89%80%E6%9C%89%E5%8D%95%E8%AF%8D%E7%9A%84%E5%AD%90%E4%B8%B2/" title="LeetCode30. 串联所有单词的子串"><img src="/img/cover2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode30. 串联所有单词的子串"/></a><div class="content"><a class="title" href="/2023/11/23/LeetCode/%E5%85%B6%E4%BB%96/%E4%B8%B2%E8%81%94%E6%89%80%E6%9C%89%E5%8D%95%E8%AF%8D%E7%9A%84%E5%AD%90%E4%B8%B2/" title="LeetCode30. 串联所有单词的子串">LeetCode30. 串联所有单词的子串</a><time datetime="2023-11-23T14:14:10.000Z" title="发表于 2023-11-23 22:14:10">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/23/LeetCode/%E6%8E%92%E5%BA%8F/%E7%85%8E%E9%A5%BC%E6%8E%92%E5%BA%8F/" title="LeetCode969. 煎饼排序"><img src="/img/cover6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode969. 煎饼排序"/></a><div class="content"><a class="title" href="/2023/11/23/LeetCode/%E6%8E%92%E5%BA%8F/%E7%85%8E%E9%A5%BC%E6%8E%92%E5%BA%8F/" title="LeetCode969. 煎饼排序">LeetCode969. 煎饼排序</a><time datetime="2023-11-23T14:13:17.000Z" title="发表于 2023-11-23 22:13:17">2023-11-23</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/11/23/Java/Java-%E8%BF%AD%E4%BB%A3%E5%99%A8/" title="Java 迭代器"><img class="post-bg" src="/img/cover13.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 迭代器"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/11/23/Java/Java-%E8%BF%AD%E4%BB%A3%E5%99%A8/" title="Java 迭代器">Java 迭代器</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T12:10:45.000Z" title="发表于 2023-11-23 20:10:45">2023-11-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/Java/">Java</a></span></div><div class="content">迭代器
+迭代器能够遍历并取出可迭代对象 (可迭代对象拥有 iterable 方法, 可以返回一个指向自身的迭代器) 的每个元素.
+想要打印集合中每个元素可以用下述方法:
+123456Set&lt;String&gt; s = new HashSet&lt;&gt;();s.add(&quot;Tokyo&quot;);s.add(&quot;Lagos&quot;);for (String city : s) &#123;    System.out.println(city);&#125;
+123for (String city : s) &#123;    System.out.println(city);&#125;
+其中此块代码其实是下述代码的简化版:
+12345Iterator&lt;String&gt; seer = s.iterator();while (seer.hasNext()) &#123;    String city = seer.next();    ...&#125;
+其中 Iterator 为 Java 内置的迭代器接口, s.iterator() 返回 ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/5/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/#content-inner">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/#content-inner">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/#content-inner">11</a><a class="extend next" rel="next" href="/page/7/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/head.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Wangrd</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">103</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/WRD123789" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2239646965@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%8E%8B%E7%BC%A9/" title="压缩"><img src="/img/cover19.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="压缩"/></a><div class="content"><a class="title" href="/2023/11/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%8E%8B%E7%BC%A9/" title="压缩">压缩</a><time datetime="2023-11-24T07:31:38.000Z" title="发表于 2023-11-24 15:31:38">2023-11-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%8E%92%E5%BA%8F/" title="排序"><img src="/img/cover11.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="排序"/></a><div class="content"><a class="title" href="/2023/11/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%8E%92%E5%BA%8F/" title="排序">排序</a><time datetime="2023-11-24T07:22:09.000Z" title="发表于 2023-11-24 15:22:09">2023-11-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%AD%97%E5%85%B8%E6%A0%91/" title="字典树"><img src="/img/cover5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="字典树"/></a><div class="content"><a class="title" href="/2023/11/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%AD%97%E5%85%B8%E6%A0%91/" title="字典树">字典树</a><time datetime="2023-11-24T07:20:59.000Z" title="发表于 2023-11-24 15:20:59">2023-11-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E8%8C%83%E5%9B%B4%E6%90%9C%E7%B4%A2%E4%B8%8E%E5%A4%9A%E7%BB%B4%E6%95%B0%E6%8D%AE/" title="范围搜索与多维数据"><img src="/img/cover16.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="范围搜索与多维数据"/></a><div class="content"><a class="title" href="/2023/11/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E8%8C%83%E5%9B%B4%E6%90%9C%E7%B4%A2%E4%B8%8E%E5%A4%9A%E7%BB%B4%E6%95%B0%E6%8D%AE/" title="范围搜索与多维数据">范围搜索与多维数据</a><time datetime="2023-11-24T07:20:03.000Z" title="发表于 2023-11-24 15:20:03">2023-11-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE/" title="图"><img src="/img/cover13.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图"/></a><div class="content"><a class="title" href="/2023/11/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE/" title="图">图</a><time datetime="2023-11-24T07:18:07.000Z" title="发表于 2023-11-24 15:18:07">2023-11-24</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
             <i class="fas fa-folder-open"></i>
             <span>分类</span>
             <a class="card-more-btn" href="/categories/" title="查看更多">
     <i class="fas fa-angle-right"></i></a>
             </div>
             <ul class="card-category-list" id="aside-cat-list">
-            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/"><span class="card-category-list-name">笔记</span><span class="card-category-list-count">90</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/C/"><span class="card-category-list-name">C</span><span class="card-category-list-count">10</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/C/"><span class="card-category-list-name">C++</span><span class="card-category-list-count">13</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/CGDB/"><span class="card-category-list-name">CGDB</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/CMake/"><span class="card-category-list-name">CMake</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/Git/"><span class="card-category-list-name">Git</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/Java/"><span class="card-category-list-name">Java</span><span class="card-category-list-count">16</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/"><span class="card-category-list-name">LeetCode</span><span class="card-category-list-count">27</span></a></li></ul></li>
-            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 1.23em; color: #999ea6">软件工程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 1.1em; color: #999">动态规划</a> <a href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" style="font-size: 1.37em; color: #99a4b2">双指针</a> <a href="/tags/C/" style="font-size: 1.41em; color: #99a5b7">C++</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/%E5%BE%AE%E7%A7%AF%E5%88%86/" style="font-size: 1.23em; color: #999ea6">微积分</a> <a href="/tags/%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88/" style="font-size: 1.14em; color: #999b9d">快慢指针</a> <a href="/tags/LeetCode/" style="font-size: 1.5em; color: #99a9bf">LeetCode</a> <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" style="font-size: 1.14em; color: #999b9d">位运算</a> <a href="/tags/Git/" style="font-size: 1.23em; color: #999ea6">Git</a> <a href="/tags/%E5%88%86%E6%B2%BB/" style="font-size: 1.1em; color: #999">分治</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E9%81%8D%E5%8E%86/" style="font-size: 1.28em; color: #99a0aa">深度优先遍历</a> <a href="/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" style="font-size: 1.1em; color: #999">二分查找</a> <a href="/tags/CGDB/" style="font-size: 1.1em; color: #999">CGDB</a> <a href="/tags/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/" style="font-size: 1.19em; color: #999da1">离散数学</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 1.1em; color: #999">计算机网络</a> <a href="/tags/CMake/" style="font-size: 1.1em; color: #999">CMake</a> <a href="/tags/%E5%8D%95%E8%B0%83%E6%A0%88/" style="font-size: 1.19em; color: #999da1">单调栈</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 1.1em; color: #999">排序</a> <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="font-size: 1.14em; color: #999b9d">滑动窗口</a> <a href="/tags/Java/" style="font-size: 1.46em; color: #99a7bb">Java</a> <a href="/tags/C/" style="font-size: 1.32em; color: #99a2ae">C</a> <a href="/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" style="font-size: 1.14em; color: #999b9d">深入理解计算机系统</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">90</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">90</div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-11-23T14:37:12.391Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wangrd</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"></div></div></body></html>
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/"><span class="card-category-list-name">笔记</span><span class="card-category-list-count">103</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/C/"><span class="card-category-list-name">C</span><span class="card-category-list-count">10</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/C/"><span class="card-category-list-name">C++</span><span class="card-category-list-count">13</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/CGDB/"><span class="card-category-list-name">CGDB</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/CMake/"><span class="card-category-list-name">CMake</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/Git/"><span class="card-category-list-name">Git</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/Java/"><span class="card-category-list-name">Java</span><span class="card-category-list-count">16</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/LeetCode/"><span class="card-category-list-name">LeetCode</span><span class="card-category-list-count">27</span></a></li></ul></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/Java/" style="font-size: 1.46em; color: #99a7bb">Java</a> <a href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" style="font-size: 1.37em; color: #99a4b2">双指针</a> <a href="/tags/C/" style="font-size: 1.32em; color: #99a2ae">C</a> <a href="/tags/C/" style="font-size: 1.41em; color: #99a5b7">C++</a> <a href="/tags/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/" style="font-size: 1.19em; color: #999da1">离散数学</a> <a href="/tags/CMake/" style="font-size: 1.1em; color: #999">CMake</a> <a href="/tags/%E5%BE%AE%E7%A7%AF%E5%88%86/" style="font-size: 1.23em; color: #999ea6">微积分</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 1.41em; color: #99a5b7">数据结构</a> <a href="/tags/Git/" style="font-size: 1.23em; color: #999ea6">Git</a> <a href="/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" style="font-size: 1.14em; color: #999b9d">深入理解计算机系统</a> <a href="/tags/%E5%8D%95%E8%B0%83%E6%A0%88/" style="font-size: 1.19em; color: #999da1">单调栈</a> <a href="/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" style="font-size: 1.1em; color: #999">二分查找</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 1.1em; color: #999">计算机网络</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 1.1em; color: #999">排序</a> <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" style="font-size: 1.14em; color: #999b9d">位运算</a> <a href="/tags/LeetCode/" style="font-size: 1.5em; color: #99a9bf">LeetCode</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 1.1em; color: #999">动态规划</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 1.23em; color: #999ea6">软件工程</a> <a href="/tags/%E5%88%86%E6%B2%BB/" style="font-size: 1.1em; color: #999">分治</a> <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="font-size: 1.14em; color: #999b9d">滑动窗口</a> <a href="/tags/%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88/" style="font-size: 1.14em; color: #999b9d">快慢指针</a> <a href="/tags/CGDB/" style="font-size: 1.1em; color: #999">CGDB</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E9%81%8D%E5%8E%86/" style="font-size: 1.28em; color: #99a0aa">深度优先遍历</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">103</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">103</div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-11-24T07:46:05.333Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wangrd</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"></div></div></body></html>
