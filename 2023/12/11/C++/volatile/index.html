@@ -1,0 +1,193 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>C++ volatile | Wangrd's Blog</title><meta name="author" content="Wangrd"><meta name="copyright" content="Wangrd"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="volatile 单词 volatile 在词典中的定义是: 1A situation that is volatile is likely to change suddenly and unexpectedly. 其中有三个关键:  likely: 可能的. 这意味着被 volatile 形容的对象「有可能也有可能不」发生改变, 因此我们不能对这样的对象的状态做出任何假设. suddenly:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ volatile">
+<meta property="og:url" content="http://example.com/2023/12/11/C++/volatile/index.html">
+<meta property="og:site_name" content="Wangrd&#39;s Blog">
+<meta property="og:description" content="volatile 单词 volatile 在词典中的定义是: 1A situation that is volatile is likely to change suddenly and unexpectedly. 其中有三个关键:  likely: 可能的. 这意味着被 volatile 形容的对象「有可能也有可能不」发生改变, 因此我们不能对这样的对象的状态做出任何假设. suddenly:">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/cover14.png">
+<meta property="article:published_time" content="2023-12-11T06:03:24.000Z">
+<meta property="article:modified_time" content="2023-12-11T06:05:54.612Z">
+<meta property="article:author" content="Wangrd">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/cover14.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/12/11/C++/volatile/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'C++ volatile',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-12-11 14:05:54'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/head.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">163</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover14.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Wangrd's Blog"><span class="site-name">Wangrd's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">C++ volatile</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-12-11T06:03:24.000Z" title="发表于 2023-12-11 14:03:24">2023-12-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-12-11T06:05:54.612Z" title="更新于 2023-12-11 14:05:54">2023-12-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/C/">C++</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>volatile</h1>
+<p>单词 volatile 在词典中的定义是:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A situation that is volatile is likely to change suddenly and unexpectedly.</span><br></pre></td></tr></table></figure>
+<p>其中有三个关键:</p>
+<ul>
+<li>likely: 可能的. 这意味着被 volatile 形容的对象「有可能也有可能不」发生改变, 因此我们不能对这样的对象的状态做出任何假设.</li>
+<li>suddenly: 突然地. 这意味着被 volatile 形容的对象可能发生瞬时改变.</li>
+<li>unexpectedly: 不可预期地. 意味着被 volatile 形容的对象可能以各种不可预期的方式发生更改.</li>
+</ul>
+<p>因此, volatile 其实就是告诉我们, 被它修饰的对象出现任何情况都不要奇怪, 我们不能对它们做任何假设.</p>
+<p>在 C/C++ 编程语言中, <strong><code>volatile</code> 关键字用来提醒编译器使用 <code>volatile</code> 声明的变量可能因为收到程序之外因素的影响而改变</strong>.</p>
+<p>例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">volatile</span> <span class="type">int</span> *p = <span class="comment">/* ... */</span>;</span><br><span class="line"><span class="type">int</span> a, b;</span><br><span class="line">a = *p;</span><br><span class="line">b = *p;</span><br></pre></td></tr></table></figure>
+<p>若忽略 <code>volatile</code>, 那么 <code>p</code> 就只是一个「指向 <code>int</code> 类型的指针」. 这样执行 <code>a = *p;</code> 和 <code>b = *p;</code> 这两条语句时, 就只需要从内存 / 缓存中读取一次值即可, 因为从内存 / 缓存中读取一次值之后, CPU 的寄存器中就已经暂存了这个值, 第二次直接复用寄存器中的值即可, 这是编译器优化后的结果. 但这种优化完全基于一个假设: 我们在代码里没有改变 <code>p</code> 指向内存地址的值, 那么这个值就一定不会发生改变.</p>
+<p>但是, 由于 MMIP (Memory mapped I/O) 的存在, 这个假设不一定成立. 假设 <code>p</code> 指向的内存映射到一个 I/O 设备的寄存器, 那么当这个 I/O 设备的状态发生变化时, <code>p</code> 指向的内存地址中的值也会发生变化.</p>
+<p>因此编译器在代码编译时不应当对被 <code>volatile</code> 修饰的变量进行激进的优化, 即<strong>编译器不能做任何假设和推理, 应当按部就班地与内存 / 缓存进行交互</strong>.</p>
+<p>另外, <strong><code>volatile</code> 能够保证被 <code>volatile</code> 修饰的变量之间的顺序不会被编译器进行乱序优化</strong>, 但是不能保证 <code>volatile</code> 变量和非 <code>volatile</code> 变量之间的顺序不会被编译器进行乱序优化, 并且 <strong><code>volatile</code> 并不能确保在运行时 CPU 不会对这些访问进行乱序执行</strong>.</p>
+<p><code>volatile</code> 不能解决多线程中的问题. 考虑以下伪代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// global shared data</span></span><br><span class="line"><span class="type">bool</span> flag = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">thread1</span>() &#123;</span><br><span class="line">    flag = <span class="literal">false</span>;</span><br><span class="line">    Type* value = <span class="keyword">new</span> <span class="built_in">Type</span>(<span class="comment">/* parameters */</span>);</span><br><span class="line">    <span class="built_in">thread2</span>(value);</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (flag == <span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="built_in">apply</span>(value);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    thread2.<span class="built_in">join</span>();</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">nullptr</span> != value) &#123; <span class="keyword">delete</span> value; &#125;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">thread2</span>(Type* value) &#123;</span><br><span class="line">    <span class="comment">// do some evaluations</span></span><br><span class="line">    value-&gt;<span class="built_in">update</span>(<span class="comment">/* parameters */</span>);</span><br><span class="line">    flag = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>显然, 这段代码存在一定的问题:</p>
+<ol>
+<li>在 thread1 中, <code>flag = false</code> 和 <code>while</code> 死循环之间没有任何代码对 <code>flag</code> 的值做出修改, 因此编译器可能推断 <code>flag == true</code> 永远不会成立, 而选择将 <code>if (flag == true)</code> 中的内容优化掉.</li>
+<li>在 thread2 中, 尽管 <code>update</code> 需要发生在 <code>flag = true</code> 之前, 但是编译器可能对这两条语句进行乱序优化, 使得 <code>flag = true</code> 执行在 <code>update</code> 之前, 这会导致 thread1 中执行 <code>apply(value)</code> 时, thread2 还未执行 <code>update</code>.</li>
+</ol>
+<p>此时假设我们将 <code>flag</code> 声明为 <code>volatile</code>:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// global shared data</span></span><br><span class="line"><span class="keyword">volatile</span> <span class="type">bool</span> flag = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">thread1</span>() &#123;</span><br><span class="line">    flag = <span class="literal">false</span>;</span><br><span class="line">    Type* value = <span class="keyword">new</span> <span class="built_in">Type</span>(<span class="comment">/* parameters */</span>);</span><br><span class="line">    <span class="built_in">thread2</span>(value);</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (flag == <span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="built_in">apply</span>(value);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    thread2.<span class="built_in">join</span>();</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">nullptr</span> != value) &#123; <span class="keyword">delete</span> value; &#125;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">thread2</span>(Type* value) &#123;</span><br><span class="line">    <span class="comment">// do some evaluations</span></span><br><span class="line">    value-&gt;<span class="built_in">update</span>(<span class="comment">/* parameters */</span>);</span><br><span class="line">    flag = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时由于 <code>flag == true</code> 是对 <code>volatile</code> 变量的访问, 因此不会优化掉 <code>if(flag == true)</code> 中的内容. 但是由于 <code>value</code> 不被 <code>volatile</code> 修饰, 因此在 thread2 中仍可能对 <code>flag = true</code> 和 <code>update</code> 语句进行乱序优化. 此外, 由于 <code>volatile</code> 禁止了编译器对 <code>flag</code> 的优化, 这样使用 <code>volatile</code> 不仅无法达成目的, 反而会导致性能下降.</p>
+<p>也许有人觉得可以将 <code>value</code> 也声明为 <code>volatile</code>:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// global shared data</span></span><br><span class="line"><span class="keyword">volatile</span> <span class="type">bool</span> flag = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">thread1</span>() &#123;</span><br><span class="line">    flag = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">volatile</span> Type* value = <span class="keyword">new</span> <span class="built_in">Type</span>(<span class="comment">/* parameters */</span>);   <span class="comment">// 1.</span></span><br><span class="line">    <span class="built_in">thread2</span>(value);</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (flag == <span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="built_in">apply</span>(value);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    thread2.<span class="built_in">join</span>();</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">nullptr</span> != value) &#123; <span class="keyword">delete</span> value; &#125;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">thread2</span>(<span class="keyword">volatile</span> Type* value) &#123;</span><br><span class="line">    <span class="comment">// do some evaluations</span></span><br><span class="line">    value-&gt;<span class="built_in">update</span>(<span class="comment">/* parameters */</span>);                    <span class="comment">// 2.</span></span><br><span class="line">    flag = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于现在 <code>value</code> 和 <code>flag</code> 都被 <code>volatile</code> 修饰, 因此在 thread2 中, 编译器不会对<code>flag = true</code> 和 <code>update</code> 语句进行乱序优化, 但是代码最终要运行在 CPU 上, CPU 仍然可能对这两条语句进行乱序执行.</p>
+<p>因此 <strong><code>volatile</code> 不能解决多线程中的问题</strong>, 想要解决多线程问题, 只能依靠原子操作、互斥量或者条件变量.</p>
+<h2 id="Reference">Reference</h2>
+<p>谈谈 C/C++ 中的 volatile:<br>
+<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/33074506">https://zhuanlan.zhihu.com/p/33074506</a></p>
+<p>C++知识篇–volatile关键字:<br>
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/beijixingcd/article/details/126131591">https://blog.csdn.net/beijixingcd/article/details/126131591</a></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C/">C</a><a class="post-meta__tags" href="/tags/C/">C++</a></div><div class="post_share"><div class="social-share" data-image="/img/cover14.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/12/10/C++/noexcept/" title="C++ noexcept"><img class="cover" src="/img/cover45.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">C++ noexcept</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/11/27/C/C-extern/" title="C extern"><img class="cover" src="/img/cover22.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-27</div><div class="title">C extern</div></div></a></div><div><a href="/2023/11/23/C/C-%E6%8C%87%E9%92%88/" title="C 指针"><img class="cover" src="/img/cover16.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-23</div><div class="title">C 指针</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/head.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Wangrd</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">163</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/WRD123789"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/WRD123789" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2239646965@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">volatile</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.1.</span> <span class="toc-text">Reference</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/12/11/C++/volatile/" title="C++ volatile"><img src="/img/cover14.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="C++ volatile"/></a><div class="content"><a class="title" href="/2023/12/11/C++/volatile/" title="C++ volatile">C++ volatile</a><time datetime="2023-12-11T06:03:24.000Z" title="发表于 2023-12-11 14:03:24">2023-12-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/10/C++/noexcept/" title="C++ noexcept"><img src="/img/cover45.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="C++ noexcept"/></a><div class="content"><a class="title" href="/2023/12/10/C++/noexcept/" title="C++ noexcept">C++ noexcept</a><time datetime="2023-12-10T13:01:03.000Z" title="发表于 2023-12-10 21:01:03">2023-12-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/10/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E5%A4%9A%E7%A7%8DIO%E5%87%BD%E6%95%B0/" title="多种 I/O 函数"><img src="/img/cover44.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="多种 I/O 函数"/></a><div class="content"><a class="title" href="/2023/12/10/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E5%A4%9A%E7%A7%8DIO%E5%87%BD%E6%95%B0/" title="多种 I/O 函数">多种 I/O 函数</a><time datetime="2023-12-10T12:22:29.000Z" title="发表于 2023-12-10 20:22:29">2023-12-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/09/QT/QT-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/" title="QT 数据库操作"><img src="/img/cover48.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QT 数据库操作"/></a><div class="content"><a class="title" href="/2023/12/09/QT/QT-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/" title="QT 数据库操作">QT 数据库操作</a><time datetime="2023-12-09T12:59:19.000Z" title="发表于 2023-12-09 20:59:19">2023-12-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/IO%E5%A4%8D%E7%94%A8/" title="I/O 复用"><img src="/img/cover34.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="I/O 复用"/></a><div class="content"><a class="title" href="/2023/12/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/IO%E5%A4%8D%E7%94%A8/" title="I/O 复用">I/O 复用</a><time datetime="2023-12-07T13:28:54.000Z" title="发表于 2023-12-07 21:28:54">2023-12-07</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wangrd</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"></div></div></body></html>
