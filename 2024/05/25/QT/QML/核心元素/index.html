@@ -1,0 +1,218 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>核心元素 | Wangrd's Blog</title><meta name="author" content="Wangrd"><meta name="copyright" content="Wangrd"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="核心元素 元素可以分为可见元素和不可见元素. 可见元素 (如矩形) 具有几何形状, 通常在屏幕上显示一个区域. 不可见元素 (如 Timer) 提供通用功能, 通常用于操作可见元素. Item 元素 Item 是所有可见元素的基元素, 它本身并不绘制任何东西, 而是定义了所有可见元素的共有属性:  几何. x 和 y 定义了元素的左上角位置, width 和 height 定义了元素的大小, z">
+<meta property="og:type" content="article">
+<meta property="og:title" content="核心元素">
+<meta property="og:url" content="http://example.com/2024/05/25/QT/QML/%E6%A0%B8%E5%BF%83%E5%85%83%E7%B4%A0/index.html">
+<meta property="og:site_name" content="Wangrd&#39;s Blog">
+<meta property="og:description" content="核心元素 元素可以分为可见元素和不可见元素. 可见元素 (如矩形) 具有几何形状, 通常在屏幕上显示一个区域. 不可见元素 (如 Timer) 提供通用功能, 通常用于操作可见元素. Item 元素 Item 是所有可见元素的基元素, 它本身并不绘制任何东西, 而是定义了所有可见元素的共有属性:  几何. x 和 y 定义了元素的左上角位置, width 和 height 定义了元素的大小, z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/cover38.png">
+<meta property="article:published_time" content="2024-05-25T02:53:24.000Z">
+<meta property="article:modified_time" content="2024-05-25T04:13:19.642Z">
+<meta property="article:author" content="Wangrd">
+<meta property="article:tag" content="QT">
+<meta property="article:tag" content="QML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/cover38.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/05/25/QT/QML/%E6%A0%B8%E5%BF%83%E5%85%83%E7%B4%A0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '核心元素',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-05-25 12:13:19'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/head.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">183</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">28</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover38.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Wangrd's Blog"><span class="site-name">Wangrd's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">核心元素</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-05-25T02:53:24.000Z" title="发表于 2024-05-25 10:53:24">2024-05-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-05-25T04:13:19.642Z" title="更新于 2024-05-25 12:13:19">2024-05-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/QT/">QT</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/QT/QML/">QML</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>核心元素</h1>
+<p>元素可以分为可见元素和不可见元素. <strong>可见元素</strong> (如矩形) 具有几何形状, 通常在屏幕上显示一个区域. <strong>不可见元素</strong> (如 Timer) 提供通用功能, 通常用于操作可见元素.</p>
+<h2 id="Item-元素">Item 元素</h2>
+<p><code>Item</code> 是所有可见元素的基元素, 它本身并不绘制任何东西, 而是定义了所有可见元素的共有属性:</p>
+<ul>
+<li>几何. <code>x</code> 和 <code>y</code> 定义了元素的左上角位置, <code>width</code> 和 <code>height</code> 定义了元素的大小, <code>z</code> 定义了元素的堆叠顺序, 也就是元素在三维空间中的位置.</li>
+<li>布局处理. <code>anchors</code> (<code>left</code>, <code>right</code>, <code>top</code>, <code>bottom</code>, <code>verticalCenter</code> 和 <code>horizontalCenter</code>) 定位元素相对于其他元素的位置, 还可以使用可选的边距 (<code>margins</code>) 来调整元素的位置.</li>
+<li>键处理. <code>Key</code> 属性用于处理键盘事件, 你可以在一个元素的 <code>Key</code> 属性中定义各种按键处理函数; <code>KeyNavigation</code> 属性用于控制键盘导航, 你可以在一个元素的 <code>KeyNavigation</code> 属性中定义如何通过键盘的方向键在不同的元素之间切换焦点; <code>focus</code> 用于控制元素是否可以接收键盘输入.</li>
+<li>转换. <code>scale</code> (缩放) 属性能够改变元素的尺寸, <code>rotate</code> (旋转) 属性能够围绕一个点旋转元素, <code>transform</code> 属性能够同时改变元素在 x、y 和 z 三个轴上的位置和尺寸, <code>transformOrigin</code> 设置变换原点.</li>
+<li>视觉. <code>opacity</code> 属性控制透明度, <code>visible</code> 属性设置元素是否可见, <code>clip</code> 属性用于限制元素的绘制范围, <code>smooth</code> 属性用于提高元素的渲染质量 (当 <code>smooth</code> 属性被设置为 <code>true</code> 时, 元素的边缘将被平滑处理).</li>
+<li>状态定义. <code>states</code> 是一个包含了元素所有可能状态的列表属性, 每个状态都是元素的一种特定配置, 它定义了元素在该状态下的所有属性值; <code>currentState</code> 属性用于设置和获取元素的当前状态; <code>transitions</code> 是一个包含了元素所有可能的状态过渡的列表属性。每个过渡定义了元素从一个状态切换到另一个状态时的动画效果.</li>
+</ul>
+<h2 id="Rectangle-元素">Rectangle 元素</h2>
+<p><code>Rectangle</code> 继承自 <code>Item</code>, 并且可以填充颜色 (在 QML 中, 颜色一般用 RGB 字符串,  如 “#FF4444”, 或者颜色名, 如 “white”). 另外, <code>Rectangle</code> 通过 <code>border.color</code> 和 <code>border.width</code> 来设置边框, 可以通过 <code>radius</code> 创建圆角矩形.</p>
+<p>例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">Rectangle</span> &#123;</span><br><span class="line">    <span class="attribute">id:</span><span class="string"> rect1</span></span><br><span class="line">    <span class="attribute">x</span>: <span class="number">12</span>; <span class="attribute">y</span>: <span class="number">12</span></span><br><span class="line">    <span class="attribute">width</span>: <span class="number">76</span>; <span class="attribute">height</span>: <span class="number">96</span></span><br><span class="line">    <span class="attribute">color</span>: <span class="string">&quot;lightsteelblue&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title">Rectangle</span> &#123;</span><br><span class="line">    <span class="attribute">id:</span><span class="string"> rect2</span></span><br><span class="line">    <span class="attribute">x</span>: <span class="number">112</span>; <span class="attribute">y</span>: <span class="number">12</span></span><br><span class="line">    <span class="attribute">width</span>: <span class="number">76</span>; <span class="attribute">height</span>: <span class="number">96</span></span><br><span class="line">    <span class="attribute">border.color</span>: <span class="string">&quot;lightsteelblue&quot;</span></span><br><span class="line">    <span class="attribute">border.width</span>: <span class="number">4</span></span><br><span class="line">    <span class="attribute">radius</span>: <span class="number">8</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/20240524154947.png" alt=""></p>
+<p>除了填充颜色和边框, <code>Rectangle</code> 还支持<strong>自定义渐变</strong>:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">Rectangle</span> &#123;</span><br><span class="line">    <span class="attribute">id:</span><span class="string"> rect1</span></span><br><span class="line">    <span class="attribute">x</span>: <span class="number">12</span>; <span class="attribute">y</span>: <span class="number">12</span></span><br><span class="line">    <span class="attribute">width</span>: <span class="number">176</span>; <span class="attribute">height</span>: <span class="number">96</span></span><br><span class="line">    <span class="attribute">gradient</span>: <span class="title">Gradient</span> &#123;</span><br><span class="line">        <span class="title">GradientStop</span> &#123; <span class="attribute">position</span>: <span class="number">0.0</span>; <span class="attribute">color</span>: <span class="string">&quot;lightsteelblue&quot;</span> &#125;</span><br><span class="line">        <span class="title">GradientStop</span> &#123; <span class="attribute">position</span>: <span class="number">1.0</span>; <span class="attribute">color</span>: <span class="string">&quot;slategray&quot;</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="attribute">border.color</span>: <span class="string">&quot;slategray&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/20240524155946.png" alt=""></p>
+<p>渐变由一系列渐变止点 (<code>GradientStop</code>)定义, 每个渐变止点包含一个 <code>position</code> 和 <code>color</code> 组成, 其中 <code>position</code> 标记 y 轴位置 (0 = top, 1 = bottom), <code>color</code> 标记该点的颜色. 如果需要创建斜角渐变的矩形, 最好使用预先设计好的渐变图像.</p>
+<p>需要注意的是, 一个 <code>Rectangle</code> 如果没有设置 <code>height</code> 或 <code>width</code>, 它将不可见.</p>
+<h2 id="Text-元素">Text 元素</h2>
+<p>可以使用 <code>Text</code> 元素显示文本. 该元素根据给定的文本和使用的字体计算初始宽度和高度, 可以通过字体属性组 (如 <code>font.family</code>, <code>font.pixelSize</code>, …) 来改变字体, 文本颜色则通过 <code>color</code> 属性更改.</p>
+<p>例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">Text</span> &#123;</span><br><span class="line">    <span class="attribute">text</span>: <span class="string">&quot;The quick brown fox&quot;</span></span><br><span class="line">    <span class="attribute">color</span>: <span class="string">&quot;#303030&quot;</span></span><br><span class="line">    <span class="attribute">font.family</span>: <span class="string">&quot;Ubuntu&quot;</span></span><br><span class="line">    <span class="attribute">font.pixelSize</span>: <span class="number">28</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/20240524161643.png" alt=""></p>
+<p>可以使用 <code>horizontalAlignment</code> 和 <code>verticalAlignment</code> 对齐文本. 要进一步增强文本呈现效果, 可以使用 <code>style</code> 和 <code>styleColor</code> 属性, 该属性允许以大纲、凸起和凹陷模式呈现文本.</p>
+<p>对于较长的文本, 可以通过 <code>elide</code> 属性定义一个中断位置 (如, “非常 … 长的文本”). <code>elide</code> 属性允许你将省略号放在文本的左边、右边和中间. 如果希望看到完整的文本, 可以使用 <code>wrapMode</code> 属性换行文本 (只有在显示设置宽度时才有效).</p>
+<p>例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">Text</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">40</span>; <span class="attribute">height</span>: <span class="number">120</span></span><br><span class="line">    <span class="attribute">text</span>: <span class="string">&#x27;A very long text&#x27;</span></span><br><span class="line">    <span class="comment">// &#x27;...&#x27; shall appear in the middle</span></span><br><span class="line">    <span class="attribute">elide</span>: Text.ElideMiddle</span><br><span class="line">    <span class="comment">// red sunken text styling</span></span><br><span class="line">    <span class="attribute">style</span>: Text.Sunken</span><br><span class="line">    <span class="attribute">styleColor</span>: <span class="string">&#x27;#FF4444&#x27;</span></span><br><span class="line">    <span class="comment">// align text to the top</span></span><br><span class="line">    <span class="attribute">verticalAlignment</span>: Text.AlignTop</span><br><span class="line">    <span class="comment">// only sensible when no elide mode</span></span><br><span class="line">    <span class="comment">// wrapMode: Text.WordWrap</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/20240524163017.png" alt=""></p>
+<h2 id="Image-元素">Image 元素</h2>
+<p><code>Image</code> 元素能够以各种格式显示图像 (如 PNG、 JPG、 GIF、 BMP、 WEBP). 除了提供图像 URL 的 <code>source</code> 属性之外, 它还包含一个 <code>fillMode</code>属性, 用于控制调整大小的行为.</p>
+<p>例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">Image</span> &#123;</span><br><span class="line">    <span class="attribute">x</span>: <span class="number">12</span>; <span class="attribute">y</span>: <span class="number">12</span></span><br><span class="line">    <span class="comment">// width: 72</span></span><br><span class="line">    <span class="comment">// height: 72</span></span><br><span class="line">    <span class="attribute">source</span>: <span class="string">&quot;assets/triangle_red.png&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title">Image</span> &#123;</span><br><span class="line">    <span class="attribute">x</span>: <span class="number">12</span>+<span class="number">64</span>+<span class="number">12</span>; <span class="attribute">y</span>: <span class="number">12</span></span><br><span class="line">    <span class="comment">// width: 72</span></span><br><span class="line">    <span class="attribute">height</span>: <span class="number">72</span>/<span class="number">2</span></span><br><span class="line">    <span class="attribute">source</span>: <span class="string">&quot;assets/triangle_red.png&quot;</span></span><br><span class="line">    <span class="attribute">fillMode</span>: Image.PreserveAspectCrop</span><br><span class="line">    <span class="attribute">clip</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>其中 <code>PreserveAspectCrop</code> 是一种缩放模式, 它会保持图片的宽高比并将其缩放到 <code>Image</code> 元素的大小. 一般在设置该属性的同时还应该同时开启 <code>clip</code> (剪切) 属性, 来防止图片的数据渲染到 <code>Image</code> 元素的边界之外.</li>
+</ul>
+<p>效果如下图所示:<br>
+<img src="/img/20240525075506.png" alt=""></p>
+<p>上述 URL 可以是本地路径 (如 “./images/home.png”), 可以是网络链接 (如 “<a target="_blank" rel="noopener" href="http://example.org/home.png'">http://example.org/home.png</a>”), 也可以是资源文件 (.qrc 文件) 中的路径.</p>
+<p>需要注意是, 在 Qt 6 中, 从资源文件 (假设为 images.qrc) 中加载图片时, 需要在项目构建文件 (CMakeLists.txt) 中添加以下内容:</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="keyword">ON</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_AUTOMOC <span class="keyword">ON</span>)  // 添加</span><br><span class="line"><span class="keyword">set</span>(CMAKE_AUTORCC <span class="keyword">ON</span>)  // 添加</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">qt_add_executable(appuntitled1</span><br><span class="line">    main.cpp</span><br><span class="line">    images.qrc // 添加</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">// 不包含 RESOURCES images.qrc</span><br><span class="line">qt_add_qml_module(appuntitled1</span><br><span class="line">    URI untitled1</span><br><span class="line">    VERSION <span class="number">1.0</span></span><br><span class="line">    QML_FILES Main.qml</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>加载图片时最好用 “qrc:xxx” 而不是 “:/xxx”.</p>
+<h2 id="MouseArea-元素">MouseArea 元素</h2>
+<p>为了与其他元素交互, 通常需要使用 <code>MouseArea</code> 元素. 这是一个用来捕获鼠标事件的矩形不可见元素. 当用户与可见部分交互时, <code>MouseArea</code> 通常和可见项一起使用来执行命令.</p>
+<p>例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">Rectangle</span> &#123;</span><br><span class="line">    <span class="attribute">id:</span><span class="string"> rect1</span></span><br><span class="line">    <span class="attribute">x</span>: <span class="number">12</span>; <span class="attribute">y</span>: <span class="number">12</span></span><br><span class="line">    <span class="attribute">width</span>: <span class="number">76</span>; <span class="attribute">height</span>: <span class="number">96</span></span><br><span class="line">    <span class="attribute">color</span>: <span class="string">&quot;lightsteelblue&quot;</span></span><br><span class="line">    <span class="title">MouseArea</span> &#123;</span><br><span class="line">        <span class="attribute">id:</span><span class="string"> area</span></span><br><span class="line">        <span class="attribute">width</span>: <span class="built_in">parent</span>.width</span><br><span class="line">        <span class="attribute">height</span>: <span class="built_in">parent</span>.height</span><br><span class="line">        <span class="attribute">onClicked</span>: rect2.visible = !rect2.visible</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title">Rectangle</span> &#123;</span><br><span class="line">    <span class="attribute">id:</span><span class="string"> rect2</span></span><br><span class="line">    <span class="attribute">x</span>: <span class="number">112</span>; <span class="attribute">y</span>: <span class="number">12</span></span><br><span class="line">    <span class="attribute">width</span>: <span class="number">76</span>; <span class="attribute">height</span>: <span class="number">96</span></span><br><span class="line">    <span class="attribute">border.color</span>: <span class="string">&quot;lightsteelblue&quot;</span></span><br><span class="line">    <span class="attribute">border.width</span>: <span class="number">4</span></span><br><span class="line">    <span class="attribute">radius</span>: <span class="number">8</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/20240525082117.png" alt=""><br>
+<img src="/img/20240525082121.png" alt=""></p>
+<h2 id="Reference">Reference</h2>
+<p>Qt QML Book - Core Elements:<br>
+<a target="_blank" rel="noopener" href="https://www.qt.io/product/qt6/qml-book/ch04-qmlstart-core-elements">https://www.qt.io/product/qt6/qml-book/ch04-qmlstart-core-elements</a></p>
+<p>How to add an image to your QT Quick Application | QT6 | QT Creator 10.0.0:<br>
+<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=UDCRQiMMiZ4">https://www.youtube.com/watch?v=UDCRQiMMiZ4</a></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/QT/">QT</a><a class="post-meta__tags" href="/tags/QML/">QML</a></div><div class="post_share"><div class="social-share" data-image="/img/cover38.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/05/25/QT/QML/QML%E8%AF%AD%E6%B3%95/" title="QML 语法"><img class="cover" src="/img/cover1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">QML 语法</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/05/25/QT/QML/QML%E8%AF%AD%E6%B3%95/" title="QML 语法"><img class="cover" src="/img/cover1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-25</div><div class="title">QML 语法</div></div></a></div><div><a href="/2024/02/16/QT/XML/" title="QT XML"><img class="cover" src="/img/cover37.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-16</div><div class="title">QT XML</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/head.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Wangrd</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">183</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">28</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/WRD123789"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/WRD123789" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2239646965@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">核心元素</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Item-%E5%85%83%E7%B4%A0"><span class="toc-number">1.1.</span> <span class="toc-text">Item 元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rectangle-%E5%85%83%E7%B4%A0"><span class="toc-number">1.2.</span> <span class="toc-text">Rectangle 元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Text-%E5%85%83%E7%B4%A0"><span class="toc-number">1.3.</span> <span class="toc-text">Text 元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Image-%E5%85%83%E7%B4%A0"><span class="toc-number">1.4.</span> <span class="toc-text">Image 元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MouseArea-%E5%85%83%E7%B4%A0"><span class="toc-number">1.5.</span> <span class="toc-text">MouseArea 元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.6.</span> <span class="toc-text">Reference</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/05/25/QT/QML/%E6%A0%B8%E5%BF%83%E5%85%83%E7%B4%A0/" title="核心元素"><img src="/img/cover38.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="核心元素"/></a><div class="content"><a class="title" href="/2024/05/25/QT/QML/%E6%A0%B8%E5%BF%83%E5%85%83%E7%B4%A0/" title="核心元素">核心元素</a><time datetime="2024-05-25T02:53:24.000Z" title="发表于 2024-05-25 10:53:24">2024-05-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/25/QT/QML/QML%E8%AF%AD%E6%B3%95/" title="QML 语法"><img src="/img/cover1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QML 语法"/></a><div class="content"><a class="title" href="/2024/05/25/QT/QML/QML%E8%AF%AD%E6%B3%95/" title="QML 语法">QML 语法</a><time datetime="2024-05-25T02:53:15.000Z" title="发表于 2024-05-25 10:53:15">2024-05-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/25/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" title="MySQL 基础知识"><img src="/img/cover48.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL 基础知识"/></a><div class="content"><a class="title" href="/2024/05/25/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" title="MySQL 基础知识">MySQL 基础知识</a><time datetime="2024-05-25T02:36:53.000Z" title="发表于 2024-05-25 10:36:53">2024-05-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/02/27/QT/%E8%BF%9B%E7%A8%8B/" title="QT 进程"><img src="/img/cover28.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QT 进程"/></a><div class="content"><a class="title" href="/2024/02/27/QT/%E8%BF%9B%E7%A8%8B/" title="QT 进程">QT 进程</a><time datetime="2024-02-27T13:11:47.000Z" title="发表于 2024-02-27 21:11:47">2024-02-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/02/23/QT/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/" title="QT 网络通信"><img src="/img/cover27.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QT 网络通信"/></a><div class="content"><a class="title" href="/2024/02/23/QT/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/" title="QT 网络通信">QT 网络通信</a><time datetime="2024-02-23T11:27:43.000Z" title="发表于 2024-02-23 19:27:43">2024-02-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By Wangrd</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"></div></div></body></html>
