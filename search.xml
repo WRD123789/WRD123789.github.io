@@ -106,8 +106,7 @@
 <li>当然可以完善上述方案来防止饥饿: 当 n 号哲学家陷入饥饿时, n - 1 号和 n + 1 号哲学家不能同时陷入 Eating. 这样就可以防止饥饿, 但是这就降低了并发程序. 所以想要保证无死锁的同时又防止饥饿, 就可能带来并发程序的损失, 大多数时候你需要权衡利弊.</li>
 </ul>
 <h2 id="Reference">Reference</h2>
-<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Chapter 6.5: More Tools, Examples and Deadlocks:
-<a href="https://zhuanlan.zhihu.com/p/353400345">https://zhuanlan.zhihu.com/p/353400345</a>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Chapter 6.5: More Tools, Examples and Deadlocks: <a href="https://zhuanlan.zhihu.com/p/353400345">https://zhuanlan.zhihu.com/p/353400345</a>
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>]]></content>
       <categories>
         <category>笔记</category>
@@ -123,7 +122,7 @@
     <url>/about/index.html</url>
     <content><![CDATA[<p>主要涉及技术：<br>
 QT、C++<br>
-个人学习过程中的笔记, 自用, 方便复习</p>
+个人学习过程中的笔记, 自用.</p>
 ]]></content>
   </entry>
 </search>
