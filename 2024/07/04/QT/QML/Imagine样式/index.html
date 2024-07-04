@@ -1,0 +1,3608 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Imagine 样式 Qt Quick Controls 的目标之一是将控件的逻辑与其外观分离. 对于大多数样式而言, 外观的实现由 QML 代码和图形资源混合组成. 然而, 使用 Imagine 风格, 只需使用图形资源就可以自定义基于 Qt Quick Controls 的应用程序的外观. 9-pathch 图 9-patch 图是一种特殊的图像格式, 它的后缀名为 “.9.png”, 它可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QML Imagine 样式">
+<meta property="og:url" content="http://example.com/2024/07/04/QT/QML/Imagine%E6%A0%B7%E5%BC%8F/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Imagine 样式 Qt Quick Controls 的目标之一是将控件的逻辑与其外观分离. 对于大多数样式而言, 外观的实现由 QML 代码和图形资源混合组成. 然而, 使用 Imagine 风格, 只需使用图形资源就可以自定义基于 Qt Quick Controls 的应用程序的外观. 9-pathch 图 9-patch 图是一种特殊的图像格式, 它的后缀名为 “.9.png”, 它可以">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20240531152448.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240531152514.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240531152618.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240531152744.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240531152847.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240531152931.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240531152951.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240531153053.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240531153236.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240531153309.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240531153323.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240531153419.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/applicationwindow-background.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/applicationwindow-overlay.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/applicationwindow-overlay-modal.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-pressed.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-checked.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-checked-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-checked-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-checked-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-highlighted.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-highlighted-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-highlighted-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-highlighted-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-highlighted-pressed.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-highlighted-checked.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-flat.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-flat-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-flat-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-flat-pressed.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/button-background-flat-checked.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkbox-indicator.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkbox-indicator-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkbox-indicator-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkbox-indicator-checked.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkbox-indicator-checked-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkbox-indicator-checked-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkbox-indicator-checked-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkbox-indicator-partially-checked.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkbox-indicator-partially-checked-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkbox-indicator-partially-checked-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkbox-indicator-partially-checked-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkbox-indicator-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkbox-indicator-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-background-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-background-pressed.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-background-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-background-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-indicator.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-indicator-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-indicator-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-indicator-checked.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-indicator-checked-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-indicator-checked-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-indicator-checked-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-indicator-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-indicator-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-indicator-partially-checked.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-indicator-partially-checked-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-indicator-partially-checked-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-indicator-partially-checked-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/checkdelegate-indicator-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/combobox-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/combobox-background-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/combobox-background-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/combobox-background-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/combobox-background-pressed.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/combobox-background-open.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/combobox-background-editable.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/combobox-background-editable-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/combobox-background-editable-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/combobox-indicator.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/combobox-indicator-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/combobox-indicator-editable.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/combobox-indicator-editable-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/combobox-indicator-editable-mirrored.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/combobox-indicator-editable-mirrored-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/combobox-popup.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/delaybutton-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/delaybutton-background-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/delaybutton-background-disabled-checked.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/delaybutton-background-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/delaybutton-background-pressed.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/delaybutton-background-checked.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/delaybutton-background-checked-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/delaybutton-background-checked-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/delaybutton-background-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/delaybutton-progress.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/delaybutton-progress-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/delaybutton-mask.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/dial-background.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/dial-background-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/dial-background-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/dial-handle.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/dial-handle-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/dial-handle-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/dial-handle-focused-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/dial-handle-focused-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/dial-handle-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/dial-handle-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/dialog-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/dialog-overlay.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/dialog-overlay-modal.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/dialogbuttonbox-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/drawer-background-left.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/drawer-background-right.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/drawer-background-top.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/drawer-background-bottom.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/drawer-overlay.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/drawer-overlay-modal.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/frame-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/groupbox-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/groupbox-title.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/itemdelegate-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/itemdelegate-background-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/itemdelegate-background-pressed.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/itemdelegate-background-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/itemdelegate-background-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/itemdelegate-background-highlighted.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menu-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menuitem-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menuitem-background-highlighted.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menuitem-arrow.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menuitem-arrow-mirrored.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menuitem-arrow-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menuitem-arrow-mirrored-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menuitem-indicator.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menuitem-indicator-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menuitem-indicator-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menuitem-indicator-checked.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menuitem-indicator-checked-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menuitem-indicator-checked-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menuitem-indicator-checked-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menuitem-indicator-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menuitem-indicator-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/menuseparator-separator.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/page-background.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/pageindicator-delegate.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/pageindicator-delegate-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/pageindicator-delegate-disabled-current.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/pageindicator-delegate-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/pageindicator-delegate-current.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/pane-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/popup-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/popup-overlay.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/popup-overlay-modal.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/progressbar-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/progressbar-progress.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/progressbar-mask.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiobutton-indicator.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiobutton-indicator-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiobutton-indicator-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiobutton-indicator-checked.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiobutton-indicator-checked-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiobutton-indicator-checked-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiobutton-indicator-checked-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiobutton-indicator-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiobutton-indicator-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiodelegate-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiodelegate-background-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiodelegate-background-pressed.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiodelegate-background-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiodelegate-background-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiodelegate-indicator.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiodelegate-indicator-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiodelegate-indicator-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiodelegate-indicator-checked.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiodelegate-indicator-checked-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiodelegate-indicator-checked-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiodelegate-indicator-checked-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiodelegate-indicator-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/radiodelegate-indicator-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/rangeslider-background-vertical.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/rangeslider-background-horizontal.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/rangeslider-progress-vertical.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/rangeslider-progress-vertical-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/rangeslider-progress-horizontal.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/rangeslider-progress-horizontal-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/rangeslider-handle.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/rangeslider-handle-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/rangeslider-handle-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/rangeslider-handle-focused-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/rangeslider-handle-focused-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/rangeslider-handle-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/rangeslider-handle-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/roundbutton-background.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/roundbutton-background-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/roundbutton-background-disabled-checked.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/roundbutton-background-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/roundbutton-background-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/roundbutton-background-checked.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/roundbutton-background-checked-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/roundbutton-background-checked-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/roundbutton-background-highlighted.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/roundbutton-background-highlighted-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/roundbutton-background-highlighted-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/roundbutton-background-highlighted-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/roundbutton-background-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/scrollbar-handle.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/scrollbar-handle-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/scrollbar-handle-interactive.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/scrollbar-handle-interactive-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/scrollbar-handle-interactive-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/scrollbar-handle-interactive-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/scrollindicator-handle.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/slider-background-vertical.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/slider-background-horizontal.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/slider-progress-vertical.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/slider-progress-vertical-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/slider-progress-horizontal.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/slider-progress-horizontal-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/slider-handle.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/slider-handle-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/slider-handle-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/slider-handle-focused-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/slider-handle-focused-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/slider-handle-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/slider-handle-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-background-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-background-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-background-editable.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-up.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-up-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-up-pressed.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-up-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-up-mirrored.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-up-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-up-editable.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-up-editable-pressed.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-up-editable-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-up-editable-mirrored.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-up-editable-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-down.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-down-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-down-pressed.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-down-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-down-mirrored.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-down-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-down-editable.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-down-editable-pressed.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-down-editable-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-down-editable-mirrored.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/spinbox-indicator-down-editable-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/swipedelegate-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/swipedelegate-background-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/swipedelegate-background-pressed.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/swipedelegate-background-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/swipedelegate-background-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switch-indicator.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switch-indicator-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switch-indicator-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switch-indicator-checked.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switch-indicator-checked-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switch-indicator-checked-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switch-indicator-checked-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switch-indicator-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switch-indicator-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switch-handle.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switch-handle-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switch-handle-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switchdelegate-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switchdelegate-background-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switchdelegate-background-pressed.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switchdelegate-background-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switchdelegate-background-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switchdelegate-indicator.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switchdelegate-indicator-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switchdelegate-indicator-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switchdelegate-indicator-checked.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switchdelegate-indicator-checked-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switchdelegate-indicator-checked-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switchdelegate-indicator-checked-pressed.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switchdelegate-indicator-focused.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switchdelegate-indicator-hovered.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switchdelegate-handle.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/switchdelegate-handle-disabled.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/tabbar-background.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/tabbutton-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/tabbutton-background-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/tabbutton-background-pressed.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/tabbutton-background-checked.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/tabbutton-background-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/tabbutton-background-disabled-checked.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/textarea-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/textarea-background-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/textarea-background-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/textfield-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/textfield-background-disabled.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/textfield-background-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/toolbar-background.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/toolbutton-background.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/toolbutton-background-disabled-checked.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/toolbutton-background-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/toolbutton-background-pressed.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/toolbutton-background-checked.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/toolbutton-background-checked-focused.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/toolbutton-background-checked-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/toolbutton-background-hovered.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/toolseparator-separator-horizontal.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/toolseparator-separator-vertical.9.png">
+<meta property="og:image" content="https://doc.qt.io/qt-6/images/tooltip-background.9.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240601102042.png">
+<meta property="article:published_time" content="2024-07-04T13:25:09.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="QT">
+<meta property="article:tag" content="QML">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20240531152448.png">
+  
+  
+  
+  <title>QML Imagine 样式 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QML Imagine 样式"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 21:25" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">QML Imagine 样式</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>Imagine 样式</h1>
+<p>Qt Quick Controls 的目标之一是将控件的逻辑与其外观分离. 对于大多数样式而言, 外观的实现由 QML 代码和图形资源混合组成. 然而, 使用 Imagine 风格, 只需使用图形资源就可以自定义基于 Qt Quick Controls 的应用程序的外观.</p>
+<h2 id="9-pathch-图">9-pathch 图</h2>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/develop/ui/views/graphics/drawables?hl=zh-cn#nine-patch">9-patch</a> 图是一种特殊的图像格式, 它的后缀名为 “.9.png”, 它可以携带信息来指示图像应如何被拉伸以及哪些部分应被视为元素的一部分、哪些部分是在元素之外的 (如阴影). 这种方式可以更加自然地适应不同的显示尺寸和分辨率, 特别是在需要拉伸或压缩图像以适应不同尺寸的元素时.</p>
+<p>例如, 对于下面的图:<br>
+<img src="/img/Pictures/20240531152448.png" srcset="/img/loading.gif" lazyload alt=""><br>
+如果它需要纵向拉伸, 就会出现以下问题:<br>
+<img src="/img/Pictures/20240531152514.png" srcset="/img/loading.gif" lazyload alt=""><br>
+此时就需要使用 9-patch 图, 让图片被局部拉伸, 而不是整体拉伸:<br>
+<img src="/img/Pictures/20240531152618.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>9-patch 图的原则是: 四条边上必须各有一条纯黑的线 (或一像素的点), 如下图所示:<br>
+<img src="/img/Pictures/20240531152744.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>在这四条线中, 左上两条负责拉伸区域, 右下两条负责显示内容:<br>
+<img src="/img/Pictures/20240531152847.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>以左线为例, 如果去掉左边的黑线, 纵向拉伸时, 效果如下图所示:<br>
+<img src="/img/Pictures/20240531152931.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>如果加上左线, 此时原图可以分为三个部分:<br>
+<img src="/img/Pictures/20240531152951.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>纵向拉伸时, 只有标记了黑线的部分可以被拉伸, 此时效果如下图所示:<br>
+<img src="/img/Pictures/20240531153053.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>右下两条线是控制内容显示的. 以右线为例, 如果去掉右线, 在图片上显示内容时, 内容会充满整个图片:<br>
+<img src="/img/Pictures/20240531153236.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>如果加上右线, 此时图片再次被分为三个部分:<br>
+<img src="/img/Pictures/20240531153309.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>只有标记了黑线的部分可以显示内容:<br>
+<img src="/img/Pictures/20240531153323.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>同理, 加上下面的黑线后, 效果如下:<br>
+<img src="/img/Pictures/20240531153419.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Imagine">Imagine</h2>
+<p>Imagine 样式基于 9-patch 图. 该样式自带一组默认图片, 但只要提供一个使用<strong>预定义命名规则</strong>的图片目录, 就可以轻松更改图片.</p>
+<h3 id="配置文件">配置文件</h3>
+<p>想要以 Imagine 样式运行应用程序, 可以使用配置文件.</p>
+<p>Qt Quick Controls 支持一个特殊的配置文件 “qtquickcontros2.conf”, 该文件应该放置在应用程序的资源文件中, 或者在 <code>QApplication</code> 或 <code>QGuiApplication</code> 对象创建之前通过环境变量 <code>QT_QUICK_CONTROLS_CONF</code> 来指定 “qtquickcontrols2.conf” 配置文件的位置:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QGuiApplication&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QQmlApplicationEngine&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QStandardPaths&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// 设置环境变量</span><br>    <span class="hljs-built_in">qputenv</span>(<span class="hljs-string">&quot;QT_QUICK_CONTROLS_CONF&quot;</span>, <span class="hljs-string">&quot;/path/to/custom/qtquickcontrols2.conf&quot;</span>);<br><br>    <span class="hljs-function">QGuiApplication <span class="hljs-title">app</span><span class="hljs-params">(argc, argv)</span></span>;<br><br>    QQmlApplicationEngine engine;<br>    engine.<span class="hljs-built_in">load</span>(<span class="hljs-built_in">QUrl</span>(<span class="hljs-built_in">QStringLiteral</span>(<span class="hljs-string">&quot;qrc:/main.qml&quot;</span>)));<br><br>    <span class="hljs-keyword">if</span> (engine.<span class="hljs-built_in">rootObjects</span>().<span class="hljs-built_in">isEmpty</span>())<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br><br>    <span class="hljs-keyword">return</span> app.<span class="hljs-built_in">exec</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>配置文件可以指定首选样式和某些特定样式属性. 下面的示例指定首选样式为 Material 样式, 并指定当应用程序使用 Material 样式运行时, 其主题为浅色, 重点色和主色分别为青色和蓝灰色. 如果改用 Universal 样式运行应用程序, 则重点色为红色, 并根据系统主题颜色选择适当的主题.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs conf">[Controls]<br>Style=Material<br><br>[Universal]<br>Theme=System<br>Accent=Red<br><br>[Material]<br>Theme=Light<br>Accent=Teal<br>Primary=BlueGrey<br></code></pre></td></tr></table></figure>
+<p>在配置文件的 <code>Controls</code> 部分可以指定以下值:</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Style</td>
+<td>指定用于运行应用程序的样式, 该值是内置样式或自定义样式</td>
+</tr>
+<tr>
+<td>FallbackStyle</td>
+<td>指定当首选控件样式不可用时使用的备用样式, 该值只能是内置样式</td>
+</tr>
+</tbody>
+</table>
+<p>在配置文件的 <code>Imagine</code> 部分配置 Imagine 样式可以指定以下值:</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path</td>
+<td>指定包含 Imagine 样式资源的目录路径. 如果未指定, 则使用内置资源</td>
+</tr>
+</tbody>
+</table>
+<p>默认字体可以在配置文件中每个样式部分的 <code>Font</code> 子组中指定.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs conf">// 指定 Basic 样式的默认字体<br>[Basic]<br>Font\Family=Open Sans<br>Font\PixelSize=20<br></code></pre></td></tr></table></figure>
+<p>默认调色板可以在配置文件中每个样式部分的 <code>Palette</code> 子组中指定.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs conf">// 两种方法来指定 Fusion 样式的默认字体<br>[Fusion]<br>Palette\Window=#dedede<br>Palette\WindowText=#212121<br></code></pre></td></tr></table></figure>
+<h3 id="文件命名">文件命名</h3>
+<p>图像文件一般使用以下文件命名:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">control</span>&gt;</span>-<span class="hljs-tag">&lt;<span class="hljs-name">element</span>&gt;</span>-<span class="hljs-tag">&lt;<span class="hljs-name">states</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>其中 <code>&lt;control&gt;</code> 和 <code>&lt;element&gt;</code> 部分是必须的, <code>&lt;states&gt;</code> 部分是可选的. 例如, 如果不指定状态, 为 <code>Button</code> 元素提供了名为 “button-background.9.png” 的单一文件, 它将被用于 <code>Button</code> 元素支持的所有状态.</p>
+<h3 id="元素引用">元素引用</h3>
+<p>下表列出了每个控件支持的元素, 以及该元素可能的状态和它所期望的文件扩展名. 元素是代表控件特定视觉部分的图像.</p>
+<table>
+<thead>
+<tr>
+<th>控件</th>
+<th>元素</th>
+<th>状态</th>
+<th>扩展名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-applicationwindow.html">ApplicationWindow</a></td>
+<td>background</td>
+<td>active</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-busyindicator.html">BusyIndicator</a></td>
+<td>animation</td>
+<td>disabled, running, mirrored, hovered</td>
+<td>.webp</td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>same as above</td>
+<td>.webp</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-button.html">Button</a></td>
+<td>background</td>
+<td>disabled, pressed, checked, checkable, focused, highlighted, flat, mirrored, hovered</td>
+<td>.9.png</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-checkbox.html">CheckBox</a></td>
+<td>background</td>
+<td>disabled, pressed, checked, partially-checked, focused, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>same as above</td>
+<td>.png</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-checkdelegate.html">CheckDelegate</a></td>
+<td>background</td>
+<td>disabled, pressed, checked, partially-checked, focused, highlighted, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>same as above</td>
+<td>.png</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-combobox.html">ComboBox</a></td>
+<td>background</td>
+<td>disabled, pressed, editable, open, focused, mirrored, hovered, flat</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>same as above</td>
+<td>.png</td>
+</tr>
+<tr>
+<td></td>
+<td>popup</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-delaybutton.html">DelayButton</a></td>
+<td>background</td>
+<td>disabled, pressed, checked, checkable, focused, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>progress</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>mask</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-dial.html">Dial</a></td>
+<td>background1</td>
+<td>disabled, pressed, focused, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-dialog.html">Dialog</a></td>
+<td>background</td>
+<td>modal, dim</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>title</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>overlay</td>
+<td>modal</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-dialogbuttonbox.html">DialogButtonBox</a></td>
+<td>background</td>
+<td>disabled, mirrored</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-drawer.html">Drawer</a></td>
+<td>background</td>
+<td>modal, dim, top, left, right, bottom</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>overlay</td>
+<td>modal</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-frame.html">Frame</a></td>
+<td>background</td>
+<td>disabled, mirrored</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-groupbox.html">GroupBox</a></td>
+<td>background</td>
+<td>disabled, mirrored</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>title</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-itemdelegate.html">ItemDelegate</a></td>
+<td>background</td>
+<td>disabled, pressed, focused, highlighted, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-label.html">Label</a></td>
+<td>background</td>
+<td>disabled, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-menu.html">Menu</a></td>
+<td>background</td>
+<td>modal, dim</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>overlay</td>
+<td>modal</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-menuitem.html">MenuItem</a></td>
+<td>arrow</td>
+<td>disabled, pressed, checked, focused, highlighted, mirrored, hovered</td>
+<td>.png</td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>same as above</td>
+<td>.png</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-menuseparator.html">MenuSeparator</a></td>
+<td>background</td>
+<td>disabled, mirrored</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>separator</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-page.html">Page</a></td>
+<td>background</td>
+<td>disabled, mirrored</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-pageindicator.html">PageIndicator</a></td>
+<td>background</td>
+<td>disabled, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>delegate</td>
+<td>disabled, pressed, current, mirrored, hovered</td>
+<td>.png</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-pane.html">Pane</a></td>
+<td>background</td>
+<td>disabled, mirrored</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-popup.html">Popup</a></td>
+<td>background</td>
+<td>modal, dim</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>overlay</td>
+<td>modal</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-progressbar.html">ProgressBar</a></td>
+<td>animation</td>
+<td>disabled, mirrored, hovered</td>
+<td>.png</td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled, indeterminate, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>mask</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>progress</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-radiobutton.html">RadioButton</a></td>
+<td>background</td>
+<td>disabled, pressed, checked, focused, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>same as above</td>
+<td>.png</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-radiodelegate.html">RadioDelegate</a></td>
+<td>background</td>
+<td>disabled, pressed, checked, focused, highlighted, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>same as above</td>
+<td>.png</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-rangeslider.html">RangeSlider</a></td>
+<td>background</td>
+<td>vertical, horizontal, disabled, focused, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-rangeslider.html">RangeSlider</a></td>
+<td>progress</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>first, second, vertical, horizontal, disabled, pressed, focused, mirrored, hovered</td>
+<td>.png</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-roundbutton.html">RoundButton</a></td>
+<td>background</td>
+<td>disabled, pressed, checked, checkable, focused, highlighted, flat, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-scrollbar.html">ScrollBar</a></td>
+<td>background</td>
+<td>vertical, horizontal, disabled, interactive, pressed, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-scrollindicator.html">ScrollIndicator</a></td>
+<td>background</td>
+<td>vertical, horizontal, disabled, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-scrollview.html">ScrollView</a></td>
+<td>background</td>
+<td>disabled, mirrored</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-slider.html">Slider</a></td>
+<td>background</td>
+<td>vertical, horizontal, disabled, pressed, focused, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>progress</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-spinbox.html">SpinBox</a></td>
+<td>background</td>
+<td>disabled, editable, focused, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>editor</td>
+<td>disabled, focused, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>up, down, disabled, editable, pressed, focused, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-stackview.html">StackView</a></td>
+<td>background</td>
+<td>disabled, mirrored</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-swipedelegate.html">SwipeDelegate</a></td>
+<td>background</td>
+<td>disabled, pressed, focused, highlighted, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-swipeview.html">SwipeView</a></td>
+<td>background</td>
+<td>vertical, horizontal, disabled, interactive, focused, mirrored</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-switch.html">Switch</a></td>
+<td>background</td>
+<td>disabled, pressed, checked, focused, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-switchdelegate.html">SwitchDelegate</a></td>
+<td>background</td>
+<td>disabled, pressed, checked, focused, highlighted, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-tabbar.html">TabBar</a></td>
+<td>background</td>
+<td>disabled, header, footer, mirrored</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-tabbutton.html">TabButton</a></td>
+<td>background</td>
+<td>disabled, pressed, checked, focused, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-textarea.html">TextArea</a></td>
+<td>background</td>
+<td>disabled, focused, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-textfield.html">TextField</a></td>
+<td>background</td>
+<td>disabled, focused, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-toolbar.html">ToolBar</a></td>
+<td>background</td>
+<td>disabled, header, footer, mirrored</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-toolbutton.html">ToolButton</a></td>
+<td>background</td>
+<td>disabled, pressed, checked, checkable, focused, highlighted, flat, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-toolseparator.html">ToolSeparator</a></td>
+<td>background</td>
+<td>vertical, horizontal, disabled, mirrored</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td></td>
+<td>separator</td>
+<td>same as above</td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-tooltip.html">ToolTip</a></td>
+<td>background</td>
+<td></td>
+<td>.9.png (or .png)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-tumbler.html">Tumbler</a></td>
+<td>background</td>
+<td>disabled, focused, mirrored, hovered</td>
+<td>.9.png (or .png)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="资源示例">资源示例</h3>
+<p>下面列出了所有控件的资源示例 (取自<a target="_blank" rel="noopener" href="https://code.qt.io/cgit/qt/qtdeclarative.git/tree/src/quickcontrols/imagine/images">默认的 Imagine 样式资源</a>):</p>
+<table>
+<thead>
+<tr>
+<th>控件</th>
+<th>元素</th>
+<th>状态</th>
+<th>资源</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-applicationwindow.html">ApplicationWindow</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/applicationwindow-background.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qtquickcontrols-imagine.html#sup1">See footnote</a></td>
+</tr>
+<tr>
+<td></td>
+<td>overlay</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/applicationwindow-overlay.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qtquickcontrols-imagine.html#sup1">See footnote</a></td>
+</tr>
+<tr>
+<td></td>
+<td>overlay</td>
+<td>modal</td>
+<td><img src="https://doc.qt.io/qt-6/images/applicationwindow-overlay-modal.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qtquickcontrols-imagine.html#sup1">See footnote</a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-button.html">Button</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-pressed.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-checked.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>checked, disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-checked-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>checked, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-checked-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>checked, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-checked-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>highlighted</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-highlighted.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>highlighted, disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-highlighted-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>highlighted, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-highlighted-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>highlighted, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-highlighted-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>highlighted, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-highlighted-pressed.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>highlighted, checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-highlighted-checked.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>flat</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-flat.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>flat, disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-flat-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>flat, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-flat-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>flat, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-flat-pressed.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>flat, checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/button-background-flat-checked.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-checkbox.html">CheckBox</a></td>
+<td>indicator</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/checkbox-indicator.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkbox-indicator-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkbox-indicator-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkbox-indicator-checked.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkbox-indicator-checked-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkbox-indicator-checked-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkbox-indicator-checked-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>partially, checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkbox-indicator-partially-checked.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>partially, checked, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkbox-indicator-partially-checked-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>partially, checked, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkbox-indicator-partially-checked-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>partially, checked, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkbox-indicator-partially-checked-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkbox-indicator-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkbox-indicator-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-checkdelegate.html">CheckDelegate</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-background-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-background-pressed.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-background-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-background-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-indicator.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-indicator-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-indicator-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-indicator-checked.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-indicator-checked-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-indicator-checked-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-indicator-checked-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-indicator-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-indicator-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>partially, checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-indicator-partially-checked.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>partially, checked, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-indicator-partially-checked-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>partially, checked, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-indicator-partially-checked-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>partially, checked, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-indicator-partially-checked-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/checkdelegate-indicator-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-combobox.html">ComboBox</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/combobox-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/combobox-background-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/combobox-background-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/combobox-background-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/combobox-background-pressed.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>open</td>
+<td><img src="https://doc.qt.io/qt-6/images/combobox-background-open.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>editable</td>
+<td><img src="https://doc.qt.io/qt-6/images/combobox-background-editable.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>editable, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/combobox-background-editable-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>editable, disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/combobox-background-editable-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/combobox-indicator.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/combobox-indicator-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>editable</td>
+<td><img src="https://doc.qt.io/qt-6/images/combobox-indicator-editable.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>editable, disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/combobox-indicator-editable-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>editable, mirrored</td>
+<td><img src="https://doc.qt.io/qt-6/images/combobox-indicator-editable-mirrored.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>editable, mirrored, disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/combobox-indicator-editable-mirrored-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>popup</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/combobox-popup.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-delaybutton.html">DelayButton</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/delaybutton-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/delaybutton-background-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled, checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/delaybutton-background-disabled-checked.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/delaybutton-background-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/delaybutton-background-pressed.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/delaybutton-background-checked.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>checked, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/delaybutton-background-checked-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>checked, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/delaybutton-background-checked-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/delaybutton-background-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>progress</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/delaybutton-progress.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>progress</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/delaybutton-progress-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>mask</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/delaybutton-mask.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-dial.html">Dial</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/dial-background.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/dial-background-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/dial-background-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/dial-handle.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/dial-handle-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/dial-handle-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>focused, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/dial-handle-focused-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>focused, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/dial-handle-focused-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/dial-handle-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/dial-handle-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-dialog.html">Dialog</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/dialog-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>overlay</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/dialog-overlay.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qtquickcontrols-imagine.html#sup1">See footnote</a></td>
+</tr>
+<tr>
+<td></td>
+<td>overlay</td>
+<td>modal</td>
+<td><img src="https://doc.qt.io/qt-6/images/dialog-overlay-modal.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qtquickcontrols-imagine.html#sup1">See footnote</a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-dialogbuttonbox.html">DialogButtonBox</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/dialogbuttonbox-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-drawer.html">Drawer</a></td>
+<td>background</td>
+<td>left</td>
+<td><img src="https://doc.qt.io/qt-6/images/drawer-background-left.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>right</td>
+<td><img src="https://doc.qt.io/qt-6/images/drawer-background-right.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>top</td>
+<td><img src="https://doc.qt.io/qt-6/images/drawer-background-top.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>bottom</td>
+<td><img src="https://doc.qt.io/qt-6/images/drawer-background-bottom.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>overlay</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/drawer-overlay.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qtquickcontrols-imagine.html#sup1">See footnote</a></td>
+</tr>
+<tr>
+<td></td>
+<td>overlay</td>
+<td>modal</td>
+<td><img src="https://doc.qt.io/qt-6/images/drawer-overlay-modal.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qtquickcontrols-imagine.html#sup1">See footnote</a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-frame.html">Frame</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/frame-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-groupbox.html">GroupBox</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/groupbox-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>title</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/groupbox-title.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-itemdelegate.html">ItemDelegate</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/itemdelegate-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/itemdelegate-background-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/itemdelegate-background-pressed.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/itemdelegate-background-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/itemdelegate-background-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>highlighted</td>
+<td><img src="https://doc.qt.io/qt-6/images/itemdelegate-background-highlighted.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-menu.html">Menu</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/menu-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-menuitem.html">MenuItem</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/menuitem-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>highlighted</td>
+<td><img src="https://doc.qt.io/qt-6/images/menuitem-background-highlighted.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>arrow</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/menuitem-arrow.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>arrow</td>
+<td>mirrored</td>
+<td><img src="https://doc.qt.io/qt-6/images/menuitem-arrow-mirrored.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>arrow</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/menuitem-arrow-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>arrow</td>
+<td>mirrored, disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/menuitem-arrow-mirrored-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/menuitem-indicator.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/menuitem-indicator-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/menuitem-indicator-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/menuitem-indicator-checked.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/menuitem-indicator-checked-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/menuitem-indicator-checked-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/menuitem-indicator-checked-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/menuitem-indicator-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/menuitem-indicator-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-menuseparator.html">MenuSeparator</a></td>
+<td>separator</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/menuseparator-separator.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-page.html">Page</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/page-background.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qtquickcontrols-imagine.html#sup1">See footnote</a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-pageindicator.html">PageIndicator</a></td>
+<td>delegate</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/pageindicator-delegate.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>delegate</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/pageindicator-delegate-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>delegate</td>
+<td>disabled, current</td>
+<td><img src="https://doc.qt.io/qt-6/images/pageindicator-delegate-disabled-current.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>delegate</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/pageindicator-delegate-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>delegate</td>
+<td>current</td>
+<td><img src="https://doc.qt.io/qt-6/images/pageindicator-delegate-current.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-pane.html">Pane</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/pane-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-popup.html">Popup</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/popup-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qtquickcontrols-imagine.html#sup1">See footnote</a></td>
+</tr>
+<tr>
+<td></td>
+<td>overlay</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/popup-overlay.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qtquickcontrols-imagine.html#sup1">See footnote</a></td>
+</tr>
+<tr>
+<td></td>
+<td>overlay</td>
+<td>modal</td>
+<td><img src="https://doc.qt.io/qt-6/images/popup-overlay-modal.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-progressbar.html">ProgressBar</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/progressbar-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>progress</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/progressbar-progress.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>mask</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/progressbar-mask.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-radiobutton.html">RadioButton</a></td>
+<td>indicator</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/radiobutton-indicator.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiobutton-indicator-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiobutton-indicator-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiobutton-indicator-checked.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiobutton-indicator-checked-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiobutton-indicator-checked-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiobutton-indicator-checked-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiobutton-indicator-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiobutton-indicator-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-radiodelegate.html">RadioDelegate</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/radiodelegate-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiodelegate-background-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiodelegate-background-pressed.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiodelegate-background-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiodelegate-background-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/radiodelegate-indicator.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiodelegate-indicator-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiodelegate-indicator-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiodelegate-indicator-checked.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiodelegate-indicator-checked-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiodelegate-indicator-checked-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiodelegate-indicator-checked-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiodelegate-indicator-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/radiodelegate-indicator-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-rangeslider.html">RangeSlider</a></td>
+<td>background</td>
+<td>vertical</td>
+<td><img src="https://doc.qt.io/qt-6/images/rangeslider-background-vertical.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>horizontal</td>
+<td><img src="https://doc.qt.io/qt-6/images/rangeslider-background-horizontal.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>progress</td>
+<td>vertical</td>
+<td><img src="https://doc.qt.io/qt-6/images/rangeslider-progress-vertical.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>progress</td>
+<td>vertical, disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/rangeslider-progress-vertical-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>progress</td>
+<td>horizontal</td>
+<td><img src="https://doc.qt.io/qt-6/images/rangeslider-progress-horizontal.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>progress</td>
+<td>horizontal, disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/rangeslider-progress-horizontal-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/rangeslider-handle.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/rangeslider-handle-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/rangeslider-handle-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>focused, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/rangeslider-handle-focused-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>focused, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/rangeslider-handle-focused-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/rangeslider-handle-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/rangeslider-handle-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-roundbutton.html">RoundButton</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/roundbutton-background.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/roundbutton-background-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled, checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/roundbutton-background-disabled-checked.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/roundbutton-background-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/roundbutton-background-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/roundbutton-background-checked.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>checked, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/roundbutton-background-checked-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>checked, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/roundbutton-background-checked-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>highlighted</td>
+<td><img src="https://doc.qt.io/qt-6/images/roundbutton-background-highlighted.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>highlighted, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/roundbutton-background-highlighted-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>highlighted, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/roundbutton-background-highlighted-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>highlighted, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/roundbutton-background-highlighted-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/roundbutton-background-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-scrollbar.html">ScrollBar</a></td>
+<td>handle</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/scrollbar-handle.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/scrollbar-handle-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>interactive</td>
+<td><img src="https://doc.qt.io/qt-6/images/scrollbar-handle-interactive.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>interactive, disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/scrollbar-handle-interactive-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>interactive, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/scrollbar-handle-interactive-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>interactive, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/scrollbar-handle-interactive-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-scrollindicator.html">ScrollIndicator</a></td>
+<td>handle</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/scrollindicator-handle.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-slider.html">Slider</a></td>
+<td>background</td>
+<td>vertical</td>
+<td><img src="https://doc.qt.io/qt-6/images/slider-background-vertical.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>horizontal</td>
+<td><img src="https://doc.qt.io/qt-6/images/slider-background-horizontal.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>progress</td>
+<td>vertical</td>
+<td><img src="https://doc.qt.io/qt-6/images/slider-progress-vertical.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>progress</td>
+<td>vertical, disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/slider-progress-vertical-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>progress</td>
+<td>horizontal</td>
+<td><img src="https://doc.qt.io/qt-6/images/slider-progress-horizontal.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>progress</td>
+<td>horizontal, disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/slider-progress-horizontal-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/slider-handle.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/slider-handle-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/slider-handle-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>focused, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/slider-handle-focused-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>focused, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/slider-handle-focused-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/slider-handle-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/slider-handle-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-spinbox.html">SpinBox</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-background-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-background-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>editable</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-background-editable.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>up</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-up.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>up, disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-up-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>up, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-up-pressed.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>up, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-up-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>up, mirrored</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-up-mirrored.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>up, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-up-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>up, editable</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-up-editable.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>up, editable, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-up-editable-pressed.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>up, editable, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-up-editable-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>up, editable, mirrored</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-up-editable-mirrored.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>up, editable, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-up-editable-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>down</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-down.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>down, disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-down-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>down, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-down-pressed.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>down, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-down-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>down, mirrored</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-down-mirrored.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>down, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-down-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>down, editable</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-down-editable.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>down, editable, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-down-editable-pressed.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>down, editable, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-down-editable-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>down, editable, mirrored</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-down-editable-mirrored.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>down, editable, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/spinbox-indicator-down-editable-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-swipedelegate.html">SwipeDelegate</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/swipedelegate-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/swipedelegate-background-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/swipedelegate-background-pressed.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/swipedelegate-background-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/swipedelegate-background-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-switch.html">Switch</a></td>
+<td>indicator</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/switch-indicator.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/switch-indicator-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/switch-indicator-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/switch-indicator-checked.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/switch-indicator-checked-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/switch-indicator-checked-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/switch-indicator-checked-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/switch-indicator-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/switch-indicator-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/switch-handle.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/switch-handle-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/switch-handle-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-switchdelegate.html">SwitchDelegate</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/switchdelegate-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/switchdelegate-background-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/switchdelegate-background-pressed.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/switchdelegate-background-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/switchdelegate-background-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/switchdelegate-indicator.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/switchdelegate-indicator-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/switchdelegate-indicator-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/switchdelegate-indicator-checked.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/switchdelegate-indicator-checked-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/switchdelegate-indicator-checked-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>checked, pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/switchdelegate-indicator-checked-pressed.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/switchdelegate-indicator-focused.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>indicator</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/switchdelegate-indicator-hovered.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/switchdelegate-handle.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>handle</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/switchdelegate-handle-disabled.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-tabbar.html">TabBar</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/tabbar-background.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-tabbutton.html">TabButton</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/tabbutton-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/tabbutton-background-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/tabbutton-background-pressed.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/tabbutton-background-checked.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/tabbutton-background-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled, checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/tabbutton-background-disabled-checked.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-textarea.html">TextArea</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/textarea-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/textarea-background-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/textarea-background-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-textfield.html">TextField</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/textfield-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled</td>
+<td><img src="https://doc.qt.io/qt-6/images/textfield-background-disabled.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/textfield-background-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-toolbar.html">ToolBar</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/toolbar-background.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-toolbutton.html">ToolButton</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/toolbutton-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>disabled, checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/toolbutton-background-disabled-checked.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/toolbutton-background-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>pressed</td>
+<td><img src="https://doc.qt.io/qt-6/images/toolbutton-background-pressed.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>checked</td>
+<td><img src="https://doc.qt.io/qt-6/images/toolbutton-background-checked.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>checked, focused</td>
+<td><img src="https://doc.qt.io/qt-6/images/toolbutton-background-checked-focused.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>checked, hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/toolbutton-background-checked-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background</td>
+<td>hovered</td>
+<td><img src="https://doc.qt.io/qt-6/images/toolbutton-background-hovered.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-toolseparator.html">ToolSeparator</a></td>
+<td>separator</td>
+<td>horizontal</td>
+<td><img src="https://doc.qt.io/qt-6/images/toolseparator-separator-horizontal.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>separator</td>
+<td>vertical</td>
+<td><img src="https://doc.qt.io/qt-6/images/toolseparator-separator-vertical.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qml-qtquick-controls-tooltip.html">ToolTip</a></td>
+<td>background</td>
+<td></td>
+<td><img src="https://doc.qt.io/qt-6/images/tooltip-background.9.png" srcset="/img/loading.gif" lazyload alt=""></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="使用示例">使用示例</h3>
+<p>下面, 我们将为一个应用程序创建一个自定义样式.为该应用程序自定义 <code>ApplicationWindow</code> 和 <code>Button</code> 控件的样式. 对于 <code>ApplicationWindow</code>, 将自定义它的背景; 对于 <code>Button</code>, 将自定义它的正常、按下和选中三种状态的样式.</p>
+<p>该应用程序的代码如下:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-keyword">import</span> QtQuick<br><span class="hljs-keyword">import</span> QtQuick.Controls<br><br><span class="hljs-title">ApplicationWindow</span> &#123;<br><br>    <span class="hljs-comment">// ...</span><br><br>    <span class="hljs-attribute">visible</span>: <span class="hljs-literal">true</span><br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">640</span><br>    <span class="hljs-attribute">height</span>: <span class="hljs-number">480</span><br>    <span class="hljs-attribute">title</span>: qsTr(<span class="hljs-string">&quot;Hello World&quot;</span>)<br><br>    <span class="hljs-title">Column</span> &#123;<br>        <span class="hljs-attribute">anchors.top</span>: <span class="hljs-built_in">parent</span>.top<br>        <span class="hljs-attribute">anchors.left</span>: <span class="hljs-built_in">parent</span>.left<br>        <span class="hljs-attribute">anchors.margins</span>: <span class="hljs-number">10</span><br><br>        <span class="hljs-attribute">width</span>: <span class="hljs-built_in">parent</span>.width/<span class="hljs-number">2</span><br><br>        <span class="hljs-attribute">spacing</span>: <span class="hljs-number">10</span><br><br>        <span class="hljs-comment">// ...</span><br><br>        <span class="hljs-title">Repeater</span> &#123;<br>            <span class="hljs-attribute">model</span>: <span class="hljs-number">5</span><br>            <span class="hljs-attribute">delegate</span>: <span class="hljs-title">Button</span> &#123;<br>                <span class="hljs-attribute">width</span>: <span class="hljs-built_in">parent</span>.width<br>                <span class="hljs-attribute">height</span>: <span class="hljs-number">70</span><br>                <span class="hljs-attribute">text</span>: qsTr(<span class="hljs-string">&quot;Click me!&quot;</span>)<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-title">Grid</span> &#123;<br>        <span class="hljs-attribute">anchors.top</span>: <span class="hljs-built_in">parent</span>.top<br>        <span class="hljs-attribute">anchors.right</span>: <span class="hljs-built_in">parent</span>.right<br>        <span class="hljs-attribute">anchors.margins</span>: <span class="hljs-number">10</span><br><br>        <span class="hljs-attribute">columns</span>: <span class="hljs-number">2</span><br><br>        <span class="hljs-attribute">spacing</span>: <span class="hljs-number">10</span><br><br>        <span class="hljs-comment">// ...</span><br><br>        <span class="hljs-title">Repeater</span> &#123;<br>            <span class="hljs-attribute">model</span>: <span class="hljs-number">10</span><br><br>            <span class="hljs-attribute">delegate</span>: <span class="hljs-title">Button</span> &#123;<br>                <span class="hljs-attribute">height</span>: <span class="hljs-number">70</span><br>                <span class="hljs-attribute">text</span>: qsTr(<span class="hljs-string">&quot;Check me!&quot;</span>)<br>                <span class="hljs-attribute">checkable</span>: <span class="hljs-literal">true</span><br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>此时效果如下图所示:<br>
+<img src="/img/Pictures/20240601102042.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>为了自定义 Imagine 样式, 首先我们需要创建一个 “qtquickcontrols2.conf” 文件, 并将该文件放入资源文件中:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs conf">[Controls]<br>Style=Imagine<br><br>[Imagine]<br>Path=:images/imagine<br><br>[Imagine]<br>Palette\Text=#ffffff<br>Palette\ButtonText=#ffffff<br>Palette\BrightText=#ffffff<br></code></pre></td></tr></table></figure>
+<p>在该文件中, 将 <code>Style</code> 设置为 <code>Imagine</code>, 表示使用 <code>Imagine</code> 样式, <code>Path</code> 指定了资源路径, 之后则设置了一些调色板属性.</p>
+<p>为了给 <code>ApplicationWindow</code> 元素设置背景, 我们可以创建一个叫做 “applicationwindow-background.9.png” 的文件, 并将其添加到 “qtquickcontrols2.conf” 文件指定的资源路径中.</p>
+<p>为了给 <code>Button</code> 元素设置样式, 我们可以创建三个文件, “button-background.9.png”、“button-background-pressed.9.png” 和 “button-background-checked.9.png”, 并将它们添加到 “qtquickcontrols2.conf” 文件指定的资源路径中.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>NinePatch图（9-Patch图，.9图）: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/lsgxeva/p/13395903.html">https://www.cnblogs.com/lsgxeva/p/13395903.html</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>Qt 6.7 – Qt Quick Controls Configuration File: <a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qtquickcontrols-configuration.html#imagine-section">https://doc.qt.io/qt-6/qtquickcontrols-configuration.html#imagine-section</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>Qt 6.7 – Imagine Style: <a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qtquickcontrols-imagine.html">https://doc.qt.io/qt-6/qtquickcontrols-imagine.html</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>Qt QML Book – The Imagine Style: <a target="_blank" rel="noopener" href="https://www.qt.io/product/qt6/qml-book/ch06-controls-imagine-style">https://www.qt.io/product/qt6/qml-book/ch06-controls-imagine-style</a>
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/" class="category-chain-item">QT</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/QML/" class="category-chain-item">QML</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QT/" class="print-no-link">#QT</a>
+      
+        <a href="/tags/QML/" class="print-no-link">#QML</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/QML/model-view/" title="QML Model View">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QML Model View</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/QML/%E7%BB%84%E4%BB%B6/" title="QML 组件">
+                        <span class="hidden-mobile">QML 组件</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

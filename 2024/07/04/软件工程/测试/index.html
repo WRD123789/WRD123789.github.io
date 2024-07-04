@@ -1,0 +1,944 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="测试  模块是软件系统的一部分, 它可以独立于系统的其他部分进行设计、实现、测试和推理. 规范描述模块的行为. 对于函数, 规范给出了参数的类型以及对它们的任何附加约束. 它还提供了返回值的类型以及返回值与输入的关系.  在 Java 中, 规范由方法签名和上面的注释组成, 注释描述了方法的功能.   模块具有提供其行为的实现和使用该模块的客户端. 对于函数, 实现是方法的主体, 客户端时调用该方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="测试">
+<meta property="og:url" content="http://example.com/2024/07/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="测试  模块是软件系统的一部分, 它可以独立于系统的其他部分进行设计、实现、测试和推理. 规范描述模块的行为. 对于函数, 规范给出了参数的类型以及对它们的任何附加约束. 它还提供了返回值的类型以及返回值与输入的关系.  在 Java 中, 规范由方法签名和上面的注释组成, 注释描述了方法的功能.   模块具有提供其行为的实现和使用该模块的客户端. 对于函数, 实现是方法的主体, 客户端时调用该方">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20230328132835.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230328135621.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230328140234.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230328153401.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230328162120.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230328174329.png">
+<meta property="article:published_time" content="2024-07-04T09:22:00.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.564Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="MIT 6.031">
+<meta property="article:tag" content="软件工程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20230328132835.png">
+  
+  
+  
+  <title>测试 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="测试"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 17:22" pubdate>
+          2024年7月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          53 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">测试</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>测试</h1>
+<ul>
+<li><strong>模块</strong>是软件系统的一部分, 它可以独立于系统的其他部分进行设计、实现、测试和推理.</li>
+<li><strong>规范</strong>描述模块的行为. 对于函数, 规范给出了参数的类型以及对它们的任何附加约束. 它还提供了返回值的类型以及返回值与输入的关系.
+<ul>
+<li>在 Java 中, 规范由方法签名和上面的注释组成, 注释描述了方法的功能.</li>
+</ul>
+</li>
+<li>模块具有提供其行为的<strong>实现</strong>和使用该模块的<strong>客户端</strong>. 对于函数, 实现是方法的主体, 客户端时调用该方法的其他代码. 模块的规范同时约束了客户端和实现.</li>
+<li><strong>测试用例</strong>是输入的特殊选择, 以及规范所要求的预期输出行为.</li>
+<li><strong>测试组</strong>是模块的一组测试用例.</li>
+</ul>
+<h2 id="测试优先编程">测试优先编程</h2>
+<p>在从头开始设计程序时, 测试优先编程是一个很好的模式. 在测试优先编程中, 你甚至在编写任何代码之前就已经编写了规范和测试. 单一函数的开发按以下顺序进行:</p>
+<ul>
+<li>规范: 为函数编写规范.</li>
+<li>测试: 编写执行规范的测试.</li>
+<li>实现: 编写实现, 即函数主体.</li>
+</ul>
+<p>测试优先编程的最大好处是避免 Bug.不要把测试留到开发结束, 当你有一大堆未经验证的代码的时候, 将测试留到最后只会使调试更长、更痛苦, 因为 Bug 可能存在于代码的任何地方.</p>
+<h2 id="系统测试">系统测试</h2>
+<p>我们希望系统地进行测试, 而不是彻底的、随意的或随机的测试. 系统测试意味着我们以一种合理的方式选择测试用例, 目标是设计一个具有三个理想属性的测试组:</p>
+<ul>
+<li>正确: 正确的测试组是规范的合法客户端, 它可以接受规范的所有合法实现. 这使我们可以自由地更改模块在内部的实现方式, 而不必更改测试组.</li>
+<li>彻底: 一个彻底的测试组可以发现实现中的实际错误, 这些错误是由程序员可能犯的错误造成的.</li>
+<li>小: 一个小型测试组, 编写起来更快, 如果规范发展, 更新起来也更容易. 小型测试组的运行速度也更快, 能够更频繁地运行测试.</li>
+</ul>
+<h2 id="分区选择测试">分区选择测试</h2>
+<p>分区选择测试样例旨在将输入空间划分成不同的子域, 并从每个子域中选择代表性的测试样例来测试被测程序, <strong>不相交子域的集合称为分区</strong>. 该技术可以帮助测试人员更高效地选择测试用例, 并覆盖输入空间中的不同情况.</p>
+<p><img src="/img/Pictures/20230328132835.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>分区选择测试样例的具体步骤如下:</p>
+<ol>
+<li>确定输入空间: 首先需要确定被测试程序的输入空间, 即所有可能的输入值的集合.</li>
+<li>划分输入空间: 将输入空间划分成不同的子域, 每个子域包含相似的输入值. 这可以根据输入值的特征 (如数据类型、大小、范围等) 或业务逻辑规则 (如状态转换、输入条件等) 进行划分.</li>
+<li>选择测试用例: 从每个子域中选择测试用例, 以覆盖该子域中的不同输入情况.</li>
+<li>执行测试用例: 使用所选测试用例执行测试, 并记录测试结果.</li>
+<li>分析测试结果: 确定测试用例是否成功捕捉被测程序的缺陷. 如果没有, 可以重新选择测试用例或更改测试策略.</li>
+</ol>
+<p>这种方法通过选择不同的测试用例, 并强制测试探索随机测试可能无法到达的输入空间, 从而最大限度地利用有限的测试资源.</p>
+<p>例如:</p>
+<ul>
+<li>函数 abs()  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * ...</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> a  the argument whose absolute value is to be determined</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> the absolute value of the argument.</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">abs</span><span class="hljs-params">(<span class="hljs-type">int</span> a)</span><br></code></pre></td></tr></table></figure>
+<ol>
+<li>确定输入空间: 该函数有一个一维的输入空间, 由 a 的所有可能值组成.<br>
+<img src="/img/Pictures/20230328135621.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>划分输入空间: 考虑绝对值函数的表现, 我们可以将输入空间划分为两个子域: {a | a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo></mrow><annotation encoding="application/x-tex">\geq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≥</span></span></span></span> 0} 和 {a | a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo></mrow><annotation encoding="application/x-tex">&lt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span></span></span></span> 0}. 可以像下面这样简单地编写一个列表: <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// partition: a &gt;= 0; a &lt; 0</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>选择测试用例: 我们从每个子域选择一个任意值 a, 例如:
+<ul>
+<li>对于子域 a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo></mrow><annotation encoding="application/x-tex">\geq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≥</span></span></span></span> 0, 选择输入值 a = 17.</li>
+<li>对于子域 a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo></mrow><annotation encoding="application/x-tex">&lt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span></span></span></span> 0, 选择输入值 a = -3.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>函数 max()  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * ...</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> a  an argument</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> b  another argument</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> the larger of a and b.</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">max</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span><br></code></pre></td></tr></table></figure>
+<ol>
+<li>确定输入空间: 该函数有一个二维的输入空间, 由所有的整数对 (a, b) 组成.<br>
+<img src="/img/Pictures/20230328140234.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>划分输入空间: 根据规范, 我们可以将输入空间划分为三个子域: {(a, b) | a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span></span></span></span> b}、{(a, b) | a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo></mrow><annotation encoding="application/x-tex">&lt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span></span></span></span> b} 和 {(a, b) | a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo></mrow><annotation encoding="application/x-tex">=</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">=</span></span></span></span> b}. 可以像下面这样简单地编写一个列表: <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// partition: a &lt; b; a &gt; b; a = b</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>选择测试用例: 我们从每个子域选择一个任意整数对 (a, b), 例如:
+<ul>
+<li>对于子域 a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo></mrow><annotation encoding="application/x-tex">&lt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span></span></span></span> b, 选择整数对 (a, b) = (1, 2).</li>
+<li>对于子域 a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span></span></span></span> b, 选择整数对 (a, b) = (10, -8).</li>
+<li>对于子域 a = b, 选择整数对 (a, b) = (9, 9).</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<p><strong>在分区中包含边界</strong></p>
+<p>错误经常发生在子域之间的边界处, 例如:</p>
+<ul>
+<li>函数 abs()  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * ...</span><br><span class="hljs-comment"> * Note that if the argument is equal to the value of Integer.MIN_VALUE, </span><br><span class="hljs-comment"> * the most negative representable int value, the result is that same value, </span><br><span class="hljs-comment"> * which is negative.</span><br><span class="hljs-comment"> * ...</span><br><span class="hljs-comment"> */</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li>当输入为 Integer.MIN_VALUE 时, 对它取绝对值后值不变, 仍然为负数 (这是由溢出导致的). 对于这种情况, 我们需要将它作为一个单独的子域.</li>
+<li>稳妥起见, 需要对上面的 abs 函数的分区进行调整, 将三个边界值 (a = 0、a = Integer.MIN_VALUE 和 a = Integer.MAX_VALUE) 都划分为单独的子域:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// partition:</span><br><span class="hljs-comment">//     a = Integer.MIN_VALUE</span><br><span class="hljs-comment">//     Integer.MIN_VALUE &lt; a &lt; 0</span><br><span class="hljs-comment">//     a = 0</span><br><span class="hljs-comment">//     0 &lt; a &lt; Integer.MAX_VALUE</span><br><span class="hljs-comment">//     a = Integer.MAX_VALUE</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>此时最终的测试组可能为:
+<ul>
+<li>对子域 a = Integer.MIN_VALUE, a = Integer.MIN_VALUE.</li>
+<li>对子域 Integer.MIN_VALUE <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo></mrow><annotation encoding="application/x-tex">&lt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span></span></span></span> a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo></mrow><annotation encoding="application/x-tex">&lt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span></span></span></span> 0, a = -3.</li>
+<li>对子域 a = 0, a = 0.</li>
+<li>对子域 0 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo></mrow><annotation encoding="application/x-tex">&lt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span></span></span></span> a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo></mrow><annotation encoding="application/x-tex">&lt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span></span></span></span> Integer.MAX_VALUE, a = 17.</li>
+<li>对子域 a = Integer.MAX_VALUE, a = Integer.MAX_VALUE.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>函数 BigInteger.multiply(), 其中 BigInteger 是构建在 Java 库中的一个类, 它可以表示任何大小的正数.  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> val another BigInteger</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> a BigInteger whose value is (this * val).</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> BigInteger <span class="hljs-title function_">multiply</span><span class="hljs-params">(BigInteger val)</span><br></code></pre></td></tr></table></figure>
+<ol>
+<li>确定输入空间: 显然这个函数有两个参数 this 和 val, 所以这是一个二维输入空间, 由 BigInteger 对 (a, b) 组成.</li>
+<li>划分输入空间:
+<ol>
+<li>
+<p>首先可以根据 a 和 b 的符号划分子域:</p>
+<ul>
+<li>a 和 b 都是正数.</li>
+<li>a 和 b 都是负数.</li>
+<li>a 为正数, b 为负数.</li>
+<li>a 为负数, b 为正数.</li>
+</ul>
+</li>
+<li>
+<p>检查边界值:</p>
+<ul>
+<li>a 或 b 为 0.</li>
+<li>a 或 b 为 1.</li>
+</ul>
+</li>
+<li>
+<p>由于 BigInteger 可以用来表示任意大或小的整数, 所以应该尝试非常大或非常小的整数:</p>
+<ul>
+<li>a 或 b 非常大或非常小.</li>
+</ul>
+</li>
+<li>
+<p>结合上述情况, 我们可以单独选择以下类型的 a 和 b:</p>
+<ul>
+<li>0</li>
+<li>1</li>
+<li>small positive integer (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo></mrow><annotation encoding="application/x-tex">\leq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≤</span></span></span></span> Long.MAX_VALUE 且 &gt; 1)</li>
+<li>small negative integer (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo></mrow><annotation encoding="application/x-tex">\geq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≥</span></span></span></span> Long.MIN_VALUE 且 &lt; 0)</li>
+<li>large positive integer (&gt; Long.MAX_VALUE)</li>
+<li>large negative integer (&lt; Long.MIN_VALUE)</li>
+</ul>
+</li>
+<li>
+<p>这将产生 6 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 6 = 36 个子域:</p>
+<p><img src="/img/Pictures/20230328153401.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ol>
+</li>
+<li>选择测试用例: 我们从每个子域选择一个任意 BigInteger 对 (a, b), 例如:
+<ul>
+<li>对于子域 (0, 0), (a, b) = (0, 0).</li>
+<li>对于子域 (0, 1), (a, b) = (0, 1).</li>
+<li>对于子域 (0, small positive integer), (a, b) = (0, 8392).</li>
+<li>…</li>
+<li>对于子域 (large negative, large negative), (a, b) = (-<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mn>60</mn></msup></mrow><annotation encoding="application/x-tex">{10}^{60}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8484em;"></span><span class="mord"><span class="mord"><span class="mord">10</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8484em;"><span style="top:-3.0973em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">60</span></span></span></span></span></span></span></span></span></span></span></span>, -<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mn>810</mn></msup></mrow><annotation encoding="application/x-tex">{10}^{810}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8484em;"></span><span class="mord"><span class="mord"><span class="mord">10</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8484em;"><span style="top:-3.0973em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">810</span></span></span></span></span></span></span></span></span></span></span></span>).</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<p><strong>使用多个分区</strong></p>
+<p>如果只使用一个分区 (不相交子域的集合), 那么对于具有多个参数的函数, 因为每个参数可能有多种值划分和多个边界值, 对多个参数进行笛卡尔积, 产生的子域数会很大, 那么测试组的规模也会很大.</p>
+<p>可以使用多个分区来减少产生的测试组的规模, 例如:</p>
+<ul>
+<li>对于上文的 BigInteger.multiply() 函数
+<ol>
+<li>
+<p>可以将参数 a 和 b 的值划分视为输入空间的两个独立分区:</p>
+<ul>
+<li>一个分区只考虑 a 的值
+<ul>
+<li>(a, b) 使 a = 0, 1, small positive, small negative, large positive, large negative.</li>
+</ul>
+</li>
+<li>一个分区只考虑 b 的值
+<ul>
+<li>(a, b) 使 b = 0, 1, small positive, small negative, large positive, large negative.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>这两个分区如右图所示. 每个输入对 (a, b) 恰好属于每个分区中的一个子域</p>
+<p><img src="/img/Pictures/20230328162120.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>
+<p>可以把这两个分区写得简洁如下:</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// partition on a:</span><br><span class="hljs-comment">//   a = 0</span><br><span class="hljs-comment">//   a = 1</span><br><span class="hljs-comment">//   a is small integer &gt; 1</span><br><span class="hljs-comment">//   a is small integer &lt; 0</span><br><span class="hljs-comment">//   a is large positive integer</span><br><span class="hljs-comment">//   a is large negative integer</span><br><span class="hljs-comment">//      (where &quot;small&quot; fits in long, and &quot;large&quot; doesn&#x27;t)</span><br><span class="hljs-comment">// partition on b:</span><br><span class="hljs-comment">//   b = 0</span><br><span class="hljs-comment">//   b = 1</span><br><span class="hljs-comment">//   b is small integer &gt; 1</span><br><span class="hljs-comment">//   b is small integer &lt; 0</span><br><span class="hljs-comment">//   b is large positive integer</span><br><span class="hljs-comment">//   b is large negative integer</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>我们仍然希望用一个测试用例覆盖每个子域, 但是现在一个测试用例可以覆盖来自不同分区的多个子域, 从而使得测试集的规模减小. 但是独立地对 a 和 b 进行分区会增加你不再测试它们之间的交互的风险. 例如, 乘法中的符号处理可能使错误的一个来源, 而结果的符号同时取决于 a 和 b 的符号, 所以我们需要增加一个额外的分区来捕捉这种交互:</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// partition on signs of a and b:</span><br><span class="hljs-comment">//    a and b are both positive</span><br><span class="hljs-comment">//    a and b are both negative</span><br><span class="hljs-comment">//    a positive and b negative</span><br><span class="hljs-comment">//    a negative and b positive</span><br><span class="hljs-comment">//    one or both are 0</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li>这个分区包含 4 个子域:</li>
+</ul>
+<p><img src="/img/Pictures/20230328174329.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ul>
+</li>
+<li>
+<p>现在我们有 3 个分区, 每个分区分别有 6 个、5 个和 5 个子域, 但是不需要使用 6 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 6 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 5 个测试样例来覆盖它们, 只需要 6 个精心挑选的测试样例即可完全覆盖三个分区中所有的子域.</p>
+</li>
+</ol>
+</li>
+</ul>
+<p>使用多个分区可以使得一个测试用例可以覆盖多个分区中的多个子域, 使得测试组的规模大大减小, 但是存在忽略各参数间交互的风险, 需要谨慎考虑.</p>
+<h2 id="使用-JUnit-进行自动化单元测试">使用 JUnit 进行自动化单元测试</h2>
+<p>一个经过良好测试的程序将对其包含的每个模块进行单独测试. 测试单个模块的测试称为<strong>单元测试</strong>.</p>
+<p>JUnit 是一个被广泛采用的 Java 单元测试库. 一个 JUnit 单元测试被写成一个方法, 前面有注解 @Test. 一个单元测试方法通常包含一个或多个对被测试模块的调用, 然后使用 assertEquals、assertTrue和assertFalse 等断言方法检查结果.</p>
+<ul>
+<li>
+<p>例如: 我们可以用 JUnit 实现对 max 函数的测试:</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MaxTest</span> &#123;<br>  ...<br><br>  <span class="hljs-meta">@Test</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testALessThanB</span><span class="hljs-params">()</span> &#123;<br>      assertEquals(<span class="hljs-number">2</span>, Math.max(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>));<br>  &#125;<br><br>  <span class="hljs-meta">@Test</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testBothEqual</span><span class="hljs-params">()</span> &#123;<br>      assertEquals(<span class="hljs-number">9</span>, Math.max(<span class="hljs-number">9</span>, <span class="hljs-number">9</span>));<br>  &#125;<br><br>  <span class="hljs-meta">@Test</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testAGreaterThanB</span><span class="hljs-params">()</span> &#123;<br>      assertEquals(<span class="hljs-number">10</span>, Math.max(<span class="hljs-number">10</span>, -<span class="hljs-number">9</span>));<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>注: assertEquals 参数的顺序很重要. 第一个参数应该是测试希望看到的预期结果, 通常是一个常量. 第二个参数是实际的结果, 即代码使用被测试模块得到的结果.</p>
+</li>
+<li>
+<p>如果测试方法中的断言失败, 那么该测试方法立即返回, 并且 JUnit 为该测试记录了一个失败. 一个测试类可以包含任意数量的 @Test 标记的方法, 当您使用 JUnit 运行测试类时, 这些方法是独立运行的. 即使一个测试方法失败, 其他方法仍将运行.</p>
+</li>
+</ul>
+<h3 id="记录测试策略">记录测试策略</h3>
+<p>最好写下你用来创建测试套件的测试策略: 分区、它们的子域以及每个测试用例选择覆盖的子域. 写下策略可以使读者了解你的测试组的完整性.</p>
+<p>在 JUnit 测试类顶部的注释中记录分区和子域.</p>
+<ul>
+<li>例如，为了记录我们测试 max 函数的策略, 我们将在 MaxTest.java 中编写如下内容:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MaxTest</span> &#123;<br>  <span class="hljs-comment">/*</span><br><span class="hljs-comment">   * Testing strategy</span><br><span class="hljs-comment">   *</span><br><span class="hljs-comment">   * partition:</span><br><span class="hljs-comment">   *    a &lt; b</span><br><span class="hljs-comment">   *    a &gt; b</span><br><span class="hljs-comment">   *    a = b</span><br><span class="hljs-comment">   */</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li>每个测试样例的上面应该有一个注释, 说明它覆盖了哪个子域.
+<ul>
+<li>例如:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// covers a &lt; b</span><br>  <span class="hljs-meta">@Test</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testALessThanB</span><span class="hljs-params">()</span> &#123;<br>      assertEquals(<span class="hljs-number">2</span>, Math.max(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>));<br>  &#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>大多数测试组将有多个分区, 并且大多数测试样例将覆盖多个子域.
+<ul>
+<li>例如: 针对 multiply 的测试策略, 使用了 7 个分区:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Multiply</span> &#123;<br>  <span class="hljs-comment">/*</span><br><span class="hljs-comment">   * Testing strategy</span><br><span class="hljs-comment">   *</span><br><span class="hljs-comment">   * cover the cartesian product of these partitions:</span><br><span class="hljs-comment">   *   partition on a: positive, negative, 0</span><br><span class="hljs-comment">   *   partition on b: positive, negative, 0</span><br><span class="hljs-comment">   *   partition on a: 1, !=1</span><br><span class="hljs-comment">   *   partition on b: 1, !=1</span><br><span class="hljs-comment">   *   partition on a: small (fits in a long value), or large (doesn&#x27;t fit)</span><br><span class="hljs-comment">   *   partition on b: small, large</span><br><span class="hljs-comment">   * </span><br><span class="hljs-comment">   * cover the subdomains of these partitions:</span><br><span class="hljs-comment">   *   partition on signs of a and b:</span><br><span class="hljs-comment">   *      both positive</span><br><span class="hljs-comment">   *      both negative</span><br><span class="hljs-comment">   *      different signs</span><br><span class="hljs-comment">   *      one or both are 0</span><br><span class="hljs-comment">   */</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>然后, 每个测试用例都有一个注释, 标识它选择覆盖的子域.
+<ul>
+<li>例如:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// covers a is positive, b is negative, </span><br><span class="hljs-comment">//        a fits in long value, b fits in long value,</span><br><span class="hljs-comment">//        a and b have different signs</span><br><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testDifferentSigns</span><span class="hljs-params">()</span> &#123;<br>    assertEquals(BigInteger.valueOf(-<span class="hljs-number">146</span>), BigInteger.valueOf(<span class="hljs-number">73</span>).multiply(BigInteger.valueOf(-<span class="hljs-number">2</span>)));<br>&#125;<br><br><span class="hljs-comment">// covers a = 1, b != 1, a and b have same sign</span><br><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testIdentity</span><span class="hljs-params">()</span> &#123;<br>    assertEquals(BigInteger.valueOf(<span class="hljs-number">33</span>), BigInteger.valueOf(<span class="hljs-number">1</span>).multiply(BigInteger.valueOf(<span class="hljs-number">33</span>)));<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="黑盒测试与白盒测试">黑盒测试与白盒测试</h2>
+<p><strong>黑盒测试</strong>: 只从规范中选择测试样例, 而不是根据函数的实现选择测试用例.</p>
+<ul>
+<li>例如:
+<ul>
+<li>我们分区和查找 abs、 max 和 multiply 函数中的边界, 而没有查看这些函数的实际代码. 实际上, 按照测试优先的编程方法, 我们甚至还没有为这些函数编写代码.</li>
+</ul>
+</li>
+</ul>
+<p><strong>白盒测试</strong>: 在了解函数具体实现的情况下选择测试用例.</p>
+<ul>
+<li>例如:
+<ul>
+<li>如果实现根据输入选择不同的算法, 那么应该围绕选择不同算法的点进行划分.</li>
+<li>如果实现保留了一个内部缓存来记住以前输入的答案, 那么你应该测试重复的输入.</li>
+<li>对于 BigInteger.multiply, 当我们最终实现它时, 我们可能已经决定用 int 值表示小整数, 用十进制数列表示大整数. 这个决策将引入新的边界值 (Integer.MAX_VALUE 和 Integer.MIN_VALUE).</li>
+</ul>
+</li>
+<li>当进行白盒测试时, 测试人员可以查看代码实现的细节, 这使得他们有可能根据代码实现的细节编写测试用例. 然而, 有时候编写的测试用例可能只能通过当前的实现方式才能得到正确的结果, 而不是依据规范要求. 这种情况可能会导致测试人员对代码实现的行为做出错误的假设, 从而导致在将来修改代码实现时出现问题. 因此, 在进行白盒测试时, 测试人员需要仔细阅读规范并确保测试用例仅仅检查规范中所要求的行为. 如果规范没有具体说明某些行为, 则测试用例应该是通用的. 不依赖于当前的实现方式. 这样测试人员就可以确保测试用例正确地反映了规范所要求的行为, 而且这些测试用例在将来代码实现的修改下仍然有效.</li>
+</ul>
+<h2 id="覆盖率">覆盖率</h2>
+<p><strong>覆盖率</strong>是指在软件测试中, 测试用例覆盖代码中各种情况和路径的程序.</p>
+<p>以下是三种常见的覆盖率:</p>
+<ul>
+<li>语句覆盖率: 测试用例覆盖代码中每个语句至少一次的情况. 如果一条语句没有被测试用例覆盖到, 那么这个语句就没有得到执行.</li>
+<li>分支覆盖率: 测试用例覆盖代码中每个分支的情况. 如果一个条件语句中的每个分支都被测试用例至少一次覆盖到, 那么这个条件语句就可以被认为是完全覆盖了.</li>
+<li>路径覆盖率: 测试用例覆盖代码中每个可能的执行路径的情况. 一个程序的执行路径可能有很多条, 路径覆盖率就是指测试用例覆盖了多少个不同的执行路径. 路径覆盖率是三种覆盖率中最严格的一种, 因为它需要测试用例覆盖所有可能的执行路径, 而不仅仅是语句或分支.</li>
+</ul>
+<p>一个标准的测试方法是添加测试, 直到测试组达到足够的语句覆盖率. 通常语句覆盖率由代码覆盖率工具来衡量, 该工具计算测试组运行每个语句的次数.</p>
+<p>使用代码覆盖率工具, 可以使得白盒测试更容易: 你只需要测量黑盒测试的覆盖率, 并添加更多的测试用例, 直到所有重要的语句都被记录为执行状态.</p>
+<ul>
+<li>问: 为什么要测量黑盒测试的覆盖率?
+<ul>
+<li>答: 在白盒测试中, 测试人员需要了解代码内部的结构和逻辑, 以编写测试用例并检查代码的内部行为. 但是, 测试人员不能仅仅依靠自己的经验和想象来编写测试用例, 而应该参考软件需求和规格说明书等文档, 确保测试用例覆盖了所有的功能需求和限制条件. 而黑盒测试是基于软件需求和规格说明书, 而不考虑软件内部实现的测试方法. 因此, 在进行白盒测试时, 可以利用已经编写的黑盒测试用例, 以及黑盒测试产生的覆盖率信息, 来辅助编写白盒测试用例. 通过测量黑盒测试的覆盖率, 测试人员可以了解哪些代码路径已经被测试用例覆盖, 哪些代码路径还需要编写额外的白盒测试用例来覆盖. 这种方法可以帮助测试人员快速地定位需要编写的测试用例, 并减少测试人员的工作量. 同时, 还可以提高测试的效率和覆盖率, 从而提高软件的质量.</li>
+</ul>
+</li>
+</ul>
+<h2 id="单元测试与集成测试">单元测试与集成测试</h2>
+<p><strong>单元测试</strong>是指对软件中的独立单元进行测试, 例如函数、方法或类等. 单元测试通常是由开发人员编写的, 旨在验证单个单元是否按照预期工作. 在单元测试中, 测试者通常会模拟该单元的依赖项并使用不同的测试用例来验证该单元在各种输入情况下的输出是否正确. 单元测试可以使调试更加容易. 当一个模块的单元测试失败时, 你可以更加确信错误是在该模块中发生的, 而不是在程序的其他地方发生的.</p>
+<p><strong>集成测试</strong>则是在不同组件之间进行测试, 以验证它们是否可以正常协同工作. 在集成测试中, 测试者会测试软件系统的不同模块之间的交互, 并确保它们可以按照预期协同工作. 集成测试通常由专门的测试人员进行, 测试范围更广, 测试的是整个软件系统而非单个单元. 那么当一个测试失败时, Bug 可能发生在程序的任何地方. 但集成测试依然很重要, 因为程序可能在模块之间的连接处失败.</p>
+<ul>
+<li>例如: 一个模块可能期望的输入与实际从另一个模块中获得的输入不同.<br>
+但是, 如果你有一套完整的单元测试使你对单个模块的正确性有信心, 那么就不需要花费过多的时间寻找 Bug.</li>
+</ul>
+<p>假设有一个文档搜索引擎. 它有两个方法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/** </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> the contents of the file</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">load</span><span class="hljs-params">(File file)</span> &#123; ... &#125;<br><br><span class="hljs-comment">/** </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> the words in string s, in the order they appear, </span><br><span class="hljs-comment"> *         where a word is a contiguous sequence of </span><br><span class="hljs-comment"> *         non-whitespace and non-punctuation characters </span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> List&lt;String&gt; <span class="hljs-title function_">extract</span><span class="hljs-params">(String s)</span> &#123; ... &#125;<br></code></pre></td></tr></table></figure>
+<p>另一个方法 index() 调用了上述方法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> an index mapping a word to the set of files</span><br><span class="hljs-comment"> *         containing that word, for all files in the input set </span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Map&lt;String, Set&lt;File&gt;&gt; <span class="hljs-title function_">index</span><span class="hljs-params">(Set&lt;File&gt; files)</span> &#123; <br>    ...<br>    <span class="hljs-keyword">for</span> (File file : files) &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">doc</span> <span class="hljs-operator">=</span> load(file);<br>        List&lt;String&gt; words = extract(doc);<br>        ...<br>    &#125;<br>    ...<br>&#125; <br></code></pre></td></tr></table></figure>
+<p>在我们的测试组中, 我们希望:</p>
+<ul>
+<li>针对 load 函数的单元测试在多个文件上测试它.</li>
+<li>针对 extract 函数的单元测试在多个字符串上测试它.</li>
+<li>针对 index 函数的单元测试在多个文件集上测试它.</li>
+</ul>
+<p>首先针对 extract 函数的测试用例不能依赖于 load 函数的正确性, 即给 extract 函数编写的测试用例不能调用 load 函数. 应当将文件内容存储为字符串, 在测试用例中直接传递给 extract 函数.</p>
+<p>注意到 index 的单元测试不能以这种方式轻易地隔离. 当测试用例调用 index 函数时, 它不仅测试 index 中的代码的正确性, 而且测试 index 函数调用的所有方法的正确性. 通常我们会编写所有它所调用的函数的存根版本, 这样就能隔离像 index 这样的高级模块.</p>
+<ul>
+<li>存根是在测试过程中用来替代某些组件或者模块的一个简单实现, 它可以模拟出组件或模块的某些行为或输出，以便测试其他组件或模块的行为. 在软件测试中, 有些组件或模块可能依赖于其他组件或模块的功能. 如果这些依赖的组件或模块尚未完成或者不可用, 那么就可以使用存根来代替. 存根通常是一个非常简单的程序, 它只实现了被测试组件或模块所需要的一些基本功能, 而其他的功能则直接返回固定的结果. 使用存根可以简化测试过程, 减少测试的时间和成本, 并且提高测试的可靠性.</li>
+</ul>
+<h2 id="自动回归测试">自动回归测试</h2>
+<p><strong>回归测试</strong>是指在软件系统修改或更新之后, 重新执行之前已经执行过的测试用例, 以确保修改或更新后的软件系统没有破坏原有的功能和性能, 也没有引入新的 Bug. 回归测试的目的是验证软件修改或更新的正确性, 并且保证软件系统在新的版本中依然能够按照原有的功能和性能运行.</p>
+<p><strong>自动回归测试</strong>是指使用自动化测试工具来执行回归测试的过程. 相比手动回归测试, 自动回归测试能够更加快速地执行测试用例, 并且能够重复执行多次, 以确保软件系统的稳定性和可靠性. 自动化测试工具可以自动执行预设的测试用例, 比较预期结果和实际结果之间的差异, 并生成测试报告. 自动回归测试能够减少测试的人力成本和时间成本, 并且提高测试的可靠性和准确性.</p>
+<p>无论何时你发现并修复了一个 Bug, 应当将引发该 Bug 的输入作为测试用例添加到你的测试组中, 这有助于优化你的测试组, 防止重新引入该 Bug.</p>
+<h2 id="迭代测试优先编程">迭代测试优先编程</h2>
+<p><strong>迭代测试优先编程</strong>是对测试优先编程的完善, 其具体流程如下:</p>
+<ol>
+<li>为函数写一个规范.</li>
+<li>编写执行规范的测试. 当你发现问题时, 对规范和测试进行迭代.</li>
+<li>编写函数的实现. 当你发现问题时, 对规范、测试和实现进行迭代.<br>
+每个步骤都有助于验证前面的步骤.</li>
+</ol>
+<ul>
+<li>编写测试有助于理解规范, 规范可能时不正确的、不完整的、模糊的. 尝试编写测试可以在浪费时间实现错误的规范之前及时发现问题.</li>
+<li>编写实现有助于发现缺失或不正确的测试, 或者提醒你重新审视和修改规范.</li>
+</ul>
+<p>迭代规划:</p>
+<ul>
+<li>对于大型规范, 首先只编写规范的一部分, 然后继续测试和实现该部分, 然后使用更完整的规范进行迭代.</li>
+<li>对于复杂的测试组, 首先选择一些重要的分区, 然后为它们创建一个小的测试组, 编写一个能通过这些测试的简单实现, 然后在具有更多分区的测试组上迭代.</li>
+<li>对于一个复杂的实现, 首先编写一个简单的实现来测试你的规范和测试组, 确保你的规范和测试组是正确的, 然后再编写更难的实现.</li>
+</ul>
+<p>在迭代测试优先编程中, 软件开发人员通过快速迭代, 逐步完善软件产品, 以达到更高的质量和更快的交付速度.</p>
+<p>迭代测试优先编程要求开发人员拥有不同的思维方式. 相比于解决作业和考试问题时一次性地解决问题, 迭代测试优先编程要求开发人员尽快提供一个初步的解决方案, 并不断地进行改进和优化, 以便有时间进行必要的舍弃和重新工作. 这种方法对于解决困难问题和未知的解决方案空间的问题尤为有效.</p>
+<p>迭代测试优先编程方法的一个重要方面是测试优先. 测试应该成为开发过程的一部分, 而不是在开发完成后进行的单独的活动. 测试应该尽早地开始, 以便在整个开发过程中快速发现和修复问题.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>MIT 6.031 Software Construction: <a target="_blank" rel="noopener" href="https://web.mit.edu/6.031/www/sp21/">https://web.mit.edu/6.031/www/sp21/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" class="category-chain-item">软件工程</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/MIT-6-031/" class="print-no-link">#MIT 6.031</a>
+      
+        <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" class="print-no-link">#软件工程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" title="代码审查">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">代码审查</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/%E7%A8%B3%E5%AE%9A%E5%8C%B9%E9%85%8D%E9%97%AE%E9%A2%98/" title="稳定匹配问题">
+                        <span class="hidden-mobile">稳定匹配问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

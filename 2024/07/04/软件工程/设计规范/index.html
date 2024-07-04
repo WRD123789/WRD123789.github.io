@@ -1,0 +1,688 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="设计规范 确定的规范与不确定的规范 假设有两种 find 的实现: 123456static int find(int[] arr, int val) &#123;    for (int i &#x3D; 0; i &lt; arr.length; i++) &#123;        if (arr[i] &#x3D;&#x3D; val) return i;    &#125;    return arr.length;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计规范">
+<meta property="og:url" content="http://example.com/2024/07/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="设计规范 确定的规范与不确定的规范 假设有两种 find 的实现: 123456static int find(int[] arr, int val) &#123;    for (int i &#x3D; 0; i &lt; arr.length; i++) &#123;        if (arr[i] &#x3D;&#x3D; val) return i;    &#125;    return arr.length;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20230424165037.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230424165100.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230424165318.png">
+<meta property="article:published_time" content="2024-07-04T09:26:31.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.564Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="MIT 6.031">
+<meta property="article:tag" content="软件工程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20230424165037.png">
+  
+  
+  
+  <title>设计规范 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="设计规范"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 17:26" pubdate>
+          2024年7月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">设计规范</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>设计规范</h1>
+<h2 id="确定的规范与不确定的规范">确定的规范与不确定的规范</h2>
+<p>假设有两种 <code>find</code> 的实现:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">find</span><span class="hljs-params">(<span class="hljs-type">int</span>[] arr, <span class="hljs-type">int</span> val)</span> &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; arr.length; i++) &#123;<br>        <span class="hljs-keyword">if</span> (arr[i] == val) <span class="hljs-keyword">return</span> i;<br>    &#125;<br>    <span class="hljs-keyword">return</span> arr.length;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">find</span><span class="hljs-params">(<span class="hljs-type">int</span>[] arr, <span class="hljs-type">int</span> val)</span> &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> arr.length - <span class="hljs-number">1</span> ; i &gt;= <span class="hljs-number">0</span>; i--) &#123;<br>        <span class="hljs-keyword">if</span> (arr[i] == val) <span class="hljs-keyword">return</span> i;<br>    &#125;<br>    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>对于 <code>find</code> 的一种规范:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">find</span><span class="hljs-params">(<span class="hljs-type">int</span>[] arr, <span class="hljs-type">int</span> val)</span><br> <span class="hljs-keyword">requires</span>: `val` occurs exactly once in `arr`<br>  effects: returns index `i` such that `arr[i]` = `val`<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该 <code>find</code> 的规范是<strong>确定的</strong>: 对于一个满足前提条件的状态, 结果是完全确定的, 即对于一个有效的输入, 不存在多个有效的输出.</li>
+<li>上述两种 <code>find</code> 函数的实现都能满足该规范.</li>
+</ul>
+<p>对于 <code>find</code> 的另一个规范:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">find</span><span class="hljs-params">(<span class="hljs-type">int</span>[] arr, <span class="hljs-type">int</span> val)</span><br> <span class="hljs-keyword">requires</span>: `val` occurs in `arr`<br>  effects: returns index `i` such that `arr[i]` = `val`<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该 <code>find</code> 的规范是<strong>不确定的</strong>: 对于在 <code>arr</code> 中出现多个 <code>val</code> 的输入, 可能返回的 <code>index</code> 是不确定的, 即对于同一个有效的输入, 对应多个不同的输出.</li>
+<li>虽然上述两种 <code>find</code> 实现都满足规范, 但是返回的 <code>index</code> 是不同的.</li>
+</ul>
+<h2 id="声明性规范与操作性规范">声明性规范与操作性规范</h2>
+<p><strong>声明性规范</strong>: 没有给出方法中间步骤的细节, 只是给出最终结果的属性, 以及它与初始状态之间的关系.</p>
+<p><strong>操作性规范</strong>: 给出方法执行的一系列步骤.</p>
+<p>声明性规范更可取. 它们通常更短、更容易理解, 而且最重要的是: 它们不会无意中暴露客户端可能依赖的实现细节.</p>
+<h2 id="强规范与弱规范">强规范与弱规范</h2>
+<p>规范的存在使得可以安全地用一个实现替换另一个实现. 假设你不仅需要更改实现, 还需要更改规范, 如果已经存在客户端依赖于当前方法的规范, 如何比较两个规范的行为来决定用新规范替换旧规范是否安全?</p>
+<p>如果满足 S2 的实现集是与 S1 匹配的实现集的严格子集, 则规范 S2 比规范 S1 强.</p>
+<p>为了确定一个规范是否比另一个规范更强或更弱, 我们比较它们的前置条件和后置条件的强度. 前提条件是一个关于输入状态的谓词, 因此使前提条件更强就意味着缩小有效输入的集合; 类似地, 后置条件是对输出状态的谓词, 因此更强的后置条件将收缩有效输出的集合.</p>
+<p>则该规则是: 一个规范 S2 强于规范 S1 当且仅当</p>
+<ul>
+<li>规范 S2 的前提条件弱于规范 S1 的前提条件.</li>
+<li>对于满足 S1 前提条件的状态, 规范 S2 的后置条件强于规范 S1 的后置条件.</li>
+</ul>
+<p>此时满足规范 S2 的实现也满足规范 S1, 在程序中用规范 S2 代替规范 S1 是安全的.</p>
+<p>可以用图来表述:</p>
+<ul>
+<li>用空间中的点表示实现:<br>
+<img src="/img/Pictures/20230424165037.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>用空间中的区域表示规范:<br>
+<img src="/img/Pictures/20230424165100.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>规范的实现者可以在规范的区域内随意移动点 (实现), 而不必担心影响客户端.</li>
+<li>当增强后置条件或者减弱前置条件, 那么新的规范 S2 就是比原规范 S1 更强的规范, 其区域将会缩小:<br>
+<img src="/img/Pictures/20230424165318.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+<h2 id="好的设计规范">好的设计规范</h2>
+<p><strong>规范应该是一致的</strong></p>
+<p>作为一个单一的、完整的单元, 一个一致的规范对它的客户来说是有意义的.</p>
+<ul>
+<li>例如:
+<ul>
+<li>对于以下规范:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">sumFind</span><span class="hljs-params">(<span class="hljs-type">int</span>[] a, <span class="hljs-type">int</span>[] b, <span class="hljs-type">int</span> val)</span><br> effects: returns the sum of all indices in arrays `a` and `b` at which `val` appears<br></code></pre></td></tr></table></figure>
+该规范不是一致的, 它做了几件事 (在两个数组中查找索引、对索引求和), 这些事情是不相关的. 所以应当将它拆成两个函数, 一个用于查找索引, 一个用于对索引求和.</li>
+</ul>
+</li>
+</ul>
+<p><strong>调用的结果应该具有信息性</strong></p>
+<p>考虑将一个值放入 map 的方法的规范:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> V <span class="hljs-title function_">put</span><span class="hljs-params">(Map&lt;K,V&gt; map, K key, V val)</span><br> <span class="hljs-keyword">requires</span>: `val` may be `<span class="hljs-literal">null</span>`, and `map` may contain <span class="hljs-literal">null</span> values<br>  effects: inserts `(key, val)` into the mapping, overriding any existing mapping <span class="hljs-keyword">for</span> `key`, and returns old value <span class="hljs-keyword">for</span> `key`, unless none, in which <span class="hljs-keyword">case</span> it returns `<span class="hljs-literal">null</span>`<br></code></pre></td></tr></table></figure>
+<p>由于前提条件中表明映射可以存储 null, 但是后置条件将 null 作为缺失键时的返回值. 这将导致如果返回值为 null, 就无法判断 key 是否在 map 缺失, 因为它可能被映射到 null.</p>
+<p><strong>规范应该足够强大</strong></p>
+<p>考虑以下规范:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addAll</span><span class="hljs-params">(List&lt;T&gt; list1, List&lt;T&gt; list2)</span><br> effects: appends the elements from `list2` to `list1` in order, unless it encounters a <span class="hljs-literal">null</span> element in `list2`, at which point it <span class="hljs-keyword">throws</span> a `NullPointerException`<br></code></pre></td></tr></table></figure>
+<p>虽然这个规范比不提及 null 的规范强大, 但还是不够. 因为它允许在抛出 NullPointerException 异常之前发生任意数量的变化. 如果客户机捕获了异常, 那么客户机就会想知道 list2 的哪些元素实际上进入了 list1.</p>
+<p>可以进一步加强规范:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addAll</span><span class="hljs-params">(List&lt;T&gt; list1, List&lt;T&gt; list2)</span><br> effects: appends the elements from `list2` to `list1` in order. If `list2` contains <span class="hljs-literal">null</span> elements, it <span class="hljs-keyword">throws</span> a `NullPointerException` and no elements are appended to `list1`.<br></code></pre></td></tr></table></figure>
+<p><strong>规范应该尽可能使用抽象类型</strong></p>
+<p>使用抽象类型编写我们的规范给客户端和实现者更多的自由. 在 Java 中, 这通常意味着使用抽象类型, 如 Map 或 Reader, 而不是特定的实现类型, 如 HashMap 或 FileReader.</p>
+<h2 id="是否使用前置条件">是否使用前置条件</h2>
+<p>另一个设计问题是是否使用前置条件以及如果使用前置条件,  方法代码是否应该尝试在继续之前确保前置条件已被满足. 事实上,  最常见的使用前置条件的情况是 requires 属性,  因为方法检查它可能会很困难或昂贵.</p>
+<p>如上所述,  非平凡的前置条件会给客户带来不便,  因为他们必须确保不调用处于错误状态 (违反前置条件) 的方法; 如果他们这样做了, 就没有可预测的方式来从错误中恢复. 因此, 方法的用户不喜欢前置条件. 这就是为什么 Java API 类倾向于用抛出未检查异常作为后置条件来规定的原因. 这种方法使得更容易找到调用者代码中导致传递错误参数的错误或不正确的假设.  (Java API 文档将 requires 表述为前置条件, 但同时也保证在 requires 违反时引发特定错误).</p>
+<p>一般来说, 尽可能在错误的地方快速失败, 而不是让错误值在程序中传播到远离其原始原因的地方.</p>
+<p>有时候, 检查条件而使方法变得不可接受地缓慢是不可行的, 这种情况下前置条件通常是必要的. 如果我们想使用二分查找来实现 find 方法, 我们将不得不要求数组被排序作为前置条件. 让方法实际检查数组是否排序将会影响该方法的时间复杂度, 使得该方法变慢.</p>
+<p>是否使用前置条件的决策是一种工程判断. 关键因素是检查的成本以及方法的范围. 如果它只在类中本地调用, 前置条件可以通过仔细检查调用该方法的所有位置来保证满足. 但如果该方法是公共的, 并且被其他开发者使用, 使用前置条件将不明智. 相反, 像 Java API 类 一样, 应该将异常作为后置条件抛出是合理的.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>MIT 6.031 Software Construction: <a target="_blank" rel="noopener" href="https://web.mit.edu/6.031/www/sp21/">https://web.mit.edu/6.031/www/sp21/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" class="category-chain-item">软件工程</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/MIT-6-031/" class="print-no-link">#MIT 6.031</a>
+      
+        <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" class="print-no-link">#软件工程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%AD%A5/" title="计算机系统漫步">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">计算机系统漫步</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E9%9D%99%E6%80%81%E6%A3%80%E6%9F%A5/" title="静态检查">
+                        <span class="hidden-mobile">静态检查</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

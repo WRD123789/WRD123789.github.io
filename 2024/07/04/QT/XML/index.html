@@ -1,0 +1,794 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="XML XML (eXtensible Markup Language) 是一种通用的文本格式, 被广泛运用于数据交换和数据存储 (虽然近年来 JSON 盛行, 大有取代 XML 的趋势, 但是对于一些已有系统和架构, 比如 WebService, 由于历史原因, 仍旧会继续使用 XML. 针对 XML 的通用处理, Qt4 提供了 QtXml 模块; 针对 XML 文档的 Schema 验证以及">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QT XML">
+<meta property="og:url" content="http://example.com/2024/07/04/QT/XML/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="XML XML (eXtensible Markup Language) 是一种通用的文本格式, 被广泛运用于数据交换和数据存储 (虽然近年来 JSON 盛行, 大有取代 XML 的趋势, 但是对于一些已有系统和架构, 比如 WebService, 由于历史原因, 仍旧会继续使用 XML. 针对 XML 的通用处理, Qt4 提供了 QtXml 模块; 针对 XML 文档的 Schema 验证以及">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20240211163137.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240212151618.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240216123910.png">
+<meta property="article:published_time" content="2024-07-04T12:54:18.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="QT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20240211163137.png">
+  
+  
+  
+  <title>QT XML - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QT XML"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:54" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          40 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">QT XML</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>XML</h1>
+<p>XML (eXtensible Markup Language) 是一种通用的文本格式, 被广泛运用于数据交换和数据存储 (虽然近年来 JSON 盛行, 大有取代 XML 的趋势, 但是对于一些已有系统和架构, 比如 WebService, 由于历史原因, 仍旧会继续使用 XML.</p>
+<p>针对 XML 的通用处理, Qt4 提供了 QtXml 模块; 针对 XML 文档的 Schema 验证以及 XPath、XQuery 和 XSLT, Qt4 和 Qt5 则提供了 QtXmlPatterns 模块.</p>
+<p>Qt 提供了三种读取 XML 文档的方法:</p>
+<ul>
+<li><code>QXmlStreamReader</code>: 一种以快速的基于流的方式访问良格式 XML 文档, 特别适合于实现一次解析器 (所谓 “一次解析器”, 可以理解成我们只需读取文档一次, 然后像一个遍历器从头到尾一次性处理 XML 文档, 期间不会有反复的情况).</li>
+<li>DOM (Document Object Model): DOM 解析器将整个 XML 文档加载到内存中, 并构建一个树形结构, 其中每个节点都代表 XML 中的一个元素或节点. 适用于对整个文档进行多次操作或复杂的数据处理任务. DOM 方式带来的问题是需要一次性将整个 XML 文档读入内存, 因此会占用很大内存.</li>
+<li>SAX (Simple API for XML): SAX 解析器是一种基于事件驱动的解析器, 它逐行读取 XML 文档并触发一系列事件, 如元素的开始和结束、文本内容等. SAX 不需要将整个文档加载到内存中, 因此在处理大型文档时占用的内存较少. SAX 不支持随机访问 XML 数据, 而是按顺序处理, 通常用于一次性地读取并处理 XML 数据.</li>
+</ul>
+<p>在 Qt4 中, 这三种方法都位于 QtXml 模块中. Qt5 则将 <code>QXmlStreamReader</code>、<code>QXmlStreamWriter</code> 移动到 QtCore 中, QtXml 则标记为 “不再维护”.</p>
+<p>这三种方法中, <code>QXmlStreamReader</code> 是 Qt 中最快最方便的读取 XML 的方法. 因为 <code>QXmlStreamReader</code> 使用了递增式的解析器, 适合于在整个 XML 文档中查找给定的标签、读入无法放入内存的大文件以及处理 XML 的自定义数据.</p>
+<h2 id="使用-QXmlStreamReader-处理-XML">使用 <code>QXmlStreamReader</code> 处理 XML</h2>
+<p>每次调用 <code>QXmlStreamReader::readNext()</code> 函数, 解析器都会读取下一个元素, 按照下表中展示的类型进行处理. 我们根据表中所列的有关函数即可获得相应的数据值:</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>示例</th>
+<th>有关函数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>StartDocument</code></td>
+<td>–</td>
+<td><code>documentVersion()</code>, <code>documentEncoding()</code>, <code>isStandaloneDocument()</code></td>
+</tr>
+<tr>
+<td><code>EndDocument</code></td>
+<td>–</td>
+<td></td>
+</tr>
+<tr>
+<td><code>StartElement</code></td>
+<td>&lt;item&gt;</td>
+<td><code>namespaceUri()</code>, <code>name()</code>, <code>attributes()</code>,<code>namespaceDeclarations()</code></td>
+</tr>
+<tr>
+<td><code>EndElement</code></td>
+<td>&lt;/item&gt;</td>
+<td><code>namespaceUri()</code>, <code>name()</code></td>
+</tr>
+<tr>
+<td><code>Characters</code></td>
+<td>AT&amp;T</td>
+<td><code>text()</code>,<code>isWhitespace()</code>, <code>isCDATA()</code></td>
+</tr>
+<tr>
+<td><code>Comment</code></td>
+<td>&lt;!– fix –&gt;</td>
+<td><code>text()</code></td>
+</tr>
+<tr>
+<td><code>DTD</code></td>
+<td>&lt;!DOCTYPE …&gt;</td>
+<td><code>text()</code>, <code>notationDeclarations()</code>, <code>entityDeclarations()</code>, <code>dtdName()</code>, <code>dtdPublicId()</code>, <code>dtdSystemId()</code></td>
+</tr>
+<tr>
+<td><code>EntityReference</code></td>
+<td>&amp;trade;</td>
+<td><code>name()</code>, <code>text()</code></td>
+</tr>
+<tr>
+<td><code>ProcessingInstruction</code></td>
+<td>&lt;?alert?&gt;</td>
+<td><code>processingInstructionTarget()</code>, <code>processingInstructionData()</code></td>
+</tr>
+<tr>
+<td><code>Invalid</code></td>
+<td>&gt;&amp;&lt;!</td>
+<td><code>error()</code>, <code>errorString()</code></td>
+</tr>
+</tbody>
+</table>
+<p>例如, 对于如下 XML 片段:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">doc</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">quote</span>&gt;</span>Einmal ist keinmal<span class="hljs-tag">&lt;/<span class="hljs-name">quote</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">doc</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>该片段经过一次解析之后, 我们通过 <code>readNext()</code> 的遍历可以获得如下信息:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">StartDocument<br>StartElement (name() == &quot;doc&quot;)<br>StartElement (name() == &quot;quote&quot;)<br>Characters (text() == &quot;Einmal ist keinmal&quot;)<br>EndElement (name() == &quot;quote&quot;)<br>EndElement (name() == &quot;doc&quot;)<br>EndDocument<br></code></pre></td></tr></table></figure>
+<p>下面读取一个 XML 文档, 然后通过一个 <code>QTreeWidget</code> 来显示:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bookindex</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">entry</span> <span class="hljs-attr">term</span>=<span class="hljs-string">&quot;sidebearings&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">page</span>&gt;</span>10<span class="hljs-tag">&lt;/<span class="hljs-name">page</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">page</span>&gt;</span>34-35<span class="hljs-tag">&lt;/<span class="hljs-name">page</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">page</span>&gt;</span>307-308<span class="hljs-tag">&lt;/<span class="hljs-name">page</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">entry</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">entry</span> <span class="hljs-attr">term</span>=<span class="hljs-string">&quot;subtraction&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">entry</span> <span class="hljs-attr">term</span>=<span class="hljs-string">&quot;of pictures&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">page</span>&gt;</span>115<span class="hljs-tag">&lt;/<span class="hljs-name">page</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">page</span>&gt;</span>244<span class="hljs-tag">&lt;/<span class="hljs-name">page</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">entry</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">entry</span> <span class="hljs-attr">term</span>=<span class="hljs-string">&quot;of vectors&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">page</span>&gt;</span>9<span class="hljs-tag">&lt;/<span class="hljs-name">page</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">entry</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">entry</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">bookindex</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// mainwindow.h</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainWindow</span> : <span class="hljs-keyword">public</span> QMainWindow<br>&#123;<br>    Q_OBJECT<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">explicit</span> <span class="hljs-title">MainWindow</span><span class="hljs-params">(QWidget *parent = <span class="hljs-number">0</span>)</span></span>;<br>    ~<span class="hljs-built_in">MainWindow</span>();<br><br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">readFile</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;fileName)</span></span>;<br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">readBookindexElement</span><span class="hljs-params">()</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">readEntryElement</span><span class="hljs-params">(QTreeWidgetItem *parent)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">readPageElement</span><span class="hljs-params">(QTreeWidgetItem *parent)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">skipUnknownElement</span><span class="hljs-params">()</span></span>;<br><br>    QTreeWidget *treeWidget;<br>    QXmlStreamReader reader;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// mainwindow.cpp</span><br>MainWindow::<span class="hljs-built_in">MainWindow</span>(QWidget *parent) :<br>    <span class="hljs-built_in">QMainWindow</span>(parent)<br>&#123;<br>    <span class="hljs-built_in">setWindowTitle</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;XML Reader&quot;</span>));<br><br>    treeWidget = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTreeWidget</span>(<span class="hljs-keyword">this</span>);<br>    QStringList headers;<br>    headers &lt;&lt; <span class="hljs-string">&quot;Items&quot;</span> &lt;&lt; <span class="hljs-string">&quot;Pages&quot;</span>;<br>    treeWidget-&gt;<span class="hljs-built_in">setHeaderLabels</span>(headers);<br>    <span class="hljs-built_in">setCentralWidget</span>(treeWidget);<br>&#125;<br><br>MainWindow::~<span class="hljs-built_in">MainWindow</span>()<br>&#123;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">MainWindow::readFile</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;fileName)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QFile <span class="hljs-title">file</span><span class="hljs-params">(fileName)</span></span>;<br>    <span class="hljs-keyword">if</span> (!file.<span class="hljs-built_in">open</span>(QFile::ReadOnly | QFile::Text)) &#123;<br>        QMessageBox::<span class="hljs-built_in">critical</span>(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Error&quot;</span>),<br>                              <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Cannot read file %1&quot;</span>).<span class="hljs-built_in">arg</span>(fileName));<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>    reader.<span class="hljs-built_in">setDevice</span>(&amp;file);<br>    <span class="hljs-keyword">while</span> (!reader.<span class="hljs-built_in">atEnd</span>()) &#123;<br>        <span class="hljs-keyword">if</span> (reader.<span class="hljs-built_in">isStartElement</span>()) &#123;<br>            <span class="hljs-keyword">if</span> (reader.<span class="hljs-built_in">name</span>() == <span class="hljs-string">&quot;bookindex&quot;</span>) &#123;<br>                <span class="hljs-built_in">readBookindexElement</span>();<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                reader.<span class="hljs-built_in">raiseError</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Not a valid book file&quot;</span>));<br>            &#125;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            reader.<span class="hljs-built_in">readNext</span>();<br>        &#125;<br>    &#125;<br>    file.<span class="hljs-built_in">close</span>();<br>    <span class="hljs-keyword">if</span> (reader.<span class="hljs-built_in">hasError</span>()) &#123;<br>        QMessageBox::<span class="hljs-built_in">critical</span>(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Error&quot;</span>),<br>                              <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Failed to parse file %1&quot;</span>).<span class="hljs-built_in">arg</span>(fileName));<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (file.<span class="hljs-built_in">error</span>() != QFile::NoError) &#123;<br>        QMessageBox::<span class="hljs-built_in">critical</span>(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Error&quot;</span>),<br>                              <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Cannot read file %1&quot;</span>).<span class="hljs-built_in">arg</span>(fileName));<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::readBookindexElement</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">Q_ASSERT</span>(reader.<span class="hljs-built_in">isStartElement</span>() &amp;&amp; reader.<span class="hljs-built_in">name</span>() == <span class="hljs-string">&quot;bookindex&quot;</span>);<br>    reader.<span class="hljs-built_in">readNext</span>();<br>    <span class="hljs-keyword">while</span> (!reader.<span class="hljs-built_in">atEnd</span>()) &#123;<br>        <span class="hljs-keyword">if</span> (reader.<span class="hljs-built_in">isEndElement</span>()) &#123;<br>            reader.<span class="hljs-built_in">readNext</span>();<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (reader.<span class="hljs-built_in">isStartElement</span>()) &#123;<br>            <span class="hljs-keyword">if</span> (reader.<span class="hljs-built_in">name</span>() == <span class="hljs-string">&quot;entry&quot;</span>) &#123;<br>                <span class="hljs-built_in">readEntryElement</span>(treeWidget-&gt;<span class="hljs-built_in">invisibleRootItem</span>());<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-built_in">skipUnknownElement</span>();<br>            &#125;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            reader.<span class="hljs-built_in">readNext</span>();<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::readEntryElement</span><span class="hljs-params">(QTreeWidgetItem *parent)</span></span><br><span class="hljs-function"></span>&#123;<br>    QTreeWidgetItem *item = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTreeWidgetItem</span>(parent);<br>    item-&gt;<span class="hljs-built_in">setText</span>(<span class="hljs-number">0</span>, reader.<span class="hljs-built_in">attributes</span>().<span class="hljs-built_in">value</span>(<span class="hljs-string">&quot;term&quot;</span>).<span class="hljs-built_in">toString</span>());<br><br>    reader.<span class="hljs-built_in">readNext</span>();<br>    <span class="hljs-keyword">while</span> (!reader.<span class="hljs-built_in">atEnd</span>()) &#123;<br>        <span class="hljs-keyword">if</span> (reader.<span class="hljs-built_in">isEndElement</span>()) &#123;<br>            reader.<span class="hljs-built_in">readNext</span>();<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (reader.<span class="hljs-built_in">isStartElement</span>()) &#123;<br>            <span class="hljs-keyword">if</span> (reader.<span class="hljs-built_in">name</span>() == <span class="hljs-string">&quot;entry&quot;</span>) &#123;<br>                <span class="hljs-built_in">readEntryElement</span>(item);<br>            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (reader.<span class="hljs-built_in">name</span>() == <span class="hljs-string">&quot;page&quot;</span>) &#123;<br>                <span class="hljs-built_in">readPageElement</span>(item);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-built_in">skipUnknownElement</span>();<br>            &#125;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            reader.<span class="hljs-built_in">readNext</span>();<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::readPageElement</span><span class="hljs-params">(QTreeWidgetItem *parent)</span></span><br><span class="hljs-function"></span>&#123;<br>    QString page = reader.<span class="hljs-built_in">readElementText</span>();<br>    <span class="hljs-keyword">if</span> (reader.<span class="hljs-built_in">isEndElement</span>()) &#123;<br>        reader.<span class="hljs-built_in">readNext</span>();<br>    &#125;<br><br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">     * 将一个 entry 下所有的 page 标签的内容拼接起来,</span><br><span class="hljs-comment">     * 保存在节点的第二列中, 每遍历到一个 page 标签更新一次</span><br><span class="hljs-comment">     */</span><br>    QString allPages = parent-&gt;<span class="hljs-built_in">text</span>(<span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">if</span> (!allPages.<span class="hljs-built_in">isEmpty</span>()) &#123;<br>        allPages += <span class="hljs-string">&quot;, &quot;</span>;<br>    &#125;<br>    allPages += page;<br>    parent-&gt;<span class="hljs-built_in">setText</span>(<span class="hljs-number">1</span>, allPages);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::skipUnknownElement</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    reader.<span class="hljs-built_in">readNext</span>();<br>    <span class="hljs-keyword">while</span> (!reader.<span class="hljs-built_in">atEnd</span>()) &#123;<br>        <span class="hljs-keyword">if</span> (reader.<span class="hljs-built_in">isEndElement</span>()) &#123;<br>            reader.<span class="hljs-built_in">readNext</span>();<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (reader.<span class="hljs-built_in">isStartElement</span>()) &#123;<br>            <span class="hljs-built_in">skipUnknownElement</span>();<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            reader.<span class="hljs-built_in">readNext</span>();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>其中 <code>readFile()</code> 函数用于打开指定文件. 我们使用 <code>QFile</code> 打开文件, 将其设置为 <code>QXmlStreamReader</code> 的设备, 此后 <code>QXmlStreamReader</code> 就可以从这个设备 (<code>QFile</code>) 中读取内容并进行分析了. 在 <code>while</code> 循环中, 首先判断是不是 <code>StartElement</code>, 如果是的话, 再去处理 bookindex 标签; 如果不是 <code>StartElement</code>  (第一次进入循环的时候, 由于没有事先调用 <code>readNext()</code>, 所以会进入这个分支), 则调用 <code>readNext()</code>. 这里之所以使用 <code>while</code> 循环是因为 XML 文档在根标签之前可能还有别的内容, 比如声明、DTD 等, 为了程序的通用性, 因此需要使用 <code>while</code> 循环.</li>
+</ul>
+<p>上述程序的运行结果如下:<br>
+<img src="/img/Pictures/20240211163137.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="使用-DOM-处理-XML">使用 DOM 处理 XML</h2>
+<p>DOM 是由 W3C 提出的一种处理 XML 文档的标准接口.</p>
+<p>与上文中 <code>QXmlStreamReader</code> 不同, DOM 一次性读取整个 XML 文档, 在内存中构造为一棵树 (称为 DOM 树). 我们能够在这棵树上进行移动, , 也可以对这棵树进行修改, 或者是直接将这颗树保存为硬盘上的一个 XML 文件.</p>
+<p>例如: 下面是一个 XML 片段:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">doc</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">quote</span>&gt;</span>Scio me nihil scire<span class="hljs-tag">&lt;/<span class="hljs-name">quote</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">translation</span>&gt;</span>I know that I know nothing<span class="hljs-tag">&lt;/<span class="hljs-name">translation</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">doc</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>我们可以将其视为一棵 DOM 树:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">Document<br>    |--Element(doc)<br>	    |--Element(quote)<br>		    |--Text(&quot;Scio me nihil scire&quot;)<br>	    |--Element(translation)<br>		    |--Text(&quot;I know that I know nothing&quot;)<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该 DOM 树包含了不同类型的节点. 例如, Element 类型的节点有一个开始标签和对应的一个结束标签, 在开始标签和结束标签之间的内容作为这个 Element 节点的子节点.</li>
+<li>在该 DOM 树中, <code>Document</code> 被称为文档节点, 而示例中的 <code>Element(doc)</code> 则被称为该树的根节点.</li>
+</ul>
+<p>在 Qt 中, 所有 DOM 节点的类型名字都以 QDom 开头, 因此, <code>QDomElement</code> 对应 Element 节点, <code>QDomText</code> 对应 Text 节点. 不同类型的节点则有不同类型的子节点. 例如, Element 节点允许包含其它 Element 节点, 也可以是其它类型, 比如 EntityReference、Text、CDATASection、ProcessingInstruction 和 Comment. 按照 W3C 的规定, 我们有如下的包含规则:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs text">[Document]<br>&lt;- [Element]<br>&lt;- DocumentType<br>&lt;- ProcessingInstrument<br>&lt;- Comment<br>[Attr]<br>&lt;- [EntityReference]<br>&lt;- Text<br>[DocumentFragment] | [Element] | [EntityReference] | [Entity]<br>&lt;- [Element]<br>&lt;- [EntityReference]<br>&lt;- Text<br>&lt;- CDATASection<br>&lt;- ProcessingInstrument<br>&lt;- Comment<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该表格中, 带有 [] 的可以带有子节点, 反之则不能.</li>
+</ul>
+<p>使用 DOM 来处理 XML 时, 需要在 .pro 文件中添加:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QT += xml<br></code></pre></td></tr></table></figure>
+<p>头文件如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainWindow</span> : <span class="hljs-keyword">public</span> QMainWindow<br>&#123;<br>    Q_OBJECT<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">MainWindow</span>(QWidget *parent = <span class="hljs-number">0</span>);<br>    ~<span class="hljs-built_in">MainWindow</span>();<br><br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">readFile</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;fileName)</span></span>;<br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">parseBookindexElement</span><span class="hljs-params">(<span class="hljs-type">const</span> QDomElement &amp;element)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">parseEntryElement</span><span class="hljs-params">(<span class="hljs-type">const</span> QDomElement &amp;element, QTreeWidgetItem *parent)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">parsePageElement</span><span class="hljs-params">(<span class="hljs-type">const</span> QDomElement &amp;element, QTreeWidgetItem *parent)</span></span>;<br>    QTreeWidget *treeWidget;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>源文件如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><code class="hljs cpp">MainWindow::<span class="hljs-built_in">MainWindow</span>(QWidget *parent)<br>    : <span class="hljs-built_in">QMainWindow</span>(parent)<br>&#123;<br>    <span class="hljs-built_in">setWindowTitle</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;XML DOM Reader&quot;</span>));<br><br>    treeWidget = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTreeWidget</span>(<span class="hljs-keyword">this</span>);<br>    QStringList headers;<br>    headers &lt;&lt; <span class="hljs-string">&quot;Items&quot;</span> &lt;&lt; <span class="hljs-string">&quot;Pages&quot;</span>;<br>    treeWidget-&gt;<span class="hljs-built_in">setHeaderLabels</span>(headers);<br>    <span class="hljs-built_in">setCentralWidget</span>(treeWidget);<br>&#125;<br><br>MainWindow::~<span class="hljs-built_in">MainWindow</span>()<br>&#123;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">MainWindow::readFile</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;fileName)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QFile <span class="hljs-title">file</span><span class="hljs-params">(fileName)</span></span>;<br>    <span class="hljs-keyword">if</span> (!file.<span class="hljs-built_in">open</span>(QFile::ReadOnly | QFile::Text)) &#123;<br>        QMessageBox::<span class="hljs-built_in">critical</span>(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Error&quot;</span>),<br>                              <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Cannot read file %1&quot;</span>).<span class="hljs-built_in">arg</span>(fileName));<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br><br>    QString errorStr;<br>    <span class="hljs-type">int</span> errorLine;<br>    <span class="hljs-type">int</span> errorColumn;<br><br>    QDomDocument doc;<br>    <span class="hljs-keyword">if</span> (!doc.<span class="hljs-built_in">setContent</span>(&amp;file, <span class="hljs-literal">false</span>, &amp;errorStr, &amp;errorLine,<br>                        &amp;errorColumn)) &#123;<br>        QMessageBox::<span class="hljs-built_in">critical</span>(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Error&quot;</span>),<br>                              <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Parse error at line %1, column %2: %3&quot;</span>)<br>                                  .<span class="hljs-built_in">arg</span>(errorLine).<span class="hljs-built_in">arg</span>(errorColumn).<span class="hljs-built_in">arg</span>(errorStr));<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br><br>	file.<span class="hljs-built_in">close</span>();<br><br>    QDomElement root = doc.<span class="hljs-built_in">documentElement</span>();<br>    <span class="hljs-keyword">if</span> (root.<span class="hljs-built_in">tagName</span>() != <span class="hljs-string">&quot;bookindex&quot;</span>) &#123;<br>        QMessageBox::<span class="hljs-built_in">critical</span>(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Error&quot;</span>),<br>                              <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Not a bookindex file&quot;</span>));<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">parseBookindexElement</span>(root);<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::parseBookindexElement</span><span class="hljs-params">(<span class="hljs-type">const</span> QDomElement &amp;element)</span></span><br><span class="hljs-function"></span>&#123;<br>    QDomNode child = element.<span class="hljs-built_in">firstChild</span>();<br>    <span class="hljs-keyword">while</span> (!child.<span class="hljs-built_in">isNull</span>()) &#123;<br>        <span class="hljs-keyword">if</span> (child.<span class="hljs-built_in">toElement</span>().<span class="hljs-built_in">tagName</span>() == <span class="hljs-string">&quot;entry&quot;</span>) &#123;<br>            <span class="hljs-built_in">parseEntryElement</span>(child.<span class="hljs-built_in">toElement</span>(),<br>                              treeWidget-&gt;<span class="hljs-built_in">invisibleRootItem</span>());<br>        &#125;<br>        child = child.<span class="hljs-built_in">nextSibling</span>();<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::parseEntryElement</span><span class="hljs-params">(<span class="hljs-type">const</span> QDomElement &amp;element,</span></span><br><span class="hljs-params"><span class="hljs-function">                                   QTreeWidgetItem *parent)</span></span><br><span class="hljs-function"></span>&#123;<br>    QTreeWidgetItem *item = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTreeWidgetItem</span>(parent);<br>    item-&gt;<span class="hljs-built_in">setText</span>(<span class="hljs-number">0</span>, element.<span class="hljs-built_in">attribute</span>(<span class="hljs-string">&quot;term&quot;</span>));<br><br>    QDomNode child = element.<span class="hljs-built_in">firstChild</span>();<br>    <span class="hljs-keyword">while</span> (!child.<span class="hljs-built_in">isNull</span>()) &#123;<br>        <span class="hljs-keyword">if</span> (child.<span class="hljs-built_in">toElement</span>().<span class="hljs-built_in">tagName</span>() == <span class="hljs-string">&quot;entry&quot;</span>) &#123;<br>            <span class="hljs-built_in">parseEntryElement</span>(child.<span class="hljs-built_in">toElement</span>(), item);<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (child.<span class="hljs-built_in">toElement</span>().<span class="hljs-built_in">tagName</span>() == <span class="hljs-string">&quot;page&quot;</span>) &#123;<br>            <span class="hljs-built_in">parsePageElement</span>(child.<span class="hljs-built_in">toElement</span>(), item);<br>        &#125;<br>        child = child.<span class="hljs-built_in">nextSibling</span>();<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::parsePageElement</span><span class="hljs-params">(<span class="hljs-type">const</span> QDomElement &amp;element,</span></span><br><span class="hljs-params"><span class="hljs-function">                                  QTreeWidgetItem *parent)</span></span><br><span class="hljs-function"></span>&#123;<br>    QString page = element.<span class="hljs-built_in">text</span>();<br>    QString allPages = parent-&gt;<span class="hljs-built_in">text</span>(<span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">if</span> (!allPages.<span class="hljs-built_in">isEmpty</span>()) &#123;<br>        allPages += <span class="hljs-string">&quot;, &quot;</span>;<br>    &#125;<br>    allPages += page;<br>    parent-&gt;<span class="hljs-built_in">setText</span>(<span class="hljs-number">1</span>, allPages);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>在 <code>readFile()</code> 函数中, 首先使用 <code>QFile</code> 打开一个文件, 然后创建了一个 <code>QDomDocument</code> 对象, 它是一个文档节点, <code>setContent()</code> 函数则尝试从一个  <code>QFile</code> 对象中读取 XML 数据, 并用其来填充 DOM 树. 该函数有多个重载, 上述示例中使用的版本的签名如下:</p>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QDomDocument::setContent</span> <span class="hljs-params">(QIODevice * dev,</span></span><br><span class="hljs-params"><span class="hljs-function">								<span class="hljs-type">bool</span> namespaceProcessing,</span></span><br><span class="hljs-params"><span class="hljs-function">								QString * errorMsg = <span class="hljs-number">0</span>,</span></span><br><span class="hljs-params"><span class="hljs-function">								<span class="hljs-type">int</span> * errorLine = <span class="hljs-number">0</span>,</span></span><br><span class="hljs-params"><span class="hljs-function">								<span class="hljs-type">int</span> * errorColumn = <span class="hljs-number">0</span>)</span></span><br></code></pre></td></tr></table></figure>
+<p>这几个重载版本都调用了同一个实现:</p>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QDomDocument::setContent</span> <span class="hljs-params">(<span class="hljs-type">const</span> QByteArray &amp; data,</span></span><br><span class="hljs-params"><span class="hljs-function">								<span class="hljs-type">bool</span> namespaceProcessing,</span></span><br><span class="hljs-params"><span class="hljs-function">								QString * errorMsg = <span class="hljs-number">0</span>,</span></span><br><span class="hljs-params"><span class="hljs-function">								<span class="hljs-type">int</span> * errorLine = <span class="hljs-number">0</span>,</span></span><br><span class="hljs-params"><span class="hljs-function">								<span class="hljs-type">int</span> * errorColumn = <span class="hljs-number">0</span>)</span></span><br></code></pre></td></tr></table></figure>
+<p>在该函数中:</p>
+<ul>
+<li><code>data</code> 是一个 <code>QByteArray</code> 类型的参数, 用于传递要设置为 <code>QDomDocument</code> 内容的 XML 数据. 通过 <code>QIODevice</code> 即可传递这个数据, 而 <code>QFile</code> 就是 <code>QIODevice</code> 的子类.</li>
+<li><code>namespaceProcessing</code> 用于指定是否启用命名空间处理. 如果设置为 <code>true</code>, 则表示启用命名空间处理; 如果设置为 <code>false</code>, 则表示禁用命名空间处理. 命名空间处理是在解析 XML 时处理 XML 命名空间的一种机制, 它允许 XML 文档中的元素和属性在不同的命名空间下具有相同的命名.</li>
+<li><code>errorMsg</code> 用于接收解析 XML 过程中可能发生的错误信息. 如果解析过程中没有发生错误, 这个指针会被设置为 <code>nullptr</code>, 否则, 它会指向一个 <code>QString</code> 对象, 其中包含了解析过程中的错误信息.</li>
+<li><code>errorLine</code> 用于接收解析错误所在的行数. 如果解析过程中没有发生错误, 这个指针会被设置为 <code>nullptr</code>, 否则, 它会指向一个整数变量, 表示错误发生的行数.</li>
+<li><code>errorColumn</code> 用于接收解析错误所在的列数. 如果解析过程中没有发生错误, 这个指针会被设置为 <code>nullptr</code>, 否则, 它会指向一个整数变量, 表示错误发生的列数.</li>
+</ul>
+<p>当 <code>QDomDocument::setContent()</code> 函数调用完成并且没有发生错误后, 我们通过调用 <code>QDomDocument::documentElement()</code> 函数来获取 <code>doc</code> 的根元素节点. 如果该节点的标签是 bookindex, 则继续向下处理, 否则报错.</p>
+</li>
+<li>
+<p>在 <code>parseBookindexElement</code> 函数中, <code>firstChild()</code> 和 <code>nextSibling()</code> 两个函数的返回值都是 <code>QDomNode</code>. 这是所有节点类的基类, 当我们需要对节点进行操作时, 我们必须将其转换成正确的子类. 在该示例中, 我们通过 <code>toElement()</code> 函数将 <code>QDomNode</code> 转换成 <code>QDomElement</code>.</p>
+</li>
+</ul>
+<p>上述程序的执行结果如下:<br>
+<img src="/img/Pictures/20240212151618.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>通过上面的例子我们可以看到使用 DOM 处理 XML 文档时, 除了一开始的 <code>setContent()</code> 函数, 其余部分已经与原始文档没有关系了, 也就是说, 在调用 <code>setContent()</code> 函数之后, 已经在内存中构建好了一个完整的 DOM 树, 我们可以在这棵树上面进行移动.</p>
+<h2 id="使用-SAX-处理-XML">使用 SAX 处理 XML</h2>
+<p>SAX 是一种读取 XML 文档的标准 API, 同 DOM 类似, 并不以语言为区别. Qt 的 SAX 类基于 SAX2 的 Java 实现, 不过具有一些必要的名称上的转换. 相比 DOM, SAX 的实现更底层因而处理起来通常更快. 但是, <code>QXmlStreamReader</code> 类更偏向 Qt 风格的 API, 并且比 SAX 更快, 所以, 现在我们之所以使用 SAX API, 更主要的是为了把 SAX API 引入 Qt. 在我们的项目中, 并不需要真的使用 SAX.</p>
+<p>Qt 提供了 <code>QXmlSimpleReader</code> 类, 提供基于 SAX 的 XML 处理. 同前面所说的 DOM 方式类似, 这个类也不会对 XML 文档进行有效性验证. <code>QXmlSimpleReader</code> 可以识别良格式的 XML 文档, 支持 XML 命名空间, 它在解析 XML 文档时以流式方式生成事件, 应用程序可以通过注册事件处理器来响应这些事件. 在解析 XML 文档时, <code>QXmlSimpleReader</code> 会在遇到 XML 文档的不同部分时生成不同的事件, 并调用相应的事件处理器中的虚函数来通知应用程序, 从而使应用程序能够对 XML 内容进行处理.</p>
+<ul>
+<li>例如, 当处理器遇到一个标签的开始时, 会发出 “新开始一个标签” 这个事件. 如下例所示:  <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">doc</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">quote</span>&gt;</span>Gnothi seauton<span class="hljs-tag">&lt;/<span class="hljs-name">quote</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">doc</span>&gt;</span><br></code></pre></td></tr></table></figure>
+当读取该 XML 文档时, 会依次发出以下事件:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">startDocument</span>()<br><span class="hljs-built_in">startElement</span>(<span class="hljs-string">&quot;doc&quot;</span>)<br><span class="hljs-built_in">startElement</span>(<span class="hljs-string">&quot;quote&quot;</span>)<br><span class="hljs-built_in">characters</span>(<span class="hljs-string">&quot;Gnothi seauton&quot;</span>)<br><span class="hljs-built_in">endElement</span>(<span class="hljs-string">&quot;quote&quot;</span>)<br><span class="hljs-built_in">endElement</span>(<span class="hljs-string">&quot;doc&quot;</span>)<br><span class="hljs-built_in">endDocument</span>()<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>每出现一个事件, 都会调用对应的回调函数, 这些回调函数定义在称为处理器的接口类中. 上面给出的事件处理函数都定义在 <code>QXmlContentHandler</code> 中. 除 <code>QXmlContentHandler</code> 外, Qt 还有 <code>QXmlEntityResolver</code>、<code>QXmlDTDHandler</code>、<code>QXmlErrorHandler</code>、<code>QXmlDeclHandler</code> 以及 <code>QXmlLexicalHandler</code> 等接口类, 它们都是纯虚类, 分别定义了不同类型的事件处理函数, 其中 <code>QXmlContentHandler</code> 和 <code>QXmlErrorHandler</code> 是最常用的两个.</p>
+<p>为简化处理, Qt 提供了一个 <code>QXmlDefaultHandler</code>. 这个类实现了上面所有的接口, 为每个事件处理函数提供了一个空白实现. 因此, 当我们需要实现一个处理器时, 只需要继承这个类, 覆盖我们所关心的几个函数即可.</p>
+<p>使用 SAX API 和 <code>QXmlStreamReader</code> 或 DOM API 之间最大的区别是: 使用 SAX API 要求我们必须自己记录当前解析状态, 而 DOM API 和 <code>QXmlStreamReader</code> 会在解析过程中自动构建文档的树形结构或提供一种类似于迭代器的接口, 因此不需要应用程序自己维护解析状态.</p>
+<ul>
+<li>在处理事件的过程中, 应用程序可能需要跟踪当前所在的 XML 元素、记录元素的属性、积累字符数据等信息, 这些信息被称为解析的状态. 例如, 当解析器开始解析一个 XML 元素时 (如 <code>&lt;book&gt;</code>), 应用程序需要记录当前所在的元素是 <code>&lt;book&gt;</code>; 当解析器读取到元素的属性时 (如 <code>&lt;book id=&quot;123&quot;&gt;</code>), 应用程序需要记录 <code>id</code> 属性的值是 “123”.</li>
+</ul>
+<p>下面使用 SAX 重新解析之前的示例:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// mainwindow.h</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainWindow</span> : <span class="hljs-keyword">public</span> QMainWindow, <span class="hljs-keyword">public</span> QXmlDefaultHandler<br>&#123;<br>    Q_OBJECT<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">MainWindow</span>(QWidget *parent = <span class="hljs-number">0</span>);<br>    ~<span class="hljs-built_in">MainWindow</span>();<br><br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">readFile</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;fileName)</span></span>;<br><br><span class="hljs-keyword">protected</span>:<br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">startElement</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;namespaceURI,</span></span><br><span class="hljs-params"><span class="hljs-function">                      <span class="hljs-type">const</span> QString &amp;localName,</span></span><br><span class="hljs-params"><span class="hljs-function">                      <span class="hljs-type">const</span> QString &amp;qName,</span></span><br><span class="hljs-params"><span class="hljs-function">                      <span class="hljs-type">const</span> QXmlAttributes &amp;attributes)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">endElement</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;namespaceURI,</span></span><br><span class="hljs-params"><span class="hljs-function">                    <span class="hljs-type">const</span> QString &amp;localName,</span></span><br><span class="hljs-params"><span class="hljs-function">                    <span class="hljs-type">const</span> QString &amp;qName)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">characters</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;str)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">fatalError</span><span class="hljs-params">(<span class="hljs-type">const</span> QXmlParseException &amp;exception)</span></span>;<br><span class="hljs-keyword">private</span>:<br>    QTreeWidget *treeWidget;<br>    QTreeWidgetItem *currentItem;<br>    QString currentText;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// mainwindow.cpp</span><br><br></code></pre></td></tr></table></figure>
+<ul>
+<li>在 <code>readFile()</code> 函数中, 首先将成员变量清空, 然后读取 XML 文档. 我们使用 <code>QXmlSimpleReader</code> 作为 SAX 解析器, 将当前对象设置为 SAX 解析器的内容处理器和错误处理器. 因为我们仅仅重写了 <code>ContentHandler</code> 和 <code>ErrorHandler</code> 的函数. 如果我们还需要另外的处理, 还需要继续其他处理器的设置. <code>parse()</code> 函数是 <code>QXmlSimpleReader</code> 提供的函数, 表示开始进行 XML 解析.</li>
+<li><code>startElement()</code> 函数在读取到一个新的开始标签时被调用. 该函数由四个参数, 其中前两个参数主要用于带有命名空间的 XML 文档的处理, 该例中并不关心命名空间, 第三个参数是标签的名字 (限定名), 第四个参数是属性列表. 该函数返回 true 会告诉 SAX 解析器继续处理文件. 如果有任何错误, 则可以返回 false 告诉 SAX 解析器停止处理. 此时, 我们需要覆盖 <code>QXmlDefaultHandler</code> 的 <code>errorString()</code> 函数来返回一个恰当的错误信息.</li>
+<li>当处理失败时, SAX 解析器会回调 <code>fatalError()</code> 函数.</li>
+</ul>
+<p>上述程序的执行结果如下:<br>
+<img src="/img/Pictures/20240216123910.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="生成-XML-文档">生成 XML 文档</h2>
+<p>许多应用程序不仅需要读取 XML, 还需要写入 XML. 为此, Qt 同样提供了三种方法:</p>
+<ul>
+<li>使用 <code>QXmlStreamWriter</code>, 与 <code>QXmlStreamReader</code> 相对应.</li>
+<li>DOM 方式, 首先在内存中生成 DOM 树, 然后将 DOM 树写入文件.</li>
+<li>使用 <code>QString</code> 手动生成 XML.</li>
+</ul>
+<p>在这三种方法中, 我们推荐使用 <code>QXmlStreamWriter</code> 生成 XML 文档. 使用该方法生成 XML 文档的示例如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QFile <span class="hljs-title">file</span><span class="hljs-params">(<span class="hljs-string">&quot;bookindex.xml&quot;</span>)</span></span>;<br><span class="hljs-keyword">if</span> (!file.<span class="hljs-built_in">open</span>(QFile::WriteOnly | QFile::Text)) &#123;<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;Error: Cannot write file: &quot;</span><br>             &lt;&lt; <span class="hljs-built_in">qPrintable</span>(file.<span class="hljs-built_in">errorString</span>());<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br><br><span class="hljs-function">QXmlStreamWriter <span class="hljs-title">xmlWriter</span><span class="hljs-params">(&amp;file)</span></span>;<br>xmlWriter.<span class="hljs-built_in">setAutoFormatting</span>(<span class="hljs-literal">true</span>);<br>xmlWriter.<span class="hljs-built_in">writeStartDocument</span>();<br>xmlWriter.<span class="hljs-built_in">writeStartElement</span>(<span class="hljs-string">&quot;bookindex&quot;</span>);<br>xmlWriter.<span class="hljs-built_in">writeStartElement</span>(<span class="hljs-string">&quot;entry&quot;</span>);<br>xmlWriter.<span class="hljs-built_in">writeAttribute</span>(<span class="hljs-string">&quot;term&quot;</span>, <span class="hljs-string">&quot;sidebearings&quot;</span>);<br>xmlWriter.<span class="hljs-built_in">writeTextElement</span>(<span class="hljs-string">&quot;page&quot;</span>, <span class="hljs-string">&quot;10&quot;</span>);<br>xmlWriter.<span class="hljs-built_in">writeTextElement</span>(<span class="hljs-string">&quot;page&quot;</span>, <span class="hljs-string">&quot;34-35&quot;</span>);<br>xmlWriter.<span class="hljs-built_in">writeTextElement</span>(<span class="hljs-string">&quot;page&quot;</span>, <span class="hljs-string">&quot;307-308&quot;</span>);<br>xmlWriter.<span class="hljs-built_in">writeEndElement</span>();<br>xmlWriter.<span class="hljs-built_in">writeStartElement</span>(<span class="hljs-string">&quot;entry&quot;</span>);<br>xmlWriter.<span class="hljs-built_in">writeAttribute</span>(<span class="hljs-string">&quot;term&quot;</span>, <span class="hljs-string">&quot;subtraction&quot;</span>);<br>xmlWriter.<span class="hljs-built_in">writeStartElement</span>(<span class="hljs-string">&quot;entry&quot;</span>);<br>xmlWriter.<span class="hljs-built_in">writeAttribute</span>(<span class="hljs-string">&quot;term&quot;</span>, <span class="hljs-string">&quot;of pictures&quot;</span>);<br>xmlWriter.<span class="hljs-built_in">writeTextElement</span>(<span class="hljs-string">&quot;page&quot;</span>, <span class="hljs-string">&quot;115&quot;</span>);<br>xmlWriter.<span class="hljs-built_in">writeTextElement</span>(<span class="hljs-string">&quot;page&quot;</span>, <span class="hljs-string">&quot;224&quot;</span>);<br>xmlWriter.<span class="hljs-built_in">writeEndElement</span>();<br>xmlWriter.<span class="hljs-built_in">writeStartElement</span>(<span class="hljs-string">&quot;entry&quot;</span>);<br>xmlWriter.<span class="hljs-built_in">writeAttribute</span>(<span class="hljs-string">&quot;term&quot;</span>, <span class="hljs-string">&quot;of vectors&quot;</span>);<br>xmlWriter.<span class="hljs-built_in">writeTextElement</span>(<span class="hljs-string">&quot;page&quot;</span>, <span class="hljs-string">&quot;9&quot;</span>);<br>xmlWriter.<span class="hljs-built_in">writeEndElement</span>();<br>xmlWriter.<span class="hljs-built_in">writeEndElement</span>();<br>xmlWriter.<span class="hljs-built_in">writeEndDocument</span>();<br>file.<span class="hljs-built_in">close</span>();<br><span class="hljs-keyword">if</span> (file.<span class="hljs-built_in">error</span>()) &#123;<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;Error: Cannot write file: &quot;</span><br>             &lt;&lt; <span class="hljs-built_in">qPrintable</span>(file.<span class="hljs-built_in">errorString</span>());<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br><span class="hljs-comment">// ...</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li>其中 <code>setAutoFormatting()</code> 函数告诉 <code>QXmlStreamWriter</code> 要有格式输出, 也就是会有标签的缩进. 我们也可以使用 <code>QXmlStreamWriter::setAutoFormattingIndent()</code> 设置每个缩进所需要的空格数.</li>
+</ul>
+<p>上述示例生成的 XML 文档如下:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">bookindex</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">entry</span> <span class="hljs-attr">term</span>=<span class="hljs-string">&quot;sidebearings&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">page</span>&gt;</span>10<span class="hljs-tag">&lt;/<span class="hljs-name">page</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">page</span>&gt;</span>34-35<span class="hljs-tag">&lt;/<span class="hljs-name">page</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">page</span>&gt;</span>307-308<span class="hljs-tag">&lt;/<span class="hljs-name">page</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">entry</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">entry</span> <span class="hljs-attr">term</span>=<span class="hljs-string">&quot;subtraction&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">entry</span> <span class="hljs-attr">term</span>=<span class="hljs-string">&quot;of pictures&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">page</span>&gt;</span>115<br>            <span class="hljs-tag">&lt;<span class="hljs-name">page</span>&gt;</span>224<br>        <span class="hljs-tag">&lt;/<span class="hljs-name">entry</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">entry</span> <span class="hljs-attr">term</span>=<span class="hljs-string">&quot;of vectors&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">page</span>&gt;</span>9<span class="hljs-tag">&lt;/<span class="hljs-name">page</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">entry</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">entry</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">bookindex</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>尽管我们推荐使用 <code>QXmlStreamWriter</code> 生成 XML 文档, 但是如果已经在内存中构建了 DOM 树, 那么直接调用 <code>QDomDocument::save()</code> 函数更加方便.</p>
+<p>另外, 在某些情况下, 我们需要手动生成 XML 文档, 比如通过 <code>QTextStream</code>:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//!!! Qt4</span><br><span class="hljs-function">QTextStream <span class="hljs-title">out</span><span class="hljs-params">(&amp;file)</span></span>;<br>out.<span class="hljs-built_in">setCodec</span>(<span class="hljs-string">&quot;UTF-8&quot;</span>);<br>out &lt;&lt; <span class="hljs-string">&quot;&lt;doc&gt;\n&quot;</span><br>    &lt;&lt; <span class="hljs-string">&quot;   &lt;quote&gt;&quot;</span> &lt;&lt; Qt::<span class="hljs-built_in">escape</span>(quoteText) &lt;&lt; <span class="hljs-string">&quot;&lt;/quote&gt;\n&quot;</span><br>    &lt;&lt; <span class="hljs-string">&quot;   &lt;translation&gt;&quot;</span> &lt;&lt; Qt::<span class="hljs-built_in">escape</span>(translationText)<br>    &lt;&lt; <span class="hljs-string">&quot;&lt;/translation&gt;\n&quot;</span><br>    &lt;&lt; <span class="hljs-string">&quot;&lt;/doc&gt;\n&quot;</span>;<br><br><span class="hljs-comment">//!!! Qt5</span><br><span class="hljs-function">QTextStream <span class="hljs-title">out</span><span class="hljs-params">(&amp;file)</span></span>;<br>out.<span class="hljs-built_in">setCodec</span>(<span class="hljs-string">&quot;UTF-8&quot;</span>);<br>out &lt;&lt; <span class="hljs-string">&quot;&lt;doc&gt;\n&quot;</span><br>    &lt;&lt; <span class="hljs-string">&quot;   &lt;quote&gt;&quot;</span> &lt;&lt; quoteText.<span class="hljs-built_in">toHtmlEscaped</span>() &lt;&lt; <span class="hljs-string">&quot;&lt;/quote&gt;\n&quot;</span><br>    &lt;&lt; <span class="hljs-string">&quot;   &lt;translation&gt;&quot;</span> &lt;&lt; translationText.<span class="hljs-built_in">toHtmlEscaped</span>()<br>    &lt;&lt; <span class="hljs-string">&quot;&lt;/translation&gt;\n&quot;</span><br>    &lt;&lt; <span class="hljs-string">&quot;&lt;/doc&gt;\n&quot;</span>;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>这是一种原始的办法: 直接将字符串拼接为 XML 文档. 需要注意的是, quoteText 和 translationText 都需要转义, 这是 XML 规范里面要求的, 需要将文本中的 “&lt;”、“&gt;” 以及 “&amp;” 进行转义.</li>
+</ul>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>QT 学习之路 2（59）：使用流处理 XML: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/07/qt-study-road-2-read-xml-with-stream/">https://www.devbean.net/2013/07/qt-study-road-2-read-xml-with-stream/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>QT 学习之路 2（60）：使用 DOM 处理 XML: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/08/qt-study-road-2-read-xml-with-dom/">https://www.devbean.net/2013/08/qt-study-road-2-read-xml-with-dom/</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>QT 学习之路 2（61）：使用 SAX 处理 XML: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/08/qt-study-road-2-read-xml-with-sax/">https://www.devbean.net/2013/08/qt-study-road-2-read-xml-with-sax/</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>QT 学习之路 2（62）：保存 XML: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/08/qt-study-road-2-save-xml/">https://www.devbean.net/2013/08/qt-study-road-2-save-xml/</a>
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/" class="category-chain-item">QT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QT/" class="print-no-link">#QT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/QML/%E5%8F%98%E6%8D%A2/" title="QML 变换">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QML 变换</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/" title="QT 数据库操作">
+                        <span class="hidden-mobile">QT 数据库操作</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

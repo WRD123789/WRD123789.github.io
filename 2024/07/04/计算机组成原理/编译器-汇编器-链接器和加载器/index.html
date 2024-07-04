@@ -1,0 +1,801 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="编译器, 汇编器, 链接器和加载器 翻译器 翻译器是一种通用的术语, 它既可以是汇编器, 也可以是编译器, 还可以是解释器. 它指代任何将一种高级语言转化为另一种高级语言或低级语言的东西. 翻译器能够为 Debugging 提供额外的信息. 编译器 编译器是一种将源代码从高级语言翻译为低级语言 (如汇编语言、目标代码或机器代码)以创建可执行程序的程序. 编译器步骤:  预处理 词法分析: 将输入拆">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译器, 汇编器, 链接器和加载器">
+<meta property="og:url" content="http://example.com/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%99%A8-%E6%B1%87%E7%BC%96%E5%99%A8-%E9%93%BE%E6%8E%A5%E5%99%A8%E5%92%8C%E5%8A%A0%E8%BD%BD%E5%99%A8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="编译器, 汇编器, 链接器和加载器 翻译器 翻译器是一种通用的术语, 它既可以是汇编器, 也可以是编译器, 还可以是解释器. 它指代任何将一种高级语言转化为另一种高级语言或低级语言的东西. 翻译器能够为 Debugging 提供额外的信息. 编译器 编译器是一种将源代码从高级语言翻译为低级语言 (如汇编语言、目标代码或机器代码)以创建可执行程序的程序. 编译器步骤:  预处理 词法分析: 将输入拆">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20221025131106.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221025194854.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221025195013.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221025145224.png">
+<meta property="article:published_time" content="2024-07-04T05:22:12.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.509Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="计算机组成原理">
+<meta property="article:tag" content="CS61C">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20221025131106.png">
+  
+  
+  
+  <title>编译器, 汇编器, 链接器和加载器 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="编译器, 汇编器, 链接器和加载器"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 13:22" pubdate>
+          2024年7月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">编译器, 汇编器, 链接器和加载器</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>编译器, 汇编器, 链接器和加载器</h1>
+<h2 id="翻译器">翻译器</h2>
+<p>翻译器是一种通用的术语, 它既可以是汇编器, 也可以是编译器, 还可以是解释器. 它指代任何将一种高级语言转化为另一种高级语言或低级语言的东西.</p>
+<p>翻译器能够为 Debugging 提供额外的信息.</p>
+<h2 id="编译器">编译器</h2>
+<p>编译器是一种将源代码从<strong>高级语言</strong>翻译为<strong>低级语言</strong> (如汇编语言、目标代码或机器代码)以创建可执行程序的<strong>程序</strong>.</p>
+<p>编译器步骤:</p>
+<ul>
+<li>预处理</li>
+<li>词法分析: 将输入拆分为 “令牌” (tokens), 识别令牌的问题.</li>
+<li>语法解析: 将令牌转换为抽象语法树, 识别程序结构中的问题.</li>
+<li>语义分析和优化: 检查语义错误, 可能重组代码来实现优化.</li>
+<li>代码生成</li>
+</ul>
+<p>例如:</p>
+<p>对于 C 程序: Hello.c:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello, %s\n&quot;</span>, <span class="hljs-string">&quot;world&quot;</span>);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>通过编译器将 Hello.c 转化为汇编程序 Hello.s:</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">.txt                                       <span class="hljs-comment"># 进入文本段</span><br>	<span class="hljs-meta">.align</span> <span class="hljs-number">2</span>                               <span class="hljs-comment"># 代码以 2^2 字节对齐</span><br>	<span class="hljs-meta">.global</span> main                           <span class="hljs-comment"># 声明全局标签 main</span><br><span class="hljs-symbol">main:</span><br>	<span class="hljs-keyword">addi </span><span class="hljs-built_in">sp</span>, <span class="hljs-built_in">sp</span>, -<span class="hljs-number">16</span><br>	<span class="hljs-keyword">sw </span><span class="hljs-built_in">ra</span>, <span class="hljs-number">12</span>(<span class="hljs-built_in">sp</span>)<br>	<span class="hljs-keyword">lui </span><span class="hljs-built_in">a0</span>, %hi(string1)<br>	<span class="hljs-keyword">addi </span><span class="hljs-built_in">a0</span>, <span class="hljs-built_in">a0</span>, %lo(string1)<br>	<span class="hljs-keyword">lui </span><span class="hljs-built_in">a1</span>, %hi(string2)<br>	<span class="hljs-keyword">addi </span><span class="hljs-built_in">a1</span>, <span class="hljs-built_in">a1</span>, %lo(string2)<br>	call printf<br>	<span class="hljs-keyword">lw </span><span class="hljs-built_in">ra</span>, <span class="hljs-number">12</span>(<span class="hljs-built_in">sp</span>)<br>	<span class="hljs-keyword">addi </span><span class="hljs-built_in">sp</span>, <span class="hljs-built_in">sp</span>, <span class="hljs-number">16</span><br>	li <span class="hljs-built_in">a0</span>, <span class="hljs-number">0</span><br>	ret<br>	<span class="hljs-meta">.section</span> .rodata                        <span class="hljs-comment"># 进入只读数据段</span><br>	.<span class="hljs-keyword">balign </span><span class="hljs-number">4</span>                               <span class="hljs-comment"># 数据段以 4 字节对齐</span><br><span class="hljs-symbol">string1:</span>                   <br>	.string <span class="hljs-string">&quot;Hello, %s!\n&quot;</span>                  <span class="hljs-comment"># 以空结尾的字符串</span><br><span class="hljs-symbol">string2:</span><br>	.string <span class="hljs-string">&quot;world&quot;</span>                         <span class="hljs-comment"># 以空结尾的字符串</span><br></code></pre></td></tr></table></figure>
+<h2 id="汇编器">汇编器</h2>
+<p>将汇编语言代码转化为目标代码和信息表的计算机程序.</p>
+<p>过程:</p>
+<ul>
+<li>读取和使用指令.</li>
+<li>替换伪指令 (汇编器可以理解但不存在于机器中的指令).</li>
+<li>生成机器语言程序.</li>
+<li>生成目标文件.</li>
+</ul>
+<p>汇编指令: 给汇编器提供方向但不生成机器指令</p>
+<ul>
+<li>.text: 后续项放入用户文本段 (机器代码), 即后续项为机器代码.</li>
+<li>.data: 后续项放入用户数据段 (源文件中数据的二进制表示), 代表全局变量和初始化.</li>
+<li>.global sym: 全局的符号, 可以在其他地方被引用.</li>
+<li>.string str: 存储在内存中以空字符结尾的字符串.</li>
+<li>.word w1 … wn: 连续内存中所存储的 32 位量.</li>
+</ul>
+<p>汇编器用真实指令替换伪指令:</p>
+<p><img src="/img/Pictures/20221025131106.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>tail 伪指令:</p>
+<p>对于</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">&#123;<br>	...<br>	lots of code<br>	<span class="hljs-keyword">return</span> foo(y);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>尾部调用函数时, 为了优化调用:</p>
+<ul>
+<li>先计算 foo() 的参数 (放入<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>0</mn></msub><mo separator="true">,</mo><msub><mi>a</mi><mn>1</mn></msub><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><msub><mi>a</mi><mn>7</mn></msub></mrow><annotation encoding="application/x-tex">a_0, a_1, ... , a_7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">...</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">7</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 中).</li>
+<li>恢复寄存器 ra 、所有保存寄存器和 sp 指针.</li>
+<li>然后用 j 或 tail 调用 foo() (这样当 foo() 函数完成后, 就能直接返回到应该去的地方).</li>
+</ul>
+<p>这样这个尾部调用便不会增加栈, 该方法可以优化尾递归.</p>
+<p><strong>生成机器语言</strong>:</p>
+<ul>
+<li>对于简单的指令, 例如算术、逻辑、移位等指令, 只需要根据之前的指令格式转换为二进制表示即可.</li>
+<li>对于分支, 一旦将所有伪指令转换为真实指令后, 首先扫描一遍记录所有标签的位置, 然后对于每个分支, 计算与指定标签的偏移量即可.</li>
+<li>对于 j 和 jal, 只能跳转到文件中与 PC 相关的位置 (容易计算).</li>
+<li>对于静态数据, 用 la 指令来得到, 但是需要数据的 32 位.</li>
+<li>所以为了能够得到静态数据的地址和现有文件之外的地址, 需要创建两个表:
+<ul>
+<li>符号表: 当前文件中的项的列表, <strong>由于符号表是用来提供给其他文件当前文件中可以引用的函数和数据, 所以通常包含的是声明为 global 的标签和数据</strong>.
+<ul>
+<li>指令标签: 函数调用</li>
+<li>数据: 任何 .data 段中的数据.</li>
+</ul>
+</li>
+<li>重定向表: 当前文件需要地址的项的列表. 由于在链接前, 当前文件对其他文件中的标签的引用不可知,  对静态数据的地址也不可知 (因为在内存中, 静态部分的地址高于代码部分的地址, 在未链接前, 不知道代码段有多少代码, 所以也就不知道内存中的静态部分从哪里开始, 且其他文件也会在静态内存中声明项, 在链接前也无法知道静态部分中项的排列顺序), 所以在重定向表中先将这些地址不可知的项列出来, 暂时使用虚拟占位符 (0) 填充其地址, 链接时再重新填充.</li>
+</ul>
+</li>
+</ul>
+<p>例如:</p>
+<p>对于汇编程序 Hello.s</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">.txt                                       <span class="hljs-comment"># 进入文本段</span><br>	<span class="hljs-meta">.align</span> <span class="hljs-number">2</span>                               <span class="hljs-comment"># 代码以 2^2 字节对齐</span><br>	<span class="hljs-meta">.global</span> main                           <span class="hljs-comment"># 声明全局标签 main</span><br><span class="hljs-symbol">main:</span><br>	<span class="hljs-keyword">addi </span><span class="hljs-built_in">sp</span>, <span class="hljs-built_in">sp</span>, -<span class="hljs-number">16</span><br>	<span class="hljs-keyword">sw </span><span class="hljs-built_in">ra</span>, <span class="hljs-number">12</span>(<span class="hljs-built_in">sp</span>)<br>	<span class="hljs-keyword">lui </span><span class="hljs-built_in">a0</span>, %hi(string1)<br>	<span class="hljs-keyword">addi </span><span class="hljs-built_in">a0</span>, <span class="hljs-built_in">a0</span>, %lo(string1)<br>	<span class="hljs-keyword">lui </span><span class="hljs-built_in">a1</span>, %hi(string2)<br>	<span class="hljs-keyword">addi </span><span class="hljs-built_in">a1</span>, <span class="hljs-built_in">a1</span>, %lo(string2)<br>	call printf<br>	<span class="hljs-keyword">lw </span><span class="hljs-built_in">ra</span>, <span class="hljs-number">12</span>(<span class="hljs-built_in">sp</span>)<br>	<span class="hljs-keyword">addi </span><span class="hljs-built_in">sp</span>, <span class="hljs-built_in">sp</span>, <span class="hljs-number">16</span><br>	li <span class="hljs-built_in">a0</span>, <span class="hljs-number">0</span><br>	ret<br>	<span class="hljs-meta">.section</span> .rodata                        <span class="hljs-comment"># 进入只读数据段</span><br>	.<span class="hljs-keyword">balign </span><span class="hljs-number">4</span>                               <span class="hljs-comment"># 数据段以 4 字节对齐</span><br><span class="hljs-symbol">string1:</span>                   <br>	.string <span class="hljs-string">&quot;Hello, %s!\n&quot;</span>                  <span class="hljs-comment"># 以空结尾的字符串</span><br><span class="hljs-symbol">string2:</span><br>	.string <span class="hljs-string">&quot;world&quot;</span>                         <span class="hljs-comment"># 以空结尾的字符串</span><br></code></pre></td></tr></table></figure>
+<p>通过汇编器转化为 Hello.o</p>
+<p><img src="/img/Pictures/20221025194854.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>图中红色部分由于未知地址, 所以暂时用虚拟占位符 (0) 填充.</p>
+<p>上述程序通过汇编器生成的信息表如下:</p>
+<ul>
+<li>符号表 (全局):
+<ul>
+<li>main (文本段): 地址</li>
+</ul>
+</li>
+<li>重定向表:
+<ul>
+<li>printf: 0</li>
+<li>l.string1 (string1 的地址的[31:12]位): 0</li>
+<li>r.string1 (string1 的地址的[11:0]位): 0</li>
+<li>l.string2 (string2 的地址的[31:12]位): 0</li>
+<li>r.string2 (string2 的地址的[11:0]位): 0</li>
+</ul>
+</li>
+</ul>
+<p>用链接器链接后</p>
+<p><img src="/img/Pictures/20221025195013.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="解释器">解释器</h2>
+<p>解释器是一种计算机程序, 能够直接执行程序语言中编写的指令, 无需事先将这些指令编译成机器语言程序.</p>
+<p>解释器通常使用下列策略之一来执行程序:</p>
+<ul>
+<li>解析源代码并直接执行其行为.</li>
+<li>将源代码翻译成有效的中间表示或目标代码, 并立即执行.</li>
+<li>显式执行由编译器生成并与解释器 Virtual Machine 匹配的存储的预编译字节码.</li>
+</ul>
+<p>有些程序可以解释机器语言写的程序, 为什么要用程序解释机器语言写的程序:</p>
+<ul>
+<li>可以用来做模拟器, 对于学习和 Debugging 有帮助. (例如 Venus 是一个 RISC-V 芯片的模拟器, 当手上没有好的 RISC-V 芯片时, 可以用 Venus 来学习 RISC-V).</li>
+<li>能够兼容旧的代码 (例如苹果曾经为了从 Motorola 680x0 指令集架构转换到 PowerPC 指令集架构, 写了一个程序将 Motorola 680x0 指令翻译为 PowerPC 并能够解释机器码文件 (二进制文件), 这样就能在 PowerPC 上运行旧的二进制文件).</li>
+</ul>
+<p>解释器更接近高级语言, 能提供更好的错误信息; 解释器更容易移植到其他机器</p>
+<h2 id="目标代码-目标文件">目标代码/目标文件</h2>
+<p><strong>目标代码</strong>是编译过程的目标或结果, 是计算机语言中的一系列语句或指令, 通常是机器码语言 (二进制) 或寄存器传输语言等中间语言.</p>
+<p><strong>目标文件</strong>格式:</p>
+<ul>
+<li>目标文件头: 对象文件的其他部分的大小和位置.</li>
+<li>文本段: 机器码.</li>
+<li>数据段: 静态数据在源文件中的二进制表示.</li>
+<li>重定向表: 分辨稍后需要重新定向的代码行.</li>
+<li>符号表: 当前文件中可引用的标签和静态数据的列表.</li>
+<li>调试信息.</li>
+</ul>
+<p>目标文件的标准格式为 ELF.</p>
+<h2 id="链接器">链接器</h2>
+<p>将目标文件 (.o) 和信息表合并到一个可执行文件 (.out) 中.</p>
+<p>这样当部分代码改变时, 只需要重新编译受影响的文件, 然后将它们重新链接起来, 而不需要重新编译所有文件.</p>
+<p>过程:</p>
+<ul>
+<li>将所有目标文件的文本段混合在一起.</li>
+<li>将所有目标文件的数据段混合在一起.</li>
+<li>处理重定向表的每个项, 即对于每个外部引用和静态数据, 填充绝对地址.</li>
+</ul>
+<p><img src="/img/Pictures/20221025145224.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>对于三种地址:</p>
+<ul>
+<li>相对 PC 的地址: 不需要重定向.</li>
+<li>外部函数引用: 需要重定向.</li>
+<li>静态数据引用: 总需要重定向.</li>
+</ul>
+<p>链接器假设第一个文本段的第一个字位于地址 0x04000000, 链接器能够知道每个文本段和数据段的长度以及顺序, 链接器能够计算要跳转到的每个标签的绝对地址和每个被引用数据的绝对地址, 因此可以替换重定向表中的所有内容.</p>
+<p>查找引用过程:</p>
+<ul>
+<li>在所有用户的标签表中搜素引用.</li>
+<li>如果标签表中没找到引用, 则在库文件 (library files) 中查找.</li>
+<li>找到后填上机器代码.</li>
+</ul>
+<h2 id="加载器">加载器</h2>
+<p>加载器将可执行程序 (放在磁盘中) 放入内存并为执行做准备. 加载器涉及内存映射包含程序指令的可执行文件的内容到内存中, 然后执行其他所需的准备任务, 以准备运行可执行文件. 加载完成后, 操作系统通过将控制权传递给加载的程序代码来启动程序.</p>
+<p>实际上, 加载器是操作系统.</p>
+<ul>
+<li>加载是操作系统的任务之一.</li>
+<li>而加载器实际上也做了很多链接, 即链接器产生的可执行文件只是部分链接的, 仍然有外部引用.</li>
+</ul>
+<p>加载器过程:</p>
+<ul>
+<li>读取可执行文件的头文件以确定文本和数据段的大小.</li>
+<li>为足够大的程序创建新的地址空间, 以容纳文本段、数据段和堆栈段.</li>
+<li>将指令和数据从可执行文件复制到新的地址空间.</li>
+<li>将传递给程序的参数复制到堆栈上.</li>
+<li>初始化机器寄存器 (大多数寄存器被清空, 当堆栈指针分配给第一个空间的栈空间).</li>
+<li>跳转到启动程序, 将程序参数从堆栈复制到寄存器中并设置 PC (如果主程序返回, 启动程序将通过推出系统调用终止程序).</li>
+</ul>
+<h2 id="静态链接库-动态链接库">静态链接库/动态链接库</h2>
+<p>所谓目标库是这样一种文件: 将一组函数代码加以编译, 并置于 一个文件中, 供其他应用程序调用.</p>
+<h3 id="静态链接库">静态链接库</h3>
+<p>静态库 (也称之为档案文件) 是对已编译目标模块的一种结构化整合. 要使用静态库中的函数, 需要在创建程序的链接命令中指定相应的库. 主程序会对静态库中隶属于各目标模块的不同函数加以引用. 链接器在解析了引用情况后, 会从库中抽取所需目标模块的副本, 将其复制到最终的可执行文件中, 这就是静态链接. 对于所需库内的各目标模块, 采用静态链接方式生成的程序都存有一份副本. 这会带来以下问题:</p>
+<ul>
+<li>库是可执行文件的一部分, 如果对库函数进行了修改, 需要重新编译、生成新的静态库, 而所有需要调用该库中函数的应用, 都必须与新生成的静态库重新链接.</li>
+<li>即使并不是所有库都被使用, 可执行文件仍然包含整个库, 这会浪费内存.</li>
+</ul>
+<h3 id="动态链接库-DLL">动态链接库 (DLL)</h3>
+<p>如果将程序链接到共享库 (动态链接库), 那么链接器就不会把库中的目标模块复制到可执行文件中, 而是在可执行文件中写入一条记录, 以表明可执行文件在运行时需要使用该共享库. 运行时, 动态链接器会找到可执行文件所需的共享库, 将可执行文件中的函数调用与共享库中相应的函数定义关联起来. 此时共享库代码在内存中只需保留一份, 即可供所有运行中的程序使用. 共享库的优点如下:</p>
+<ul>
+<li>存储程序所需磁盘空间更少.</li>
+<li>发送程序所需时间更少.</li>
+<li>执行两个程序所需内存更少 (如果两个程序共用一个库).</li>
+<li>在运行时进行链接需要时间开销.</li>
+<li>库的更新将会同步到所有使用该库的程序.</li>
+</ul>
+<p>虽然动态链接库给编译器、链接器和操作系统增加了许多复杂度, 但得到的好处远远大于缺陷.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>CS61C Great Ideas in Computer Architecture: <a target="_blank" rel="noopener" href="https://inst.eecs.berkeley.edu/~cs61c/sp22/">https://inst.eecs.berkeley.edu/~cs61c/sp22/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>Linux/Unix 系统编程手册
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="category-chain-item">计算机组成原理</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="print-no-link">#计算机组成原理</a>
+      
+        <a href="/tags/CS61C/" class="print-no-link">#CS61C</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86/" title="并行处理">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">并行处理</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%92%8C%E5%9B%A0%E7%89%B9%E7%BD%91/" title="计算机网络和因特网">
+                        <span class="hidden-mobile">计算机网络和因特网</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

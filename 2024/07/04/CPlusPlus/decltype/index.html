@@ -1,0 +1,936 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="decltype decltype 是 C++11 新增的一个用来推导表达式类型的关键字. 和 auto 的功能一样, 用来在编译时期进行自动类型推导. 引入 decltype 是因为 auto 并不适用于所有的自动类型推导场景. 也可以将 decltype 看作是 sizeof 运算符的另一种形式, 因为两者都不会真正计算值, 只充当一种编译期工具. decltype 对比 auto: 12au">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ decltype">
+<meta property="og:url" content="http://example.com/2024/07/04/CPlusPlus/decltype/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="decltype decltype 是 C++11 新增的一个用来推导表达式类型的关键字. 和 auto 的功能一样, 用来在编译时期进行自动类型推导. 引入 decltype 是因为 auto 并不适用于所有的自动类型推导场景. 也可以将 decltype 看作是 sizeof 运算符的另一种形式, 因为两者都不会真正计算值, 只充当一种编译期工具. decltype 对比 auto: 12au">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-04T11:30:33.000Z">
+<meta property="article:modified_time" content="2024-07-04T11:32:20.476Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>C++ decltype - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="C++ decltype"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 19:30" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          30 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">C++ decltype</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>decltype</h1>
+<p><code>decltype</code> 是 C++11 新增的一个用来推导表达式类型的关键字. 和 <code>auto</code> 的功能一样, 用来在<strong>编译时期</strong>进行自动类型推导. 引入 <code>decltype</code> 是因为 <code>auto</code> 并不适用于所有的自动类型推导场景. 也可以将 <code>decltype</code> 看作是 <code>sizeof</code> 运算符的另一种形式, 因为两者都<strong>不会真正计算值</strong>, 只充当一种编译期工具.</p>
+<p><code>decltype</code> 对比 <code>auto</code>:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">auto</span> varName = value;<br><span class="hljs-keyword">decltype</span>(exp) varName = value;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>auto</code> 根据 <code>=</code> 右边的初始值推导出变量的类型, <strong><code>decltype</code> 根据 <code>exp</code> 表达式推导出变量的类型</strong>.</li>
+<li><code>auto</code> 要求变量必须初始化, 因为 <code>auto</code> 是根据变量的初始值来推导变量类型的, 而 <code>decltype</code> 不要求初始化, 可以使用如下方式:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">decltype</span>(exp) varName;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>decltype</code> 的简单使用如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">int</span> x = <span class="hljs-number">0</span>;<br><span class="hljs-keyword">decltype</span>(x) y = <span class="hljs-number">1</span>;            <span class="hljs-comment">// y -&gt; int</span><br><span class="hljs-keyword">decltype</span>(x + y) z = <span class="hljs-number">0</span>;        <span class="hljs-comment">// z -&gt; int</span><br><span class="hljs-type">const</span> <span class="hljs-type">int</span>&amp; i = x;<br><span class="hljs-keyword">decltype</span>(i) j = y;            <span class="hljs-comment">// j -&gt; const int&amp;</span><br><span class="hljs-function"><span class="hljs-type">const</span> <span class="hljs-title">decltype</span><span class="hljs-params">(z)</span> *p </span>= &amp;z;    <span class="hljs-comment">// *p -&gt; const int, p -&gt; const int*</span><br><span class="hljs-keyword">decltype</span>(z) *m = &amp;z;          <span class="hljs-comment">// *m -&gt; int, m -&gt; int*</span><br><span class="hljs-keyword">decltype</span>(m)* n = &amp;m;          <span class="hljs-comment">// *n -&gt; int*, n -&gt; int**</span><br></code></pre></td></tr></table></figure>
+<h2 id="推导规则">推导规则</h2>
+<ol>
+<li>如果 <code>E</code> 是一个没有加括号的 id-expression (如 <code>x</code>, <code>s.field</code>, <code>S::field</code> 这样的表达式), 那么 <code>decltype(E)</code> 返回这个变量、字段在定义时的原本类型, 如果定义时有包含 lvalue 或 rvalue 引用, 那么 <code>decltype(E)</code> 也会包含对应的引用. 例如: <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;string&gt;</span> </span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br> <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-type">static</span> <span class="hljs-type">int</span> total;<br>    string name;<br>    <span class="hljs-type">int</span> age;<br>    <span class="hljs-type">float</span> scores;<br>&#125;<br> <br><span class="hljs-type">int</span> A::total = <span class="hljs-number">0</span>;<br> <br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">int</span> n = <span class="hljs-number">0</span>;<br>	<span class="hljs-type">const</span> <span class="hljs-type">int</span> &amp;r = n;<br>	A a;<br>	<span class="hljs-keyword">decltype</span>(n) x = n;           <span class="hljs-comment">// n 为 int，x 被推导为 int</span><br>	<span class="hljs-keyword">decltype</span>(r) y = n;           <span class="hljs-comment">// r 为 const int &amp;，y 被推导为 const int &amp;</span><br>	<span class="hljs-keyword">decltype</span>(a.total)  z = <span class="hljs-number">0</span>;    <span class="hljs-comment">// total 是类 A 的一个 int 类型的成员变量，z 被推导为 int</span><br>	<span class="hljs-keyword">decltype</span>(a.name) url = <span class="hljs-string">&quot;www.baidu.com&quot;</span>; <span class="hljs-comment">// url 为 string 类型</span><br>	<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li>对于其他的情况, 包括 <code>E</code> 是一个加括号的 id-expression (如 <code>(x)</code>, <code>(s.field)</code> 这样的表达式), C++ 会完全隐去 <code>E</code> 类型中的引用, 使得引用完全不可见. 此时 <code>decltype(E)</code> 先提取 <code>E</code> 的不含引用的类型 <code>T</code>，然后根据 <code>E</code> 的三种值类别来确定 <code>decltype(E)</code> 的结果: 当 <code>E</code> 的值类别是 prvalue, <code>decltype(E)</code> 返回 <code>T</code>; 当 <code>E</code> 的值类别是 lvalue, <code>decltype(E)</code> 返回 <code>T&amp;</code>; 当 <code>E</code> 的值类别是 xvalue, <code>decltype(E)</code> 返回 <code>T&amp;&amp;</code>. 例如: <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <br>&#123;<br><span class="hljs-keyword">public</span>:<br>   <span class="hljs-type">int</span> x;<br>&#125;<br> <br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">const</span> A obj;<br>	<span class="hljs-keyword">decltype</span>(obj.x) a = <span class="hljs-number">0</span>;   <span class="hljs-comment">// a 的类型为 int</span><br>	<span class="hljs-keyword">decltype</span>((obj.x)) b = a; <span class="hljs-comment">// obj.x 的值类别为 lvalue, b 的类型为 int&amp;</span><br>	 <br>	<span class="hljs-type">int</span> n = <span class="hljs-number">0</span>, m = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">decltype</span>((m + n)) c = <span class="hljs-number">0</span>;     <span class="hljs-comment">// n + m 的值类别为 prvalue, c 的类型为 int</span><br>	<span class="hljs-keyword">decltype</span>(<span class="hljs-built_in">move</span>(n)) d = c;     <span class="hljs-comment">// move(n) 的值类别为 xvalue, d 的类型为 int &amp;&amp;</span><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="decltype-auto">decltype(auto)</h2>
+<p>在 C++14 标准中出现了 <code>decltype</code> 和 <code>auto</code> 两个关键字的结合体: <code>decltype(auto)</code>. <strong>它用来告诉编译器用 <code>decltype</code> 的推导表达式规则来推导 <code>auto</code></strong>. 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">int</span> i;<br><span class="hljs-function"><span class="hljs-type">int</span>&amp;&amp; <span class="hljs-title">f</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-keyword">auto</span> x1a = i;                <span class="hljs-comment">// x1a 推导类型为 int</span><br><span class="hljs-keyword">decltype</span>(<span class="hljs-keyword">auto</span>) x1d = i;      <span class="hljs-comment">// x1d 推导类型为 int</span><br><span class="hljs-keyword">auto</span> x2a = (i);              <span class="hljs-comment">// x2a 推导类型为 int</span><br><span class="hljs-keyword">decltype</span>(<span class="hljs-keyword">auto</span>) x2d = (i);    <span class="hljs-comment">// x2d 推导类型为 int&amp;</span><br><span class="hljs-keyword">auto</span> x3a = <span class="hljs-built_in">f</span>();              <span class="hljs-comment">// x3a 推导类型为int</span><br><span class="hljs-keyword">decltype</span>(<span class="hljs-keyword">auto</span>) x3d = <span class="hljs-built_in">f</span>();    <span class="hljs-comment">// x3d 推导类型为 int&amp;&amp;</span><br><span class="hljs-keyword">auto</span> x4a = &#123; <span class="hljs-number">1</span>, <span class="hljs-number">2</span> &#125;;         <span class="hljs-comment">// x4a 推导类型 std::initializer_list&lt;int&gt;</span><br><span class="hljs-keyword">decltype</span>(<span class="hljs-keyword">auto</span>) x4d = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>&#125;; <span class="hljs-comment">// 编译失败, &#123;1, 2&#125; 不是表达式</span><br><span class="hljs-keyword">auto</span> *x5a = &amp;i;              <span class="hljs-comment">// x5a 推导类型为 int*</span><br><span class="hljs-keyword">decltype</span>(<span class="hljs-keyword">auto</span>)*x5d = &amp;i;     <span class="hljs-comment">// 编译失败, decltype(auto) 必须单独声明</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>decltype(auto)</code> 必须单独声明, 也就是说它不能结合指针、引用以及 (<code>const</code>、<code>volatile</code>) 限定符.</li>
+</ul>
+<h2 id="decltype-和值类别">decltype 和值类别</h2>
+<p>对于推导规则中的第一种运算, 我们称之为 <strong>variable decltype</strong>, 因为这种 <code>decltype</code> 返回的是变量 (或者字段) 定义时的类型.</p>
+<p>对于推导规则中的第二种运算, 我们称之为 <strong>expression decltype</strong>. 我们可以通过该运算, 推导出表达式的值类别. 如果 <code>decltype((E))</code> 得到的是非引用类型 <code>T</code>, 那么 <code>E</code> 的值类别是 prvalue; 如果是 <code>T&amp;</code>, 那么 <code>E</code> 的值类别是 lvalue; 如果是 <code>T&amp;&amp;</code>, 那么 <code>E</code> 的值类别是 xvalue.</p>
+<p>此时可以将值类别和 expression decltype 的引用类型绑定起来:</p>
+<table>
+<thead>
+<tr>
+<th>expression decltype</th>
+<th>值类别</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>非引用类型 T</td>
+<td>prvalue</td>
+</tr>
+<tr>
+<td>lvalue 引用 T&amp;</td>
+<td>lvalue</td>
+</tr>
+<tr>
+<td>rvalue 引用 T&amp;&amp;</td>
+<td>xvalue</td>
+</tr>
+</tbody>
+</table>
+<p>截至 C++17, 一个类型为 <code>T</code> 的 <strong>prvalue</strong> 是一个可以生成一个类型为 <code>T</code> 的对象的抽象配方 (recipe). 值得注意的是, 一个 prvalue 并不对应一个你程序中真实存在的对象, 也不意味着构造函数已经调用过. 字面常量如 <code>5</code>, <code>true</code>, <code>nullptr</code> 和 <code>enum</code> 标签都是 prvalue, 因为可以用他们来初始化对象和操作数.</p>
+<p><code>auto s = std::string(&quot;hello world&quot;);</code> 中的 <code>std::string(&quot;hello world&quot;)</code> 是一个 prvalue. 但是, 得到这么一个 prvalue 的时候, 并没有真的创建一个字符串, 甚至 <code>std::string(const char*)</code> 这个构造函数也没有调用. 这一点是合理的, 因为设想一下如果这个 prvalue 是一个构造好的对象, 那么 <code>s</code> 就必须通过移动构造来初始化. 所以在这个例子中, <code>s</code> 是直接由参数 <code>&quot;hello world&quot;</code> 构造初始化的. 在语言标准里, 一个最终由 prvalue 初始化的对象被称为这个 prvalue 的 <strong>result object</strong>, 而被用于初始化 result object 的值被称为 prvalue 的 result.</p>
+<p>编译器会尽可能地推迟这个将 prvalue 变成一个对象的过程 (materializing), 以避免不必要的移动和拷贝构造. 尽管如此, 即使 prvalue 的值最后没有被使用, 它仍然需要被 materialize, 所以推迟 materialize 并不能省略所有的构造, 它只能避免移动和拷贝构造.</p>
+<p>一个 <strong>glvalue</strong> 代表了一个程序中真实存在的对象, 它可以唯一地确定一个对象, 它在内存中有确定的地址.</p>
+<p>一个 <strong>xvalue</strong> 是一个即将被丢掉的值. 比如, 一个在表达式中被创建的临时变量的生命周期会在表达式的末尾结束, 此时它将被销毁.</p>
+<p>一个 <strong>lvalue</strong> 就是一个非 xvalue 的 glvalue.</p>
+<p>一个 <strong>rvalue</strong> 就是一个 prvalue 或者 xvalue.</p>
+<p>由于 prvalue 在初始化其 result object 之前必须先被 materialize, 所以 prvalue 必须是一个完整类型, 而不能是前向声明的一个 struct. 类似地, prvalue 也不能是纯虚类, 因为纯虚类并不能实例化. 另外, 有意义的被 <code>const</code> 和 <code>volatile</code> 修饰的 prvalue 只能是类和数组. 比如, 一个 <code>const int</code> 类型的 prvalue 在初始化一个 <code>int</code> 变量的时候, 和普通的 <code>int</code> 类型的 prvalue 没有任何区别.</p>
+<p>内建运算符对其操作数有一定的要求, 并且返回特定的值类别. 比如, 内建二元运算符 <code>+</code> 要求两个操作数都是 prvalue, 并且返回 prvalue. 当然, 即使 <code>+</code> 要求操作数都是 prvalue, 你仍然能让其中一个操作数是 lvalue, 比如 <code>x + 1</code>. 这是因为, 一个非函数或数组的 glvalue 都可以通过一种称为 lvalue-to-rvalue conversion 的转换变成一个 prvalue. 根据上文所述, prvalue 实际上只是一个用来初始化对象的配方. 当从一个非类的 glvalue, 比如 <code>int</code> 转换到 prvalue 的时候, 你得到了这么一个配方: 根据老的 <code>int</code> 的值初始化一个新的 <code>int</code>; 当从一个类的 glvalue 转换到 prvalue 的时候, 这个配方就是: 根据现有的 glvalue, 拷贝或者移动构造一个新的类实例.</p>
+<p>一个表达式的值类别限定了它能绑定到哪些引用上, 如果 <code>T</code> 是一个非引用类型, 那么:</p>
+<ul>
+<li><code>T&amp;</code> 只能绑定 lvalue</li>
+<li><code>T&amp;&amp;</code> 只能绑定 rvalue</li>
+<li><code>const T&amp;</code> 可以绑定任意的值类别, 但是如果既存在接受 <code>const T&amp;</code> 的函数又存在接受 <code>T&amp;&amp;</code> 的函数时, 那么重载决议会优先使用 <code>T&amp;&amp;</code> 的函数而不是 <code>const T&amp;</code>.</li>
+</ul>
+<p>当一个引用绑定到 prvalue 的时候, 这个 prvalue 会先被 materialize 成为一个临时对象. 但是, 一般来说, 一个临时对象在表达式结束的地方就会被销毁, 这就会导致这个引用成为悬垂引用. 所以为了避免这种情况, C++ 会延长绑定到引用上的临时对象的生命周期, 使得直到引用的作用域结束之前临时对象都是有效的.</p>
+<p><strong>万能引用</strong>能绑定到任何值类别的实际参数上:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; </span><br><span class="hljs-function"><span class="hljs-keyword">decltype</span>(<span class="hljs-keyword">auto</span>) <span class="hljs-title">f</span><span class="hljs-params">(T&amp;&amp; t)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> <span class="hljs-built_in">g</span>(std::forward&lt;T&gt;(t));<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>它能绑定到任何值类别的实际参数上, 当实参为 lvalue 的时候它就是 lvalue 引用, 当实参为 rvalue 的时候它就是 rvalue 引用.</p>
+<p>如果我们把值类别和 expression decltype 的引用类型当成一回事, 那么我们就可以很方便地给出所有内建运算符的值类别. 我们可以认为内建的 <code>+</code> 和 <code>=</code> 有类似于如下的原型:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">int</span> <span class="hljs-keyword">operator</span>+(<span class="hljs-type">int</span>, <span class="hljs-type">int</span>);<br><span class="hljs-type">int</span>&amp; <span class="hljs-type">int</span>::<span class="hljs-keyword">operator</span>=(<span class="hljs-type">int</span>);<br></code></pre></td></tr></table></figure>
+<p>其中 <code>int</code> 对应 prvalue, <code>int&amp;</code> 对应 lvalue.</p>
+<p>由于值类别和 expression decltype 的引用类型是一回事, 我们可以调用 <code>decltype((E))</code>, 将其传入一个我们设计好的模板函数, 再通过模板特化来提取引用类型, 以此轻松得到 <code>E</code> 的值类别:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-keyword">constexpr</span> <span class="hljs-type">const</span> <span class="hljs-type">char</span> *category = <span class="hljs-string">&quot;prvalue&quot;</span>;<br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-keyword">constexpr</span> <span class="hljs-type">const</span> <span class="hljs-type">char</span> *category&lt;T&amp;&gt; = <span class="hljs-string">&quot;lvalue&quot;</span>;<br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-keyword">constexpr</span> <span class="hljs-type">const</span> <span class="hljs-type">char</span> *category&lt;T&amp;&amp;&gt; = <span class="hljs-string">&quot;xvalue&quot;</span>;<br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> SHOW(E) std::cout <span class="hljs-string">&lt;&lt; #E &lt;&lt; &quot;: &quot; &lt;&lt; category&lt;decltype((E))&gt;</span> &lt;&lt; std::endl</span><br></code></pre></td></tr></table></figure>
+<p>注意, 由于转发引用只适用于函数模板参数, 所以模板特化 <code>category&lt;T&amp;&amp;&gt;</code> 并不是一个转发引用.</p>
+<p>下面介绍 expression decltype 的小技巧, 之后我们将 expression decltype 简称为 exprtype.</p>
+<p>我们将表达式分成三种情况: 特例、有名值和无名值. 特例包含字符串字面量和函数, 它们的 exprtype 永远是 <code>T&amp;</code>. 有名值包括变量 (<code>x</code>)、对象的成员变量 (<code>s.f</code>) 和数组元素 (<code>a[i]</code>), 它们的 exprtype 一般都是 <code>T&amp;</code>, 除了几种情况: <code>s</code> 不是 lvalue 而且销毁 <code>s</code> 会导致 <code>s.f</code> 也被销毁, 此时 <code>s.f</code> 的 exprtype 是 <code>T&amp;&amp;</code>;  <code>a</code> 不是 lvalue, 此时 <code>a[i]</code> 的 exprtype 是 <code>T&amp;&amp;</code>. 最后, 无名值的 exprtype 和它们的 C++ 类型相同. 无名值分为两种: 显式地具有类型的值, 即类型转换表达式、函数调用和其他的和内建运算符有关的情况.</p>
+<p>下面是所有情况的详细解释:</p>
+<p><strong>特例 lvalue</strong>: 字符串字面量、函数和函数的引用的 exprtype 永远都是 lvalue 引用.</p>
+<table>
+<thead>
+<tr>
+<th>E</th>
+<th>decltype((E))</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“hello”</td>
+<td>const char(&amp;)[6]</td>
+</tr>
+<tr>
+<td>getpid</td>
+<td>int(&amp;)()</td>
+</tr>
+<tr>
+<td>static_cast&lt;int(&amp;)()&gt;(getpid)</td>
+<td>int(&amp;)()</td>
+</tr>
+<tr>
+<td>std::move(getpid)</td>
+<td>int(&amp;)()</td>
+</tr>
+</tbody>
+</table>
+<p>由于字符串字面量是内存中的一个 <code>char</code> 数组, 而函数是内存中的指令, 它们都不是 <code>prvalue</code>, 所以让它们具有非引用的 decltype 是没有意义的. 另外, 它们的生命周期贯穿整个程序, 所以允许 rvalue 引用来移动它们也是没有意义的. 所以, 只有 lvalue 引用是有意义的.</p>
+<p><strong>有名值</strong>: 如果 <code>E</code> 是变量 (<code>x</code>)、类或联合体的成员变量 (<code>s.f</code>) 或者是数组的元素 (<code>a[i]</code>), 那么它唯一地对应了一个在内存中存在的、已经构造好的对象, 从而不能是一个 <code>prvalue</code>. 因此, <code>E</code> 的 exprtype 必须是一个引用. 在这种情况下如果 <code>E</code> 是一个 exprtype 为非 lvalue 引用 (即该对象的值类别是 lvalue) 的对象的成员或者是数组的元素, 而且 <code>E</code> 的 variable decltype 不是引用, 那么 <code>E</code> 的 exprtype 是 rvalue 引用; 否则 <code>E</code> 的 exprtype 是 lvalue 引用.</p>
+<p>例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">int</span> v;<br><span class="hljs-type">int</span> &amp;vref = v;<br><span class="hljs-type">int</span> a[<span class="hljs-number">10</span>];<br><br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">S</span> &#123;<br>  <span class="hljs-type">static</span> <span class="hljs-type">int</span> static_member;<br>  <span class="hljs-type">int</span> data_member = <span class="hljs-number">0</span>;<br>  <span class="hljs-type">int</span> &amp;lref = static_member;<br>  <span class="hljs-type">int</span> &amp;&amp;rref = std::<span class="hljs-built_in">move</span>(static_member);<br>&#125;;<br>S s;<br><span class="hljs-function">S <span class="hljs-title">f</span><span class="hljs-params">()</span></span>;<br><span class="hljs-function">S &amp;<span class="hljs-title">lvf</span><span class="hljs-params">()</span></span>;<br><span class="hljs-type">int</span> S::*fieldp = &amp;S::data_member;<br></code></pre></td></tr></table></figure>
+<p>上述表达式的 exprtype 如下:</p>
+<table>
+<thead>
+<tr>
+<th>E</th>
+<th>decltype((E))</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v</td>
+<td>int&amp;</td>
+</tr>
+<tr>
+<td>vref</td>
+<td>int&amp;</td>
+</tr>
+<tr>
+<td>a</td>
+<td>int(&amp;)[10]</td>
+</tr>
+<tr>
+<td>a[5]</td>
+<td>int&amp;</td>
+</tr>
+<tr>
+<td>S::static_member</td>
+<td>int&amp;</td>
+</tr>
+<tr>
+<td>s.data_member</td>
+<td>int&amp;</td>
+</tr>
+<tr>
+<td>S::data_member</td>
+<td>int&amp;</td>
+</tr>
+<tr>
+<td>s.*fieldp</td>
+<td>int&amp;</td>
+</tr>
+<tr>
+<td>s.lref</td>
+<td>int&amp;</td>
+</tr>
+<tr>
+<td>s.rref</td>
+<td>int&amp;</td>
+</tr>
+<tr>
+<td>lvf().data_member</td>
+<td>int&amp;</td>
+</tr>
+<tr>
+<td>lvf().lref</td>
+<td>int&amp;</td>
+</tr>
+<tr>
+<td>lvf().rref</td>
+<td>int&amp;</td>
+</tr>
+<tr>
+<td>S{}.lref</td>
+<td>int&amp;</td>
+</tr>
+<tr>
+<td>S{}.rref</td>
+<td>int&amp;</td>
+</tr>
+<tr>
+<td>S{}.data_member</td>
+<td>int&amp;&amp;</td>
+</tr>
+<tr>
+<td>S{}.*fieldp</td>
+<td>int&amp;&amp;</td>
+</tr>
+<tr>
+<td>f().data_member</td>
+<td>int&amp;&amp;</td>
+</tr>
+<tr>
+<td>f().*fieldp</td>
+<td>int&amp;&amp;</td>
+</tr>
+<tr>
+<td>std::move(a)[5]</td>
+<td>int&amp;&amp;</td>
+</tr>
+</tbody>
+</table>
+<p>这里需要重点解释一个比较难处理的情况: 像 <code>S::data_member</code> 这么一个非静态的成员变量为什么永远是 lvalue? 这是因为在 <code>S</code> 的一个成员函数内, <code>S::data_member</code> 等价于 <code>(*this).S::data_member</code>, 它显然是 lvalue 引用. 在 <code>S</code> 的外部, 对 <code>S::data_member</code> 求值是非法的, 但是 <code>decltype((S::data_member))</code> 并不会对它求值. 甚至这样的语句都是合法的: <code>decltype(S::data_member + 5)</code>.</p>
+<p><strong>显含类型的值</strong>: 当一个无名值显含类型, 那么其 exprtype 就是这个表达式的类型. 更具体地来说:</p>
+<ul>
+<li>
+<p>所有的字面量 (除了字符串字面量)、<code>enum</code> 标签、<code>this</code> 指针和其他非类型地模板参数的 exprtype 都和它们本身的类型完全相同:</p>
+<table>
+<thead>
+<tr>
+<th>E</th>
+<th>decltype((E))</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>true</td>
+<td>bool</td>
+</tr>
+<tr>
+<td>5</td>
+<td>int</td>
+</tr>
+<tr>
+<td>‘A’</td>
+<td>char</td>
+</tr>
+<tr>
+<td>nullptr</td>
+<td>std::nullptr_t</td>
+</tr>
+<tr>
+<td>enum 标签</td>
+<td>对应的 enum 类型</td>
+</tr>
+<tr>
+<td>成员函数中的 this 指针</td>
+<td>T* 或者 const T*</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>函数调用的返回值、包括重载的运算符, 其 exprtype 都和函数原型中的返回值完全相同:</p>
+<table>
+<thead>
+<tr>
+<th>E</th>
+<th>decltype((E))</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>std::terminate()</td>
+<td>void</td>
+</tr>
+<tr>
+<td>std::to_string(5)</td>
+<td>std::string</td>
+</tr>
+<tr>
+<td>co_await a</td>
+<td>decltype(a.await_resume())</td>
+</tr>
+<tr>
+<td>std::string(“hello”) + &quot; world&quot;</td>
+<td>std::string</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>强制类型转换和类型转换的 exprtype 都是它们的目标类型:</p>
+<table>
+<thead>
+<tr>
+<th>E</th>
+<th>decltype((E))</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>double(1)</td>
+<td>double</td>
+</tr>
+<tr>
+<td>static_cast&lt;int&amp;&gt;(v)</td>
+<td>int&amp;</td>
+</tr>
+<tr>
+<td>static_cast&lt;int&amp;&amp;&gt;(v)</td>
+<td>int&amp;&amp;</td>
+</tr>
+<tr>
+<td>std::string{“hello”}</td>
+<td>std::string</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><code>new</code> 表达式的 exprtype 就是新创建对象的指针类型:</p>
+<table>
+<thead>
+<tr>
+<th>E</th>
+<th>decltype((E))</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>new T</td>
+<td>T*</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<p><strong>内建运算符</strong>: 内建运算符的 exprtype 和你在自定义运算符重载的时候的类型非常相似.</p>
+<p>三目运算符 <code>E1 ? E2 : E3</code> 是一个例外, 因为它不提供重载. 三目运算符会尝试统一 <code>E2</code> 和 <code>E3</code> 的 exprtype, 返回一个共同的引用类型. 例如: 如果 <code>E2</code> 和 <code>E3</code> 的 exprtype 都是 <code>int&amp;</code>, 则返回一个 <code>int&amp;</code>; 如果 <code>E2</code> 和 <code>E3</code> 分别是 <code>int</code> 和 <code>int&amp;</code>, 则没法统一, 最后返回一个 <code>int</code>.</p>
+<p>指针解引用运算符 (<code>*p</code>, 其中 <code>p</code> 的类型是 <code>T*</code>) 的 exprtype 是 <code>T&amp;</code>.</p>
+<p><code>sizeof(E)</code> 的 exprtype 是 <code>std::size_t</code>.</p>
+<p>取地址运算符 (<code>&amp;a</code>, 其中 <code>a</code> 的非引用类型是 <code>T</code>), 其 exprtype 是 <code>T*</code>.</p>
+<p>其他内建运算符的 exprtype 易判断, 就不再赘述.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>C++ 的 decltype 详细介绍: <a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_51913750/article/details/131003652">https://blog.csdn.net/m0_51913750/article/details/131003652</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>C++11之后的decltype类型指示符: <a target="_blank" rel="noopener" href="https://blog.csdn.net/hubing_hust/article/details/128623100">https://blog.csdn.net/hubing_hust/article/details/128623100</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>C++：值类别和 decltype 的祛魅: <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/593957444">https://zhuanlan.zhihu.com/p/593957444</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>C++ value categories and <code>decltype</code> demystified: <a target="_blank" rel="noopener" href="https://www.scs.stanford.edu/~dm/blog/decltype.html">https://www.scs.stanford.edu/~dm/blog/decltype.html</a>
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/CPlusPlus/" class="category-chain-item">CPlusPlus</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/C/" class="print-no-link">#C++</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/CPlusPlus/initializer-list/" title="C++ initializer_list">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C++ initializer_list</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/CPlusPlus/auto/" title="C++ auto">
+                        <span class="hidden-mobile">C++ auto</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,735 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="引用 lvalue 引用 类型为 T 的 lvalue 引用的语法可以表示为 T&amp;,  lvalue 引用引用的是允许引用用户写入的值, 可以将 lvalue 引用视为对象的另一名称. 例如: 12345678910111213141516171819202122232425262728&#x2F;&#x2F; reference_declarator.cpp&#x2F;&#x2F; compile with: &#x2F;EHsc&#x2F;&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 引用">
+<meta property="og:url" content="http://example.com/2024/07/04/CPlusPlus/%E5%BC%95%E7%94%A8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="引用 lvalue 引用 类型为 T 的 lvalue 引用的语法可以表示为 T&amp;,  lvalue 引用引用的是允许引用用户写入的值, 可以将 lvalue 引用视为对象的另一名称. 例如: 12345678910111213141516171819202122232425262728&#x2F;&#x2F; reference_declarator.cpp&#x2F;&#x2F; compile with: &#x2F;EHsc&#x2F;&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-04T11:02:24.000Z">
+<meta property="article:modified_time" content="2024-07-04T11:03:40.371Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>C++ 引用 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="C++ 引用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 19:02" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">C++ 引用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>引用</h1>
+<h2 id="lvalue-引用">lvalue 引用</h2>
+<p>类型为 <code>T</code> 的 lvalue 引用的语法可以表示为 <code>T&amp;</code>,  lvalue 引用引用的是允许引用用户写入的值, 可以将 lvalue 引用视为对象的另一名称. 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// reference_declarator.cpp</span><br><span class="hljs-comment">// compile with: /EHsc</span><br><span class="hljs-comment">// Demonstrates the reference declarator.</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">Person</span><br>&#123;<br>    <span class="hljs-type">char</span>* Name;<br>    <span class="hljs-type">short</span> Age;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>   <span class="hljs-comment">// Declare a Person object.</span><br>   Person myFriend;<br><br>   <span class="hljs-comment">// Declare a reference to the Person object.</span><br>   Person&amp; rFriend = myFriend;<br><br>   <span class="hljs-comment">// Set the fields of the Person object.</span><br>   <span class="hljs-comment">// Updating either variable changes the same object.</span><br>   myFriend.Name = <span class="hljs-string">&quot;Bill&quot;</span>;<br>   rFriend.Age = <span class="hljs-number">40</span>;<br><br>   <span class="hljs-comment">// Print the fields of the Person object to the console.</span><br>   cout &lt;&lt; rFriend.Name &lt;&lt; <span class="hljs-string">&quot; is &quot;</span> &lt;&lt; myFriend.Age &lt;&lt; endl;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>程序执行结果如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">Bill is 40<br></code></pre></td></tr></table></figure>
+<p><strong>lvalue 引用可以绑定到 lvalue , 但不能绑定到 rvalue</strong>.</p>
+<p>此外还有 lvalue 常量引用 (<code>T const &amp;</code>), 引用的是不可供引用用户写入的对象. <strong>lvalue 常量引用可以绑定到 lvalue 或 rvalue</strong>.</p>
+<h2 id="rvalue-引用">rvalue 引用</h2>
+<p>类型为 <code>T</code> 的 rvalue 引用的语法可以表示为 <code>T&amp;&amp;</code>,  rvalue 引用引用可移动值, 即其内容在使用后无需保留的值 (例如临时值). 由于关键是移动绑定到 rvalue 引用的值, 因此不会将 <code>const</code> 和 <code>volatile</code> 限定符 (也称 cv 限定符) 应用到 rvalue 引用.</p>
+<p>rvalue 引用绑定到 rvalue.  实际上, <strong>在进行重载决策时,  rvalue 首选绑定到 rvalue 引用而不是 lvalue 常量引用 (<code>T const &amp;</code>). 但是,  rvalue 引用不能绑定到 lvalue</strong>, 因为如前所述,  rvalue 引用引用的是假定其内容不需要保留的值.</p>
+<h3 id="移动语义">移动语义</h3>
+<p><strong>rvalue 引用支持 “移动语义” 的实现, 这可以显著提高应用程序的性能.</strong> 利用移动语义, 你可以编写将资源 (如动态分配的内存) 从一个对象转移到另一个对象的代码.</p>
+<p>若要实现移动语义, 通常可以向类提供 “移动构造函数”, 或者提供移动赋值运算符 (<code>operator=</code>).</p>
+<p>在没有移动语义之前, 一个简单的数组类通常实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Array</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">Array</span>(<span class="hljs-type">int</span> size) : <span class="hljs-built_in">size_</span>(size) &#123;<br>        data = <span class="hljs-keyword">new</span> <span class="hljs-type">int</span>[size_];<br>    &#125;<br>     <br>    <span class="hljs-comment">// 深拷贝构造</span><br>    <span class="hljs-built_in">Array</span>(<span class="hljs-type">const</span> Array&amp; temp_array) &#123;<br>        size_ = temp_array.size_;<br>        data_ = <span class="hljs-keyword">new</span> <span class="hljs-type">int</span>[size_];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; size_; i ++) &#123;<br>            data_[i] = temp_array.data_[i];<br>        &#125;<br>    &#125;<br>     <br>    <span class="hljs-comment">// 深拷贝赋值</span><br>    Array&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-type">const</span> Array&amp; temp_array) &#123;<br>        <span class="hljs-keyword">delete</span>[] data_;<br> <br>        size_ = temp_array.size_;<br>        data_ = <span class="hljs-keyword">new</span> <span class="hljs-type">int</span>[size_];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; size_; i ++) &#123;<br>            data_[i] = temp_array.data_[i];<br>        &#125;<br>    &#125;<br> <br>    ~<span class="hljs-built_in">Array</span>() &#123;<br>        <span class="hljs-keyword">delete</span>[] data_;<br>    &#125;<br> <br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-type">int</span> *data_;<br>    <span class="hljs-type">int</span> size_;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>该类的拷贝构造函数、赋值运算符重载函数已经通过使用左值引用传参来避免一次多余拷贝了, 但是内部实现要深拷贝, 无法避免. 当然, 有人会想: 能不能提供一个移动构造函数, 把被拷贝者的数据移动过来, 被拷贝者直接舍弃:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Array</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">Array</span>(<span class="hljs-type">int</span> size) : <span class="hljs-built_in">size_</span>(size) &#123;<br>        data = <span class="hljs-keyword">new</span> <span class="hljs-type">int</span>[size_];<br>    &#125;<br>     <br>    <span class="hljs-comment">// 深拷贝构造</span><br>    <span class="hljs-built_in">Array</span>(<span class="hljs-type">const</span> Array&amp; temp_array) &#123;<br>        ...<br>    &#125;<br>     <br>    <span class="hljs-comment">// 深拷贝赋值</span><br>    Array&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-type">const</span> Array&amp; temp_array) &#123;<br>        ...<br>    &#125;<br> <br>    <span class="hljs-comment">// 移动构造函数，可以浅拷贝</span><br>    <span class="hljs-built_in">Array</span>(<span class="hljs-type">const</span> Array&amp; temp_array, <span class="hljs-type">bool</span> move) &#123;<br>        data_ = temp_array.data_;<br>        size_ = temp_array.size_;<br>        <span class="hljs-comment">// 为防止temp_array析构时delete data，提前置空其data_      </span><br>        temp_array.data_ = <span class="hljs-literal">nullptr</span>;<br>    &#125;<br>     <br> <br>    ~<span class="hljs-built_in">Array</span>() &#123;<br>        <span class="hljs-keyword">delete</span> [] data_;<br>    &#125;<br> <br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-type">int</span> *data_;<br>    <span class="hljs-type">int</span> size_;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>但是这样会有两个问题:</p>
+<ul>
+<li>不优雅, 使用移动构造函数还需要一个额外的参数.</li>
+<li>编译器会报错, 因为 temp_array 的类型是 <code>const</code> lvalue 引用, 无法被修改. 如果将 <code>const</code> 去掉, 则无法通过 rvalue 调用该函数 (lvalue 引用不能绑定 rvalue).</li>
+</ul>
+<p>rvalue 引用的出现解决了该问题, 在 STL 的很多容器中, 都实现了以 rvalue 引用为参数的移动构造函数和移动赋值函数. 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Array</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    ......<br> <br>    <span class="hljs-built_in">Array</span>(Array&amp;&amp; temp_array) &#123;<br>        data_ = temp_array.data_;<br>        size_ = temp_array.size_;<br>        <span class="hljs-comment">// 为防止 temp_array 析构时 delete data_, 提前置空其 data_      </span><br>        temp_array.data_ = <span class="hljs-literal">nullptr</span>;<br>    &#125;<br>     <br> <br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-type">int</span> *data_;<br>    <span class="hljs-type">int</span> size_;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	...<br><br>	<span class="hljs-comment">// a 的值类别为 lvalue, 用 std::move 将其转换为 xvalue</span><br>	<span class="hljs-function">Array <span class="hljs-title">b</span><span class="hljs-params">(std::move(a))</span></span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>除非设计不允许移动, STL 类大都支持移动语义函数. 另外, 编译器会默认在用户自定义的 <code>class</code> 和 <code>struct</code> 中生成移动语义函数, 前提是用户没有主动定义该类的移动构造等函数.  因此, 可移动对象在「需要拷贝且被拷贝者之后不再被需要」的时候最好使用 <code>std::move</code> 触发移动语义来提升性能.</p>
+<h3 id="已命名-rvalue-引用-未命名-rvalue-引用">已命名 rvalue 引用 / 未命名 rvalue 引用</h3>
+<p><strong>已命名的 rvalue 引用的值类别是 lvalue</strong> (例如 <code>int &amp;&amp;x = 5</code>, 此处的 x 是一个已命名的 rvalue 引用), <strong>未命名的 rvalue 引用的值类别是 rvalue</strong> (其实是 xvalue, 例如 <code>std::move(x)</code> 和 <code>static_cast&lt;int&amp;&amp;&gt;(x)</code> 都是未命名的 rvalue 引用). 所以采用 rvalue 引用作为参数的函数将该参数视为函数正文中的 lvalue. 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// named-reference.cpp</span><br><span class="hljs-comment">// Compile with: /EHsc</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br>	<br><span class="hljs-comment">// A class that contains a memory resource.</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MemoryBlock</span><br>&#123;<br>   <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Add resources for the class here.</span><br>&#125;;<br>	<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">g</span><span class="hljs-params">(<span class="hljs-type">const</span> MemoryBlock&amp;)</span></span><br><span class="hljs-function"></span>&#123;<br>   cout &lt;&lt; <span class="hljs-string">&quot;In g(const MemoryBlock&amp;).&quot;</span> &lt;&lt; endl;<br>&#125;<br>	<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">g</span><span class="hljs-params">(MemoryBlock&amp;&amp;)</span></span><br><span class="hljs-function"></span>&#123;<br>   cout &lt;&lt; <span class="hljs-string">&quot;In g(MemoryBlock&amp;&amp;).&quot;</span> &lt;&lt; endl;<br>&#125;<br>	<br><span class="hljs-function">MemoryBlock&amp;&amp; <span class="hljs-title">f</span><span class="hljs-params">(MemoryBlock&amp;&amp; block)</span></span><br><span class="hljs-function"></span>&#123;<br>   <span class="hljs-built_in">g</span>(block);<br>   <span class="hljs-keyword">return</span> <span class="hljs-built_in">move</span>(block);<br>&#125;<br>	<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>   <span class="hljs-built_in">g</span>(<span class="hljs-built_in">f</span>(<span class="hljs-built_in">MemoryBlock</span>()));<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>上述程序输出结果如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">In g(const MemoryBlock&amp;).<br>In g(MemoryBlock&amp;&amp;).<br></code></pre></td></tr></table></figure>
+<p><code>main</code> 函数将 rvalue 传递给 <code>f</code>. <code>f</code> 的主体将其命名参数视为 lvalue. 从 <code>f</code> 到 <code>g</code> 的调用会将参数绑定到 lvalue 引用, 即调用 <code>void g(const MemoryBlock&amp;)</code> 该版本的 <code>g</code>.</p>
+<h3 id="引用折叠">引用折叠</h3>
+<p>函数参数推导时先会推导出其模板参数类型, 然后使用引用折叠规则.</p>
+<p>下表汇总了模板自变量类型推导的引用折叠规则:</p>
+<table>
+<thead>
+<tr>
+<th>展开类型</th>
+<th>折叠类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>T&amp; &amp;</code></td>
+<td><code>T&amp;</code></td>
+</tr>
+<tr>
+<td><code>T&amp; &amp;&amp;</code></td>
+<td><code>T&amp;</code></td>
+</tr>
+<tr>
+<td><code>T&amp;&amp; &amp;</code></td>
+<td><code>T&amp;</code></td>
+</tr>
+<tr>
+<td><code>T&amp;&amp; &amp;&amp;</code></td>
+<td><code>T&amp;&amp;</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>如果传递给函数的表达式的值类别是 rvalue, 则编译器将函数参数类型推导为 rvalue 引用</strong>.</p>
+<ul>
+<li>例如, 假设将类型为未命名 rvalue 引用 (假设该表达式的类型为 <code>X&amp;&amp;</code>) 的表达式传递给采用类型 <code>T&amp;&amp;</code> 作为其参数的函数模板:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">X</span>&#123;&#125;;<br>	<br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">func</span><span class="hljs-params">(T&amp;&amp; num)</span> </span>&#123; ... &#125;<br><br><span class="hljs-built_in">func</span>(std::<span class="hljs-built_in">move</span>(X&#123;&#125;)); <span class="hljs-comment">// 此时 num 的类型为 X&amp;&amp;</span><br></code></pre></td></tr></table></figure>
+此时模板参数推导出 <code>T</code> 为 <code>X</code>, 则该函数参数的类型为 <code>X&amp;&amp;</code>.</li>
+</ul>
+<p><strong>如果传递给函数的表达式的值类别是 lvalue,   则编译器将函数参数类型推导为 lvalue 引用</strong>.</p>
+<ul>
+<li>例如, 假设将类型为 <code>X</code> 或 <code>const X</code> 的表达式传递给采用类型 <code>T&amp;&amp;</code> 作为其参数的函数模板:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">X</span>&#123;&#125;;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">func</span><span class="hljs-params">(T&amp;&amp; num)</span> </span>&#123; ... &#125;<br><br>X x0 = X&#123;&#125;;<br><span class="hljs-type">const</span> X x1 = X&#123;&#125;;<br>	<br><span class="hljs-built_in">func</span>(x0);  <span class="hljs-comment">// 此时 num 的类型为 X&amp;</span><br><span class="hljs-built_in">func</span>(x1);  <span class="hljs-comment">// 此时 num 的类型为 const X&amp;</span><br></code></pre></td></tr></table></figure>
+此时模板参数推导出 <code>T</code> 为 <code>X&amp;</code> 或 <code>const X&amp;</code>, 则该函数参数的类型为 <code>X&amp; &amp;&amp;</code> 或 <code>const X&amp; &amp;&amp;</code>, 然后使用引用折叠得到该参数的类型为 <code>X&amp;</code> 或 <code>const X&amp;</code>.</li>
+</ul>
+<p>下面再给一个完整的例子:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// template-type-deduction.cpp</span><br><span class="hljs-comment">// Compile with: /EHsc</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br>	<br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-keyword">struct</span> <span class="hljs-title class_">S</span>;<br>	<br><span class="hljs-comment">// The following structures specialize S by</span><br><span class="hljs-comment">// lvalue reference (T&amp;), const lvalue reference (const T&amp;),</span><br><span class="hljs-comment">// rvalue reference (T&amp;&amp;), and const rvalue reference (const T&amp;&amp;).</span><br><span class="hljs-comment">// Each structure provides a print method that prints the type of</span><br><span class="hljs-comment">// the structure and its parameter.</span><br>	<br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-keyword">struct</span> <span class="hljs-title class_">S</span>&lt;T&amp;&gt; &#123;<br>   <span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title">print</span><span class="hljs-params">(T&amp; t)</span></span><br><span class="hljs-function">   </span>&#123;<br>      cout &lt;&lt; <span class="hljs-string">&quot;print&lt;T&amp;&gt;: &quot;</span> &lt;&lt; t &lt;&lt; endl;<br>   &#125;<br>&#125;;<br>	<br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-keyword">struct</span> <span class="hljs-title class_">S</span>&lt;<span class="hljs-type">const</span> T&amp;&gt; &#123;<br>   <span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title">print</span><span class="hljs-params">(<span class="hljs-type">const</span> T&amp; t)</span></span><br><span class="hljs-function">   </span>&#123;<br>      cout &lt;&lt; <span class="hljs-string">&quot;print&lt;const T&amp;&gt;: &quot;</span> &lt;&lt; t &lt;&lt; endl;<br>   &#125;<br>&#125;;<br>	<br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-keyword">struct</span> <span class="hljs-title class_">S</span>&lt;T&amp;&amp;&gt; &#123;<br>   <span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title">print</span><span class="hljs-params">(T&amp;&amp; t)</span></span><br><span class="hljs-function">   </span>&#123;<br>      cout &lt;&lt; <span class="hljs-string">&quot;print&lt;T&amp;&amp;&gt;: &quot;</span> &lt;&lt; t &lt;&lt; endl;<br>   &#125;<br>&#125;;<br>	<br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-keyword">struct</span> <span class="hljs-title class_">S</span>&lt;<span class="hljs-type">const</span> T&amp;&amp;&gt; &#123;<br>   <span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title">print</span><span class="hljs-params">(<span class="hljs-type">const</span> T&amp;&amp; t)</span></span><br><span class="hljs-function">   </span>&#123;<br>      cout &lt;&lt; <span class="hljs-string">&quot;print&lt;const T&amp;&amp;&gt;: &quot;</span> &lt;&lt; t &lt;&lt; endl;<br>   &#125;<br>&#125;;<br>	<br><span class="hljs-comment">// This function forwards its parameter to a specialized</span><br><span class="hljs-comment">// version of the S type.</span><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">print_type_and_value</span><span class="hljs-params">(T&amp;&amp; t)</span></span><br><span class="hljs-function"></span>&#123;<br>   S&lt;T&amp;&amp;&gt;::<span class="hljs-built_in">print</span>(std::forward&lt;T&gt;(t));<br>&#125;<br>	<br><span class="hljs-comment">// This function returns the constant string &quot;fourth&quot;.</span><br><span class="hljs-function"><span class="hljs-type">const</span> string <span class="hljs-title">fourth</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-keyword">return</span> <span class="hljs-built_in">string</span>(<span class="hljs-string">&quot;fourth&quot;</span>); &#125;<br>	<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>   <span class="hljs-comment">// The following call resolves to:</span><br>   <span class="hljs-comment">// print_type_and_value&lt;string&amp;&gt;(string&amp; &amp;&amp; t)</span><br>   <span class="hljs-comment">// Which collapses to:</span><br>   <span class="hljs-comment">// print_type_and_value&lt;string&amp;&gt;(string&amp; t)</span><br>   <span class="hljs-function">string <span class="hljs-title">s1</span><span class="hljs-params">(<span class="hljs-string">&quot;first&quot;</span>)</span></span>;<br>   <span class="hljs-built_in">print_type_and_value</span>(s1);<br>	<br>   <span class="hljs-comment">// The following call resolves to:</span><br>   <span class="hljs-comment">// print_type_and_value&lt;const string&amp;&gt;(const string&amp; &amp;&amp; t)</span><br>   <span class="hljs-comment">// Which collapses to:</span><br>   <span class="hljs-comment">// print_type_and_value&lt;const string&amp;&gt;(const string&amp; t)</span><br>   <span class="hljs-function"><span class="hljs-type">const</span> string <span class="hljs-title">s2</span><span class="hljs-params">(<span class="hljs-string">&quot;second&quot;</span>)</span></span>;<br>   <span class="hljs-built_in">print_type_and_value</span>(s2);<br>	<br>   <span class="hljs-comment">// The following call resolves to:</span><br>   <span class="hljs-comment">// print_type_and_value&lt;string&gt;(string&amp;&amp; t)</span><br>   <span class="hljs-built_in">print_type_and_value</span>(<span class="hljs-built_in">string</span>(<span class="hljs-string">&quot;third&quot;</span>));<br>	<br>   <span class="hljs-comment">// The following call resolves to:</span><br>   <span class="hljs-comment">// print_type_and_value&lt;const string&gt;(const string&amp;&amp; t)</span><br>   <span class="hljs-built_in">print_type_and_value</span>(<span class="hljs-built_in">fourth</span>());<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>上述程序输出结果如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">print&lt;T&amp;&gt;: first<br>print&lt;const T&amp;&gt;: second<br>print&lt;T&amp;&amp;&gt;: third<br>print&lt;const T&amp;&amp;&gt;: fourth<br></code></pre></td></tr></table></figure>
+<p>上述程序中将 <code>s1</code> 传递给 <code>print_type_and_value</code> 函数将导致编译器生成以下函数签名:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">print_type_and_value</span>&lt;string&amp;&gt;(string&amp; &amp;&amp; t)<br></code></pre></td></tr></table></figure>
+<p>编译器使用引用折叠规则将签名缩短:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">print_type_and_value</span>&lt;string&amp;&gt;(string&amp; t)<br></code></pre></td></tr></table></figure>
+<h3 id="万能引用-完美转发">万能引用 / 完美转发</h3>
+<p><strong>完美转发可减少对重载函数的需求, 并有助于避免转发问题</strong>. 当编写将引用作为其参数的泛型函数时, 会引发 “转移问题”: 如果它将这些参数传递 / 转移到另一个函数, 例如, 如果它采用类型为 <code>const T&amp;</code> 的参数, 则被该函数调用的函数无法修改该参数的值; 如果它采用类型为 <code>T&amp;</code> 的参数, 则无法使用 rvalue 来调用该函数.</p>
+<p>通常, 若要解决此问题, 则必须提供多个重载版本, 此时重载函数的数量将基于参数的数量呈指数增加.</p>
+<p>例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">W</span><br>&#123;<br>   <span class="hljs-built_in">W</span>(<span class="hljs-type">int</span>&amp;, <span class="hljs-type">int</span>&amp;) &#123;&#125;<br>&#125;;<br><br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">X</span><br>&#123;<br>   <span class="hljs-built_in">X</span>(<span class="hljs-type">const</span> <span class="hljs-type">int</span>&amp;, <span class="hljs-type">int</span>&amp;) &#123;&#125;<br>&#125;;<br><br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">Y</span><br>&#123;<br>   <span class="hljs-built_in">Y</span>(<span class="hljs-type">int</span>&amp;, <span class="hljs-type">const</span> <span class="hljs-type">int</span>&amp;) &#123;&#125;<br>&#125;;<br><br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">Z</span><br>&#123;<br>   <span class="hljs-built_in">Z</span>(<span class="hljs-type">const</span> <span class="hljs-type">int</span>&amp;, <span class="hljs-type">const</span> <span class="hljs-type">int</span>&amp;) &#123;&#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>假定你要编写一个泛型函数:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T, <span class="hljs-keyword">typename</span> A1, <span class="hljs-keyword">typename</span> A2&gt;<br><span class="hljs-function">T* <span class="hljs-title">factory</span><span class="hljs-params">(A1&amp; a1, A2&amp; a2)</span></span><br><span class="hljs-function"></span>&#123;<br>   <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">T</span>(a1, a2);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>该泛型函数存在一定的问题:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">int</span> a = <span class="hljs-number">4</span>, b = <span class="hljs-number">5</span>; <br>W *pw = <span class="hljs-built_in">factory</span>&lt;W&gt;(a, b); <span class="hljs-comment">// 有效调用</span><br><br>Z* pz = <span class="hljs-built_in">factory</span>&lt;Z&gt;(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 无效调用, 因为通过 rvalue 调用</span><br></code></pre></td></tr></table></figure>
+<p>如果你要解决此问题, 必须对 factory 函数进行重载:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T, <span class="hljs-keyword">typename</span> A1, <span class="hljs-keyword">typename</span> A2&gt;<br><span class="hljs-function">T* <span class="hljs-title">factory</span><span class="hljs-params">(A1&amp; a1, A2&amp; a2)</span></span><br><span class="hljs-function"></span>&#123;<br>   <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">T</span>(a1, a2);<br>&#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T, <span class="hljs-keyword">typename</span> A1, <span class="hljs-keyword">typename</span> A2&gt;<br><span class="hljs-function">T* <span class="hljs-title">factory</span><span class="hljs-params">(<span class="hljs-type">const</span> A1&amp; a1, A2&amp; a2)</span></span><br><span class="hljs-function"></span>&#123;<br>   <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">T</span>(a1, a2);<br>&#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T, <span class="hljs-keyword">typename</span> A1, <span class="hljs-keyword">typename</span> A2&gt;<br><span class="hljs-function">T* <span class="hljs-title">factory</span><span class="hljs-params">(A1&amp; a1, <span class="hljs-type">const</span> A2&amp; a2)</span></span><br><span class="hljs-function"></span>&#123;<br>   <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">T</span>(a1, a2);<br>&#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T, <span class="hljs-keyword">typename</span> A1, <span class="hljs-keyword">typename</span> A2&gt;<br><span class="hljs-function">T* <span class="hljs-title">factory</span><span class="hljs-params">(<span class="hljs-type">const</span> A1&amp; a1, <span class="hljs-type">const</span> A2&amp; a2)</span></span><br><span class="hljs-function"></span>&#123;<br>   <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">T</span>(a1, a2);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>此时重载版本的数量为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">2^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> = 4.</p>
+<p>万能引用可以很好地解决该问题. <strong>万能引用</strong>是一种特殊的引用类型, 它可以同时接受 lvalue 和 rvalue, 这种引用类型使用了模板和引用折叠的特性.</p>
+<p>例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T, <span class="hljs-keyword">typename</span> A1, <span class="hljs-keyword">typename</span> A2&gt;<br><span class="hljs-function">T* <span class="hljs-title">factory</span><span class="hljs-params">(A1&amp;&amp; a1, A2&amp;&amp; a2)</span></span><br><span class="hljs-function"></span>&#123;<br>   <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">T</span>(std::forward&lt;A1&gt;(a1), std::forward&lt;A2&gt;(a2));<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>std::forward</code> 函数的用途是将 factory 函数的参数转移给模板类的构造函数. 因为已命名 rvalue 引用类型的表达式的值类别是 lvalue, 即 a1 和 a2 的值类别都是 lvalue, 所以不能直接 <code>return new T(a1, a2);</code>.</li>
+</ul>
+<p>此时上述泛型函数能够正常执行:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>   <span class="hljs-type">int</span> a = <span class="hljs-number">4</span>, b = <span class="hljs-number">5</span>;<br>   W* pw = <span class="hljs-built_in">factory</span>&lt;W&gt;(a, b);<br>   X* px = <span class="hljs-built_in">factory</span>&lt;X&gt;(<span class="hljs-number">2</span>, b);<br>   Y* py = <span class="hljs-built_in">factory</span>&lt;Y&gt;(a, <span class="hljs-number">2</span>);<br>   Z* pz = <span class="hljs-built_in">factory</span>&lt;Z&gt;(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>);<br><br>   <span class="hljs-keyword">delete</span> pw;<br>   <span class="hljs-keyword">delete</span> px;<br>   <span class="hljs-keyword">delete</span> py;<br>   <span class="hljs-keyword">delete</span> pz;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="move-forward">move / forward</h3>
+<p>在 C++11 中, 标准库提供了一个有用的函数 <code>std::move</code>. <code>std::move</code> 并不能移动任何东西, 它唯一的作用是<strong>将某个对象强制转换为对该对象的未命名 rvalue 引用</strong>. 从实现上来讲, <code>std::move</code> 基本上等价于 <code>static_cast&lt;T&amp;&amp;&gt;(expr)</code>, 两者都可以将值类别为 lvalue 的表达式强制转换为值类别为 xvalue 的表达式. 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// cast-reference.cpp</span><br><span class="hljs-comment">// Compile with: /EHsc</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br>	<br><span class="hljs-comment">// A class that contains a memory resource.</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MemoryBlock</span><br>&#123;<br>	<span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Add resources for the class here.</span><br>&#125;;<br>	<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">g</span><span class="hljs-params">(<span class="hljs-type">const</span> MemoryBlock&amp;)</span></span><br><span class="hljs-function"></span>&#123;<br>	cout &lt;&lt; <span class="hljs-string">&quot;In g(const MemoryBlock&amp;).&quot;</span> &lt;&lt; endl;<br>&#125;<br>	<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">g</span><span class="hljs-params">(MemoryBlock&amp;&amp;)</span></span><br><span class="hljs-function"></span>&#123;<br>	cout &lt;&lt; <span class="hljs-string">&quot;In g(MemoryBlock&amp;&amp;).&quot;</span> &lt;&lt; endl;<br>&#125;<br>	<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	MemoryBlock block;<br>	<span class="hljs-built_in">g</span>(block);<br>	<span class="hljs-built_in">g</span>(<span class="hljs-built_in">static_cast</span>&lt;MemoryBlock&amp;&amp;&gt;(block));<br>	<span class="hljs-built_in">g</span>(<span class="hljs-built_in">move</span>(block));<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>上述程序输出结果如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">In g(const MemoryBlock&amp;).<br>In g(MemoryBlock&amp;&amp;).<br>In g(MemoryBlock&amp;&amp;).<br></code></pre></td></tr></table></figure>
+<p>在分析 <code>std::move</code> 和 <code>std::forward</code> 之前先看看 <code>remove_reference</code> 函数的实现:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp&gt;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">remove_reference</span><br>&#123; <span class="hljs-keyword">typedef</span> _Tp   type; &#125;;<br> <br><span class="hljs-comment">// 特化版本</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp&gt;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">remove_reference</span>&lt;_Tp&amp;&gt;<br>&#123; <span class="hljs-keyword">typedef</span> _Tp   type; &#125;;<br> <br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp&gt;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">remove_reference</span>&lt;_Tp&amp;&amp;&gt;<br>&#123; <span class="hljs-keyword">typedef</span> _Tp   type; &#125;;<br></code></pre></td></tr></table></figure>
+<p>显然, <strong><code>remove_reference</code> 函数用来去除 _Tp 中的引用部分, 只获取其中的类型部分</strong>.</p>
+<p><strong><code>std::forward</code> 函数主要用于完美转发</strong>, 该函数的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 通过 lvalue 调用 forward</span><br><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp&gt;</span><br><span class="hljs-function"><span class="hljs-keyword">constexpr</span> _Tp&amp;&amp;</span><br><span class="hljs-function"><span class="hljs-title">forward</span><span class="hljs-params">(<span class="hljs-keyword">typename</span> std::remove_reference&lt;_Tp&gt;::type&amp; <span class="hljs-type">__t</span>)</span> <span class="hljs-keyword">noexcept</span></span><br><span class="hljs-function"></span>&#123; <span class="hljs-keyword">return</span> <span class="hljs-built_in">static_cast</span>&lt;_Tp&amp;&amp;&gt;(<span class="hljs-type">__t</span>); &#125;<br><br><span class="hljs-comment">// 通过 rvalue 调用 forward</span><br><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp&gt;</span><br><span class="hljs-function"><span class="hljs-keyword">constexpr</span> _Tp&amp;&amp;</span><br><span class="hljs-function"><span class="hljs-title">forward</span><span class="hljs-params">(<span class="hljs-keyword">typename</span> std::remove_reference&lt;_Tp&gt;::type&amp;&amp; <span class="hljs-type">__t</span>)</span> <span class="hljs-keyword">noexcept</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-built_in">static_assert</span>(!std::is_lvalue_reference&lt;_Tp&gt;::value, <span class="hljs-string">&quot;template argument&quot;</span><br>        <span class="hljs-string">&quot; substituting _Tp is an lvalue reference type&quot;</span>);<br>  <span class="hljs-keyword">return</span> <span class="hljs-built_in">static_cast</span>&lt;_Tp&amp;&amp;&gt;(<span class="hljs-type">__t</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>该函数之所以要 <code>return static_cast&lt;_Tp&amp;&amp;&gt;(__t)</code> 而不是 <code>return static_cast&lt;_Tp&gt;(__t)</code> 主要是为了确保 rvalue 引用能够被完美转发. 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T0&gt;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">func2</span><span class="hljs-params">(T0 &amp;&amp;num0)</span></span><br><span class="hljs-function"></span>&#123; ... &#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">func</span><span class="hljs-params">(T &amp;&amp;num)</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-built_in">func2</span>(std::forward&lt;T&gt;(num));<br>&#125; <br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-type">int</span> n = <span class="hljs-number">5</span>;<br>  <br>  <span class="hljs-type">int</span> &amp;m = n;<br>  <span class="hljs-type">int</span> s = <span class="hljs-number">7</span>; <br><br>  <span class="hljs-built_in">func</span>(m);       <span class="hljs-comment">// 调用 void func&lt;int &amp;&gt;(int &amp;num)</span><br>  <span class="hljs-built_in">func</span>(<span class="hljs-built_in">move</span>(s)); <span class="hljs-comment">// 调用 void func&lt;int&gt;(int &amp;&amp;num)</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>该例中 m 调用 func 函数时, func 函数的模板参数 T 推导为 <code>int &amp;</code>, 此时 <code>forward</code> 函数返回 <code>static_cast&lt;int &amp; &amp;&amp;&gt;(__t)</code>, 引用折叠后为 <code>static_cast&lt;int &amp;&gt;(__t)</code>; 而 <code>move(s)</code> 调用 func 函数时, func 函数的模板参数 T 推导为 <code>int</code>, 此时 <code>forward</code> 函数返回 <code>static_cast&lt;int &amp;&amp;&gt;(__t)</code>, 实现完美转发.</p>
+<p>如果使用 <code>return static_cast&lt;_Tp&gt;(__t)</code>, 则上例 <code>forward</code> 函数将返回 <code>static_cast&lt;int&gt;(__t)</code>, 无法实现完美转发.</p>
+<p><code>std::move</code> 的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// FUNCTION TEMPLATE move</span><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">_Ty</span>&gt;<br>_NODISCARD <span class="hljs-keyword">constexpr</span> <span class="hljs-type">remove_reference_t</span>&lt;_Ty&gt;::<span class="hljs-function">type&amp;&amp; <span class="hljs-title">move</span><span class="hljs-params">(_Ty&amp;&amp; _Arg)</span> <span class="hljs-keyword">noexcept</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-type">remove_reference_t</span>&lt;_Ty&gt;::type&amp;&amp;&gt;(_Arg);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>显然, <code>std::move</code> 和 <code>std::forward</code> 都仅仅做了强制类型转换. <strong>一般来说, 对于 rvalue 引用使用 <code>std::move</code>; 对于万能引用, 使用 <code>std::forward</code></strong>.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>引用声明符：<code>&amp;&amp;</code>: <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/cpp/cpp/rvalue-reference-declarator-amp-amp?view=msvc-170">https://learn.microsoft.com/zh-cn/cpp/cpp/rvalue-reference-declarator-amp-amp?view=msvc-170</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>一文带你详细介绍c++中的std::move函数: <a target="_blank" rel="noopener" href="https://blog.csdn.net/zhangmiaoping23/article/details/126051520">https://blog.csdn.net/zhangmiaoping23/article/details/126051520</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/CPlusPlus/" class="category-chain-item">CPlusPlus</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/C/" class="print-no-link">#C++</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/CPlusPlus/%E5%80%BC%E7%B1%BB%E5%88%AB/" title="C++ 值类别">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C++ 值类别</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/CPlusPlus/%E8%99%9A%E5%87%BD%E6%95%B0%E4%B8%8E%E5%A4%9A%E6%80%81/" title="C++ 虚函数与多态">
+                        <span class="hidden-mobile">C++ 虚函数与多态</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

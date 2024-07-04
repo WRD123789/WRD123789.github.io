@@ -1,0 +1,770 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="QT 数据库操作 Qt 提供了 QtSql 模块来提供平台独立的基于 SQL 的数据库操作. 这里的 “平台独立”, 既包括操作系统平台, 也包括各个数据库平台. 如果想要通过 QT 访问数据库, 首先需要在项目的构造文件 (以 qmake 为例) 中添加模块名: 1QT +&#x3D; core gui sql 这个 sql 模块对应的是一个动态库, 动态库中有数据库相关类的二进制源码, 在使用动态库中的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QT 数据库操作">
+<meta property="og:url" content="http://example.com/2024/07/04/QT/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="QT 数据库操作 Qt 提供了 QtSql 模块来提供平台独立的基于 SQL 的数据库操作. 这里的 “平台独立”, 既包括操作系统平台, 也包括各个数据库平台. 如果想要通过 QT 访问数据库, 首先需要在项目的构造文件 (以 qmake 为例) 中添加模块名: 1QT +&#x3D; core gui sql 这个 sql 模块对应的是一个动态库, 动态库中有数据库相关类的二进制源码, 在使用动态库中的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20240208131535.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240210102054.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240210145420.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240210162246.png">
+<meta property="article:published_time" content="2024-07-04T12:52:21.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="QT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20240208131535.png">
+  
+  
+  
+  <title>QT 数据库操作 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QT 数据库操作"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:52" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          33 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">QT 数据库操作</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>QT 数据库操作</h1>
+<p>Qt 提供了 QtSql 模块来提供平台独立的基于 SQL 的数据库操作. 这里的 “平台独立”, 既包括操作系统平台, 也包括各个数据库平台.</p>
+<p>如果想要通过 QT 访问数据库, 首先需要在项目的构造文件 (以 qmake 为例) 中添加模块名:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">QT += core gui sql<br></code></pre></td></tr></table></figure>
+<p>这个 <code>sql</code> 模块对应的是一个动态库, 动态库中有数据库相关类的二进制源码, 在使用动态库中的数据库类的时候, 动态库被加载到内存中.</p>
+<p>QT 中常用的数据库类如下:</p>
+<ul>
+<li><code>QSqlDatabase</code>: 通过这个类添加 / 删除 / 复制 / 关闭数据库实例.</li>
+<li><code>QSqlQuery</code>: 数据库查询类, 主要是用来执行 SQL 语句和处理查询结果.</li>
+<li><code>QSqlRecord</code>: 用于表示数据库中一条记录的类.</li>
+<li><code>QSqlQueryModel</code>: 是 QT 中的一个模型类, 用于将数据库查询的结果集与 QT 的视图 (例如 <code>QTableView</code>) 关联起来.</li>
+<li><code>QSqlError</code>: 数据操作失败可以通过这个类获取相关的错误信息.</li>
+</ul>
+<p>如果习惯于使用 SQL 语句, 我们可以选择 <code>QSqlQuery</code> 类; 如果只需要使用高层次的数据库接口 (不关心 SQL 语法), 我们可以选择 <code>QSqlTableModel</code> 和 <code>QSqlRelationalTableModel</code>.</p>
+<h2 id="QSqlDatabase">QSqlDatabase</h2>
+<p><code>QSqlDatabase</code> 类提供了一个连接访问数据库的接口. 一个 <code>QSqlDatabase</code> 的实例就表示一个连接, 该连接通过数据库驱动程序提供对数据库的访问, 这些驱动程序派生自 <code>QSqlDriver</code>. Qt 提供了如下几种驱动程序:</p>
+<table>
+<thead>
+<tr>
+<th>驱动</th>
+<th>数据库</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QDB2</td>
+<td>IBM DB2 (7.1 或更新版本)</td>
+</tr>
+<tr>
+<td>QIBASE</td>
+<td>Borland InterBase</td>
+</tr>
+<tr>
+<td>QMYSQL</td>
+<td>MySQL</td>
+</tr>
+<tr>
+<td>QOCI</td>
+<td>Oracle Call Interface Driver</td>
+</tr>
+<tr>
+<td>QODBC</td>
+<td>Open Database Connectivity (ODBC) – Microsoft SQL Server 及其它兼容 ODBC 的数据库</td>
+</tr>
+<tr>
+<td>QPSQL</td>
+<td>PostgreSQL (7.3 或更新版本)</td>
+</tr>
+<tr>
+<td>QSQLITE2</td>
+<td>SQLite 2</td>
+</tr>
+<tr>
+<td>QSQLITE</td>
+<td>SQLite 3</td>
+</tr>
+<tr>
+<td>QSYMSQL</td>
+<td>针对 Symbian 平台的SQLite 3</td>
+</tr>
+<tr>
+<td>QTDS</td>
+<td>Sybase Adaptive Server (自 Qt 4.7 起废除)</td>
+</tr>
+</tbody>
+</table>
+<p>不过, 由于受到协议的限制, Qt 开源版本并没有提供上面所有驱动的二进制版本, 而仅仅以源代码的形式提供. 通常, Qt 只默认搭载 QSqlite 驱动. 我们可以选择把这些驱动作为 Qt 的一部分进行编译, 也可以当作插件编译.</p>
+<p><code>QSqlDatabase</code> 类中常用的 API 函数如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 得到可以使用的数据库驱动的集合</span><br><span class="hljs-comment">// 在高版本 QT 中, 有些数据库的驱动需要自己编译, 如果没有对应的驱动无法进行数据库连接</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QStringList <span class="hljs-title">QSqlDatabase::drivers</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-comment">// 添加一个数据库实例</span><br><span class="hljs-comment">// type: 指定要连接什么样的数据库, 即数据库驱动对应的驱动名</span><br><span class="hljs-comment">// connectionName: 数据库连接名, 默认名称为 &quot;defaultConnection&quot;, 我们可以在应用程序中添加多个数据库连接 (也就是多个实例), 每个连接都对应一个唯一的名字</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QSqlDatabase <span class="hljs-title">QSqlDatabase::addDatabase</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-type">const</span> QString &amp;type, </span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-type">const</span> QString &amp;connectionName = QLatin1String( defaultConnection ))</span></span>;<br><br><span class="hljs-comment">// 通过数据库连接名得到数据库实例对象</span><br><span class="hljs-comment">// connectionName: 通过 `addDatabase` 的第二个参数指定的连接名</span><br><span class="hljs-comment">// open: 实例的状态. true 表示得到的实例设置为打开状态; false 表示得到的实例设置为关闭状态</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QSqlDatabase <span class="hljs-title">QSqlDatabase::database</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-type">const</span> QString &amp;connectionName = QLatin1String(defaultConnection), </span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-type">bool</span> open = <span class="hljs-literal">true</span>)</span></span>;<br><br><span class="hljs-comment">// 判断连接名对应的连接的是否存在.</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QSqlDatabase::contains</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-type">const</span> QString &amp;connectionName = QLatin1String(defaultConnection))</span></span>;<br><br><span class="hljs-comment">// 设置数据库名</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QSqlDatabase::setDatabaseName</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;name)</span></span>;<br><br><span class="hljs-comment">// 设置数据库服务器主机名 (一般指定服务器 IP 地址即可)</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QSqlDatabase::setHostName</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;host)</span></span>;<br><br><span class="hljs-comment">// 设置数据库服务器绑定的端口. 如果数据库服务器绑定的是默认端口, 则可以省略设置端口的操作</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QSqlDatabase::setPort</span><span class="hljs-params">(<span class="hljs-type">int</span> port)</span></span>;<br><br><span class="hljs-comment">// 设置连接的数据库中某个用户的用户名</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QSqlDatabase::setUserName</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;name)</span></span>;<br><br><span class="hljs-comment">// 设置连接的数据库中某个用户对应的密码</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QSqlDatabase::setPassword</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;password)</span></span>;<br><br><span class="hljs-comment">// 连接数据库 (必须要先设置连接信息，然后再连接数据库). 成功返回 true; 失败返回 false</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QSqlDatabase::open</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-comment">// 判断数据库是否连接</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QSqlDatabase::isOpen</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 关闭数据库连接</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QSqlDatabase::close</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-comment">// 返回有关数据库上发生的最后一个错误的信息. </span><br><span class="hljs-function">QSqlError <span class="hljs-title">QSqlDatabase::lastError</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 该函数返回的是一个 QSqlError 对象, 调用 QSqlError 类提供的 text() 方法就可以得到最后一个错误对应的信息描述了</span><br><span class="hljs-function">QString <span class="hljs-title">QSqlError::text</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 创建一个事务</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QSqlDatabase::transaction</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-comment">// 提交事务</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QSqlDatabase::commit</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-comment">// 事务回滚</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QSqlDatabase::rollback</span><span class="hljs-params">()</span></span>;<br></code></pre></td></tr></table></figure>
+<h2 id="QSqlQuery">QSqlQuery</h2>
+<p><code>QSqlQuery</code> 是 QT 中用于执行 SQL 语句和处理查询结果的类. 既可以执行 <code>SELECT</code>、<code>INSERT</code>、<code>UPDATE</code>、<code>DELETE</code> 等 DML (数据操作语言) 语句, 也可以执行 <code>CREATE TABLE</code> 等 DDL (数据定义语言) 语句.</p>
+<p>该类的常用 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// query: 要执行的 SQL 语句</span><br><span class="hljs-comment">// db: 数据库实例对象, 如果没有指定db, 或者是无效的, 则使用应用程序的默认数据库</span><br>QSqlQuery::<span class="hljs-built_in">QSqlQuery</span>(<br>    <span class="hljs-type">const</span> QString &amp;query = <span class="hljs-built_in">QString</span>(), <br>    QSqlDatabase db = <span class="hljs-built_in">QSqlDatabase</span>());<br><br><span class="hljs-comment">// 执行一个 SQL 语句</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QSqlQuery::exec</span><span class="hljs-params">()</span></span>;                     <span class="hljs-comment">// 执行的 SQL 语句是在构造函数中指定的</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QSqlQuery::exec</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;query)</span></span>; <span class="hljs-comment">// 参数对应的字符串就是要执行的 SQL 语句</span><br><br><span class="hljs-comment">// 用于将查询结果的指针移动到结果集中的下一条记录, 在执行 SQL 查询后, 通过 `next` 函数可以依次遍历查询结果中的各个记录</span><br><span class="hljs-comment">// 如果检索到的是有效记录, 则返回 true; 否则返回 false</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QSqlQuery::next</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-comment">// 获取当前记录中字段的值</span><br><span class="hljs-function">QVariant <span class="hljs-title">QSqlQuery::value</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span> <span class="hljs-type">const</span></span>;           <span class="hljs-comment">// 通过字段的索引得到当前记录中指定字段的值, 编号从 0 开始</span><br><span class="hljs-function">QVariant <span class="hljs-title">QSqlQuery::value</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;name)</span> <span class="hljs-type">const</span></span>; <span class="hljs-comment">// 通过字段的名字得到当前记录中指定字段的值</span><br><span class="hljs-comment">// 由于数据库表中的字段可以有多种数据类型, 因此这多种类型可以通过 `QVariant` 类进行包装, 从而实现一致性.</span><br><br><span class="hljs-comment">// 检查当前查询是否处于活动状态</span><br><span class="hljs-comment">// 在执行查询之后, 查询会变为活动状态, 直到调用 `QSqlQuery` 的下一个查询或者清除查询结果为止.</span><br><span class="hljs-comment">// 如果查询处于活动状态, `isActive()` 返回 `true`; 否则, 返回 `false`</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QSqlQuery::isActive</span><span class="hljs-params">()</span></span>;<br></code></pre></td></tr></table></figure>
+<p>示例代码如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">connect</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;dbName)</span></span><br><span class="hljs-function"></span>&#123;<br>    QSqlDatabase db = QSqlDatabase::<span class="hljs-built_in">addDatabase</span>(<span class="hljs-string">&quot;QSQLITE&quot;</span>);<br>    <span class="hljs-comment">//    db.setHostName(&quot;host&quot;);</span><br>    <span class="hljs-comment">//    db.setDatabaseName(&quot;dbname&quot;);</span><br>    <span class="hljs-comment">//    db.setUserName(&quot;username&quot;);</span><br>    <span class="hljs-comment">//    db.setPassword(&quot;password&quot;);</span><br>    db.<span class="hljs-built_in">setDatabaseName</span>(dbName);<br>    <span class="hljs-keyword">if</span> (!db.<span class="hljs-built_in">open</span>()) &#123;<br>        QMessageBox::<span class="hljs-built_in">critical</span>(<span class="hljs-number">0</span>, QObject::<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Database Error&quot;</span>),<br>                              db.<span class="hljs-built_in">lastError</span>().<span class="hljs-built_in">text</span>());<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该函数用于创建一个连接. 由于这里使用的是 sqlite 数据库, 所以只需要指定数据库名字即可. 如果要使用数据库服务器, 比如 MySQL, 我们还需要指定主机名、端口号、用户名和密码.</li>
+</ul>
+<p>此时可以在 <code>main</code> 函数中调用这个 <code>connect</code> 函数:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QApplication <span class="hljs-title">a</span><span class="hljs-params">(argc, argv)</span></span>;<br>    <br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">connect</span>(<span class="hljs-string">&quot;demo.db&quot;</span>)) &#123;<br>        QSqlQuery query;<br>        <span class="hljs-keyword">if</span> (!query.<span class="hljs-built_in">exec</span>(<span class="hljs-string">&quot;CREATE TABLE student (&quot;</span><br>                        <span class="hljs-string">&quot;id INTEGER PRIMARY KEY AUTOINCREMENT,&quot;</span><br>                        <span class="hljs-string">&quot;name VARCHAR,&quot;</span><br>                        <span class="hljs-string">&quot;age INT)&quot;</span>)) &#123;<br>            QMessageBox::<span class="hljs-built_in">critical</span>(<span class="hljs-number">0</span>, QObject::<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Database Error&quot;</span>),<br>                                  query.<span class="hljs-built_in">lastError</span>().<span class="hljs-built_in">text</span>());<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>        &#125;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> a.<span class="hljs-built_in">exec</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>当需要插入多条数据时, 我们也可以批量执行:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QApplication <span class="hljs-title">a</span><span class="hljs-params">(argc, argv)</span></span>;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">connect</span>(<span class="hljs-string">&quot;demo.db&quot;</span>)) &#123;<br>        QSqlQuery query;<br>        query.<span class="hljs-built_in">prepare</span>(<span class="hljs-string">&quot;INSERT INTO student (name, age) VALUES (?, ?)&quot;</span>);<br>        QVariantList names;<br>        names &lt;&lt; <span class="hljs-string">&quot;Tom&quot;</span> &lt;&lt; <span class="hljs-string">&quot;Jack&quot;</span> &lt;&lt; <span class="hljs-string">&quot;Jane&quot;</span> &lt;&lt; <span class="hljs-string">&quot;Jerry&quot;</span>;<br>        query.<span class="hljs-built_in">addBindValue</span>(names);<br>        QVariantList ages;<br>        ages &lt;&lt; <span class="hljs-number">20</span> &lt;&lt; <span class="hljs-number">23</span> &lt;&lt; <span class="hljs-number">22</span> &lt;&lt; <span class="hljs-number">25</span>;<br>        query.<span class="hljs-built_in">addBindValue</span>(ages);<br>        <span class="hljs-keyword">if</span> (!query.<span class="hljs-built_in">execBatch</span>()) &#123;<br>            QMessageBox::<span class="hljs-built_in">critical</span>(<span class="hljs-number">0</span>, QObject::<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Database Error&quot;</span>),<br>                                  query.<span class="hljs-built_in">lastError</span>().<span class="hljs-built_in">text</span>());<br>        &#125;<br>        <span class="hljs-comment">// 结束 `query` 对象的使用. 这一步在批处理操作结束后通常是可选的, 但有助于清理和释放资源</span><br>        query.<span class="hljs-built_in">finish</span>();<br>        query.<span class="hljs-built_in">exec</span>(<span class="hljs-string">&quot;SELECT name, age FROM student&quot;</span>);<br>        <span class="hljs-keyword">while</span> (query.<span class="hljs-built_in">next</span>()) &#123;<br>            QString name = query.<span class="hljs-built_in">value</span>(<span class="hljs-number">0</span>).<span class="hljs-built_in">toString</span>();<br>            <span class="hljs-type">int</span> age = query.<span class="hljs-built_in">value</span>(<span class="hljs-number">1</span>).<span class="hljs-built_in">toInt</span>();<br>            <span class="hljs-built_in">qDebug</span>() &lt;&lt; name &lt;&lt; <span class="hljs-string">&quot;: &quot;</span> &lt;&lt; age;<br>        &#125;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> a.<span class="hljs-built_in">exec</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>首先, 我们使用 <code>QSqlQuery::prepare()</code> 函数对这条 SQL 语句进行预处理, 其中 “?” 相当于占位符. 在上面的代码中, 我们使用一个字符串列表 names 替换到第一个问号的位置, 一个整型列表 ages 替换到第二个问号的位置, 利用 <code>QSqlQuery::addBindValue()</code> 我们将实际数据绑定到这个预处理的 SQL 语句上. 当然, names 和 ages 这两个列表里面的数据需要一一对应. 之后我们调用 <code>QSqlQuery::execBatch()</code> 批量执行 SQL.</li>
+<li>上面使用的是 ODBC 风格的 “?” 占位符, 同样, 我们也可以使用 Oracle 风格的占位符:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">query.<span class="hljs-built_in">prepare</span>(<span class="hljs-string">&quot;INSERT INTO student (name, age) VALUES (:name, :age)&quot;</span>);<br></code></pre></td></tr></table></figure>
+此时绑定数据就要使用:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">query.<span class="hljs-built_in">bindValue</span>(<span class="hljs-string">&quot;:name&quot;</span>, names);<br>query.<span class="hljs-built_in">bindValue</span>(<span class="hljs-string">&quot;:age&quot;</span>, ages);<br></code></pre></td></tr></table></figure>
+Oracle 风格的绑定最大的好处是, 绑定的名字和值很清晰, 与顺序无关. 另外, <code>bindValue()</code> 函数只能绑定一个位置. 例如:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp">query.<span class="hljs-built_in">prepare</span>(<span class="hljs-string">&quot;INSERT INTO test (name1, name2) VALUES (:name, :name)&quot;</span>);<br><span class="hljs-comment">// ...</span><br>query.<span class="hljs-built_in">bindValue</span>(<span class="hljs-string">&quot;:name&quot;</span>, name);<br></code></pre></td></tr></table></figure>
+这样只能绑定第一个占位符.</li>
+</ul>
+<p>上述程序的执行结果如下:<br>
+<img src="/img/Pictures/20240208131535.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="使用模型操作数据库">使用模型操作数据库</h2>
+<p>Qt 还提供了一种基于模型的更高级的处理方式. 这种基于 <code>QSqlTableModel</code> 的模型处理更为高级, 如果对 SQL 语句不熟悉, 并且不需要很多复杂的查询, 这种 <code>QSqlTableModel</code> 模型基本可以满足一般的需求.</p>
+<p>下面使用 <code>QSqlTableModel</code> 进行 SELECT 操作 (仍然借助上文的 <code>connect</code> 函数):</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QApplication <span class="hljs-title">a</span><span class="hljs-params">(argc, argv)</span></span>;<br>    <br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">connect</span>(<span class="hljs-string">&quot;demo.db&quot;</span>)) &#123;<br>        QSqlTableModel model;<br>        model.<span class="hljs-built_in">setTable</span>(<span class="hljs-string">&quot;student&quot;</span>);<br>        model.<span class="hljs-built_in">setFilter</span>(<span class="hljs-string">&quot;age &gt; 20 and age &lt; 25&quot;</span>);<br>        <span class="hljs-keyword">if</span> (model.<span class="hljs-built_in">select</span>()) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; model.<span class="hljs-built_in">rowCount</span>(); ++i) &#123;<br>                QSqlRecord record = model.<span class="hljs-built_in">record</span>(i);<br>                QString name = record.<span class="hljs-built_in">value</span>(<span class="hljs-string">&quot;name&quot;</span>).<span class="hljs-built_in">toString</span>();<br>                <span class="hljs-type">int</span> age = record.<span class="hljs-built_in">value</span>(<span class="hljs-string">&quot;age&quot;</span>).<span class="hljs-built_in">toInt</span>();<br>                <span class="hljs-built_in">qDebug</span>() &lt;&lt; name &lt;&lt; <span class="hljs-string">&quot;: &quot;</span> &lt;&lt; age;<br>            &#125;<br>        &#125;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> a.<span class="hljs-built_in">exec</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在该代码中, 我们首先创建了 <code>QSqlTableModel</code> 的对象, <code>setTable</code> 函数用于设置所需要操作的数据表, <code>setFilter</code> 函数用于设置过滤器. 上述代码等价于 SQL 语句:  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> student <span class="hljs-keyword">WHERE</span> age <span class="hljs-operator">&gt;</span> <span class="hljs-number">20</span> <span class="hljs-keyword">and</span> age <span class="hljs-operator">&lt;</span> <span class="hljs-number">25</span><br></code></pre></td></tr></table></figure>
+<code>QSqlTableModel::select()</code> 函数用于执行数据库查询操作, 之后通过 <code>record</code> 函数取出查询结果中的每条记录, 记录是以 <code>QSqlRecord</code> 对象的形式给出的, 而 <code>QSqlRecord::value()</code> 则可以获取指定列的数据值.</li>
+<li>由于 <code>QSqlTableModel</code> 只是一种高级操作, 不如 SQL 语句灵活. 例如, 我们使用 <code>QSqlTableModel</code> 只能进行 SELECT * 的查询, 不能只查询其中某些列的数据.</li>
+</ul>
+<p>下面使用 <code>QSqlTableModel</code> 进行插入操作:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QSqlTableModel model;<br>model.<span class="hljs-built_in">setTable</span>(<span class="hljs-string">&quot;student&quot;</span>);<br><span class="hljs-type">int</span> row = <span class="hljs-number">0</span>;<br>model.<span class="hljs-built_in">insertRows</span>(row, <span class="hljs-number">1</span>);<br>model.<span class="hljs-built_in">setData</span>(model.<span class="hljs-built_in">index</span>(row, <span class="hljs-number">1</span>), <span class="hljs-string">&quot;Cheng&quot;</span>);<br>model.<span class="hljs-built_in">setData</span>(model.<span class="hljs-built_in">index</span>(row, <span class="hljs-number">2</span>), <span class="hljs-number">24</span>);<br>model.<span class="hljs-built_in">submitAll</span>();<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>model.insertRows(row, 1);</code> 表示我们想在索引 0 的位置插入 1 行新的数据. 使用 <code>setData()</code> 函数则开始准备实际需要插入的数据. 最后, 调用 <code>submitAll()</code> 函数提交所有修改. 上述代码等价于 SQL 语句:  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> student (name, age) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;Cheng&#x27;</span>, <span class="hljs-number">24</span>)<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>我们也可以取出数据库中的数据, 对其进行修改后重新写回数据库. 例如, 如果我们要找到 age = 25 的记录, 然后将其修改为 26, 则可以执行以下代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QSqlTableModel model;<br>model.<span class="hljs-built_in">setTable</span>(<span class="hljs-string">&quot;student&quot;</span>);<br>model.<span class="hljs-built_in">setFilter</span>(<span class="hljs-string">&quot;age = 25&quot;</span>);<br><span class="hljs-keyword">if</span> (model.<span class="hljs-built_in">select</span>()) &#123;<br>    <span class="hljs-keyword">if</span> (model.<span class="hljs-built_in">rowCount</span>() == <span class="hljs-number">1</span>) &#123;<br>        QSqlRecord record = model.<span class="hljs-built_in">record</span>(<span class="hljs-number">0</span>);<br>        record.<span class="hljs-built_in">setValue</span>(<span class="hljs-string">&quot;age&quot;</span>, <span class="hljs-number">26</span>);<br>        model.<span class="hljs-built_in">setRecord</span>(<span class="hljs-number">0</span>, record);<br>        model.<span class="hljs-built_in">submitAll</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QSqlTableModel model;<br>model.<span class="hljs-built_in">setTable</span>(<span class="hljs-string">&quot;student&quot;</span>);<br>model.<span class="hljs-built_in">setFilter</span>(<span class="hljs-string">&quot;age = 25&quot;</span>);<br><span class="hljs-keyword">if</span> (model.<span class="hljs-built_in">select</span>()) &#123;<br>    <span class="hljs-keyword">if</span> (model.<span class="hljs-built_in">rowCount</span>() == <span class="hljs-number">1</span>) &#123;<br>        model.<span class="hljs-built_in">setData</span>(model.<span class="hljs-built_in">index</span>(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>), <span class="hljs-number">26</span>);<br>        model.<span class="hljs-built_in">submitAll</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>等价于 SQL 语句:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">UPDATE</span> student <span class="hljs-keyword">SET</span> age <span class="hljs-operator">=</span> <span class="hljs-number">26</span> <span class="hljs-keyword">WHERE</span> age <span class="hljs-operator">=</span> <span class="hljs-number">25</span><br></code></pre></td></tr></table></figure>
+<p>删除操作与更新操作类似:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QSqlTableModel model;<br>model.<span class="hljs-built_in">setTable</span>(<span class="hljs-string">&quot;student&quot;</span>);<br>model.<span class="hljs-built_in">setFilter</span>(<span class="hljs-string">&quot;age = 25&quot;</span>);<br><span class="hljs-keyword">if</span> (model.<span class="hljs-built_in">select</span>()) &#123;<br>    <span class="hljs-keyword">if</span> (model.<span class="hljs-built_in">rowCount</span>() == <span class="hljs-number">1</span>) &#123;<br>        model.<span class="hljs-built_in">removeRows</span>(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>);<br>        model.<span class="hljs-built_in">submitAll</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>其中 <code>QSqlTableModel::removeRows</code> 函数的签名如下:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-keyword">override</span> <span class="hljs-keyword">virtual</span>] <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QSqlTableModel::removeRows</span><span class="hljs-params">(<span class="hljs-type">int</span> row, <span class="hljs-type">int</span> count, <span class="hljs-type">const</span> QModelIndex &amp;parent = QModelIndex())</span></span><br></code></pre></td></tr></table></figure>
+<ul>
+<li>该函数用于移除自 row 行开始的 count 行记录.</li>
+</ul>
+</li>
+</ul>
+<p>上述代码等价于 SQL 语句:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">FROM</span> student <span class="hljs-keyword">WHERE</span> age <span class="hljs-operator">=</span> <span class="hljs-number">25</span><br></code></pre></td></tr></table></figure>
+<h2 id="可视化显示数据库数据">可视化显示数据库数据</h2>
+<p>此处仍然使用之前实现的 <code>connect()</code> 函数来连接数据库, 示例代码如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QApplication <span class="hljs-title">a</span><span class="hljs-params">(argc, argv)</span></span>;<br>    <br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">connect</span>(<span class="hljs-string">&quot;demo.db&quot;</span>)) &#123;<br>        QSqlTableModel *model = <span class="hljs-keyword">new</span> QSqlTableModel;<br>        model-&gt;<span class="hljs-built_in">setTable</span>(<span class="hljs-string">&quot;student&quot;</span>);<br>        <span class="hljs-comment">// 设置按照表格的第二列 (索引为 1) 进行升序排序</span><br>        model-&gt;<span class="hljs-built_in">setSort</span>(<span class="hljs-number">1</span>, Qt::AscendingOrder);<br>        model-&gt;<span class="hljs-built_in">setHeaderData</span>(<span class="hljs-number">1</span>, Qt::Horizontal, <span class="hljs-string">&quot;Name&quot;</span>);<br>        model-&gt;<span class="hljs-built_in">setHeaderData</span>(<span class="hljs-number">2</span>, Qt::Horizontal, <span class="hljs-string">&quot;Age&quot;</span>);<br>        model-&gt;<span class="hljs-built_in">select</span>();<br><br>        QTableView *view = <span class="hljs-keyword">new</span> QTableView;<br>        view-&gt;<span class="hljs-built_in">setModel</span>(model);<br>        <span class="hljs-comment">// 设置表格视图的选择模式为单选, 即每次只能选中一行</span><br>        view-&gt;<span class="hljs-built_in">setSelectionMode</span>(QAbstractItemView::SingleSelection);<br>        <span class="hljs-comment">// 设置选择行为为选中整行</span><br>        view-&gt;<span class="hljs-built_in">setSelectionBehavior</span>(QAbstractItemView::SelectRows);<br>        <span class="hljs-comment">// 在视图中隐藏第一列</span><br>        view-&gt;<span class="hljs-built_in">setColumnHidden</span>(<span class="hljs-number">0</span>, <span class="hljs-literal">true</span>);<br>        <span class="hljs-comment">// 根据内容自动调整列的宽度, 使内容全部可见</span><br>        view-&gt;<span class="hljs-built_in">resizeColumnsToContents</span>();<br>        <span class="hljs-comment">// 禁用编辑功能</span><br>        view-&gt;<span class="hljs-built_in">setEditTriggers</span>(QAbstractItemView::NoEditTriggers);<br><br>        QHeaderView *header = view-&gt;<span class="hljs-built_in">horizontalHeader</span>();<br>        <span class="hljs-comment">// 设置水平表头中最后一节 (最右侧的部分) 自动拉伸以填充剩余空间</span><br>        header-&gt;<span class="hljs-built_in">setStretchLastSection</span>(<span class="hljs-literal">true</span>);<br><br>        view-&gt;<span class="hljs-built_in">show</span>();<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> a.<span class="hljs-built_in">exec</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>当然, 上述代码在可读性上还可以通过枚举来优化:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">enum</span> <span class="hljs-title class_">ColumnIndex</span><br>&#123;<br>    Column_ID = <span class="hljs-number">0</span>,<br>    Column_Name = <span class="hljs-number">1</span>,<br>    Column_Age = <span class="hljs-number">2</span><br>&#125;;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QApplication <span class="hljs-title">a</span><span class="hljs-params">(argc, argv)</span></span>;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">connect</span>(<span class="hljs-string">&quot;demo.db&quot;</span>)) &#123;<br>        QSqlTableModel *model = <span class="hljs-keyword">new</span> QSqlTableModel;<br>        model-&gt;<span class="hljs-built_in">setTable</span>(<span class="hljs-string">&quot;student&quot;</span>);<br>        model-&gt;<span class="hljs-built_in">setSort</span>(Column_Name, Qt::AscendingOrder);<br>        model-&gt;<span class="hljs-built_in">setHeaderData</span>(Column_Name, Qt::Horizontal, <span class="hljs-string">&quot;Name&quot;</span>);<br>        model-&gt;<span class="hljs-built_in">setHeaderData</span>(Column_Age, Qt::Horizontal, <span class="hljs-string">&quot;Age&quot;</span>);<br>        model-&gt;<span class="hljs-built_in">select</span>();<br><br>        QTableView *view = <span class="hljs-keyword">new</span> QTableView;<br>        view-&gt;<span class="hljs-built_in">setModel</span>(model);<br>        view-&gt;<span class="hljs-built_in">setSelectionMode</span>(QAbstractItemView::SingleSelection);<br>        view-&gt;<span class="hljs-built_in">setSelectionBehavior</span>(QAbstractItemView::SelectRows);<br>        view-&gt;<span class="hljs-built_in">setColumnHidden</span>(Column_ID, <span class="hljs-literal">true</span>);<br>        view-&gt;<span class="hljs-built_in">resizeColumnsToContents</span>();<br>        view-&gt;<span class="hljs-built_in">setEditTriggers</span>(QAbstractItemView::NoEditTriggers);<br><br>        QHeaderView *header = view-&gt;<span class="hljs-built_in">horizontalHeader</span>();<br>        header-&gt;<span class="hljs-built_in">setStretchLastSection</span>(<span class="hljs-literal">true</span>);<br><br>        view-&gt;<span class="hljs-built_in">show</span>();<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> a.<span class="hljs-built_in">exec</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>上述代码的执行结果如下:<br>
+<img src="/img/Pictures/20240210102054.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="编辑数据库外键">编辑数据库外键</h2>
+<p>虽然我们可以直接使用 SQL 语句来更新数据库的数据, 但除此之外, Qt 还为图形界面提供了更方便的展示和编辑的功能.</p>
+<p>首先提供一个 city 表:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> city (<br>    id <span class="hljs-type">INTEGER</span> <span class="hljs-keyword">PRIMARY</span> KEY AUTOINCREMENT,<br>    name <span class="hljs-type">VARCHAR</span>);<br><br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> city (name) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;Beijing&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> city (name) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;Shanghai&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> city (name) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;Nanjing&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> city (name) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;Tianjin&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> city (name) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;Wuhan&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> city (name) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;Hangzhou&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> city (name) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;Suzhou&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> city (name) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;Guangzhou&#x27;</span>);<br></code></pre></td></tr></table></figure>
+<p>下面是一个 student 表, 通过外键连接 city 表:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> student (<br>    id <span class="hljs-type">INTEGER</span> <span class="hljs-keyword">PRIMARY</span> KEY AUTOINCREMENT,<br>    name <span class="hljs-type">VARCHAR</span>,<br>    age <span class="hljs-type">INTEGER</span>,<br>    address <span class="hljs-type">INTEGER</span>,<br>    <span class="hljs-keyword">FOREIGN</span> KEY(address) <span class="hljs-keyword">REFERENCES</span> city(id));<br></code></pre></td></tr></table></figure>
+<p>在 Qt 中, 想要启用外键约束, 需要通过 <code>QSqlQuery</code> 执行:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QSqlQuery query;<br>query.<span class="hljs-built_in">exec</span>(<span class="hljs-string">&quot;PRAGMA foreign_keys = ON;&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>最后使用视图来显示数据:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (<span class="hljs-built_in">connect</span>(<span class="hljs-string">&quot;demo.db&quot;</span>)) &#123;<br>        QSqlTableModel *model = <span class="hljs-keyword">new</span> QSqlTableModel;<br>        model-&gt;<span class="hljs-built_in">setTable</span>(<span class="hljs-string">&quot;student&quot;</span>);<br>        model-&gt;<span class="hljs-built_in">setSort</span>(ColumnID_Name, Qt::AscendingOrder);<br>        model-&gt;<span class="hljs-built_in">setHeaderData</span>(ColumnID_Name, Qt::Horizontal, <span class="hljs-string">&quot;Name&quot;</span>);<br>        model-&gt;<span class="hljs-built_in">setHeaderData</span>(ColumnID_Age, Qt::Horizontal, <span class="hljs-string">&quot;Age&quot;</span>);<br>        model-&gt;<span class="hljs-built_in">setHeaderData</span>(ColumnID_City, Qt::Horizontal, <span class="hljs-string">&quot;City&quot;</span>);<br>        model-&gt;<span class="hljs-built_in">select</span>();<br><br>        QTableView *view = <span class="hljs-keyword">new</span> QTableView;<br>        view-&gt;<span class="hljs-built_in">setModel</span>(model);<br>        view-&gt;<span class="hljs-built_in">setSelectionMode</span>(QAbstractItemView::SingleSelection);<br>        view-&gt;<span class="hljs-built_in">setSelectionBehavior</span>(QAbstractItemView::SelectRows);<br>        view-&gt;<span class="hljs-built_in">resizeColumnsToContents</span>();<br><br>        QHeaderView *header = view-&gt;<span class="hljs-built_in">horizontalHeader</span>();<br>        header-&gt;<span class="hljs-built_in">setStretchLastSection</span>(<span class="hljs-literal">true</span>);<br><br>        view-&gt;<span class="hljs-built_in">show</span>();<br>    &#125;<br></code></pre></td></tr></table></figure>
+<p>上述代码的执行结果如下:<br>
+<img src="/img/Pictures/20240210145420.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>注意到上图中 City 列仅显示出了我们保存的值, 该问题既可以通过 <code>QSqlQuery</code> 类解决, 也可以通过另一个模型: <code>QSqlRelationalTableModel</code> 来解决.</p>
+<p><code>QSqlRelationalTableModel</code> 与 <code>QSqlTableModel</code> 类似, 可以为一个数据表提供可编辑的数据模型, 同时支持外键. 该模型的使用示例如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QApplication <span class="hljs-title">a</span><span class="hljs-params">(argc, argv)</span></span>;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">connect</span>(<span class="hljs-string">&quot;demo.db&quot;</span>)) &#123;<br>        QSqlRelationalTableModel *model = <span class="hljs-keyword">new</span> QSqlRelationalTableModel;<br>        model-&gt;<span class="hljs-built_in">setTable</span>(<span class="hljs-string">&quot;student&quot;</span>);<br>        model-&gt;<span class="hljs-built_in">setSort</span>(ColumnID_Name, Qt::AscendingOrder);<br>        model-&gt;<span class="hljs-built_in">setHeaderData</span>(ColumnID_Name, Qt::Horizontal, <span class="hljs-string">&quot;Name&quot;</span>);<br>        model-&gt;<span class="hljs-built_in">setHeaderData</span>(ColumnID_Age, Qt::Horizontal, <span class="hljs-string">&quot;Age&quot;</span>);<br>        model-&gt;<span class="hljs-built_in">setHeaderData</span>(ColumnID_City, Qt::Horizontal, <span class="hljs-string">&quot;City&quot;</span>);<br>        model-&gt;<span class="hljs-built_in">setRelation</span>(ColumnID_City, <span class="hljs-built_in">QSqlRelation</span>(<span class="hljs-string">&quot;city&quot;</span>, <span class="hljs-string">&quot;id&quot;</span>, <span class="hljs-string">&quot;name&quot;</span>));<br>        model-&gt;<span class="hljs-built_in">select</span>();<br><br>        QTableView *view = <span class="hljs-keyword">new</span> QTableView;<br>        view-&gt;<span class="hljs-built_in">setModel</span>(model);<br>        view-&gt;<span class="hljs-built_in">setSelectionMode</span>(QAbstractItemView::SingleSelection);<br>        view-&gt;<span class="hljs-built_in">setSelectionBehavior</span>(QAbstractItemView::SelectRows);<br>        view-&gt;<span class="hljs-built_in">resizeColumnsToContents</span>();<br>        view-&gt;<span class="hljs-built_in">setItemDelegate</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">QSqlRelationalDelegate</span>(view));<br><br>        QHeaderView *header = view-&gt;<span class="hljs-built_in">horizontalHeader</span>();<br>        header-&gt;<span class="hljs-built_in">setStretchLastSection</span>(<span class="hljs-literal">true</span>);<br><br>        view-&gt;<span class="hljs-built_in">show</span>();<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> a.<span class="hljs-built_in">exec</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该代码几乎和之前的差不多, 需要注意的是 <code>setRelation()</code> 函数的调用, 我们将第 <code>ColumnID_City</code> 列作为外键, 参照于 city 表的 id 字段, 使用 name 进行显示. 另外, 通过调用 <code>setItemDelegate()</code> 函数提供了一种用于编辑外键的方式.</li>
+</ul>
+<p>上述代码的执行结果如下:<br>
+<img src="/img/Pictures/20240210162246.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Qt数据库操作: <a target="_blank" rel="noopener" href="https://subingwen.cn/qt/qt-db/">https://subingwen.cn/qt/qt-db/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>QT 学习之路 2（55）：数据库操作: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/06/qt-study-road-2-database/">https://www.devbean.net/2013/06/qt-study-road-2-database/</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>QT 学习之路 2（56）：使用模型操作数据库: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/06/qt-study-road-2-sql-model/">https://www.devbean.net/2013/06/qt-study-road-2-sql-model/</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>QT 学习之路 2（57）：可视化显示数据库数据: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/06/qt-study-road-2-show-sql-data/">https://www.devbean.net/2013/06/qt-study-road-2-show-sql-data/</a>
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:5" class="footnote-text"><span>QT 学习之路 2（58）：编辑数据库外键: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/07/qt-study-road-2-edit-sql-fk/">https://www.devbean.net/2013/07/qt-study-road-2-edit-sql-fk/</a>
+<a href="#fnref:5" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/" class="category-chain-item">QT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QT/" class="print-no-link">#QT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/XML/" title="QT XML">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QT XML</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/Model-View%E6%9E%B6%E6%9E%84/" title="QT Model/View 架构">
+                        <span class="hidden-mobile">QT Model/View 架构</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

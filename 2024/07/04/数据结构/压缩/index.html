@@ -1,0 +1,773 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="压缩 Shannon-Fano 编码  统计文本中所有字符出现的概率. 每次分成概率大致相等的两部分  左边得到前导 0, 右边得到前导 1. 重复上述步骤.    例如:       Shannon-Fano 编码虽然很好, 但它不是最优的编码. Huffman 编码 过程  计算文本中所有字符出现的概率. 将每个字符放入权重为该字符出现概率的节点. 每次将两个权重 (概率) 最小的节点合并成一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="压缩">
+<meta property="og:url" content="http://example.com/2024/07/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%8E%8B%E7%BC%A9/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="压缩 Shannon-Fano 编码  统计文本中所有字符出现的概率. 每次分成概率大致相等的两部分  左边得到前导 0, 右边得到前导 1. 重复上述步骤.    例如:       Shannon-Fano 编码虽然很好, 但它不是最优的编码. Huffman 编码 过程  计算文本中所有字符出现的概率. 将每个字符放入权重为该字符出现概率的节点. 每次将两个权重 (概率) 最小的节点合并成一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020124001.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020124009.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020124021.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020124029.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020124037.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020124043.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020124834.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020124845.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020124915.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020125612.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020133938.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020133943.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020135402.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020135411.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020135443.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020135617.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020135640.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020135741.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020135802.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020135839.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020135850.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020135855.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020135915.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020135921.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020154647.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020161226.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020162331.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020163130.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020164143.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020164220.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020164451.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020164531.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020172815.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020172440.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020193833.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020194106.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221020194106.png">
+<meta property="article:published_time" content="2024-07-04T10:13:49.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CS61B">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20221020124001.png">
+  
+  
+  
+  <title>压缩 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="压缩"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 18:13" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">压缩</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>压缩</h1>
+<h2 id="Shannon-Fano-编码">Shannon-Fano 编码</h2>
+<ul>
+<li>统计文本中所有字符出现的概率.</li>
+<li>每次分成概率大致相等的两部分
+<ul>
+<li>左边得到前导 0, 右边得到前导 1.</li>
+<li>重复上述步骤.</li>
+</ul>
+</li>
+</ul>
+<p>例如:</p>
+<p><img src="/img/Pictures/20221020124001.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221020124009.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221020124021.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221020124029.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221020124037.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221020124043.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>Shannon-Fano 编码虽然很好, 但它不是最优的编码.</p>
+<h2 id="Huffman-编码">Huffman 编码</h2>
+<h3 id="过程">过程</h3>
+<ul>
+<li>计算文本中所有字符出现的概率.</li>
+<li>将每个字符放入权重为该字符出现概率的节点.</li>
+<li>每次将两个权重 (概率) 最小的节点合并成一个节点, 该节点的权重等于两个被合并的节点的权重之和.</li>
+<li>重复上一步骤直到所有节点在同一棵树中.</li>
+</ul>
+<p>例如:</p>
+<p><img src="/img/Pictures/20221020124834.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221020124845.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221020124915.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="比较">比较</h3>
+<p>此时每个字符的平均位数 = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.35</mn><mo>×</mo><mn>1</mn><mo>+</mo><mo stretchy="false">(</mo><mn>0.17</mn><mo>+</mo><mn>0.17</mn><mo>+</mo><mn>0.16</mn><mo>+</mo><mn>0.15</mn><mo stretchy="false">)</mo><mo>×</mo><mn>3</mn><mo>=</mo><mn>2.3</mn><mtext> </mtext><mi>b</mi><mi>i</mi><mi>t</mi><mi>s</mi><mi mathvariant="normal">/</mi><mi>s</mi><mi>y</mi><mi>m</mi><mi>b</mi><mi>o</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">0.35 \times 1 + (0.17 + 0.17 + 0.16 + 0.15) \times 3 = 2.3 \ bits/symbol</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">0.35</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">0.17</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">0.17</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">0.16</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">0.15</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2.3</span><span class="mspace"> </span><span class="mord mathnormal">bi</span><span class="mord mathnormal">t</span><span class="mord mathnormal">s</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.03588em;">sy</span><span class="mord mathnormal">mb</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span></span></span></span>, 相对于原来的一个字符 32 位 (汉字为 Unicode), 有了巨大的提升.</p>
+<p>而 Shannon-Fano 编码对上述输入数据编码后每个字符的平均位数 = 2.31, 可见 Huffman 编码优于 Shannon-Fano 编码.</p>
+<p><img src="/img/Pictures/20221020125612.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="数据结构选择">数据结构选择</h3>
+<p>编码选择用数组存储来存储比特流, 用字符作为索引 (例如: ‘A’ 为 65), 因为如果用哈希表来存储, 需要计算哈希码, 需要运用模运算 (模运算比较花时间), 不如用数组存储更快:</p>
+<p><img src="/img/Pictures/20221020133938.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>解码选择用字典树:</p>
+<p><img src="/img/Pictures/20221020133943.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>还需要考虑 Huffman 编码如何存储, 主要有两种方式:</p>
+<ul>
+<li>为每种输入类型汇编大量示例输入, 根据文献为英文、汉语等创建标准编码.</li>
+<li>为每个待压缩文件单独创建编码, 并将该码字表与压缩文件存储在一起.</li>
+</ul>
+<p>第一种方法创建的编码不一定是最优的, 但由于已经构建好了码字表, 所以运行更快; 第二种方法需要为压缩比特流产生的码字表准备额外的空间, 同时创建码字表需要更多的工作, 所以速度相对第一种方法会更慢.</p>
+<p>对于大的输入, 包含码字表的成本便微不足道, 所以日常生活中采取第二种方式.</p>
+<h3 id="压缩过程">压缩过程</h3>
+<p>输入:</p>
+<p><img src="/img/Pictures/20221020135402.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>计数/计算频率:</p>
+<p><img src="/img/Pictures/20221020135411.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221020135443.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>创建编码表和解码树:</p>
+<p><img src="/img/Pictures/20221020135617.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221020135640.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>将解码树写入输出比特流中:</p>
+<p><img src="/img/Pictures/20221020135741.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221020135802.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="解压缩过程">解压缩过程</h3>
+<p>输入比特流:</p>
+<p><img src="/img/Pictures/20221020135839.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>读取解码树:</p>
+<p><img src="/img/Pictures/20221020135850.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221020135855.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>使用码字位遍历 Tries:</p>
+<p><img src="/img/Pictures/20221020135915.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221020135921.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="压缩理论">压缩理论</h2>
+<p>Huffman 编码的主要思想是用少量的比特表示字符.</p>
+<p>压缩的总体思想是利用序列中的冗余和现有顺序.</p>
+<p>不同的压缩算法在不同的文件上实现不同的压缩比.</p>
+<p>为什么没有压缩算法可以将任何比特流压缩 50%: 假设如果有压缩算法能够将任何比特流压缩 50%, 那么就可以对该比特流一直调用该压缩算法, 最终比特流会被压缩到只有一位, 这显然不可能.</p>
+<p><img src="/img/Pictures/20221020154647.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>即使只能压缩一次, 也不可能将任何比特流压缩 50%: 因为短比特流远远小于长比特流. 假设有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>1</mn></msup><mn>000</mn></mrow><annotation encoding="application/x-tex">2^1000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span><span class="mord">000</span></span></span></span> 1000-bit 的序列, 长度≤ 500 的比特流的数量为: 1 + 2 + 4 + … + <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>5</mn></msup><mn>00</mn></mrow><annotation encoding="application/x-tex">2^500</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mord">00</span></span></span></span> = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>5</mn></msup><mn>01</mn><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^501 - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mord">01</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, 远小于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>1</mn></msup><mn>000</mn></mrow><annotation encoding="application/x-tex">2^1000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span><span class="mord">000</span></span></span></span>, 即无法将 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>1</mn></msup><mn>000</mn></mrow><annotation encoding="application/x-tex">2^1000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span><span class="mord">000</span></span></span></span> 个不同的元素映射到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>5</mn></msup><mn>01</mn><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^501 - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mord">01</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> 个元素上.</p>
+<p>使用原来的解压缩模型来比较两个解压缩算法的优劣是不合理的:</p>
+<p><img src="/img/Pictures/20221020161226.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>因为有一些针对性的解压缩算法能够将小比特序列硬编码为大比特序列:</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20221020162331.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>该解压缩算法直接将 “010” 转化为 “00000000001111111111…” (if input == “010” then print(“00000000001111111111…”)) , 即没有考虑解压算法本身在空间上的代价, 在上例中解压缩算法就占了 8927472707 bits, 所以必须优化解压缩模型, 即将压缩的比特流和解压缩算法打包到一个文件中:</p>
+<p><img src="/img/Pictures/20221020163130.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>例如:</p>
+<p>原始未压缩数据:</p>
+<p><img src="/img/Pictures/20221020164143.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>通过压缩算法得到解码树和压缩后的比特流:</p>
+<p><img src="/img/Pictures/20221020164220.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>将解码树、比特流和解压缩算法 SelfExtractingHugPlant.java 打包为一个文件 (红色的为解压缩算法的源代码, 橙色为解码树, 黑色为压缩后的比特流):</p>
+<p><img src="/img/Pictures/20221020164451.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>将该文件交给 Java 解释器可以自解压得到未压缩前的文件:</p>
+<p><img src="/img/Pictures/20221020164531.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>上例中整个压缩和解压缩的过程如下:</p>
+<p><img src="/img/Pictures/20221020172815.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>压缩模型一和压缩模型二的对比:</p>
+<p><img src="/img/Pictures/20221020172440.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Kolmogorov-复杂度">Kolmogorov 复杂度</h2>
+<p>可理解的压缩算法: 将目标比特流 B 作为输入, 输出有用的、可读的 Java 代码 (该 Java 程序能够生成目标比特流 B).</p>
+<p><img src="/img/Pictures/20221020193833.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>最佳压缩算法: 将目标比特流 B 作为输入, 输出尽可能短的 Java 程序 (该 Java 程序能够生成目标比特流 B).</p>
+<p><img src="/img/Pictures/20221020194106.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><strong>Java-Kolmogorov 复杂度 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mi>J</mi></msub><mo stretchy="false">(</mo><mi>B</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">K_J(B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.09618em;">J</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span>: 能够生成目标比特流的最短 Java 程序</strong>.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20221020194106.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mi>J</mi></msub><mo stretchy="false">(</mo><mi>H</mi><mi>u</mi><mi>g</mi><mi>P</mi><mi>l</mi><mi>a</mi><mi>n</mi><mi>t</mi><mi mathvariant="normal">.</mi><mi>b</mi><mi>m</mi><mi>p</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">K_J(HugPlant.bmp)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.09618em;">J</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord mathnormal" style="margin-right:0.03588em;">ug</span><span class="mord mathnormal" style="margin-right:0.01968em;">Pl</span><span class="mord mathnormal">an</span><span class="mord mathnormal">t</span><span class="mord">.</span><span class="mord mathnormal">bm</span><span class="mord mathnormal">p</span><span class="mclose">)</span></span></span></span> = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>e</mi><mi>n</mi><mi>g</mi><mi>t</mi><mi>h</mi><mo stretchy="false">(</mo><mi>O</mi><mi>p</mi><mi>t</mi><mi>i</mi><mi>m</mi><mi>a</mi><mi>l</mi><mi>H</mi><mi>P</mi><mi mathvariant="normal">.</mi><mi>j</mi><mi>a</mi><mi>v</mi><mi>a</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">length(OptimalHP.java)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">t</span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal">Opt</span><span class="mord mathnormal">ima</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mord">.</span><span class="mord mathnormal">ja</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord mathnormal">a</span><span class="mclose">)</span></span></span></span></p>
+<h3 id="性质">性质</h3>
+<p><strong>性质一</strong>: 独立性.</p>
+<p><strong>Kolmogorov 复杂度完全独立于语言</strong>.</p>
+<p>证明:</p>
+<p>假设 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mi>P</mi></msub><mo stretchy="false">(</mo><mi>B</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">K_P(B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">P</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span> 为能够生成目标比特流的最短 Python 程序, 且 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mi>P</mi></msub><mo stretchy="false">(</mo><mi>B</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">K_P(B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">P</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span> 已知; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mi>J</mi></msub><mo stretchy="false">(</mo><mi>B</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">K_J(B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.09618em;">J</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span> 为能够生成目标比特流的最短 Java 程序, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mi>J</mi></msub><mo stretchy="false">(</mo><mi>B</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">K_J(B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.09618em;">J</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span> 未知.</p>
+<p>可以用 Java 写 Python 解释器, 则 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mi>J</mi></msub><mo stretchy="false">(</mo><mi>B</mi><mo stretchy="false">)</mo><mo>≤</mo><msub><mi>K</mi><mi>P</mi></msub><mo stretchy="false">(</mo><mi>B</mi><mo stretchy="false">)</mo><mo>+</mo><mi>s</mi><mi>i</mi><mi>z</mi><mi>e</mi><mo stretchy="false">(</mo><mi>P</mi><mi>y</mi><mi>t</mi><mi>h</mi><mi>o</mi><mi>n</mi><mi>I</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>r</mi><mi>p</mi><mi>r</mi><mi>e</mi><mi>t</mi><mi>e</mi><mi>r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">K_J(B) \leq K_P(B) + size(Python Interpreter)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.09618em;">J</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">P</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">i</span><span class="mord mathnormal">ze</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mord mathnormal">t</span><span class="mord mathnormal">h</span><span class="mord mathnormal">o</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal">n</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">er</span><span class="mord mathnormal">p</span><span class="mord mathnormal">re</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">er</span><span class="mclose">)</span></span></span></span>.</p>
+<p>由于用 Java 写的 Python 解释器的大小不会随目标比特流 B 变化, 所以可以认为是常数. 该做法同样适用于其他语言, 所以可以认为 Kolmogorov 复杂度完全独立于语言.</p>
+<p><strong>性质二</strong>: 不可计算性.</p>
+<p><strong>要编写一个程序来计算任何比特流的 Kolmogorov 复杂度是不可能的</strong>, <a target="_blank" rel="noopener" href="https://en.wikipedia.org/w/index.php?title=Kolmogorov_complexity#Uncomputability_of_Kolmogorov_complexity">证明见此</a>.</p>
+<p>推论: <strong>既然我们不能计算最短程序的长度, 也就不可能写出最优压缩算法</strong>.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>CS61B Data Structures: <a target="_blank" rel="noopener" href="https://sp21.datastructur.es/">https://sp21.datastructur.es/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-chain-item">数据结构</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CS61B/" class="print-no-link">#CS61B</a>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="print-no-link">#数据结构</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/" title="优先队列">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">优先队列</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE/" title="图">
+                        <span class="hidden-mobile">图</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

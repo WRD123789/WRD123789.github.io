@@ -1,0 +1,1084 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="汇编语言 汇编语言是一种面向机器的程序设计语言, 与机器指令 (硬件能够直接执行的指令) 一一对应; 汇编语言比机器语言可读性要好, 但相对于高级语言可读性要差, 不过采用它编写的程序具有存储空间占用少、执行速度快的特点.  编译器 (例如 C 编译器) 能够将高级语言 (例如 C) 程序转换成汇编语言.  汇编器能够将汇编语言转换成机器指令 (为二进制表示), 然后与其他例程或函数连接起来, 产">
+<meta property="og:type" content="article">
+<meta property="og:title" content="汇编语言">
+<meta property="og:url" content="http://example.com/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="汇编语言 汇编语言是一种面向机器的程序设计语言, 与机器指令 (硬件能够直接执行的指令) 一一对应; 汇编语言比机器语言可读性要好, 但相对于高级语言可读性要差, 不过采用它编写的程序具有存储空间占用少、执行速度快的特点.  编译器 (例如 C 编译器) 能够将高级语言 (例如 C) 程序转换成汇编语言.  汇编器能够将汇编语言转换成机器指令 (为二进制表示), 然后与其他例程或函数连接起来, 产">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20221008132015.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221010122810.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221008201638.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221008203652.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221010213140.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221008213702.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221008220112.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013164458.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013190321.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013190332.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013190412.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013201758.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013203014.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013203029.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013203205.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013204650.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013205004.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013205024.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013205123.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221014152730.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013221001.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013222108.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013222129.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013222612.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221014105428.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221014115013.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221014115104.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221014115134.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221014131113.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221014131654.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221014150606.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221014112031.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221014112243.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221014112844.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221008222218.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221025220134.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221025224249.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221009125145.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221010133610.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221014132625.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221014134236.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221014134345.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221013160013.png">
+<meta property="article:published_time" content="2024-07-04T05:33:02.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.509Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="计算机组成原理">
+<meta property="article:tag" content="CS61C">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20221008132015.png">
+  
+  
+  
+  <title>汇编语言 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="汇编语言"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 13:33" pubdate>
+          2024年7月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          42 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">汇编语言</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>汇编语言</h1>
+<p>汇编语言是一种面向机器的程序设计语言, 与机器指令 (硬件能够直接执行的指令) 一一对应; 汇编语言比机器语言可读性要好, 但相对于高级语言可读性要差, 不过采用它编写的程序具有存储空间占用少、执行速度快的特点.</p>
+<p><img src="/img/Pictures/20221008132015.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>编译器 (例如 C 编译器) 能够将高级语言 (例如 C) 程序转换成汇编语言.</p>
+<p><img src="/img/Pictures/20221010122810.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>汇编器能够将汇编语言转换成机器指令 (为二进制表示), 然后与其他例程或函数连接起来, 产生能在硬件上运行的二进制可执行文件.</p>
+<p>每个特定的指令集架构都有一种特定的汇编语言.</p>
+<h2 id="指令集架构">指令集架构</h2>
+<p>指令集架构是计算机抽象模型的一部分, 定义了 CPU (处理器) 如何被软件控制, <strong>指令集架构</strong>作为硬件和软件之间的接口, <strong>规定了处理器能够做什么以及如何完成这些工作</strong>.</p>
+<p>根据指令集架构的设计, 在处理器上通过硬件电路进行实现, 就得到了支持该指令集架构的处理器, 同一个指令集架构可以有多种不同的实现方式, 基于同一指令集架构的应用程序可以相互移植.</p>
+<p>指令集架构在特定处理器上的实现称为<strong>微架构</strong>.</p>
+<p>CPU 的工作是执行指令集, CPU 执行的指令集是指令集架构的一部分.</p>
+<p>指令集定义了某个特定处理器可以执行的所有有效指令.</p>
+<p>对于指令集:</p>
+<ul>
+<li>按顺序依次执行指令.</li>
+<li>每条指令完成少量的工作.</li>
+<li>每条指令都有一个应用于操作数的操作, 并可能用于改变指令的顺序.</li>
+</ul>
+<p>CPU 有不同的系列, 每个系列都实现自己的指令集 (由它自己的指令集架构定义).</p>
+<p>ARM, Intel x86, MIPS, RISC-V, IBM, x86_64 皆为指令集架构.</p>
+<p>二进制兼容性: 为了让新的机器能够运行旧的程序, 即使有新的指令集产生, 也保留旧的指令集, 这便是指令集的向后兼容性.</p>
+<h2 id="寄存器">寄存器</h2>
+<p>寄存器是 CPU 执行的核心.</p>
+<p>汇编语言中没有变量, <strong>程序当前正在操作的数据存储在寄存器中</strong>.</p>
+<p>大多数数据存储在内存中, 因为寄存器相对较小, 无法容纳过多的数据, 所以直到数据需要使用时才会被放入寄存器中, 使用完后再放入内存中.</p>
+<p>寄存器是汇编语言的操作数.</p>
+<p><strong>寄存器建立在硬件内部的位置, 直接在硬件中保存值</strong>.</p>
+<p>寄存器用硬件来操作.</p>
+<p>在 RISC 中, 逻辑运算和算术运算只能在寄存器中的数据上执行.</p>
+<p>在 RISC 处理器中, 数据存储在内存中, 硬件操作寄存器, 用指令在主存 (内存的一部分) 和寄存器之间移动数据.</p>
+<p>由于<strong>寄存器存储在处理器内部的硬件中</strong>, 所以相比于处理器从内存中读写数据, 处理器从寄存器中读写数据更快.</p>
+<p><img src="/img/Pictures/20221008201638.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>RISC-V中有 32 个寄存器, 每个寄存器占 4 字节, 即 32 位.</p>
+<p>寄存器文件 (reg file) 是 RISC-V 中的 32 个 32 位的寄存器.</p>
+<p><img src="/img/Pictures/20221008203652.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>通常命名为 x0…x31, 其中寄存器 x0 很特殊, 通常保存值 0 且不能更改.</p>
+<p>为什么寄存器的数量是有限的:</p>
+<ul>
+<li>寄存器在硬件中, 为了保证它们足够快, 所以它们的数量必须是有限的.</li>
+<li>每条指令都有一个寄存器的索引, 为了减少为寄存器中指定索引分配的位.</li>
+</ul>
+<p>在汇编语言中, 寄存器没有类型, 由操作决定如何解释寄存器中内容, 由汇编语言程序员或编译器来跟踪类型, 以确保寄存器中的值所做的操作是正确的.</p>
+<p><strong>寄存器中有符号数以补码形式存储</strong>.</p>
+<p>寄存器有一些惯例:</p>
+<p><img src="/img/Pictures/20221010213140.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>其中 sp 指针指向栈的底部, fp 指针指向调用帧的底部, 当执行函数时, 栈上会有一个帧, 保存本地变量、保存的变量和返回的地址.</p>
+<p>这些惯例不是硬件规定的, 但它们可以使不同的人编写的软件兼容, 这些惯例编码在称为应用程序二进制接口 (ABI) 的东西里.</p>
+<p>在 ABI 中, 寄存器可分为两种:</p>
+<ul>
+<li>调用者保护 (coller-saved): 被调用的函数可以对该寄存器做任何事.</li>
+<li>被调用保护 (collee-saved): 被调用的函数如果改变了该寄存器, 则必须在返回的时候恢复该寄存器的内容.</li>
+</ul>
+<h2 id="字对齐">字对齐</h2>
+<p>内存是通过字节来寻址的, 即内存地址指向的是内存中的单个字节, 而不是单个字.</p>
+<p>而 RISC-V 内存操作 (在内存和寄存器之间来回移动数据, 即内存的读写操作) 都是针对 32 位字的. 由于 RISC-V 是32位架构, 所以大多数情况下操作数都是 32 位. 于是便有了字对齐.</p>
+<p><strong>字对齐: 整数或 32 位的字的开始地址位于内存中的 4 字节边界上, 即它们的地址是 4 的倍数, 也表明地址的最后两位为 00 (二进制下).</strong></p>
+<p><img src="/img/Pictures/20221008213702.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>虽然 RISC-V 不要求字对齐的, 但是如果不进行字对齐, 则处理器的速度会变慢, 因为当处理器为硬件移动数据时, 假设已经实现字对齐, 如果内存中的 32 位的实体不是字对齐的, 就需要花费额外的时间来排列.</p>
+<h2 id="RISC-V-指令编码格式">RISC-V 指令编码格式</h2>
+<p>CPU 执行的本地操作叫作指令.</p>
+<p>RISC-V 中的指令本身也占 32 位, 所以它们也需要实现字对齐.</p>
+<p>32 位指令被拆分为几个字段, 每个字段包含关于指令的部分信息.</p>
+<p>指令存储在内存中, 每条指令都有一种定义其编码方式的格式, 来方便硬件找到指令的片段以及解码.</p>
+<p>所有指令都属于以下六种不同类型中的一种:</p>
+<p><img src="/img/Pictures/20221008220112.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>其中 opcode 能够告诉硬件它是六种类型中的哪种类型, 然后硬件再查看指令的各个字段, 来了解该如何处理它.</p>
+<p>六种指令编码格式具体如下:</p>
+<ul>
+<li>
+<p>R-格式:<br>
+寄存器-寄存器 算术/逻辑 操作</p>
+<p><img src="/img/Pictures/20221013164458.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>opcode: 部分指定指令格式, R-格式指令的 opcode 字段都为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>011001</mn><msub><mn>1</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">0110011_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord">011001</span><span class="mord"><span class="mord">1</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>.</p>
+<p>funct7 + funct3: 结合 opcode, 描述要执行的操作.</p>
+<p>每个寄存器字段 (rs1, rs2, rd) 保存一个 5 位无符号整数, 对应寄存器编号 (x0-x31):</p>
+<ul>
+<li>rs1 (源寄存器 1): 指定存储第一个操作数的寄存器.</li>
+<li>rs2 (源寄存器 2): 指定存储第二个操作数的寄存器.</li>
+<li>rd (目标寄存器): 指定接收操作数计算结果的寄存器.</li>
+</ul>
+<p>例如:</p>
+<p><img src="/img/Pictures/20221013190321.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>存储:</p>
+<p><img src="/img/Pictures/20221013190332.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>所有 R-格式指令:</p>
+<p><img src="/img/Pictures/20221013190412.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>I-格式<br>
+<strong>寄存器-立即数 ALU 操作</strong></p>
+<p><img src="/img/Pictures/20221013201758.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>该格式相比R-格式只是将 funct7 和 rs2 字段合并来存储一个立即数.</p>
+<p>imm[11: 0] 表示立即数, 能表示的数的范围为 [<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>204</mn><msub><mn>8</mn><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">-2048_{10}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord">−</span><span class="mord">204</span><span class="mord"><span class="mord">8</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>+</mo><mn>204</mn><msub><mn>7</mn><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">+2047_{10}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord">+</span><span class="mord">204</span><span class="mord"><span class="mord">7</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>].</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20221013203014.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>存储:</p>
+<p><img src="/img/Pictures/20221013203029.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>所有 I-格式算术/逻辑指令:</p>
+<p><img src="/img/Pictures/20221013203205.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><strong>加载操作</strong></p>
+<p><img src="/img/Pictures/20221013204650.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此时寄存器 rs1 存储基地址, imm[11: 0] 为偏移量, rd 存储从内存中加载的值.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20221013205004.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>存储:</p>
+<p><img src="/img/Pictures/20221013205024.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>所有 I-格式的加载指令:</p>
+<p><img src="/img/Pictures/20221013205123.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><strong>跳转操作</strong></p>
+<p><img src="/img/Pictures/20221014152730.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>JALR 操作:</p>
+<ul>
+<li>将 PC + 4 写入目的寄存器 rd 中.</li>
+<li>设置 PC = rs + immediate.</li>
+</ul>
+<p>其中立即数的单位为 bytes.</p>
+</li>
+<li>
+<p>S-格式:<br>
+存储</p>
+<p><img src="/img/Pictures/20221013221001.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>存储需要两个寄存器 rs1 存放内存中的基地址, rs2 存放需要存储的数据.</p>
+<p>RISC-V 设计者决定保持 rs1/rs2 字段和其他格式在同一个位置, 这样可以简化硬件实现.</p>
+<p>由于不需要目标寄存器 (不需要将值存储到寄存器中), 所以选择分开存储立即数.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20221013222108.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>存储:</p>
+<p><img src="/img/Pictures/20221013222129.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>所有存储指令;</p>
+<p><img src="/img/Pictures/20221013222612.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>B-格式<br>
+分支</p>
+<p>分支不需要很大的偏移量, 分支经常用于 if-else, while, for 之类的操作.</p>
+<p><img src="/img/Pictures/20221014105428.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>B-格式和 S-格式一样, 用两个源寄存器 rs1/rs2 和一个 12 位立即数.</p>
+<p>区别是这个立即数的单位不是 byte, 而是半字 (2 byte), 转化为 bytes 需要左移 1 位 (由于左边最低位为 0, 所以省略不作存储), 即此处的立即数的 imm[12 : 1] 相当于 I-格式的 imm[11 : 0], imm[0] = 0.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20221014115013.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>存储:</p>
+<p><img src="/img/Pictures/20221014115104.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>所有分支指令:</p>
+<p><img src="/img/Pictures/20221014115134.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><strong>如果要跳转的指令与当前指令的距离 ＞ <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>10</mn></msup></mrow><annotation encoding="application/x-tex">2^{10}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span></span></span></span></span></span></span></span> 个指令, 即该指令距离当前指令过远, 编译器会使用循环或主体是很多指令的 if-then-else 来处理</strong>.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20221014131113.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>U-格式:<br>
+20 位高位立即数</p>
+<p><img src="/img/Pictures/20221014131654.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>这种格式没有任何源寄存器, 只有一个目的寄存器, 所以其他位可以分配给立即数.</p>
+<p>有两种指令:</p>
+<ul>
+<li>LUI (Load Upper Immediate): rd = imm &lt;&lt; 12.</li>
+<li>AUIPC (Add Upper Immediate to PC): rd = PC + (imm &lt;&lt; 12).</li>
+</ul>
+</li>
+<li>
+<p>J-格式:<br>
+跳转</p>
+<p><img src="/img/Pictures/20221014150606.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>JAL 将下一条指令的位置 (PC + 4) 存入寄存器 rd 中.</p>
+<p>使 PC = PC + Offset.</p>
+<p>立即数字段为 20 位, 和 B-格式一样, 立即数的单位为半字, 所以可以跳转的范围为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mtext> </mtext><msup><mn>2</mn><mn>18</mn></msup></mrow><annotation encoding="application/x-tex">\pm \ 2^{18}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord">±</span><span class="mspace"> </span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">18</span></span></span></span></span></span></span></span></span></span></span></span> 32-bit 指令 (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mtext> </mtext><msup><mn>2</mn><mn>20</mn></msup></mrow><annotation encoding="application/x-tex">\pm \ 2^{20}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord">±</span><span class="mspace"> </span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">20</span></span></span></span></span></span></span></span></span></span></span></span> bytes).</p>
+</li>
+</ul>
+<h3 id="范围">范围</h3>
+<p>2进制补码能表示的范围: [<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><msup><mn>2</mn><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msup><mo separator="true">,</mo><msup><mn>2</mn><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">-2^{n - 1}, 2^{n - 1} - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0085em;vertical-align:-0.1944em;"></span><span class="mord">−</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>].</p>
+<p>12 位的立即数能偏移 PC <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mtext> </mtext><msup><mn>2</mn><mn>11</mn></msup></mrow><annotation encoding="application/x-tex">\pm \ 2^{11}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord">±</span><span class="mspace"> </span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">11</span></span></span></span></span></span></span></span></span></span></span></span> bytes.</p>
+<p>由于一条指令为 4-bytes, 所以如果立即数以 bytes 为单位, 则只能跳转到距离当前指令 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mtext> </mtext><msup><mn>2</mn><mn>9</mn></msup></mrow><annotation encoding="application/x-tex">\pm \ 2^9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord">±</span><span class="mspace"> </span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span></span></span></span> 个指令的位置.</p>
+<p>由于一条指令为 4-bytes, 指令要实现字对齐, 所以每条指令的偏移量即立即数的 16 进制表示的最左边 2 位必然为 0:</p>
+<p><img src="/img/Pictures/20221014112031.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>既然后 2 位必然为 0, 那么我们就不必存储这两位, 每次将偏移量 (立即数) 加给 PC 之前先将它左移两位, 这样便能扩大指令跳转的范围:</p>
+<p><img src="/img/Pictures/20221014112243.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此时我们能够跳转到距离当前指令 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mtext> </mtext><msup><mn>2</mn><mn>11</mn></msup></mrow><annotation encoding="application/x-tex">\pm \ 2^{11}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord">±</span><span class="mspace"> </span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">11</span></span></span></span></span></span></span></span></span></span></span></span> 个指令的位置 (或 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mtext> </mtext><msup><mn>2</mn><mn>13</mn></msup></mrow><annotation encoding="application/x-tex">\pm \ 2^{13}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord">±</span><span class="mspace"> </span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">13</span></span></span></span></span></span></span></span></span></span></span></span> bytes).</p>
+<p>但是 RISC-V 基本 ISA 的扩展支持 16 位 压缩指令和长度位 16 位倍数的可变长度指令, 由于不希望有两种不同的分支编码, 即为 16 位指令和 32 位指令分别编码, 所以我们决定优先考虑 16 位指令.</p>
+<p>16 位指令的最左边 1 位必然为 0:</p>
+<p><img src="/img/Pictures/20221014112844.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>我们只能选择丢弃最后一位而不是最后两位, 即<strong>每次将偏移量 (立即数) 加给 PC 之前先将它左移一位, 最终我们能够跳转到距离当前指令 (32 位) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mtext> </mtext><msup><mn>2</mn><mn>10</mn></msup></mrow><annotation encoding="application/x-tex">\pm \ 2^{10}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord">±</span><span class="mspace"> </span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span></span></span></span></span></span></span></span> 个指令的位置 (或 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mtext> </mtext><msup><mn>2</mn><mn>12</mn></msup></mrow><annotation encoding="application/x-tex">\pm \ 2^{12}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord">±</span><span class="mspace"> </span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">12</span></span></span></span></span></span></span></span></span></span></span></span>)</strong>.</p>
+<h2 id="RISC-V-常见指令">RISC-V 常见指令</h2>
+<p>汇编指令有一个操作码和若干操作数:</p>
+<p><img src="/img/Pictures/20221008222218.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>操作数之间的 ‘,’ 可加可不加.</p>
+<p>汇编语言中指令的个数越多花费的时间越多.</p>
+<p>特例: 任何实际目的操作数为 x0 的操作都不会改变寄存器中的任何东西 (因为 x0 始终为 0, 其值无法改变).</p>
+<p>RISC-V 中常用指令如下:</p>
+<ul>
+<li>
+<p>加法</p>
+  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-keyword">add</span> <span class="hljs-built_in">x1</span>, <span class="hljs-built_in">x2</span>, <span class="hljs-built_in">x3</span> # <span class="hljs-built_in">x1</span> = <span class="hljs-built_in">x2</span> + <span class="hljs-built_in">x3</span><br></code></pre></td></tr></table></figure>
+<p>将寄存器 x2 和寄存器 x3 中的内容相加, 存储到寄存器 x1 中.</p>
+</li>
+<li>
+<p>减法</p>
+  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-keyword">sub</span> <span class="hljs-built_in">x1</span>, <span class="hljs-built_in">x2</span>, <span class="hljs-built_in">x3</span> # <span class="hljs-built_in">x1</span> = <span class="hljs-built_in">x2</span> - <span class="hljs-built_in">x3</span><br></code></pre></td></tr></table></figure>
+<p>将寄存器 x2 和寄存器 x3 中的内容相减, 存储到寄存器 x1 中.</p>
+</li>
+<li>
+<p>乘法<br>
+二进制乘法:</p>
+<p><img src="/img/Pictures/20221025220134.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>即 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mtext> </mtext><mi>b</mi><mi>i</mi><mi>t</mi><mi>s</mi><mo>×</mo><mi>n</mi><mtext> </mtext><mi>b</mi><mi>i</mi><mi>t</mi><mi>s</mi><mo>=</mo><mi>m</mi><mo>+</mo><mi>n</mi><mtext> </mtext><mi>b</mi><mi>i</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">m \ bits \times n \ bits = m + n \ bit</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">m</span><span class="mspace"> </span><span class="mord mathnormal">bi</span><span class="mord mathnormal">t</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">n</span><span class="mspace"> </span><span class="mord mathnormal">bi</span><span class="mord mathnormal">t</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">n</span><span class="mspace"> </span><span class="mord mathnormal">bi</span><span class="mord mathnormal">t</span></span></span></span>.</p>
+<p>乘法不是标准 RISC-V 的一部分, 它是可选的额外功能: 如果乘法器不存在, 编译器需要一系列移位和加法来实现乘法.</p>
+<p>在 RISC-V 中, 寄存器为 32 位, 所以 32 位值 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 32 位值 = 64 位值, 超过了寄存器所能容纳的大小, 所以选择将 64 位值分成高 32 位和低 32 位两部分, 通过两个指令分别得到:</p>
+  <figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dos">mul <span class="hljs-built_in">rd</span>, rs1, rs2<br>mulh <span class="hljs-built_in">rd</span>, rs1, rs2<br></code></pre></td></tr></table></figure>
+<p>其中 mul 返回低 32 位, mulh 返回高 32 位.</p>
+</li>
+<li>
+<p>除法<br>
+二进制除法:</p>
+<p><img src="/img/Pictures/20221025224249.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>除法同样不是标准 RISC-V 的一部分, 它是可选的额外功能.</p>
+  <figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dos">div <span class="hljs-built_in">rd</span>, rs1, rs2<br><span class="hljs-comment">rem rd, rs1, rs2</span><br></code></pre></td></tr></table></figure>
+<p>div 表示除法, rem 表示取余.</p>
+</li>
+<li>
+<p>赋值</p>
+  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-keyword">add</span> <span class="hljs-built_in">x1</span>, <span class="hljs-built_in">x2</span>, <span class="hljs-built_in">x0</span> # <span class="hljs-built_in">x1</span> = <span class="hljs-built_in">x2</span><br></code></pre></td></tr></table></figure>
+<p>将寄存器 x2 中的内容存储到寄存器 x1 中.</p>
+</li>
+<li>
+<p>空指令</p>
+  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-keyword">add</span> <span class="hljs-built_in">x0</span>, <span class="hljs-built_in">x0</span>, <span class="hljs-built_in">x0</span><br></code></pre></td></tr></table></figure>
+<p>立即数可以直接在指令中提供常数, 但是立即数的大小有限, 由于还要存储操作码和其他操作数的索引, 所以立即数最多只能占 12 位, 所以能表示的范围为 [<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><msup><mn>2</mn><mn>11</mn></msup><mo separator="true">,</mo><mtext> </mtext><msup><mn>2</mn><mn>11</mn></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">-2^{11}, \ 2^{11} - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0085em;vertical-align:-0.1944em;"></span><span class="mord">−</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">11</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">11</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>].</p>
+<p>当对寄存器值和立即数进行运算的时候, 由于寄存器值是 32 位, 而立即数最多只有 12 位, 所以要对立即数进行<strong>符号拓展</strong> (对于负数扩展, 需要将高位全赋为 1; 对于正数, 需要将高位全赋为 0. 即使得负数扩展后, 仍然是负数, 且值不变; 正数扩展后, 仍然是正数, 且值不变), 使其达到 32 位.</p>
+</li>
+<li>
+<p>加立即数</p>
+  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">addi</span> <span class="hljs-built_in">x3</span>, <span class="hljs-built_in">x4</span>, -<span class="hljs-number">10</span> # <span class="hljs-built_in">x3</span> = <span class="hljs-built_in">x4</span> - <span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
+<p>将寄存器 x4 中的内容加上常数 -10 后存储到寄存器 x3 中.</p>
+</li>
+<li>
+<p>字加载 (load word), 将内存中的值转移到寄存器中</p>
+  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">lw</span> <span class="hljs-built_in">x1</span>, <span class="hljs-built_in">x3</span><br></code></pre></td></tr></table></figure>
+<p>假设寄存器 x3 中存储的是内存中的某个地址, 则将该地址所存储的值存储到寄存器 x1 中.</p>
+<p>例如:</p>
+<p>假设有数组 int A[100] 存储在内存中, 寄存器 x3 存储数组 A 的首地址.</p>
+  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">lw</span> <span class="hljs-built_in">x1</span>, <span class="hljs-number">12</span>(<span class="hljs-built_in">x3</span>) # <span class="hljs-built_in">x1</span> = A[<span class="hljs-number">3</span>]<br></code></pre></td></tr></table></figure>
+<p>由于内存中按字节编址, 而 int 占 4 个字节, 所以待取数据相对 A 首地址的偏移量为 4 * 3 = 12 字节, 12(x3) 相当于 12 + x3.</p>
+</li>
+<li>
+<p>字存储 (store word), 将寄存器中的值转移到内存中</p>
+  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">sw</span> <span class="hljs-built_in">x1</span>, <span class="hljs-built_in">x3</span><br></code></pre></td></tr></table></figure>
+<p>其中寄存器 x1 中存储值, 寄存器 x3 中存储内存中的地址, 则会将寄存器 x1 中的值存储到寄存器 x3 中的地址中.</p>
+</li>
+<li>
+<p>字节加载 (load byte)</p>
+  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">lb</span> <span class="hljs-built_in">x1</span>, <span class="hljs-built_in">x3</span><br></code></pre></td></tr></table></figure>
+<p>基本和字加载一致, 只是读取的是字节, 该操作假设读取的为有符号数的二进制补码, 由于一个字节只有 8 位, 而寄存器有 32 位, 所以会发生符号拓展, 即负数高位补 1, 正数高位补 0.</p>
+<p><img src="/img/Pictures/20221009125145.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>字节存储 (store byte)</p>
+  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">sb</span> <span class="hljs-built_in">x1</span>, <span class="hljs-built_in">x3</span><br></code></pre></td></tr></table></figure>
+<p>基本和字存储一致, 只是存储的是字节, 只改变内存中的 8 位.</p>
+</li>
+<li>
+<p>无符号字节加载 (load unsigned byte)</p>
+  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">lbu</span> <span class="hljs-built_in">x1</span>, <span class="hljs-built_in">x3</span><br></code></pre></td></tr></table></figure>
+<p>基本和字加载一致, 只是假设读取的为无符号数, 由于一个字节只有 8 位, 而寄存器有 32 位, 所以会发生零拓展, 即高位补 0.</p>
+</li>
+<li>
+<p>常见逻辑操作<br>
+<img src="/img/Pictures/20221010133610.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>逻辑左移 (Shift Left Logical Immediate, 操作数包含立即数)</p>
+  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">slli</span> <span class="hljs-built_in">x1</span>, <span class="hljs-built_in">x2</span>, <span class="hljs-number">2</span> # <span class="hljs-built_in">x1</span> = <span class="hljs-built_in">x2</span> &lt;&lt; <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+<p>将寄存器 x2 中的值左移两位后存储到寄存器 x1 中.</p>
+</li>
+<li>
+<p>逻辑右移 (Shift Right Logical Immediate, 操作数包含立即数)</p>
+  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">srli</span> <span class="hljs-built_in">x1</span>, <span class="hljs-built_in">x2</span>, <span class="hljs-number">3</span> # <span class="hljs-built_in">x1</span> = <span class="hljs-built_in">x2</span> &gt;&gt; <span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+<p>将寄存器 x2 中的值逻辑右移三位后存储到寄存器 x1 中.</p>
+</li>
+<li>
+<p>算术右移 (Shift Right Arithmetic Immediate, 操作数包含立即数)</p>
+  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">srai</span> <span class="hljs-built_in">x1</span>, <span class="hljs-built_in">x2</span>, <span class="hljs-number">3</span> # <span class="hljs-built_in">x1</span> = <span class="hljs-built_in">x2</span> &gt;&gt; <span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+<p>例如: 1111 1011 算术右移 4 位后<br>
+将寄存器 x2 中的值算术右移三位后存储到寄存器 x1 中.</p>
+</li>
+<li>
+<p>条件转移</p>
+<ol>
+<li>
+<p>Branch If Equal</p>
+ <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-keyword">beq</span> <span class="hljs-built_in">x1</span>, <span class="hljs-built_in">x2</span>, L1 # <span class="hljs-meta">if</span> <span class="hljs-built_in">x1</span> == <span class="hljs-built_in">x2</span> then go to L1<br></code></pre></td></tr></table></figure>
+<p>如果寄存器 x1 中的值等于寄存器 x2 中的值, 则跳到标签 L1 处的指令; 否则继续下一条指令.</p>
+</li>
+<li>
+<p>Branch If Not Equal</p>
+ <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-keyword">bne</span> <span class="hljs-built_in">x1</span>, <span class="hljs-built_in">x2</span>, L1 # <span class="hljs-meta">if</span> <span class="hljs-built_in">x1</span> != <span class="hljs-built_in">x2</span> then go to L1<br></code></pre></td></tr></table></figure>
+<p>如果寄存器 x1 中的值不等于寄存器 x2 中的值, 则跳到标签 L1 处的指令; 否则继续下一条指令.</p>
+</li>
+<li>
+<p>Branch on Less Than (signed 版本)</p>
+ <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-keyword">blt</span> <span class="hljs-built_in">x1</span>, <span class="hljs-built_in">x2</span>, L1 # <span class="hljs-meta">if</span> <span class="hljs-built_in">x1</span> &lt; <span class="hljs-built_in">x2</span> then go to L1<br></code></pre></td></tr></table></figure>
+<p>如果寄存器 x1 中的值小于寄存器 x2 中的值, 则跳到标签 L1 处的指令; 否则继续下一条指令.</p>
+</li>
+<li>
+<p>Branch on Less Than Unsigned (unsigned 版本)</p>
+ <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm">bltu <span class="hljs-keyword">x</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span> <span class="hljs-keyword">x</span><span class="hljs-number">2</span><span class="hljs-punctuation">,</span> L<span class="hljs-number">1</span> # if <span class="hljs-keyword">x</span><span class="hljs-number">1</span> &lt; <span class="hljs-keyword">x</span><span class="hljs-number">2</span> then go <span class="hljs-keyword">to</span> L<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<p>如果寄存器 x1 中的值小于寄存器 x2 中的值, 则跳到标签 L1 处的指令; 否则继续下一条指令.</p>
+</li>
+<li>
+<p>Branch on Greater Than or Equal (signed 版本)</p>
+ <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-keyword">bge</span> <span class="hljs-built_in">x1</span>, <span class="hljs-built_in">x2</span>, L1 # <span class="hljs-meta">if</span> <span class="hljs-built_in">x1</span> &gt;= <span class="hljs-built_in">x2</span> then go to L1<br></code></pre></td></tr></table></figure>
+<p>如果寄存器 x1 中的值大于等于寄存器 x2 中的值, 则跳到标签 L1 处的指令; 否则继续下一条指令.</p>
+</li>
+<li>
+<p>Branch on Greater Than or Equal Unsigned (unsigned 版本)</p>
+ <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm">bgeu <span class="hljs-keyword">x</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span> <span class="hljs-keyword">x</span><span class="hljs-number">2</span><span class="hljs-punctuation">,</span> L<span class="hljs-number">1</span> # if <span class="hljs-keyword">x</span><span class="hljs-number">1</span> &gt;<span class="hljs-operator">=</span> <span class="hljs-keyword">x</span><span class="hljs-number">2</span> then go <span class="hljs-keyword">to</span> L<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<p>如果寄存器 x1 中的值大于等于寄存器 x2 中的值, 则跳到标签 L1 处的指令; 否则继续下一条指令.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>无条件转移</p>
+<ol>
+<li>
+<p>Jump And Link</p>
+ <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">jal </span><span class="hljs-built_in">ra</span> [offset]<br></code></pre></td></tr></table></figure>
+<p>该操作分为两步:</p>
+<ol>
+<li>
+<p>将 PC + 4 (当前指令的下一条指令的位置) 存储到寄存器 rd 中, 主要是为函数调用服务, 这样我们可以直到我们从哪里开始跳转.</p>
+</li>
+<li>
+<p>将偏移量 (offset) 添加到 PC 中, 即跳转到 PC + offset 位置, 其中偏移量存储为 20 位的立即数</p>
+</li>
+</ol>
+<p>可简写为</p>
+ <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">jal</span><span class="hljs-meta"> [offset]</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>Jump And Link Register</p>
+ <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs applescript">jalr rd <span class="hljs-built_in">offset</span>(rs)<br>jalr rd, rs, <span class="hljs-built_in">offset</span><br></code></pre></td></tr></table></figure>
+<p>该操作分为两步:</p>
+<ol>
+<li>
+<p>将 PC + 4 存储到寄存器 rd 中.</p>
+</li>
+<li>
+<p>将偏移量 (offset) 添加到寄存器 rs 中存储的地址, 然后跳转到 rs + offset 位置, 其中偏移量存储为 12 位的立即数. 主要是为从函数中返回到调用函数处和调用函数指针服务.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>Jump</p>
+ <figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs delphi">j [<span class="hljs-keyword">Label</span>-<span class="hljs-keyword">name</span>]<br></code></pre></td></tr></table></figure>
+<p>直接跳转到指定标签的指令, 该操作实际上是伪指令, 它相当于下列操作:</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scss">jal x0 <span class="hljs-selector-attr">[offset]</span><br>jalr x0 <span class="hljs-built_in">offset</span>(rs)<br></code></pre></td></tr></table></figure>
+<p>即该操作不关心我们从哪里跳转.</p>
+</li>
+<li>
+<p>Jump Register</p>
+ <figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs delphi">jr [<span class="hljs-keyword">Register</span>-<span class="hljs-keyword">name</span>]<br></code></pre></td></tr></table></figure>
+<p>跳转到寄存器所存储的地址处.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>标签</p>
+  <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs markdown">[<span class="hljs-symbol">Label-name</span>]: <span class="hljs-link">[Instruction]</span><br></code></pre></td></tr></table></figure>
+<p>给指定指令添加标签, 汇编器会在它被加载的时候找出它在内存中的地址, 能够给其他指令跳转提供位置, 不占内存.</p>
+</li>
+<li>
+<p>返回</p>
+  <figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-keyword">ret</span><br></code></pre></td></tr></table></figure>
+<p>该指令为伪指令, 相当于:</p>
+  <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">jalr </span>x0, <span class="hljs-built_in">ra</span>, <span class="hljs-number">0</span><br><span class="hljs-keyword">jr </span><span class="hljs-built_in">ra</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>加载立即数</p>
+  <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">li</span> x10, <span class="hljs-number">0</span>xDEADBEEF<br></code></pre></td></tr></table></figure>
+<p>该指令为伪指令, 相当于LUI 和 ADDI 的组合.</p>
+<p>LUI 和 ADDI 搭配创建 32 位的立即数:</p>
+<p>LUI 写高 20 位, ADDI 写低 12 位.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20221014132625.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>但是当ADDI 操作添加的立即数是负数的时候, 由于发生符号扩展, 将从高 20 位处减 1:</p>
+<p><img src="/img/Pictures/20221014134236.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>需要在添加低 12 位之前将 1 加到高 20 位处:</p>
+<p><img src="/img/Pictures/20221014134345.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>传递地址</p>
+  <figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stata"><span class="hljs-keyword">la</span> x1, <span class="hljs-keyword">label</span><br></code></pre></td></tr></table></figure>
+<p>标签所在的地址赋值给寄存器 x1.</p>
+<p>该命令为伪代码, 实际为 AUIPC 和 ADDI 命令的组合.</p>
+</li>
+</ul>
+<h2 id="数据">数据</h2>
+<p>数据大多数情况下小于 32 位, 很少小于 8 位, 通常我们将所有东西都看成是 8 位的倍数.</p>
+<p>字为 4 字节.</p>
+<p>内存按字节来编址, 内存地址为 8 位, 即 8 位是可寻址的最小内存块.</p>
+<p><strong>大端序</strong>: 高位字节放在内存的低地址, 低位字节放在内存的高地址.</p>
+<p><strong>小端序</strong>: 高位字节放在内存的高地址, 低位字节放在内存的低地址.</p>
+<p>注意: 无论是大端序还是小端序, 都是对于一个字内的字节排序.</p>
+<p>例如: 数 0x12345678, 假设从左到右地址从低到高.</p>
+<p>大端序: | 0x12 | 0x34 | 0x56 | 0x78 |</p>
+<p>小端序: | 0x78 | 0x56 | 0x34 | 0x12 |</p>
+<p>RISC-V 使用的是小端序.</p>
+<h2 id="函数调用">函数调用</h2>
+<ol>
+<li>将参数放到函数可以访问的位置</li>
+<li>将控制权交给函数.</li>
+<li>获取函数所需的存储空间.</li>
+<li>执行函数所预期的任务.</li>
+<li>将函数返回值放在调用函数的代码能够访问的位置并恢复使用过的寄存器.</li>
+<li>将控制权返还给函数调用处.</li>
+</ol>
+<p>函数调用过程中使用栈来保存旧的值 (可以保存函数的返回地址, 函数的参数寄存器, 保护寄存器, 函数的局部变量), 当函数返回时, 需要恢复这些值, 这样可以防止多层函数调用时覆写寄存器.</p>
+<p><img src="/img/Pictures/20221013160013.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>过程调用帧 (活动记录): 带有保存的寄存器和局部变量的堆栈段.</p>
+<p>RISC-V 惯例中栈向下增长, 即从高地址向低地址增长.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>CS61C Great Ideas in Computer Architecture: <a target="_blank" rel="noopener" href="https://inst.eecs.berkeley.edu/~cs61c/sp22/">https://inst.eecs.berkeley.edu/~cs61c/sp22/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="category-chain-item">计算机组成原理</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="print-no-link">#计算机组成原理</a>
+      
+        <a href="/tags/CS61C/" class="print-no-link">#CS61C</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E6%97%B6%E5%BA%8F%E7%94%B5%E8%B7%AF/" title="时序电路">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">时序电路</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BC%93%E5%AD%98/" title="缓存">
+                        <span class="hidden-mobile">缓存</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

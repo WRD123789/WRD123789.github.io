@@ -1,0 +1,1028 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Model&#x2F;View 架构 Model&#x2F;View 编程介绍 MVC 是 Model-View-Controller 的简写, 即模型-视图-控制器. 在 MVC 中, 模型表示应用程序的数据和业务逻辑, 通常包含数据的结构、访问和更新数据的方法; 视图负责在用户界面上显示数据, 并与用户的交互; 控制器响应用户的操作, 然后更新模型或视图, 确保它们保持同步. MVC 将它们解耦以增加灵活性和重用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QT Model&#x2F;View 架构">
+<meta property="og:url" content="http://example.com/2024/07/04/QT/Model-View%E6%9E%B6%E6%9E%84/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Model&#x2F;View 架构 Model&#x2F;View 编程介绍 MVC 是 Model-View-Controller 的简写, 即模型-视图-控制器. 在 MVC 中, 模型表示应用程序的数据和业务逻辑, 通常包含数据的结构、访问和更新数据的方法; 视图负责在用户界面上显示数据, 并与用户的交互; 控制器响应用户的操作, 然后更新模型或视图, 确保它们保持同步. MVC 将它们解耦以增加灵活性和重用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20240114201108.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240120161208.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240120161509.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240120193937.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240120183956.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240120195730.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240121151500.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240122125614.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240123164420.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240123175835.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240123192629.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240124153104.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240124193153.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240126212313.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240127144452.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240129120651.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240131140412.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240131151559.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240201142622.png">
+<meta property="article:published_time" content="2024-07-04T12:47:14.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="QT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20240114201108.png">
+  
+  
+  
+  <title>QT Model/View 架构 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QT Model/View 架构"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:47" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          110 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">QT Model/View 架构</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>Model/View 架构</h1>
+<h2 id="Model-View-编程介绍">Model/View 编程介绍</h2>
+<p>MVC 是 Model-View-Controller 的简写, 即模型-视图-控制器. 在 MVC 中, 模型表示应用程序的数据和业务逻辑, 通常包含数据的结构、访问和更新数据的方法; 视图负责在用户界面上显示数据, 并与用户的交互; 控制器响应用户的操作, 然后更新模型或视图, 确保它们保持同步. MVC 将它们解耦以增加灵活性和重用性.</p>
+<p>Qt 4 开始, 引入了类似的 Model/View 架构来处理数据和面向最终用户的显示之间的关系. 当 MVC 的 V 和 C 结合在一起, 我们就得到了 Model/View 架构. 这种架构依然将数据和界面分离, 但是框架更为简单. 同样, 这种架构使得可以在几个不同的视图中显示相同的数据, 也能够在不改变底层数据结构的情况下添加新的视图.</p>
+<p><img src="/img/Pictures/20240114201108.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>其中各部分的功能如下:</p>
+<ul>
+<li>数据 (Data) 是实际的数据. 如数据库的一个数据表或 SQL 查询结果、内存中的一个 StringList 或磁盘文件结构等.</li>
+<li>视图 (View) 是负责显示模型数据的组件, 视图从模型获得每个数据项的模型索引, 通过模型索引获取数据, 然后为界面组件提供显示数据.</li>
+<li>模型 (Model) 是数据的主要管理者, 负责存储、组织和提供数据给视图显示. 它从原始数据提取需要的内容, 用于视图组件进行显示和编辑.</li>
+<li>委托 (Delegate) 是用于渲染和编辑视图中的数据项的组件. 委托充当了视图和模型之间的中介, 负责定义数据项如何呈现和如何在编辑时进行交互. 当视图需要显示数据项时, 委托负责决定如何呈现这些数据项, 这包括绘制数据项的外观和样式; 在用户编辑数据项时, 委托允许定义编辑器的外观和行为, 并直接使用模型索引与模型进行交互.</li>
+</ul>
+<p>总的来说, Model/View 架构将传统的 MV 模型分为三个组件: 模型、视图和委托. 每一个组件都由一个抽象类定义, 这个抽象类提供了基本的公共接口以及一些默认实现. 抽象类旨在被子类化, 以提供其他组件所期望的完整功能集; 这也允许编写专门的组件.</p>
+<p>模型、视图和委托则使用信号槽进行交互:</p>
+<ul>
+<li>来自模型的信号通知视图关于数据源中的数据更改.</li>
+<li>来自视图的信号提供了有关用户与界面进行交互的信息.</li>
+<li>来自委托的信号在用户编辑数据项时用于告知模型和视图编辑器的状态.</li>
+</ul>
+<h3 id="模型">模型</h3>
+<p>所有的模型都是 <code>QAbstractItemModel</code> 的子类. 这个类定义了供视图和委托访问数据的接口. 数据本身不必存储在模型中, 它可以保存在单独的类、文件、数据库或其他应用程序组件提供的数据结构或存储库中.</p>
+<p><code>QAbstractItemModel</code> 提供的接口足够灵活, 足以应付以表格、列表和树的形式显示的数据. 但是, 在为列表和类似表的数据结构实现新模型时, 直接继承 <code>QAbstractListModel</code> 和 <code>QAbstractTableModel</code> 类可能更好一些, 因为它们提供了公共函数的默认实现.</p>
+<p>Qt 提供了一些现成的模型, 可用于处理数据项:</p>
+<ul>
+<li><code>QStringListModel</code>: 用于存储字符串的简单列表.</li>
+<li><code>QStandardItemModel</code>: 用于管理更复杂的条目树结构, 每个条目都可以包含任意数据项.</li>
+<li><code>QFileSystemModel</code>: 提供有关本地系统中的文件和目录的信息.</li>
+<li><code>QSqlQueryModel</code>、<code>QSqlTableModel</code> 和 <code>QSqlRelationalTableModel</code>: 用于访问数据库.</li>
+</ul>
+<p>如果这些标准模型不符合你的需求, 你可以继承 <code>QAbstractItemModel</code>、 <code>QAbstractListModel</code> 或 <code>QAbstractTableModel</code> 来创建自定义模型.</p>
+<h3 id="视图">视图</h3>
+<p>Qt 提供了不同种类视图的完整实现:</p>
+<ul>
+<li><code>QListView</code>: 显示数据项列表.</li>
+<li><code>QTableView</code>: 在表格中显示来自模型的数据.</li>
+<li><code>QTreeView</code>: 在分层列表中显示数据模型的条目.</li>
+</ul>
+<p>这些类都基于抽象基类 <code>QAbstractItemView</code>. 尽管这些类是现成的实现, 但也可以通过继承来提供自定义的视图.</p>
+<h3 id="委托">委托</h3>
+<p><code>QAbstractItemDelegate</code> 是委托的抽象基类, 提供了委托类应该实现的基本接口. <code>QStyledItemDelegate</code> 和 <code>QItemDelegate</code> 都是从 <code>QAbstractItemDelegate</code> 派生而来的, 它们提供了在视图中绘制和编辑项的不同方式:</p>
+<ul>
+<li><code>QStyledItemDelegate</code> 是 <code>QAbstractItemDelegate</code> 的一个具体实现, 同时也是默认的委托实现, 在 Qt 的标准视图中, 默认使用 <code>QStyledItemDelegate</code> 作为委托. 它使用当前样式来绘制项，因此在使用 Qt 样式表时特别有用.</li>
+<li><code>QItemDelegate</code> 也是 <code>QAbstractItemDelegate</code> 的一个具体实现, 但它不使用当前样式来绘制项. 与 <code>QStyledItemDelegate</code> 相比, <code>QItemDelegate</code> 提供了一些独立于样式的绘制和编辑器提供的功能. 当你需要更多控制委托的外观和行为时, 可以选择使用 <code>QItemDelegate</code>.</li>
+</ul>
+<h3 id="排序">排序</h3>
+<p>在模型/视图架构中, 有两种处理排序的方式, 选择哪种方式取决于你的底层模型.</p>
+<ol>
+<li><strong>模型可排序的情况</strong>:
+<ul>
+<li>如果你的模型是可排序的, 即重新实现了 <code>QAbstractItemModel::sort()</code> 函数, 那么<code>QTableView</code>和<code>QTreeView</code>都提供了API, 允许你以编程方式对模型数据进行排序.</li>
+<li>此外, 你还可以启用交互式排序 (允许用户通过单击视图的标题栏来排序数据), 方法是将 <code>QHeaderView::sortIndicatorChanged()</code> 信号连接到 <code>QTableView::sortByColumn()</code> 槽或 <code>QTreeView::sortByColumn()</code> 槽, 具体取决于你使用的视图类型.</li>
+</ul>
+</li>
+<li><strong>使用委托模型的备选方式</strong>:
+<ul>
+<li>如果你的模型没有必需的接口, 或者如果你想使用列表视图来呈现数据, 另一种方法是在呈现数据之前使用委托模型来转换模型的结构.</li>
+</ul>
+</li>
+</ol>
+<h2 id="Model-View-架构的使用">Model/View 架构的使用</h2>
+<p>如果你觉得 Model/View 模型过于复杂, 或者有很多功能是用不到的, Qt 还有一系列方便使用的类. 这些类都是继承自标准的视图类, 并且继承了标准模型. 这些类并不是为其他类继承而准备的, 只是为了使用方便. 它们包括 <code>QListWidget</code>、<code>QTreeWidget</code> 和 <code>QTableWidget</code>. 这些类远不如视图类灵活, 不能使用另外的模型, 因此只适用于简单的情形.</p>
+<p>现在我们从最简单的 <code>QListWidget</code>、<code>QTreeWidget</code> 和 <code>QTableWidget</code> 三个类开始了解最简单的 Model/View 的使用.</p>
+<h3 id="QListWidget">QListWidget</h3>
+<p><code>QListWidget</code> 的使用示例如下所示:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs cpp">label = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QLabel</span>(<span class="hljs-keyword">this</span>);<br>label-&gt;<span class="hljs-built_in">setFixedWidth</span>(<span class="hljs-number">70</span>);<br><br>listWidget = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QListWidget</span>(<span class="hljs-keyword">this</span>);<br><br><span class="hljs-comment">// 方法一</span><br><span class="hljs-keyword">new</span> <span class="hljs-built_in">QListWidgetItem</span>(<span class="hljs-built_in">QIcon</span>(<span class="hljs-string">&quot;:/Chrome.png&quot;</span>), <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Chrome&quot;</span>), listWidget);<br><span class="hljs-keyword">new</span> <span class="hljs-built_in">QListWidgetItem</span>(<span class="hljs-built_in">QIcon</span>(<span class="hljs-string">&quot;:/Firefox.png&quot;</span>), <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Firefox&quot;</span>), listWidget);<br><br><span class="hljs-comment">// 方法二</span><br>listWidget-&gt;<span class="hljs-built_in">addItem</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">QListWidgetItem</span>(<span class="hljs-built_in">QIcon</span>(<span class="hljs-string">&quot;:/IE.png&quot;</span>), <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;IE&quot;</span>)));<br>listWidget-&gt;<span class="hljs-built_in">addItem</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">QListWidgetItem</span>(<span class="hljs-built_in">QIcon</span>(<span class="hljs-string">&quot;:/Netscape.png&quot;</span>), <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Netscape&quot;</span>)));<br>listWidget-&gt;<span class="hljs-built_in">addItem</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">QListWidgetItem</span>(<span class="hljs-built_in">QIcon</span>(<span class="hljs-string">&quot;:/Opera.png&quot;</span>), <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Opera&quot;</span>)));<br>listWidget-&gt;<span class="hljs-built_in">addItem</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">QListWidgetItem</span>(<span class="hljs-built_in">QIcon</span>(<span class="hljs-string">&quot;:/Safari.png&quot;</span>), <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Safari&quot;</span>)));<br>listWidget-&gt;<span class="hljs-built_in">addItem</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">QListWidgetItem</span>(<span class="hljs-built_in">QIcon</span>(<span class="hljs-string">&quot;:/TheWorld.png&quot;</span>), <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;TheWorld&quot;</span>)));<br>listWidget-&gt;<span class="hljs-built_in">addItem</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">QListWidgetItem</span>(<span class="hljs-built_in">QIcon</span>(<span class="hljs-string">&quot;:/Traveler.png&quot;</span>), <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Traveler&quot;</span>)));<br><br><span class="hljs-comment">// 方法三</span><br>QListWidgetItem *newItem = <span class="hljs-keyword">new</span> QListWidgetItem;<br>newItem-&gt;<span class="hljs-built_in">setIcon</span>(<span class="hljs-built_in">QIcon</span>(<span class="hljs-string">&quot;:/Maxthon.png&quot;</span>));<br>newItem-&gt;<span class="hljs-built_in">setText</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Maxthon&quot;</span>));<br>listWidget-&gt;<span class="hljs-built_in">insertItem</span>(<span class="hljs-number">3</span>, newItem);<br><br>QHBoxLayout *layout = <span class="hljs-keyword">new</span> QHBoxLayout;<br>layout-&gt;<span class="hljs-built_in">addWidget</span>(label);<br>layout-&gt;<span class="hljs-built_in">addWidget</span>(listWidget);<br><br><span class="hljs-built_in">setLayout</span>(layout);<br><br><span class="hljs-built_in">connect</span>(listWidget, <span class="hljs-built_in">SIGNAL</span>(<span class="hljs-built_in">currentTextChanged</span>(QString)),<br>        label, <span class="hljs-built_in">SLOT</span>(<span class="hljs-built_in">setText</span>(QString)));<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>QListWidget</code> 是简单的列表组件. 当我们不需要复杂的列表时, 可以选择 <code>QListWidget</code>. <code>QListWidget</code> 中可以添加 <code>QListWidgetItem</code> 类型作为列表项. <code>QListWidgetItem</code> 既可以有文本, 也可以有图标. 上面的代码显示了三种向列表中添加列表项的方法, 即可以在构造时设置所要添加到的 <code>QListWidget</code> 对象, 也可以调用 <code>addItem()</code> 或者 <code>insertItem()</code> 自行添加.</li>
+<li>另外, <code>QListWidgetItem</code> 的构造函数中有一个默认的 <code>type</code> 参数. 该参数有两个合法值: <code>QListWidgetItem::Type</code> (默认) 和 <code>QListWidgetItem::UserType</code>. 如果我们继承了 <code>QListWidgetItem</code>, 可以设置该参数来区分我们的子类, 以便能够在 <code>QListWidget</code> 中区别处理不同的子类.</li>
+</ul>
+<p>该程序的执行结果如下:<br>
+<img src="/img/Pictures/20240120161208.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>我们可以利用 <code>QListWidget</code> 发出的各种信号来判断是哪个列表项被选择. 另外, 我们也可以改变列表的显示方式 (默认的列表是小图标显示):</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">listWidget-&gt;<span class="hljs-built_in">setViewMode</span>(QListView::IconMode);<br></code></pre></td></tr></table></figure>
+<p>此时的执行结果如下:<br>
+<img src="/img/Pictures/20240120161509.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="QTreeWidget">QTreeWidget</h3>
+<p><code>QTreeWidget</code> 是用来展示树型结构 (也就是层次结构) 的. 和之前的 <code>QListWidget</code> 类似, 这个类需要同另外一个辅助类 <code>QTreeWidgetItem</code> 一起使用.</p>
+<p><code>QTreeWidget</code> 的使用示例如下所示:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs cpp">MainWindow::<span class="hljs-built_in">MainWindow</span>(QWidget *parent)<br>    : <span class="hljs-built_in">QMainWindow</span>(parent)<br>    , <span class="hljs-built_in">ui</span>(<span class="hljs-keyword">new</span> Ui::MainWindow)<br>&#123;<br>    ui-&gt;<span class="hljs-built_in">setupUi</span>(<span class="hljs-keyword">this</span>);<br><br>    QTreeWidget *treeWidget = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTreeWidget</span>(<span class="hljs-keyword">this</span>);<br>    treeWidget-&gt;<span class="hljs-built_in">setColumnCount</span>(<span class="hljs-number">1</span>);<br><br>    QTreeWidgetItem *root1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTreeWidgetItem</span>(treeWidget,<br>                                                <span class="hljs-built_in">QStringList</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;Root1&quot;</span>)));<br>    <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTreeWidgetItem</span>(root1, <span class="hljs-built_in">QStringList</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;Leaf 1&quot;</span>)));<br>    QTreeWidgetItem *leaf2 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTreeWidgetItem</span>(root1, <span class="hljs-built_in">QStringList</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;Leaf 2&quot;</span>)));<br>    leaf2-&gt;<span class="hljs-built_in">setCheckState</span>(<span class="hljs-number">0</span>, Qt::Checked);<br><br>    QTreeWidgetItem *root2 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTreeWidgetItem</span>(<span class="hljs-built_in">QStringList</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;Root2&quot;</span>)));<br><br>    treeWidget-&gt;<span class="hljs-built_in">insertTopLevelItem</span>(<span class="hljs-number">0</span>, root2);<br>    <br>    <span class="hljs-built_in">setCentralWidget</span>(treeWidget);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>我们创建了一个 <code>QTreeWidget</code> 实例. 然后我们调用 <code>setColumnCount()</code> 函数设定栏数. 最后, 我们向 <code>QTreeWidget</code> 添加 <code>QTreeWidgetItem</code>, 上例中使用的 <code>QTreeWidgetItem</code> 的构造函数的签名如下:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">QTreeWidgetItem</span>(QTreeWidget *parent, <span class="hljs-type">const</span> QStringList &amp;strings, <span class="hljs-type">int</span> type = Type);<br></code></pre></td></tr></table></figure>
+<ul>
+<li>其中第一个参数用于指定这个项属于哪一个树, 即将项添加到该树中; 第二个参数用于指定显示的文字; 第三个参数和 <code>QListWidgetItem</code> 的类似, 用于指定其类型.</li>
+</ul>
+</li>
+<li>当然, 不一定要在 <code>QTreeWidgetItem</code> 的构造函数中指定某个项属于哪一个数, 可以通过 <code>QTreeWidget::insertTopLevelItem()</code> 函数将项插入树中, 该函数的签名如下:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTreeWidget::insertTopLevelItem</span><span class="hljs-params">(<span class="hljs-type">int</span> index, QTreeWidgetItem *item)</span></span><br></code></pre></td></tr></table></figure>
+<ul>
+<li>其中第一个参数指定插入位置的索引; 第二个参数标识要插入的顶层项.</li>
+</ul>
+</li>
+</ul>
+<p>上述代码的执行结果如下:<br>
+<img src="/img/Pictures/20240120193937.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>下面对上文中的代码进行简单的修改:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QTreeWidget treeWidget;<br><br>QStringList headers;<br>headers &lt;&lt; <span class="hljs-string">&quot;Name&quot;</span> &lt;&lt; <span class="hljs-string">&quot;Number&quot;</span>;<br>treeWidget.<span class="hljs-built_in">setHeaderLabels</span>(headers);<br><br>QStringList rootTextList;<br>rootTextList &lt;&lt; <span class="hljs-string">&quot;Root&quot;</span> &lt;&lt; <span class="hljs-string">&quot;0&quot;</span>;<br>QTreeWidgetItem *root = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTreeWidgetItem</span>(&amp;treeWidget, rootTextList);<br><br><span class="hljs-keyword">new</span> <span class="hljs-built_in">QTreeWidgetItem</span>(root, <span class="hljs-built_in">QStringList</span>() &lt;&lt; <span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;Leaf 1&quot;</span>) &lt;&lt; <span class="hljs-string">&quot;1&quot;</span>);<br>QTreeWidgetItem *leaf2 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTreeWidgetItem</span>(root,<br>                                             <span class="hljs-built_in">QStringList</span>() &lt;&lt; <span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;Leaf 2&quot;</span>) &lt;&lt; <span class="hljs-string">&quot;2&quot;</span>);<br>leaf2-&gt;<span class="hljs-built_in">setCheckState</span>(<span class="hljs-number">0</span>, Qt::Checked);<br><br>QList&lt;QTreeWidgetItem *&gt; rootList;<br>rootList &lt;&lt; root;<br>treeWidget.<span class="hljs-built_in">insertTopLevelItems</span>(<span class="hljs-number">0</span>, rootList);<br><br>treeWidget.<span class="hljs-built_in">show</span>();<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该示例未使用 <code>setColumnCount()</code>, 而是使用 <code>QStringList</code> 设置了 headers, 也就是树的表头. 这样能够实现带有层次结构的树状表格.</li>
+</ul>
+<p>上述程序的执行结果如下:<br>
+<img src="/img/Pictures/20240120183956.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="QTableWidget">QTableWidget</h3>
+<p><code>QTableWidget</code> 的使用示例如下所示:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs cpp">MainWindow::<span class="hljs-built_in">MainWindow</span>(QWidget *parent)<br>    : <span class="hljs-built_in">QMainWindow</span>(parent)<br>    , <span class="hljs-built_in">ui</span>(<span class="hljs-keyword">new</span> Ui::MainWindow)<br>&#123;<br>    ui-&gt;<span class="hljs-built_in">setupUi</span>(<span class="hljs-keyword">this</span>);<br><br>    QTableWidget *tableWidget = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidget</span>(<span class="hljs-keyword">this</span>);<br>    tableWidget-&gt;<span class="hljs-built_in">setColumnCount</span>(<span class="hljs-number">3</span>);<br>    tableWidget-&gt;<span class="hljs-built_in">setRowCount</span>(<span class="hljs-number">5</span>);<br><br>    QStringList headers;<br>    headers &lt;&lt; <span class="hljs-string">&quot;ID&quot;</span> &lt;&lt; <span class="hljs-string">&quot;Name&quot;</span> &lt;&lt; <span class="hljs-string">&quot;Age&quot;</span> &lt;&lt; <span class="hljs-string">&quot;Sex&quot;</span>;<br>    tableWidget-&gt;<span class="hljs-built_in">setHorizontalHeaderLabels</span>(headers);<br><br>    tableWidget-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;0001&quot;</span>)));<br>    tableWidget-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;0002&quot;</span>)));<br>    tableWidget-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;0003&quot;</span>)));<br>    tableWidget-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">3</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;0004&quot;</span>)));<br>    tableWidget-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">4</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;0005&quot;</span>)));<br>    tableWidget-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;20100112&quot;</span>)));<br><br>    <span class="hljs-built_in">setCentralWidget</span>(tableWidget);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该类的使用基本上和上面的两个类一致, 不再赘述.</li>
+</ul>
+<p>上述程序的执行结果如下:<br>
+<img src="/img/Pictures/20240120195730.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="QStringListModel">QStringListModel</h3>
+<p><code>QStringListModel</code> 是最简单的模型类, 具备向视图提供字符串数据的能力, 它是一个可编辑的模型, 可以为组件提供一系列字符串作为数据, 可以将它看作是封装了 <code>QStringList</code> 的模型. <code>QStringList</code> 是字符串列表, 是线性的数据结构, 因此, <code>QStringListModel</code> 很多时候都会作为 <code>QListView</code> 或者 <code>QComboBox</code> 这种只有一列的视图组件的数据模型.</p>
+<p><code>QStringListModel</code> 的使用示例如下所示:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs cpp">MyListView::<span class="hljs-built_in">MyListView</span>()<br>&#123;<br>    QStringList data;<br>    data &lt;&lt; <span class="hljs-string">&quot;Letter A&quot;</span> &lt;&lt; <span class="hljs-string">&quot;Letter B&quot;</span> &lt;&lt; <span class="hljs-string">&quot;Letter C&quot;</span>;<br>    model = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QStringListModel</span>(<span class="hljs-keyword">this</span>);<br>    model-&gt;<span class="hljs-built_in">setStringList</span>(data);<br>    <br>    listView = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QListView</span>(<span class="hljs-keyword">this</span>);<br>    listView-&gt;<span class="hljs-built_in">setModel</span>(model);<br>    <br>    QHBoxLayout *btnLayout = <span class="hljs-keyword">new</span> QHBoxLayout;<br>    QPushButton *insertBtn = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;insert&quot;</span>), <span class="hljs-keyword">this</span>);<br>    <span class="hljs-built_in">connect</span>(insertBtn, <span class="hljs-built_in">SIGNAL</span>(<span class="hljs-built_in">clicked</span>()), <span class="hljs-keyword">this</span>, <span class="hljs-built_in">SLOT</span>(<span class="hljs-built_in">insertData</span>()));<br>    QPushButton *delBtn = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Delete&quot;</span>), <span class="hljs-keyword">this</span>);<br>    <span class="hljs-built_in">connect</span>(delBtn, <span class="hljs-built_in">SIGNAL</span>(<span class="hljs-built_in">clicked</span>()), <span class="hljs-keyword">this</span>, <span class="hljs-built_in">SLOT</span>(<span class="hljs-built_in">deleteData</span>()));<br>    QPushButton *showBtn = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Show&quot;</span>), <span class="hljs-keyword">this</span>);<br>    <span class="hljs-built_in">connect</span>(showBtn, <span class="hljs-built_in">SIGNAL</span>(<span class="hljs-built_in">clicked</span>()), <span class="hljs-keyword">this</span>, <span class="hljs-built_in">SLOT</span>(<span class="hljs-built_in">showData</span>()));<br>    btnLayout-&gt;<span class="hljs-built_in">addWidget</span>(insertBtn);<br>    btnLayout-&gt;<span class="hljs-built_in">addWidget</span>(delBtn);<br>    btnLayout-&gt;<span class="hljs-built_in">addWidget</span>(showBtn);<br>    <br>    QVBoxLayout *mainLayout = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QVBoxLayout</span>(<span class="hljs-keyword">this</span>);<br>    mainLayout-&gt;<span class="hljs-built_in">addWidget</span>(listView);<br>    mainLayout-&gt;<span class="hljs-built_in">addLayout</span>(btnLayout);<br>    <span class="hljs-built_in">setLayout</span>(mainLayout);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在这段代码中, 我们创建了一个 <code>QStringList</code> 对象, 向其中插入了几个数据, 然后将其作为 <code>QStringListModel</code> 的底层数据.</li>
+</ul>
+<p>该程序的执行结果如下:<br>
+<img src="/img/Pictures/20240121151500.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>槽函数 <code>insertData()</code> 的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::insertData</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">bool</span> isOK;<br>    QString text = QInputDialog::<span class="hljs-built_in">getText</span>(<span class="hljs-keyword">this</span>, <span class="hljs-string">&quot;Insert&quot;</span>,<br>                                         <span class="hljs-string">&quot;Please input new data:&quot;</span>,<br>                                         QLineEdit::Normal,<br>                                         <span class="hljs-string">&quot;You are inserting new data.&quot;</span>,<br>                                         &amp;isOK);<br>    <span class="hljs-keyword">if</span> (isOK) &#123;<br>        <span class="hljs-type">int</span> row = listView-&gt;<span class="hljs-built_in">currentIndex</span>().<span class="hljs-built_in">row</span>();<br>        model-&gt;<span class="hljs-built_in">insertRows</span>(row, <span class="hljs-number">1</span>);<br>        QModelIndex index = model-&gt;<span class="hljs-built_in">index</span>(row);<br>        model-&gt;<span class="hljs-built_in">setData</span>(index, text);<br>        listView-&gt;<span class="hljs-built_in">setCurrentIndex</span>(index);<br>        listView-&gt;<span class="hljs-built_in">edit</span>(index);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在该代码中, 我们使用 <code>QInputDialog::getText()</code> 函数要求用户输入数据, 当用户点击了 OK 按钮, 我们使用 <code>listView-&gt;currentIndex()</code> 函数, 获取 <code>QListView</code> 当前行. 这个函数的返回值是一个 <code>QModelIndex</code> 类型. 这个类保存了三个重要的数据: 行索引、列索引以及该数据属于哪一个模型. 此处我们调用其 <code>row()</code> 函数获得行索引, 之后通过 <code>insertRows()</code> 向该模型中插入新的行, 该函数的签名如下:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">insertRows</span><span class="hljs-params">(<span class="hljs-type">int</span> row, <span class="hljs-type">int</span> count, <span class="hljs-type">const</span> QModelIndex &amp;parent = QModelIndex())</span></span>;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该函数会将 count 行插入到模型给定的 row 的位置, 新行的数据将会作为 parent 的子元素. 函数插入成功返回 true, 否则返回 false.</li>
+</ul>
+</li>
+<li>在通过 <code>insertRows()</code> 函数插入空行后, 我们可以使用 model 的 <code>index()</code> 函数获取当前行的 <code>QModelIndex</code> 对象, 然后利用 <code>setData()</code> 函数把我们用 <code>QInputDialog</code> 接受的数据设置为当前行数据, 之后使用 <code>setCurrentIndex()</code> 函数, 将新插入的行设置为当前行, 并调用 <code>edit()</code> 函数, 使该行可以被编辑.</li>
+</ul>
+<p>其实调用 <code>currentIndex()</code> 时已经获取到当前行, 因此可以对上述代码进行简化:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::insertData</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">bool</span> isOK;<br>    QString text = QInputDialog::<span class="hljs-built_in">getText</span>(<span class="hljs-keyword">this</span>, <span class="hljs-string">&quot;Insert&quot;</span>,<br>                                         <span class="hljs-string">&quot;Please input new data:&quot;</span>,<br>                                         QLineEdit::Normal,<br>                                         <span class="hljs-string">&quot;You are inserting new data.&quot;</span>,<br>                                         &amp;isOK);<br>    <span class="hljs-keyword">if</span> (isOK) &#123;<br>        QModelIndex currIndex = listView-&gt;<span class="hljs-built_in">currentIndex</span>();<br>        model-&gt;<span class="hljs-built_in">insertRows</span>(currIndex.<span class="hljs-built_in">row</span>(), <span class="hljs-number">1</span>);<br>        model-&gt;<span class="hljs-built_in">setData</span>(currIndex, text);<br>        listView-&gt;<span class="hljs-built_in">edit</span>(currIndex);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>槽函数 <code>showData()</code> 的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::deleteData</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (model-&gt;<span class="hljs-built_in">rowCount</span>() &gt; <span class="hljs-number">1</span>) &#123;<br>        model-&gt;<span class="hljs-built_in">removeRows</span>(listView-&gt;<span class="hljs-built_in">currentIndex</span>().<span class="hljs-built_in">row</span>(), <span class="hljs-number">1</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在该代码中, 使用 <code>removeRows</code> 函数即可. 这里之所以需要 <code>rowCount()</code> 判断是因为 <code>insertData()</code> 实现过于简单导致的, 否则将所有数据行删光后, 将无法插入数据.</li>
+</ul>
+<p>槽函数 <code>deleteData()</code> 的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::showData</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    QStringList data = model-&gt;<span class="hljs-built_in">stringList</span>();<br>    QString str;<br>    foreach(QString s, data) &#123;<br>        str += s + <span class="hljs-string">&quot;\n&quot;</span>;<br>    &#125;<br>    QMessageBox::<span class="hljs-built_in">information</span>(<span class="hljs-keyword">this</span>, <span class="hljs-string">&quot;Data&quot;</span>, str);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>从这些示例中可以看到, 几乎所有操作都是针对模型的, 也就是说, 我们直接对数据进行操作, 当模型检测到数据发生了变化, 会立刻通知视图进行刷新. 这样, 我们就可以把精力集中到对数据的操作上, 而不用担心视图的同步显示问题.</p>
+<h3 id="QFileSystemModel">QFileSystemModel</h3>
+<p>Qt 内置了两种模型:</p>
+<ul>
+<li><code>QStandardItemModel</code>: <code>QStandardItemModel</code> 是一种通用的数据模型, 可以适用于不同类型的视图, 如列表、表格、树等, 这使得开发人员可以使用同一个模型类处理不同种类的数据展示需求. 这种模型需要数据保存起来, 因为当视图是列表时, 模型需要以一维的形式提供数据; 当视图是表格时, 模型需要以二维的形式提供数据, 即模型需要动态地调整数据的结构以适应不同类型的视图.</li>
+<li><code>QFileSystemModel</code>: 是 Qt 框架中用于与文件系统交互的模型类. 它提供了一个方便的方式来在视图中显示文件系统的结构, 并与文件和目录进行交互. 它不需要保存数据本身, 而是保存在本地文件系统中的实际数据的索引. 我们可以利用 <code>QFileSystemModel</code> 显示文件系统的信息、甚至通过模型来修改文件系统.</li>
+</ul>
+<p><code>QFileSystemModel</code> 的使用示例如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs cpp">MainWindow::<span class="hljs-built_in">MainWindow</span>(QWidget *parent)<br>    : <span class="hljs-built_in">QMainWindow</span>(parent)<br>    , <span class="hljs-built_in">ui</span>(<span class="hljs-keyword">new</span> Ui::MainWindow)<br>&#123;<br>    ui-&gt;<span class="hljs-built_in">setupUi</span>(<span class="hljs-keyword">this</span>);<br><br>    model = <span class="hljs-keyword">new</span> QFileSystemModel;<br>    model-&gt;<span class="hljs-built_in">setRootPath</span>(QDir::<span class="hljs-built_in">currentPath</span>());<br><br>    treeView = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTreeView</span>(<span class="hljs-keyword">this</span>);<br>    treeView-&gt;<span class="hljs-built_in">setModel</span>(model);<br>    treeView-&gt;<span class="hljs-built_in">setRootIndex</span>(model-&gt;<span class="hljs-built_in">index</span>(QDir::<span class="hljs-built_in">currentPath</span>()));<br><br>    QPushButton *mkdirButton = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Make Directory...&quot;</span>), <span class="hljs-keyword">this</span>);<br>    <span class="hljs-built_in">connect</span>(mkdirButton, &amp;QPushButton::clicked,<br>            <span class="hljs-keyword">this</span>, &amp;MainWindow::mkdir);<br><br>    QPushButton *rmButton = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Remove&quot;</span>), <span class="hljs-keyword">this</span>);<br>    <span class="hljs-built_in">connect</span>(rmButton, &amp;QPushButton::clicked,<br>            <span class="hljs-keyword">this</span>, &amp;MainWindow::rm);<br><br>    QHBoxLayout *buttonLayout = <span class="hljs-keyword">new</span> QHBoxLayout;<br>    buttonLayout-&gt;<span class="hljs-built_in">addWidget</span>(mkdirButton);<br>    buttonLayout-&gt;<span class="hljs-built_in">addWidget</span>(rmButton);<br><br>    QVBoxLayout *mainLayout = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QVBoxLayout</span>(<span class="hljs-keyword">this</span>);<br>    mainLayout-&gt;<span class="hljs-built_in">addWidget</span>(treeView);<br>    mainLayout-&gt;<span class="hljs-built_in">addLayout</span>(buttonLayout);<br><br>    QWidget *w = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QWidget</span>(<span class="hljs-keyword">this</span>);<br>    w-&gt;<span class="hljs-built_in">setLayout</span>(mainLayout);<br><br>    <span class="hljs-built_in">setCentralWidget</span>(w);<br><br>    <span class="hljs-built_in">setWindowTitle</span>(<span class="hljs-string">&quot;File System Model&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在该示例中, 我们首先创建了 <code>QFileSystemModel</code> 实例, 然后将其作为一个 <code>QTreeView</code> 的模型, 之后将 <code>QFileSystemModel</code> 的根目录路径设置为当前目录.</li>
+<li>对于 <code>treeView</code> 视图, 我们使用了 <code>setRootIndex()</code> 对模型进行过滤, 这行代码用于从模型中找到 <code>QDir::currentPath()</code> 所对应的索引, 然后显示这一位置, 即用于设置显示哪个目录. 如果不使用 <code>setRootIndex()</code> 对模型进行过滤, 则会显示整个文件系统的目录.</li>
+</ul>
+<p>该程序的执行结果如下:<br>
+<img src="/img/Pictures/20240122125614.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><code>mkdir()</code> 槽函数的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::mkdir</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    QModelIndex index = treeView-&gt;<span class="hljs-built_in">currentIndex</span>();<br>    <span class="hljs-keyword">if</span> (!index.<span class="hljs-built_in">isValid</span>()) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    QString dirName = QInputDialog::<span class="hljs-built_in">getText</span>(<span class="hljs-keyword">this</span>,<br>                                            <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Create Directory&quot;</span>),<br>                                            <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Directory name&quot;</span>));<br>    <span class="hljs-keyword">if</span> (!dirName.<span class="hljs-built_in">isEmpty</span>()) &#123;<br>        <span class="hljs-keyword">if</span> (!model-&gt;<span class="hljs-built_in">mkdir</span>(index, dirName).<span class="hljs-built_in">isValid</span>()) &#123;<br>            QMessageBox::<span class="hljs-built_in">information</span>(<span class="hljs-keyword">this</span>,<br>                                     <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Create Directory&quot;</span>),<br>                                     <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Failed to create the directory&quot;</span>));<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>rm()</code> 槽函数的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::rm</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    QModelIndex index = treeView-&gt;<span class="hljs-built_in">currentIndex</span>();<br>    <span class="hljs-keyword">if</span> (!index.<span class="hljs-built_in">isValid</span>()) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-type">bool</span> ok;<br>    <span class="hljs-keyword">if</span> (model-&gt;<span class="hljs-built_in">fileInfo</span>(index).<span class="hljs-built_in">isDir</span>()) &#123;<br>        ok = model-&gt;<span class="hljs-built_in">rmdir</span>(index);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        ok = model-&gt;<span class="hljs-built_in">remove</span>(index);<br>    &#125;<br>    <span class="hljs-keyword">if</span> (!ok) &#123;<br>        QMessageBox::<span class="hljs-built_in">information</span>(<span class="hljs-keyword">this</span>,<br>                                 <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Remove&quot;</span>),<br>                                 <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Failed to remove %1&quot;</span>).<span class="hljs-built_in">arg</span>(model-&gt;<span class="hljs-built_in">fileName</span>(index)));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在这里, 我们不需要担心 <code>QFileSystemModel</code> 的性能问题, 因为它会启动自己的线程进行文件夹搜索, 因此不会在搜索文件夹时导致主线程阻塞.</p>
+<p>另外, <code>QFileSystemModel</code> 会对其表示文件系统结构的模型结果进行缓存. 这是为了提高性能, 避免频繁地重新读取文件系统信息. 如果你需要立即获取最新的文件系统信息, 而不是等待 <code>QFileSystemModel</code> 自动刷新, 那么你需要使用 <code>QFileSystemWatcher</code> 监视文件系统的变化, 并在必要时通知 <code>QFileSystemModel</code> 刷新缓存, 以确保模型中的数据是最新的.</p>
+<p>如果仔细查看就会发现, 我们的视图不能排序不能点击列头. 为此, 我们可以使用下面代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp">treeView-&gt;<span class="hljs-built_in">header</span>()-&gt;<span class="hljs-built_in">setStretchLastSection</span>(<span class="hljs-literal">true</span>);<br>treeView-&gt;<span class="hljs-built_in">header</span>()-&gt;<span class="hljs-built_in">setSortIndicator</span>(<span class="hljs-number">0</span>, Qt::AscendingOrder);<br>treeView-&gt;<span class="hljs-built_in">header</span>()-&gt;<span class="hljs-built_in">setSortIndicatorShown</span>(<span class="hljs-literal">true</span>);<br><span class="hljs-meta">#<span class="hljs-keyword">if</span> QT_VERSION &gt;= 0x050000</span><br>    treeView-&gt;<span class="hljs-built_in">header</span>()-&gt;<span class="hljs-built_in">setSectionsClickable</span>(<span class="hljs-literal">true</span>);<br><span class="hljs-meta">#<span class="hljs-keyword">else</span></span><br>    treeView-&gt;<span class="hljs-built_in">header</span>()-&gt;<span class="hljs-built_in">setClickable</span>(<span class="hljs-literal">true</span>);<br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br></code></pre></td></tr></table></figure>
+<ul>
+<li>其中 <code>treeView-&gt;header()-&gt;setStretchLastSection(true);</code> 用于设置最后一个可见的头部部分是否占据所有可用的空间.</li>
+<li><code>treeView-&gt;header()-&gt;setSortIndicator(0, Qt::AscendingOrder);</code> 用于设置树形视图的排序指示器, 它将第一列 (索引为 0) 作为排序的基准列, 并设置排序的顺序为升序.</li>
+<li><code>treeView-&gt;header()-&gt;setSortIndicatorShown(true);</code> 用于设置排序指示器的显示. 如果设置为 <code>false</code>, 则排序指示器将不可见.</li>
+<li><code>treeView-&gt;header()-&gt;setSectionsClickable(true);</code> 用于设置头部的各个部分是否可以点击.</li>
+</ul>
+<h2 id="模型类">模型类</h2>
+<p>在 Model/View 架构中, Model 提供一种标准接口, 供视图和委托访问数据. 在 Qt 中, 这个接口由 <code>QAbstractItemModel</code> 类进行定义. 无论数据项如何存储在底层数据结构中, 只要是 <code>QAbstractItemModel</code> 的子类, 都提供一种表格形式的层次结构. 视图使用这种约定来访问模型中的数据项, 但它们在向用户呈现此信息的方式上并没有受到限制. 各种模型组织数据的示意图如下:<br>
+<img src="/img/Pictures/20240123164420.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>为了能够使得数据的显示同存储分离, 我们引入模型索引的概念. 通过索引, 我们可以访问模型的特定元素的特定部分. 视图和委托使用索引来请求要显示的数据. 模型所管理的数据类型可以使用通用的方式来定义, 模型索引包含一个指向创建它们的模型的指针, 这可以防止在使用多个模型时产生混淆.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QAbstractItemModel *model = index.<span class="hljs-built_in">model</span>();<br></code></pre></td></tr></table></figure>
+<p>模型索引提供对数据的临时引用, 并可用于通过模型检索或修改数据. 由于模型随时可能重新组织其内部的结构, 此时模型索引可能会失效, 因此不应将其存储. 如果需要对数据进行长期引用, 则必须创建持久模型索引. 持久索引保证其引用的数据及时更新. 临时索引由 <code>QModelIndex</code> 类提供, 持久索引则由 <code>QPersistentModelIndex</code> 类提供.</p>
+<p>为了获取与数据项对应的模型索引, 必须向模型指定三个属性: 行号、列号和父项的模型索引.</p>
+<p>在其最基本的形式中, 模型可以被视为一个简单的表格. 此时, 一个数据可以由行号和列号进行定位. 注意, 我们仅仅是使用 “表格” 这个名词, 这并不意味着底层的数据存储在一个数组结构中; 行号和列号的使用只是一种约定, 以允许组件之间进行通信. 我们可以通过向模型指定行号和列号来检索任何有关给定项的信息, 并获得表示该项的索引:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QModelIndex index = model-&gt;<span class="hljs-built_in">index</span>(row, column, ...);<br></code></pre></td></tr></table></figure>
+<p>模型提供了一个简单的接口, 用于列表以及表格这种非层次视图的数据获取, 该函数的签名如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QModelIndex <span class="hljs-title">QAbstractItemModel::index</span><span class="hljs-params">(<span class="hljs-type">int</span> row, <span class="hljs-type">int</span> column,</span></span><br><span class="hljs-params"><span class="hljs-function">						<span class="hljs-type">const</span> QModelIndex &amp;parent=QModelIndex())</span></span><br></code></pre></td></tr></table></figure>
+<p>下图是一个基本的表格模型的表示:<br>
+<img src="/img/Pictures/20240123175835.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>此时我们只需提供行号和列号即可获取到模型中的每个数据项:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QModelIndex indexA = model-&gt;<span class="hljs-built_in">index</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-built_in">QModelIndex</span>());<br>QModelIndex indexB = model-&gt;<span class="hljs-built_in">index</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-built_in">QModelIndex</span>());<br>QModelIndex indexC = model-&gt;<span class="hljs-built_in">index</span>(<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-built_in">QModelIndex</span>());<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在类似表格的视图中, 比如列表和表格, 行号和列号足以定位一个数据项. 但是, 对于树型结构, 仅有两个参数就不够了. 这是因为树型结构是一个层次结构, 而层次结构中每一个节点都有可能是另外一个表格. 所以, 每一个项需要指明其父节点. 在请求模型项的索引时, 我们必须提供有关项的父项的一些信息. 在模型外部, 引用项的唯一方式是通过模型索引, 因此还必须提供父模型索引:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QModelIndex index = model-&gt;<span class="hljs-built_in">index</span>(row, column, parent);<br></code></pre></td></tr></table></figure>
+<p>下图是一个树形模型的表示:<br>
+<img src="/img/Pictures/20240123192629.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>图中, A 和 C 都是模型中的顶级项:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QModelIndex indexA = model-&gt;<span class="hljs-built_in">index</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-built_in">QModelIndex</span>());<br>QModelIndex indexC = model-&gt;<span class="hljs-built_in">index</span>(<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-built_in">QModelIndex</span>());<br></code></pre></td></tr></table></figure>
+当我们用 <code>QModelIndex()</code> 创建一个空索引使用时, 我们获得的就是模型中最顶级项. 而 A 还有自己的子项 B, 那么, 我们应该使用下面的代码获取 B 的模型索引:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QModelIndex indexB = model-&gt;<span class="hljs-built_in">index</span>(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, indexA);<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>模型的数据角色是指模型可以针对不同的组件 (或者组件的不同部分, 比如按钮的提示以及显示的文本等) 提供不同的数据. 例如, <code>Qt::DisplayRole</code> 用于视图的文本显示. 通常来说, 数据项包含一系列不同的数据角色, 这些角色定义在 <code>Qt::ItemDataRole</code> 枚举中.</p>
+<p>我们可以通过向模型传递与项对应的模型索引, 并指定一个角色来获取模型中项的数据:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QVariant value = model-&gt;<span class="hljs-built_in">data</span>(index, role);<br></code></pre></td></tr></table></figure>
+<p>角色指示模型所引用的数据类型, 通过为每一个角色提供恰当的数据, 模型可以告诉视图和委托如何向用户显示内容. 不同类型的视图可以选择忽略自己不需要的数据. 当然, 我们也可以添加我们所需要的额外数据.</p>
+<h2 id="视图-委托类">视图/委托类</h2>
+<p>在模型/视图架构中, 视图从模型中获取数据项并呈现给用户. 数据的呈现方式不一定要类似于模型的存储结构, 并且可能与用于存储数据项的底层数据结构完全不同.</p>
+<p>我们使用 <code>QAbstractItemModel</code> 提供标准的模型接口, 使用 <code>QAbstractItemView</code> 提供标准的视图接口, 而结合这两者, 就可以将数据同表现层分离, 在视图中利用前面所说的模型索引. 视图管理来自模型的数据的总体布局: 既可以直接渲染数据本身, 也可以通过委托渲染和编辑数据.</p>
+<p>视图不仅仅用于展示数据, 还用于数据项之间的导航以及数据项的选择. 另外, 视图也需要支持很多基本的用户界面的特性, 例如右键菜单以及拖放. 视图可以提供数据编辑功能, 也可以将这种编辑功能交由某个委托完成. 视图可以脱离模型创建, 但是在其进行显示之前, 必须存在一个模型. 也就是说, 视图的显示是完全基于模型的, 这是不能脱离模型存在的. 对于用户的选择, 多个视图可以相互独立, 也可以进行共享.</p>
+<p>某些视图, 例如 <code>QTableView</code> 和 <code>QTreeView</code>, 不仅显示数据, 还会显示列头或者表头. 这些是由 <code>QHeaderView</code> 视图类提供的, 表头使用 <code>QAbstractItemModel::headerData()</code> 函数从模型中获取数据, 然后将其以标签的形式显示出来.</p>
+<p>示例如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs cpp">MainWindow::<span class="hljs-built_in">MainWindow</span>(QWidget *parent)<br>    : <span class="hljs-built_in">QMainWindow</span>(parent)<br>    , <span class="hljs-built_in">ui</span>(<span class="hljs-keyword">new</span> Ui::MainWindow)<br>&#123;<br>    ui-&gt;<span class="hljs-built_in">setupUi</span>(<span class="hljs-keyword">this</span>);<br><br>    QStringList data;<br>    data &lt;&lt; <span class="hljs-string">&quot;0&quot;</span> &lt;&lt; <span class="hljs-string">&quot;1&quot;</span> &lt;&lt; <span class="hljs-string">&quot;2&quot;</span>;<br>    model = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QStringListModel</span>(<span class="hljs-keyword">this</span>);<br>    model-&gt;<span class="hljs-built_in">setStringList</span>(data);<br><br>    listView = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QListView</span>(<span class="hljs-keyword">this</span>);<br>    listView-&gt;<span class="hljs-built_in">setModel</span>(model);<br><br>    QPushButton *btnShow = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Show Model&quot;</span>), <span class="hljs-keyword">this</span>);<br>    <span class="hljs-built_in">connect</span>(btnShow, &amp;QPushButton::clicked, <span class="hljs-keyword">this</span>, &amp;MainWindow::showModel);<br>    QHBoxLayout *buttonLayout = <span class="hljs-keyword">new</span> QHBoxLayout;<br>    buttonLayout-&gt;<span class="hljs-built_in">addWidget</span>(btnShow);<br><br>    QVBoxLayout *layout = <span class="hljs-keyword">new</span> QVBoxLayout;<br>    layout-&gt;<span class="hljs-built_in">addWidget</span>(listView);<br>    layout-&gt;<span class="hljs-built_in">addLayout</span>(buttonLayout);<br><br>    QWidget *w = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QWidget</span>(<span class="hljs-keyword">this</span>);<br>    w-&gt;<span class="hljs-built_in">setLayout</span>(layout);<br><br>    <span class="hljs-built_in">setCentralWidget</span>(w);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>该示例的执行结果如下:<br>
+<img src="/img/Pictures/20240124153104.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>但是, 现在存在一个问题: 如果我们双击某一行, 列表会允许我们进行编辑. 但是, 我们没办法控制用户只能输入数字 —— 当然, 我们可以在提交数据时进行检测, 这也是一种办法, 不过, 更合适的方法是不允许用户输入非法字符. 为了达到这一目的, 我们增加一个委托:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">SpinBoxDelegate</span> : <span class="hljs-keyword">public</span> QStyledItemDelegate<br>&#123;<br>    Q_OBJECT<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">SpinBoxDelegate</span>(QObject *parent = <span class="hljs-number">0</span>) : <span class="hljs-built_in">QStyledItemDelegate</span>(parent) &#123;&#125;<br>        <br>        <span class="hljs-function">QWidget *<span class="hljs-title">createEditor</span><span class="hljs-params">(QWidget *parent, <span class="hljs-type">const</span> QStyleOptionViewItem &amp;option,</span></span><br><span class="hljs-params"><span class="hljs-function">                              <span class="hljs-type">const</span> QModelIndex &amp;index)</span> <span class="hljs-type">const</span></span>;<br>    <br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setEditorData</span><span class="hljs-params">(QWidget *editor, <span class="hljs-type">const</span> QModelIndex &amp;index)</span> <span class="hljs-type">const</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setModelData</span><span class="hljs-params">(QWidget *editor, QAbstractItemModel *model,</span></span><br><span class="hljs-params"><span class="hljs-function">                      <span class="hljs-type">const</span> QModelIndex &amp;index)</span> <span class="hljs-type">const</span></span>;<br>    <br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">updateEditorGeometry</span><span class="hljs-params">(QWidget *editor,</span></span><br><span class="hljs-params"><span class="hljs-function">                              <span class="hljs-type">const</span> QStyleOptionViewItem &amp;option,</span></span><br><span class="hljs-params"><span class="hljs-function">                              <span class="hljs-type">const</span> QModelIndex &amp;index)</span> <span class="hljs-type">const</span></span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>与模型-视图-控制器 (MVC) 模式不同, 模型/视图设计不包括一个完全独立的组件来管理与用户的交互. 通常, 视图负责将模型数据呈现给用户, 并处理用户输入. 为了在获取输入的方式上具有一些灵活性, 交互由委托执行. 这些组件提供输入功能, 同时也能渲染某些特殊数据项. 委托的接口由 <code>QAbstractItemDelegate</code> 定义. 在这个类中, 委托通过 <code>paint()</code> 和 <code>sizeHint()</code> 两个函数渲染用户内容. 为使用方便, 从 4.4 开始, Qt 提供了另外的基于组件的子类: <code>QItemDelegate</code> 和 <code>QStyledItemDelegate</code>. 默认的委托是 <code>QStyledItemDelegate</code>. 二者的区别在于绘制和向视图提供编辑器的方式, <code>QStyledItemDelegate</code> 使用当前样式绘制, 并且能够使用 Qt Style Sheet. 因此我们推荐在自定义委托时, 使用 <code>QStyledItemDelegate</code> 作为基类. 不过, 除非自定义委托需要自己进行绘制, 否则, 二者的代码其实是一样的.</p>
+<p>继承 <code>QStyledItemDelegate</code> 需要实现以下几个函数:</p>
+<ul>
+<li><code>createEditor()</code>: 返回一个组件. 该组件会被作为用户编辑数据时所使用的编辑器, 从模型中接受数据, 返回用户修改的数据.</li>
+<li><code>setEditorData()</code>: 提供上述组件在显示时所需要的默认值.</li>
+<li><code>updateEditorGeometry()</code>: 确保上述组件作为编辑器时能够完整地显示出来.</li>
+<li><code>setModelData()</code>: 返回给模型用户修改过的数据.</li>
+</ul>
+<p>上文中委托的 <code>createEditor()</code> 的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QWidget *<span class="hljs-title">SpinBoxDelegate::createEditor</span><span class="hljs-params">(QWidget *parent,</span></span><br><span class="hljs-params"><span class="hljs-function">                                       <span class="hljs-type">const</span> QStyleOptionViewItem &amp; <span class="hljs-comment">/* option */</span>,</span></span><br><span class="hljs-params"><span class="hljs-function">                                       <span class="hljs-type">const</span> QModelIndex &amp; <span class="hljs-comment">/* index */</span>)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    QSpinBox *editor = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QSpinBox</span>(parent);<br>    editor-&gt;<span class="hljs-built_in">setMinimum</span>(<span class="hljs-number">0</span>);<br>    editor-&gt;<span class="hljs-built_in">setMaximum</span>(<span class="hljs-number">100</span>);<br>    <span class="hljs-keyword">return</span> editor;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>上文中委托的 <code>setEditorData()</code> 的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SpinBoxDelegate::setEditorData</span><span class="hljs-params">(QWidget *editor,</span></span><br><span class="hljs-params"><span class="hljs-function">                                    <span class="hljs-type">const</span> QModelIndex &amp;index)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> value = index.<span class="hljs-built_in">model</span>()-&gt;<span class="hljs-built_in">data</span>(index, Qt::EditRole).<span class="hljs-built_in">toInt</span>();<br>    QSpinBox *spinBox = <span class="hljs-built_in">static_cast</span>&lt;QSpinBox*&gt;(editor);<br>    spinBox-&gt;<span class="hljs-built_in">setValue</span>(value);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该函数从模型中获取需要编辑的数据 (具有 <code>Qt::EditRole</code> 角色). editor 就是所生成的编辑器实例, 我们将其强制转换成 <code>QSpinBox</code> 实例, 设置其数据作为默认值.</li>
+</ul>
+<p>上文中委托的 <code>setModelData()</code> 的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SpinBoxDelegate::setModelData</span><span class="hljs-params">(QWidget *editor,</span></span><br><span class="hljs-params"><span class="hljs-function">                                   QAbstractItemModel *model,</span></span><br><span class="hljs-params"><span class="hljs-function">                                   <span class="hljs-type">const</span> QModelIndex &amp;index)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    QSpinBox *spinBox = <span class="hljs-built_in">static_cast</span>&lt;QSpinBox*&gt;(editor);<br>    spinBox-&gt;<span class="hljs-built_in">interpretText</span>();<br>    <span class="hljs-type">int</span> value = spinBox-&gt;<span class="hljs-built_in">value</span>();<br>    model-&gt;<span class="hljs-built_in">setData</span>(index, value, Qt::EditRole);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在用户编辑完数据后, 委托会调用 <code>setModelData()</code> 函数将新的数据保存到模型中. 因此, 在这里我们首先获取 <code>QSpinBox</code> 实例, 得到用户输入值, 然后设置到模型相应的位置.</li>
+<li>标准的 <code>QStyledItemDelegate</code> 类会在完成编辑时发出 <code>closeEditor()</code> 信号, 视图会保证编辑器已经关闭, 但是并不会销毁, 因此需要另外对内存进行管理. 由于我们的处理很简单, 无需发出 <code>closeEditor()</code> 信号, 但是在复杂的实现中需要发出该信号.</li>
+<li>针对数据的任何操作都必须提交给 <code>QAbstractItemModel</code>, 这使得委托独立于特定的视图. 当然, 在真实应用中, 我们需要检测用户的输入是否合法、是否能够存入模型.</li>
+</ul>
+<p>最后, 由于我们的编辑器只有一个数字输入框, 所以这里只是简单将这个输入框的大小设置为单元格的大小 (由 <code>option.rect</code> 提供):</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SpinBoxDelegate::updateEditorGeometry</span><span class="hljs-params">(QWidget *editor,</span></span><br><span class="hljs-params"><span class="hljs-function">                                           <span class="hljs-type">const</span> QStyleOptionViewItem &amp;option,</span></span><br><span class="hljs-params"><span class="hljs-function">                                           <span class="hljs-type">const</span> QModelIndex &amp;index)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    editor-&gt;<span class="hljs-built_in">setGeometry</span>(option.rect);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>如果是复杂的编辑器, 我们需要根据单元格参数 (由 <code>option</code> 提供)、数据 (由 <code>index</code> 提供) 结合编辑器 (由 <code>editor</code> 提供) 计算编辑器的显示位置和大小.</li>
+</ul>
+<p>之后将这个委托设置给所需要的视图即可:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">listView-&gt;<span class="hljs-built_in">setItemDelegate</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">SpinBoxDelegate</span>(listView));<br></code></pre></td></tr></table></figure>
+<ul>
+<li>需要注意的是: 这里的 <code>new</code> 操作符并不会真的创建编辑器实例. 相反, 只有在真正需要时, Qt 才会生成一个编辑器实例.</li>
+</ul>
+<p>此时程序执行结果如下:<br>
+<img src="/img/Pictures/20240124193153.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="选择">选择</h2>
+<p>选择是视图中常用的一个操作. 在列表、树或者表格中, 通过鼠标点击可以选中某一项, 被选中项会变成高亮或者反色. 在 Qt 中, 选择也是使用了一种模型. 选择模型提供了一种通用的描述选择操作的方式, 使得在 Model/View 架构中能够更灵活地处理用户的选择操作. Qt 内置了一些选择模型, 对于一般的应用而言, 这些内置的选择模型已经足够使用. 然而, Qt 也允许开发者创建自定义的选择模型, 以满足特定应用场景下的特殊需求.</p>
+<p>Qt 使用 <code>QItemSelectionModel</code> 类获取视图中项的选择情况. 这个类维护了单个模型中项的模型索引, 并且与任何视图无关. 由于一个模型可以存在多个视图, 因此可以在视图之间共享选择, 使应用能够以一致的方式显示多个视图. 选择由选择区域 (选择区域表示用户选择的一个矩形区域, 它可能包含一个或多个项) 组成. 模型只将选区的开始和结束的索引位置记录下来, 以保证对于较大的选区也有很好的性能. 如果用户进行非连续的选择, 即在视图中选择多个不相邻的项目, 这些非连续的选区则由多个连续选择组成. 这种方式更容易记录和管理用户的选择操作.</p>
+<p>选择操作应用于由选择模型维护的一组模型索引. 最近应用的项选择被称为当前选择.</p>
+<p>在视图中, 始终存在一个当前项和选择项 (即便从界面上看不到有任何项被选择). 当前项和选择项是相互独立的两个状态. 一个项目可以既是当前项也是选择项. 下表是当前项和选择项的区别:</p>
+<table>
+<thead>
+<tr>
+<th>当前项</th>
+<th>选择项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>只能有一个当前项.</td>
+<td>可以有多个选择项.</td>
+</tr>
+<tr>
+<td>使用键盘或者鼠标点击可以改变当前项.</td>
+<td>当用户与项目交互时, 项的选择状态是设置还是取消, 取决于几个预定义的模式 - 例如, 单个选择、多个选择.</td>
+</tr>
+<tr>
+<td>当前项可以使用 F2 或者鼠标双击进行编辑 (前提是程序允许).</td>
+<td>当前项可以结合另外一个锚点指定被选择或者去除选择的一块选区 (或二者的结合).</td>
+</tr>
+<tr>
+<td>当前项通常会有一个焦点框进行标识.</td>
+<td>选择项使用选区颜色进行标识.</td>
+</tr>
+</tbody>
+</table>
+<p>在操作选择时, 将 <code>QItemSelectionModel</code> 视为一个记录了项模型中所有项选择状态的记录通常是有帮助的. 一旦设置了选择模型, 可以选择、取消选择集合中的项, 或者切换它们的选择状态, 而无需知道哪些项已经被选择. 可以随时检索所有已选项的索引, 并通过信号和槽机制通知其他组件选择模型的变化.</p>
+<p>标准视图类提供了在大多数应用中可用的默认选择模型. 通过使用视图的 <code>selectionModel()</code> 函数可以获取属于该视图的选择模型, 并可以使用 <code>setSelectionModel()</code> 在多个视图之间共享选择模型, 因此通常不需要构造新的选择模型.</p>
+<p>如果需要创建一个选区, 我们需要指定一个模型以及一对索引, 使用这些数据创建一个 <code>QItemSelection</code> 对象. 这两个索引应该指向给定模型中的数据, 并且作为一个块状选区的左上角和右下角的索引. 为了将选区应用到模型上, 需要将选区提交到选择模型中. 这种操作有多种实现, 对于现有选择模型有着不同的影响.</p>
+<p>例如, 构建一个有 32 个数据项的表格模型,  并在其数据上打开一个表视图:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QStandardItemModel *model = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QStandardItemModel</span>(<span class="hljs-number">8</span>, <span class="hljs-number">4</span>);<br><br>QTableView *table = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableView</span>(<span class="hljs-keyword">this</span>);<br>table-&gt;<span class="hljs-built_in">setModel</span>(model);<br><br>QItemSelectionModel *selectionModel = table-&gt;<span class="hljs-built_in">selectionModel</span>();<br></code></pre></td></tr></table></figure>
+<p>然后, 我们选择表格左上角的一些单元格:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QModelIndex topLeft = table-&gt;<span class="hljs-built_in">model</span>()-&gt;<span class="hljs-built_in">index</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-built_in">QModelIndex</span>());<br>QModelIndex bottomRight = table-&gt;<span class="hljs-built_in">model</span>()-&gt;<span class="hljs-built_in">index</span>(<span class="hljs-number">5</span>, <span class="hljs-number">2</span>, <span class="hljs-built_in">QModelIndex</span>());<br></code></pre></td></tr></table></figure>
+<p>接下来, 我们将获得的两个索引定义为选区:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QItemSelection <span class="hljs-title">selection</span><span class="hljs-params">(topLeft, bottomRight)</span></span>;<br>selectionModel-&gt;<span class="hljs-built_in">select</span>(selection, QItemSelectionModel::Select);<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在该代码中, 我们利用左上角和右下角的坐标构建一个 <code>QItemSelection</code> 对象, 然后将这个对象设置为选择模型的选择区. <code>select()</code> 函数的第一个参数就是需要选择的选区, 第二个参数是选区的标志位, 其中常见的标志位如下:
+<ul>
+<li><code>QItemSelectionModel::Select</code>: 将所有指定的选区都选择上.</li>
+<li><code>QItemSelectionModel::Toggle</code>: 一种取反的操作, 如果指定的部分原来已经被选择, 则取消选择, 否则则选择上.</li>
+<li><code>QItemSelectionModel::Deselect</code>: 取消指定的已选择的部分.</li>
+<li><code>QItemSelectionModel::Current</code>: 将当前选区替换为新的选区.</li>
+<li><code>QItemSelectionModel::Clear</code>: 将原来已有的选区全部取消.</li>
+<li><code>QItemSelectionModel::Rows</code> 或 <code>QItemSelectionModel::Columns</code>: 选择整行或整列.</li>
+</ul>
+</li>
+</ul>
+<p>此时的运行结果如下:<br>
+<img src="/img/Pictures/20240126212313.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>如果要获取选区, 需要使用 <code>selectedIndexes()</code> 函数. 该函数返回一个无序列表. 我们可以通过遍历这个列表获得已被选择的项:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QModelIndexList indexes = selectionModel-&gt;<span class="hljs-built_in">selectedIndexes</span>();<br>QModelIndex index;<br><br>foreach(index, indexes) &#123;<br>	QString text = <span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;(%1,%2)&quot;</span>).<span class="hljs-built_in">arg</span>(index.<span class="hljs-built_in">row</span>()).<span class="hljs-built_in">arg</span>(index.<span class="hljs-built_in">column</span>());<br>	model-&gt;<span class="hljs-built_in">setData</span>(index, text);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在选择发生更改时, 选择模型会发出信号. 我们可以连接 <code>selectionChanged()</code> 信号, 在选区改变时检查哪些项发生了变化. 这个信号有两个参数: 第一个是新选择的项, 第二个是刚刚被取消选择的项. 在下面的示例中, 我们通过 <code>selectionChanged()</code> 信号, 给所有新选择的项填充内容, 清空所有被取消选择的项的内容:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::updateSelection</span><span class="hljs-params">(<span class="hljs-type">const</span> QItemSelection &amp;selected,</span></span><br><span class="hljs-params"><span class="hljs-function">                                 <span class="hljs-type">const</span> QItemSelection &amp;deselected)</span></span><br><span class="hljs-function"></span>&#123;<br>    QModelIndex index;<br>    QModelIndexList items = selected.<span class="hljs-built_in">indexes</span>();<br>    <br>    foreach (index, items) &#123;<br>        QString text = <span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;(%1,%2)&quot;</span>).<span class="hljs-built_in">arg</span>(index.<span class="hljs-built_in">row</span>()).<span class="hljs-built_in">arg</span>(index.<span class="hljs-built_in">column</span>());<br>        model-&gt;<span class="hljs-built_in">setData</span>(index, text);<br>    &#125;<br>    <br>    items = deselected.<span class="hljs-built_in">indexes</span>();<br>    <br>    foreach (index, items) &#123;<br>        model-&gt;<span class="hljs-built_in">setData</span>(index, <span class="hljs-string">&quot;&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>通过 <code>currentChanged()</code>, 我们可以追踪当前有焦点的项. 同 <code>selectionChanged()</code> 信号类似, 这个信号也有两个参数: 第一个是新的当前项, 第二个是上一个当前项. 该信号的使用示例如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::changeCurrent</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;current,</span></span><br><span class="hljs-params"><span class="hljs-function">                               <span class="hljs-type">const</span> QModelIndex &amp;previous)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">statusBar</span>()-&gt;<span class="hljs-built_in">showMessage</span>(<br>        <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Moved from (%1,%2) to (%3,%4)&quot;</span>)<br>            .<span class="hljs-built_in">arg</span>(previous.<span class="hljs-built_in">row</span>()).<span class="hljs-built_in">arg</span>(previous.<span class="hljs-built_in">column</span>())<br>            .<span class="hljs-built_in">arg</span>(current.<span class="hljs-built_in">row</span>()).<span class="hljs-built_in">arg</span>(current.<span class="hljs-built_in">column</span>()));<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>此时的执行结果如下:<br>
+<img src="/img/Pictures/20240127144452.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="自定义模型">自定义模型</h2>
+<h3 id="QSortFilterProxyModel">QSortFilterProxyModel</h3>
+<p>在介绍自定义模型之前, 先了解一下 <code>QSortFilterProxyModel</code>, 因为在一定程序上, 我们可以使用 <code>QSortFilterProxyModel</code> 获得一些自定义才能达到的效果.</p>
+<p><code>QSortFilterProxyModel</code> 并不能单独使用, 它是一个委托, 因此它的数据还需要由一个模型来提供. 它的作用是对数据进行排序和过滤 (基于正则表达式).</p>
+<p><code>QSortFilterProxyModel</code> 的使用示例如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">SortView</span> : <span class="hljs-keyword">public</span> QWidget<br>&#123;<br>    Q_OBJECT<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">SortView</span>();<br>    <br><span class="hljs-keyword">private</span>:<br>    QListView *view;<br>    QStringListModel *model;<br>    QSortFilterProxyModel *modelProxy;<br>    QComboBox *syntaxBox;<br>    <br><span class="hljs-keyword">private</span> slots:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">filterChanged</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;text)</span></span>;<br>&#125;;<br><br>SortView::<span class="hljs-built_in">SortView</span>()<br>&#123;<br>    model = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QStringListModel</span>(QColor::<span class="hljs-built_in">colorNames</span>(), <span class="hljs-keyword">this</span>);<br>    <br>    modelProxy = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QSortFilterProxyModel</span>(<span class="hljs-keyword">this</span>);<br>    modelProxy-&gt;<span class="hljs-built_in">setSourceModel</span>(model);<br>    modelProxy-&gt;<span class="hljs-built_in">setFilterKeyColumn</span>(<span class="hljs-number">0</span>);<br>    <br>    view = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QListView</span>(<span class="hljs-keyword">this</span>);<br>    view-&gt;<span class="hljs-built_in">setModel</span>(modelProxy);<br>    <br>    QLineEdit *filterInput = <span class="hljs-keyword">new</span> QLineEdit;<br>    QLabel *filterLabel = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QLabel</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Filter&quot;</span>));<br>    QHBoxLayout *filterLayout = <span class="hljs-keyword">new</span> QHBoxLayout;<br>    filterLayout-&gt;<span class="hljs-built_in">addWidget</span>(filterLabel);<br>    filterLayout-&gt;<span class="hljs-built_in">addWidget</span>(filterInput);<br>    <br>    syntaxBox = <span class="hljs-keyword">new</span> QComboBox;<br>    syntaxBox-&gt;<span class="hljs-built_in">setSizePolicy</span>(QSizePolicy::Expanding, QSizePolicy::Preferred);<br>    syntaxBox-&gt;<span class="hljs-built_in">addItem</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Regular expression&quot;</span>), QRegExp::RegExp);<br>    syntaxBox-&gt;<span class="hljs-built_in">addItem</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Wildcard&quot;</span>), QRegExp::Wildcard);<br>    syntaxBox-&gt;<span class="hljs-built_in">addItem</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Fixed string&quot;</span>), QRegExp::FixedString);<br>    QLabel *syntaxLabel = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QLabel</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Syntax&quot;</span>));<br>    QHBoxLayout *syntaxLayout = <span class="hljs-keyword">new</span> QHBoxLayout;<br>    syntaxLayout-&gt;<span class="hljs-built_in">addWidget</span>(syntaxLabel);<br>    syntaxLayout-&gt;<span class="hljs-built_in">addWidget</span>(syntaxBox);<br>    <br>    QVBoxLayout *layout = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QVBoxLayout</span>(<span class="hljs-keyword">this</span>);<br>    layout-&gt;<span class="hljs-built_in">addWidget</span>(view);<br>    layout-&gt;<span class="hljs-built_in">addLayout</span>(filterLayout);<br>    layout-&gt;<span class="hljs-built_in">addLayout</span>(syntaxLayout);<br>    <br>    <span class="hljs-built_in">connect</span>(filterInput, <span class="hljs-built_in">SIGNAL</span>(<span class="hljs-built_in">textChanged</span>(QString)),<br>            <span class="hljs-keyword">this</span>, <span class="hljs-built_in">SLOT</span>(<span class="hljs-built_in">filterChanged</span>(QString)));<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在该代码中, 我们首先创建一个 <code>QStringListModel</code> 对象 model, 其内容是 Qt 预定义的所有颜色的名字, 然后创建一个 <code>QSortFilterProxyModel</code> 对象, 将其原模型设置为刚刚创建的 model, 也就是要为这个 model 进行委托, 这里将 <code>FilterKeyColumn</code> 设置为 0 表示只对第一列进行过滤, 最后创建了一个 <code>QListView</code> 对象, 并将其数据源设置为 <code>QSortFilterProxyModel</code> 对象.  作为过滤选项, syntaxBox 添加了三个数据项:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp">syntaxBox-&gt;<span class="hljs-built_in">addItem</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Regular expression&quot;</span>), QRegExp::RegExp);<br>   syntaxBox-&gt;<span class="hljs-built_in">addItem</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Wildcard&quot;</span>), QRegExp::Wildcard);<br>   syntaxBox-&gt;<span class="hljs-built_in">addItem</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Fixed string&quot;</span>), QRegExp::FixedString);<br></code></pre></td></tr></table></figure>
+这正是正则表达式的几种类型. 正则表达式自己有一套相对通用的语法, 但是对于不同的语言环境, 其具体定义可能会略有差别. 这里我们使用的是 Qt 自己的正则表达式处理工具. 第一个 <code>QregExp::RegExp</code> 提供了最一般的正则表达式语法, 但这个语法不支持贪婪限定符 (如 <code>*</code>, 匹配前面的元素零次或多次, 它会尽可能多地匹配; <code>+</code>, 匹配前面的元素一次或多次, 它也会尽可能多地匹配), 这是 Qt 默认的规则; 如果需要使用贪婪限定符, 则需要使用 <code>QRegExp::RegExp2</code>. 第二个 <code>QRegExp::Wildcard</code> 提供的是 Unix shell 常见的一种规则, 使用通配符处理. 第三个 <code>QRegExp::FixedString</code> 表示固定表达式, 也就是说不使用正则表达式.</li>
+</ul>
+<p>下面是 <code>filterChanged</code> 函数的实现:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SortView::filterChanged</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;text)</span></span><br><span class="hljs-function"></span>&#123;<br>    QRegExp::PatternSyntax syntax = QRegExp::<span class="hljs-built_in">PatternSyntax</span>(<br>        syntaxBox-&gt;<span class="hljs-built_in">itemData</span>(syntaxBox-&gt;<span class="hljs-built_in">currentIndex</span>()).<span class="hljs-built_in">toInt</span>());<br>    <span class="hljs-function">QRegExp <span class="hljs-title">regExp</span><span class="hljs-params">(text, Qt::CaseInsensitive, syntax)</span></span>;<br>    modelProxy-&gt;<span class="hljs-built_in">setFilterRegExp</span>(regExp);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>第一行代码通过访问 <code>syntaxBox</code> 的当前选中项来获取用户选择的过滤语法类型.</li>
+<li>第二行代码通过构造函数创建了一个 <code>QRegExp</code> 对象. 它接受三个参数:
+<ul>
+<li><code>text</code>: 用户输入的过滤条件.</li>
+<li><code>Qt::CaseInsensitive</code>: 表示匹配时不区分大小写.</li>
+<li><code>syntax</code>: 前面获取的过滤语法类型.</li>
+</ul>
+</li>
+<li>第三行代码通过调用 <code>setFilterRegExp</code> 方法, 将创建好的 <code>QRegExp</code> 对象应用到 <code>QSortFilterProxyModel</code> 中, 以实现数据的过滤.</li>
+</ul>
+<p>上述程序的执行结果如下:<br>
+<img src="/img/Pictures/20240129120651.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="自定义只读模型">自定义只读模型</h3>
+<p><code>QAbstractItemModel</code> 为自定义模型提供了一个足够灵活的接口. 它能够支持数据源的层次结构, 能够对数据进行增删改操作, 还支持拖放. 不过, 有时候一个灵活的类往往显得过于复杂, 所以, Qt 又提供了 <code>QAbstarctListModel</code> 和 <code>QAbstractTableModel</code> 两个类来简化非层次数据模型的开发.</p>
+<p>下面是一个示例: 假设我们想要实现一个货币汇率表, 由于这是一个二维表, 显然可以直接使用 <code>QTableWidget</code>. 因为对于某一种货币, 都需要给出其相对于其他货币的汇率 (包括自己), 因此这个表需要有 100 × 100 = 10000 个数据项, 为了减少数据的存储空间, 我们只存储每种货币相对于美元的汇率, 而相对于其他货币的汇率则通过计算得到 (不考虑性能和精度问题). 为此我们设计了 <code>CurrencyModel</code> 类, 它底层使用 <code>QMap&lt;QString, double&gt;</code> 数据结构进行存储, <code>QString</code> 类型的键是货币名字, <code>double</code> 类型的值是这种货币相对美元的汇率:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// currencymodel.h</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">CurrencyModel</span> : <span class="hljs-keyword">public</span> QAbstractTableModel<br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">CurrencyModel</span>(QObject *parent = <span class="hljs-number">0</span>);<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setCurrencyMap</span><span class="hljs-params">(<span class="hljs-type">const</span> QMap&lt;QString, <span class="hljs-type">double</span>&gt; &amp;map)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">rowCount</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;parent)</span> <span class="hljs-type">const</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">columnCount</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;parent)</span> <span class="hljs-type">const</span></span>;<br>    <span class="hljs-function">QVariant <span class="hljs-title">data</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;index, <span class="hljs-type">int</span> role)</span> <span class="hljs-type">const</span></span>;<br>    <span class="hljs-function">QVariant <span class="hljs-title">headerData</span><span class="hljs-params">(<span class="hljs-type">int</span> section, Qt::Orientation orientation, <span class="hljs-type">int</span> role)</span> <span class="hljs-type">const</span></span>;<br>    <br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-function">QString <span class="hljs-title">currencyAt</span><span class="hljs-params">(<span class="hljs-type">int</span> offset)</span> <span class="hljs-type">const</span></span>;<br>    QMap&lt;QString, <span class="hljs-type">double</span>&gt; currencyMap;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// currencymodel.cpp</span><br>CurrencyModel::<span class="hljs-built_in">CurrencyModel</span>(QObject *parent)<br>    : <span class="hljs-built_in">QAbstractTableModel</span>(parent)<br>&#123;&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">CurrencyModel::rowCount</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp; parent)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> currencyMap.<span class="hljs-built_in">count</span>();<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">CurrencyModel::columnCount</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp; parent)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> currencyMap.<span class="hljs-built_in">count</span>();<br>&#125;<br><br><span class="hljs-comment">// 定义表头 (水平表头和垂直表头)</span><br><span class="hljs-function">QVariant <span class="hljs-title">CurrencyModel::headerData</span><span class="hljs-params">(<span class="hljs-type">int</span> section, Qt::Orientation, <span class="hljs-type">int</span> role)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// 判断这个角色是不是用于显示的</span><br>    <span class="hljs-keyword">if</span> (role != Qt::DisplayRole) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">QVariant</span>();<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">currencyAt</span>(section);<br>&#125;<br><br><span class="hljs-function">QString <span class="hljs-title">CurrencyModel::currencyAt</span><span class="hljs-params">(<span class="hljs-type">int</span> offset)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> (currencyMap.<span class="hljs-built_in">begin</span>() + offset).<span class="hljs-built_in">key</span>();<br>&#125;<br><br><span class="hljs-comment">// 设置底层的实际数据</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">CurrencyModel::setCurrencyMap</span><span class="hljs-params">(<span class="hljs-type">const</span> QMap&lt;QString, <span class="hljs-type">double</span>&gt; &amp;map)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">     * `beginResetModel()` 和 `endResetModel()` 两个函数用来</span><br><span class="hljs-comment">     * 告诉关心这个模型的其它类, 现在要重置内部数据</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-built_in">beginResetModel</span>();<br>    currencyMap = map;<br>    <span class="hljs-built_in">endResetModel</span>();<br>&#125;<br><br><span class="hljs-comment">// 返回一个单元格的数据</span><br><span class="hljs-function">QVariant <span class="hljs-title">CurrencyModel::data</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;index, <span class="hljs-type">int</span> role)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!index.<span class="hljs-built_in">isValid</span>()) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">QVariant</span>();<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (role == Qt::TextAlignmentRole) &#123;<br>        <span class="hljs-comment">// 模型提供给视图自己希望的文本的对齐方式</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">int</span>(Qt::AlignRight | Qt::AlignVCenter);<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (role == Qt::DisplayRole) &#123;<br>        QString rowCurrency = <span class="hljs-built_in">currencyAt</span>(index.<span class="hljs-built_in">row</span>());<br>        QString columnCurrency = <span class="hljs-built_in">currencyAt</span>(index.<span class="hljs-built_in">column</span>());<br>        <span class="hljs-keyword">if</span> (currencyMap.<span class="hljs-built_in">value</span>(rowCurrency) == <span class="hljs-number">0.0</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;####&quot;</span>;<br>        &#125;<br>        <span class="hljs-type">double</span> amount = currencyMap.<span class="hljs-built_in">value</span>(columnCurrency)<br>                        / currencyMap.<span class="hljs-built_in">value</span>(rowCurrency);<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;%1&quot;</span>).<span class="hljs-built_in">arg</span>(amount, <span class="hljs-number">0</span>, <span class="hljs-string">&#x27;f&#x27;</span>, <span class="hljs-number">4</span>);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">QVariant</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>此时的运行结果如下:<br>
+<img src="/img/Pictures/20240131140412.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="自定义可编辑模型">自定义可编辑模型</h3>
+<p>可编辑模型与只读模型非常相似, 至少在展示数据方面几乎是完全一样的, 只不过可编辑模型在用户编辑数据后, 需要将数据存储回模型中.</p>
+<p>还是以自定义只读模型的示例中的 <code>CurrencyModel</code> 为例. 相比只读模型, 可编辑模型需要增加以下两个函数的实现:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">Qt::ItemFlags <span class="hljs-title">flags</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;index)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">setData</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;index, <span class="hljs-type">const</span> QVariant &amp;value,</span></span><br><span class="hljs-params"><span class="hljs-function">	            <span class="hljs-type">int</span> role = Qt::EditRole)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>在 Qt 的 Model/View 模型中, 我们使用委托来实现数据的编辑. 在实际创建编辑器之前, 委托需要检测这个数据项是否允许编辑. 模型必须让委托知道这一点, 这是通过返回模型中每个数据项的标记 flag 来实现的, 也就是这个 <code>flags()</code> 函数. 在本例中, 只有行和列的索引不一致的时候, 我们才允许修改:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">Qt::ItemFlags <span class="hljs-title">CurrencyModel::flags</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;index)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    Qt::ItemFlags flags = QAbstractItemModel::<span class="hljs-built_in">flags</span>(index);<br>    <span class="hljs-keyword">if</span> (index.<span class="hljs-built_in">row</span>() != index.<span class="hljs-built_in">column</span>()) &#123;<br>        flags |= Qt::ItemIsEditable;<br>    &#125;<br>    <span class="hljs-keyword">return</span> flags;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>我们不需要知道在实际编辑的过程中, 委托究竟做了什么, 只需要提供一种方式, 告诉 Qt 如何将委托获得的用户输入的新数据保存到模型中. 这一步骤是通过 <code>setData()</code> 函数实现的:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">CurrencyModel::setData</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;index,</span></span><br><span class="hljs-params"><span class="hljs-function">                            <span class="hljs-type">const</span> QVariant &amp;value, <span class="hljs-type">int</span> role)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (index.<span class="hljs-built_in">isValid</span>()<br>        &amp;&amp; index.<span class="hljs-built_in">row</span>() != index.<span class="hljs-built_in">column</span>()<br>        &amp;&amp; role == Qt::EditRole) &#123;<br>        QString columnCurrency = <span class="hljs-built_in">headerData</span>(index.<span class="hljs-built_in">column</span>(),<br>                                            Qt::Horizontal, Qt::DisplayRole)<br>                                     .<span class="hljs-built_in">toString</span>();<br>        QString rowCurrency = <span class="hljs-built_in">headerData</span>(index.<span class="hljs-built_in">row</span>(),<br>                                         Qt::Vertical, Qt::DisplayRole)<br>                                  .<span class="hljs-built_in">toString</span>();<br>        currencyMap.<span class="hljs-built_in">insert</span>(columnCurrency,<br>                           value.<span class="hljs-built_in">toDouble</span>() * currencyMap.<span class="hljs-built_in">value</span>(rowCurrency));<br>        <span class="hljs-function">emit <span class="hljs-title">dataChanged</span><span class="hljs-params">(index, index)</span></span>;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>由于我们的底层数据结构中保存的是各个币种相对美元的汇率, 显示的时候, 我们使用列与行的比值获取两两之间的汇率. 例如, 当我们修改 <code>currencyMap[&quot;CNY&quot;] / currencyMap[&quot;HKD&quot;]</code> 的值时, 我们认为人民币相对美元的汇率发生了变化, 而港币相对美元的汇率保持不变, 因此新的数值应当是用户新输入的值与原来 <code>currencyMap[&quot;HKD&quot;]</code> 的乘积.</li>
+<li>另外注意, 在实际修改之前, 我们需要检查 index 是否有效, 以及从业务来说, 行列是否不等, 最后还要检查角色是不是 <code>Qt::EditRole</code>. 这里为方便起见, 我们使用了 <code>Qt::EditRole</code>. 对于布尔类型, 我们也可以选择使用 <code>Qt::ItemIsUserCheckable</code> 标记的 <code>Qt::CheckStateRole</code>, 此时, Qt 会显示一个选择框而不是输入框.</li>
+<li>当数据重新设置后, 模型必须通知视图, 数据发生了变化. 这要求我们必须发出 <code>dataChanged()</code> 信号. 由于我们只有一个数据发生了改变, 因此这个信号的两个参数是一致的 (<code>dataChanged()</code> 的两个参数是发生改变的数据区域的左上角和右下角的索引值, 由于我们只改变了一个单元格, 所以二者是相同的). 最后, 如果数据修改成功就返回 true, 否则返回 false.</li>
+</ul>
+<p>另外, 还需要修改 <code>data()</code> 函数:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QVariant <span class="hljs-title">CurrencyModel::data</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;index, <span class="hljs-type">int</span> role)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!index.<span class="hljs-built_in">isValid</span>()) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">QVariant</span>();<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (role == Qt::TextAlignmentRole) &#123;<br>        <span class="hljs-comment">// 模型提供给视图自己希望的文本的对齐方式</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">int</span>(Qt::AlignRight | Qt::AlignVCenter);<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (role == Qt::DisplayRole || role == Qt::EditRole) &#123;<br>        QString rowCurrency = <span class="hljs-built_in">currencyAt</span>(index.<span class="hljs-built_in">row</span>());<br>        QString columnCurrency = <span class="hljs-built_in">currencyAt</span>(index.<span class="hljs-built_in">column</span>());<br>        <span class="hljs-keyword">if</span> (currencyMap.<span class="hljs-built_in">value</span>(rowCurrency) == <span class="hljs-number">0.0</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;####&quot;</span>;<br>        &#125;<br>        <span class="hljs-type">double</span> amount = currencyMap.<span class="hljs-built_in">value</span>(columnCurrency)<br>                        / currencyMap.<span class="hljs-built_in">value</span>(rowCurrency);<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;%1&quot;</span>).<span class="hljs-built_in">arg</span>(amount, <span class="hljs-number">0</span>, <span class="hljs-string">&#x27;f&#x27;</span>, <span class="hljs-number">4</span>);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">QVariant</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这样修改后, 在用户编辑单元格的时候, Qt 会提供一个默认值. 因为 <code>data()</code> 函数在以下情况会被调用:</p>
+<ul>
+<li>初始化视图: 当你设置一个模型为视图的数据源时, 视图需要显示初始的数据. 在这个阶段, <code>data</code> 函数会被调用, 以获取每个单元格的初始数据.</li>
+<li>滚动和调整大小: 当用户滚动视图或调整视图的大小时, 可能会导致新的单元格进入视图的可见区域. 这时, <code>data</code> 函数会被调用, 以获取新可见单元格的数据.</li>
+<li>排序和过滤: 当对视图中的数据进行排序或过滤时, <code>data</code> 函数会被调用, 以获取重新排序或过滤后的数据.</li>
+<li>编辑单元格: 当用户在视图中编辑一个单元格时, <code>data</code> 函数会被调用, 以获取用于编辑的数据. 这时, 通常会检查 <code>role</code> 参数, 如果是 <code>Qt::EditRole</code>, 则提供编辑模式下的数据.</li>
+<li>其他需要刷新数据的情况: 在其他需要刷新显示数据的情况下, 比如发出了 <code>QAbstractItemModel</code> 的 <code>dataChanged</code> 信号时, <code>data</code> 函数也会被调用.</li>
+</ul>
+<p>此时的运行结果如下:<br>
+<img src="/img/Pictures/20240131151559.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="示例-布尔表达式树模型">示例: 布尔表达式树模型</h3>
+<p>这个示例能将布尔表达式呈现为一棵树. 这个示例一共包含 4 个类:</p>
+<ul>
+<li><code>Node</code>: 组成树的节点.</li>
+<li><code>BooleanModel</code>: 布尔表达式的模型, 实际上这是一个树状模型, 用于将布尔表达式形象地呈现为一棵树.</li>
+<li><code>BooleanParser</code>: 分析布尔表达式的分析器.</li>
+<li><code>BooleanWindow</code>: 图形用户界面, 用户在此输入布尔表达式并进行分析, 最后将结果展现为一棵树.</li>
+</ul>
+<p>其中 <code>Node</code> 类的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// node.h</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Node</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-keyword">enum</span> <span class="hljs-title class_">Type</span> &#123; Root, OrExpression, AndExpression, NotExpression, Atom,<br>                Identifier, Operator, Punctuator &#125;;<br><br>    <span class="hljs-built_in">Node</span>(Type type, <span class="hljs-type">const</span> QString &amp;str = <span class="hljs-string">&quot;&quot;</span>);<br>    ~<span class="hljs-built_in">Node</span>();<br><br>    Type type;<br>    QString str;<br>    Node *parent;<br>    QList&lt;Node *&gt; children;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// node.cpp</span><br>Node::<span class="hljs-built_in">Node</span>(Type type, <span class="hljs-type">const</span> QString &amp;str)<br>&#123;<br>    <span class="hljs-keyword">this</span>-&gt;type = type;<br>    <span class="hljs-keyword">this</span>-&gt;str = str;<br>    parent = <span class="hljs-number">0</span>;<br>&#125;<br><br>Node::~<span class="hljs-built_in">Node</span>()<br>&#123;<br>    <span class="hljs-built_in">qDeleteAll</span>(children);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>其中 parent 存储父节点, str 存储数据, type 指明节点的类型, child 保存该节点的所有子节点.</li>
+</ul>
+<p><code>BooleanParser</code> 的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// booleanparser.h</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BooleanParser</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">Node *<span class="hljs-title">parse</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;expr)</span></span>;<br>    <br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-function">Node *<span class="hljs-title">parseOrExpression</span><span class="hljs-params">()</span></span>;<br>    <span class="hljs-function">Node *<span class="hljs-title">parseAndExpression</span><span class="hljs-params">()</span></span>;<br>    <span class="hljs-function">Node *<span class="hljs-title">parseNotExpression</span><span class="hljs-params">()</span></span>;<br>    <span class="hljs-function">Node *<span class="hljs-title">parseAtom</span><span class="hljs-params">()</span></span>;<br>    <span class="hljs-function">Node *<span class="hljs-title">parseIdentifier</span><span class="hljs-params">()</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">addChild</span><span class="hljs-params">(Node *parent, Node *child)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">addToken</span><span class="hljs-params">(Node *parent, <span class="hljs-type">const</span> QString &amp;str, Node::Type type)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">matchToken</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;str)</span> <span class="hljs-type">const</span></span>;<br>    <br>    QString in;<br>    <span class="hljs-type">int</span> pos;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// booleanparser.cpp</span><br><span class="hljs-function">Node *<span class="hljs-title">BooleanParser::parse</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;expr)</span></span><br><span class="hljs-function"></span>&#123;<br>    in = expr;<br>    in.<span class="hljs-built_in">replace</span>(<span class="hljs-string">&quot; &quot;</span>, <span class="hljs-string">&quot;&quot;</span>);<br>    pos = <span class="hljs-number">0</span>;<br><br>    Node *node = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Node</span>(Node::Root);<br>    <span class="hljs-built_in">addChild</span>(node, <span class="hljs-built_in">parseOrExpression</span>());<br>    <span class="hljs-keyword">return</span> node;<br>&#125;<br><br><span class="hljs-function">Node *<span class="hljs-title">BooleanParser::parseOrExpression</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    Node *childNode = <span class="hljs-built_in">parseAndExpression</span>();<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">matchToken</span>(<span class="hljs-string">&quot;||&quot;</span>)) &#123;<br>        Node *node = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Node</span>(Node::OrExpression);<br>        <span class="hljs-built_in">addChild</span>(node, childNode);<br>        <span class="hljs-keyword">while</span> (<span class="hljs-built_in">matchToken</span>(<span class="hljs-string">&quot;||&quot;</span>)) &#123;<br>            <span class="hljs-built_in">addToken</span>(node, <span class="hljs-string">&quot;||&quot;</span>, Node::Operator);<br>            <span class="hljs-built_in">addChild</span>(node, <span class="hljs-built_in">parseAndExpression</span>());<br>        &#125;<br>        <span class="hljs-keyword">return</span> node;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> childNode;<br>    &#125;<br>&#125;<br><br><span class="hljs-function">Node *<span class="hljs-title">BooleanParser::parseAndExpression</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    Node *childNode = <span class="hljs-built_in">parseNotExpression</span>();<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">matchToken</span>(<span class="hljs-string">&quot;&amp;&amp;&quot;</span>)) &#123;<br>        Node *node = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Node</span>(Node::AndExpression);<br>        <span class="hljs-built_in">addChild</span>(node, childNode);<br>        <span class="hljs-keyword">while</span> (<span class="hljs-built_in">matchToken</span>(<span class="hljs-string">&quot;&amp;&amp;&quot;</span>)) &#123;<br>            <span class="hljs-built_in">addToken</span>(node, <span class="hljs-string">&quot;&amp;&amp;&quot;</span>, Node::Operator);<br>            <span class="hljs-built_in">addChild</span>(node, <span class="hljs-built_in">parseNotExpression</span>());<br>        &#125;<br>        <span class="hljs-keyword">return</span> node;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> childNode;<br>    &#125;<br>&#125;<br><br><span class="hljs-function">Node *<span class="hljs-title">BooleanParser::parseNotExpression</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">matchToken</span>(<span class="hljs-string">&quot;!&quot;</span>)) &#123;<br>        Node *node = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Node</span>(Node::NotExpression);<br>        <span class="hljs-keyword">while</span> (<span class="hljs-built_in">matchToken</span>(<span class="hljs-string">&quot;!&quot;</span>))<br>            <span class="hljs-built_in">addToken</span>(node, <span class="hljs-string">&quot;!&quot;</span>, Node::Operator);<br>        <span class="hljs-built_in">addChild</span>(node, <span class="hljs-built_in">parseAtom</span>());<br>        <span class="hljs-keyword">return</span> node;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">parseAtom</span>();<br>    &#125;<br>&#125;<br><br><span class="hljs-function">Node *<span class="hljs-title">BooleanParser::parseAtom</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">matchToken</span>(<span class="hljs-string">&quot;(&quot;</span>)) &#123;<br>        Node *node = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Node</span>(Node::Atom);<br>        <span class="hljs-built_in">addToken</span>(node, <span class="hljs-string">&quot;(&quot;</span>, Node::Punctuator);<br>        <span class="hljs-built_in">addChild</span>(node, <span class="hljs-built_in">parseOrExpression</span>());<br>        <span class="hljs-built_in">addToken</span>(node, <span class="hljs-string">&quot;)&quot;</span>, Node::Punctuator);<br>        <span class="hljs-keyword">return</span> node;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">parseIdentifier</span>();<br>    &#125;<br>&#125;<br><br><span class="hljs-function">Node *<span class="hljs-title">BooleanParser::parseIdentifier</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> startPos = pos;<br>    <span class="hljs-keyword">while</span> (pos &lt; in.<span class="hljs-built_in">length</span>() &amp;&amp; in[pos].<span class="hljs-built_in">isLetterOrNumber</span>())<br>        ++pos;<br>    <span class="hljs-keyword">if</span> (pos &gt; startPos) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Node</span>(Node::Identifier,<br>                        in.<span class="hljs-built_in">mid</span>(startPos, pos - startPos));<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BooleanParser::addChild</span><span class="hljs-params">(Node *parent, Node *child)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (child) &#123;<br>        parent-&gt;children += child;<br>        parent-&gt;str += child-&gt;str;<br>        child-&gt;parent = parent;<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BooleanParser::addToken</span><span class="hljs-params">(Node *parent, <span class="hljs-type">const</span> QString &amp;str,</span></span><br><span class="hljs-params"><span class="hljs-function">                             Node::Type type)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (in.<span class="hljs-built_in">mid</span>(pos, str.<span class="hljs-built_in">length</span>()) == str) &#123;<br>        <span class="hljs-built_in">addChild</span>(parent, <span class="hljs-keyword">new</span> <span class="hljs-built_in">Node</span>(type, str));<br>        pos += str.<span class="hljs-built_in">length</span>();<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">BooleanParser::matchToken</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;str)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> in.<span class="hljs-built_in">mid</span>(pos, str.<span class="hljs-built_in">length</span>()) == str;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>上述代码实际上是一个用来分析布尔表达式的算法, 该算法的核心思想是: 要处理一个布尔表达式, 或运算的优先级是最低, 应该最后被处理, 所以我们在调用了 <code>addChild(node, parseOrExpression())</code> 之后, 返回整个 node. 在 <code>parseOrExpression()</code> 函数中, 要想处理 OR 运算, 首先要处理 AND 运算, 于是 <code>parseOrExpression()</code> 函数的第一行中我们调用了 <code>parseAndExpression()</code> 函数. 而要想处理 AND 运算, 首先要处理 NOT 运算, 于是在 <code>parseAndExpression()</code> 的第一行中我们调用了 <code>parseNotExpression()</code> 函数, 可以通过画图模拟整个过程来辅助理解.</li>
+</ul>
+<p><code>BooleanModel</code> 类的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// booleanmodel.h</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BooleanModel</span> : <span class="hljs-keyword">public</span> QAbstractItemModel<br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">BooleanModel</span>(QObject *parent = <span class="hljs-number">0</span>);<br>    ~<span class="hljs-built_in">BooleanModel</span>();<br><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setRootNode</span><span class="hljs-params">(Node *node)</span></span>;<br><br>    <span class="hljs-function">QModelIndex <span class="hljs-title">index</span><span class="hljs-params">(<span class="hljs-type">int</span> row, <span class="hljs-type">int</span> column,</span></span><br><span class="hljs-params"><span class="hljs-function">                      <span class="hljs-type">const</span> QModelIndex &amp;parent)</span> <span class="hljs-type">const</span></span>;<br>    <span class="hljs-function">QModelIndex <span class="hljs-title">parent</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;child)</span> <span class="hljs-type">const</span></span>;<br><br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">rowCount</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;parent)</span> <span class="hljs-type">const</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">columnCount</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;parent)</span> <span class="hljs-type">const</span></span>;<br>    <span class="hljs-function">QVariant <span class="hljs-title">data</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;index, <span class="hljs-type">int</span> role)</span> <span class="hljs-type">const</span></span>;<br>    <span class="hljs-function">QVariant <span class="hljs-title">headerData</span><span class="hljs-params">(<span class="hljs-type">int</span> section, Qt::Orientation orientation,</span></span><br><span class="hljs-params"><span class="hljs-function">                        <span class="hljs-type">int</span> role)</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-function">Node *<span class="hljs-title">nodeFromIndex</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;index)</span> <span class="hljs-type">const</span></span>;<br><br>    Node *rootNode;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// booleanmodel.cpp</span><br>BooleanModel::<span class="hljs-built_in">BooleanModel</span>(QObject *parent)<br>    : <span class="hljs-built_in">QAbstractItemModel</span>(parent)<br>&#123;<br>    rootNode = <span class="hljs-number">0</span>;<br>&#125;<br><br>BooleanModel::~<span class="hljs-built_in">BooleanModel</span>()<br>&#123;<br>    <span class="hljs-keyword">delete</span> rootNode;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BooleanModel::setRootNode</span><span class="hljs-params">(Node *node)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">beginResetModel</span>();<br>    <span class="hljs-keyword">delete</span> rootNode;<br>    rootNode = node;<br>    <span class="hljs-built_in">endResetModel</span>();<br>&#125;<br><br><span class="hljs-function">QModelIndex <span class="hljs-title">BooleanModel::index</span><span class="hljs-params">(<span class="hljs-type">int</span> row, <span class="hljs-type">int</span> column,</span></span><br><span class="hljs-params"><span class="hljs-function">                                <span class="hljs-type">const</span> QModelIndex &amp;parent)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!rootNode || row &lt; <span class="hljs-number">0</span> || column &lt; <span class="hljs-number">0</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">QModelIndex</span>();<br>    Node *parentNode = <span class="hljs-built_in">nodeFromIndex</span>(parent);<br>    Node *childNode = parentNode-&gt;children.<span class="hljs-built_in">value</span>(row);<br>    <span class="hljs-keyword">if</span> (!childNode)<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">QModelIndex</span>();<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">createIndex</span>(row, column, childNode);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">BooleanModel::rowCount</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;parent)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (parent.<span class="hljs-built_in">column</span>() &gt; <span class="hljs-number">0</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    Node *parentNode = <span class="hljs-built_in">nodeFromIndex</span>(parent);<br>    <span class="hljs-keyword">if</span> (!parentNode)<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">return</span> parentNode-&gt;children.<span class="hljs-built_in">count</span>();<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">BooleanModel::columnCount</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp; <span class="hljs-comment">/* parent */</span>)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;<br>&#125;<br><br><span class="hljs-function">QModelIndex <span class="hljs-title">BooleanModel::parent</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;child)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    Node *node = <span class="hljs-built_in">nodeFromIndex</span>(child);<br>    <span class="hljs-keyword">if</span> (!node)<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">QModelIndex</span>();<br>    Node *parentNode = node-&gt;parent;<br>    <span class="hljs-keyword">if</span> (!parentNode)<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">QModelIndex</span>();<br>    Node *grandparentNode = parentNode-&gt;parent;<br>    <span class="hljs-keyword">if</span> (!grandparentNode)<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">QModelIndex</span>();<br><br>    <span class="hljs-type">int</span> row = grandparentNode-&gt;children.<span class="hljs-built_in">indexOf</span>(parentNode);<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">createIndex</span>(row, <span class="hljs-number">0</span>, parentNode);<br>&#125;<br><br><span class="hljs-function">QVariant <span class="hljs-title">BooleanModel::data</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;index, <span class="hljs-type">int</span> role)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (role != Qt::DisplayRole)<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">QVariant</span>();<br><br>    Node *node = <span class="hljs-built_in">nodeFromIndex</span>(index);<br>    <span class="hljs-keyword">if</span> (!node)<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">QVariant</span>();<br><br>    <span class="hljs-keyword">if</span> (index.<span class="hljs-built_in">column</span>() == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">switch</span> (node-&gt;type) &#123;<br>        <span class="hljs-keyword">case</span> Node::Root:<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Root&quot;</span>);<br>        <span class="hljs-keyword">case</span> Node::OrExpression:<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;OR Expression&quot;</span>);<br>        <span class="hljs-keyword">case</span> Node::AndExpression:<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;AND Expression&quot;</span>);<br>        <span class="hljs-keyword">case</span> Node::NotExpression:<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;NOT Expression&quot;</span>);<br>        <span class="hljs-keyword">case</span> Node::Atom:<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Atom&quot;</span>);<br>        <span class="hljs-keyword">case</span> Node::Identifier:<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Identifier&quot;</span>);<br>        <span class="hljs-keyword">case</span> Node::Operator:<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Operator&quot;</span>);<br>        <span class="hljs-keyword">case</span> Node::Punctuator:<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Punctuator&quot;</span>);<br>        <span class="hljs-keyword">default</span>:<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Unknown&quot;</span>);<br>        &#125;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index.<span class="hljs-built_in">column</span>() == <span class="hljs-number">1</span>) &#123;<br>        <span class="hljs-keyword">return</span> node-&gt;str;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">QVariant</span>();<br>&#125;<br><br><span class="hljs-function">QVariant <span class="hljs-title">BooleanModel::headerData</span><span class="hljs-params">(<span class="hljs-type">int</span> section,</span></span><br><span class="hljs-params"><span class="hljs-function">                                  Qt::Orientation orientation,</span></span><br><span class="hljs-params"><span class="hljs-function">                                  <span class="hljs-type">int</span> role)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (orientation == Qt::Horizontal &amp;&amp; role == Qt::DisplayRole) &#123;<br>        <span class="hljs-keyword">if</span> (section == <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Node&quot;</span>);<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (section == <span class="hljs-number">1</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Value&quot;</span>);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">QVariant</span>();<br>&#125;<br><br><span class="hljs-function">Node *<span class="hljs-title">BooleanModel::nodeFromIndex</span><span class="hljs-params">(<span class="hljs-type">const</span> QModelIndex &amp;index)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (index.<span class="hljs-built_in">isValid</span>()) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">static_cast</span>&lt;Node *&gt;(index.<span class="hljs-built_in">internalPointer</span>());<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> rootNode;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>BooleanWindow</code> 类的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs cpp">BooleanWindow::<span class="hljs-built_in">BooleanWindow</span>(QWidget *parent)<br>    : <span class="hljs-built_in">QMainWindow</span>(parent)<br>&#123;<br>    QLabel *label = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QLabel</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Boolean expression:&quot;</span>), <span class="hljs-keyword">this</span>);<br>    QLineEdit *lineEdit = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QLineEdit</span>(<span class="hljs-keyword">this</span>);<br><br>    booleanModel = <span class="hljs-keyword">new</span> <span class="hljs-built_in">BooleanModel</span>(<span class="hljs-keyword">this</span>);<br><br>    treeView = <span class="hljs-keyword">new</span> QTreeView;<br>    treeView-&gt;<span class="hljs-built_in">setModel</span>(booleanModel);<br><br>    <span class="hljs-built_in">connect</span>(lineEdit, &amp;QLineEdit::textChanged,<br>            <span class="hljs-keyword">this</span>, &amp;BooleanWindow::booleanExpressionChanged);<br><br>    QGridLayout *layout = <span class="hljs-keyword">new</span> QGridLayout;<br>    layout-&gt;<span class="hljs-built_in">addWidget</span>(label, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br>    layout-&gt;<span class="hljs-built_in">addWidget</span>(lineEdit, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>);<br>    layout-&gt;<span class="hljs-built_in">addWidget</span>(treeView, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>);<br><br>    QWidget *w = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QWidget</span>(<span class="hljs-keyword">this</span>);<br>    w-&gt;<span class="hljs-built_in">setLayout</span>(layout);<br><br>    <span class="hljs-built_in">setCentralWidget</span>(w);<br>    <span class="hljs-built_in">setWindowTitle</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Boolean Parser&quot;</span>));<br>    <span class="hljs-built_in">setFixedSize</span>(<span class="hljs-built_in">QSize</span>(<span class="hljs-number">800</span>, <span class="hljs-number">900</span>));<br>&#125;<br><br>BooleanWindow::~<span class="hljs-built_in">BooleanWindow</span>() &#123;&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BooleanWindow::booleanExpressionChanged</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;expr)</span></span><br><span class="hljs-function"></span>&#123;<br>    BooleanParser parser;<br>    Node *rootNode = parser.<span class="hljs-built_in">parse</span>(expr);<br>    booleanModel-&gt;<span class="hljs-built_in">setRootNode</span>(rootNode);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>上述程序的运行结果如下:<br>
+<img src="/img/Pictures/20240201142622.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Model/View Programming: <a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/model-view-programming.html">https://doc.qt.io/qt-6/model-view-programming.html</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>QT 学习之路 2（41）：MODEL/VIEW 架构: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/01/qt-study-road-2-model-view/">https://www.devbean.net/2013/01/qt-study-road-2-model-view/</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>QT 学习之路 2（42）：QListWidget、QTreeWidget 和 QTableWidget: <a target="_blank" rel="noopener" href="https://www.bookstack.cn/read/qt-study-road-2/7859289efd55f27d.md">https://www.bookstack.cn/read/qt-study-road-2/7859289efd55f27d.md</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>QT 学习之路 2（43）：QStringListModel: <a target="_blank" rel="noopener" href="https://www.bookstack.cn/read/qt-study-road-2/8c4f365fa95992a0.md">https://www.bookstack.cn/read/qt-study-road-2/8c4f365fa95992a0.md</a>
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:5" class="footnote-text"><span>QT 学习之路 2（44）：QFILESYSTEMMODEL: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/02/qt-study-road-2-qfilesystemmodel/">https://www.devbean.net/2013/02/qt-study-road-2-qfilesystemmodel/</a>
+<a href="#fnref:5" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:6" class="footnote-text"><span>QT 学习之路 2（45）：模型: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/02/qt-study-road-2-model/">https://www.devbean.net/2013/02/qt-study-road-2-model/</a>
+<a href="#fnref:6" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:7" class="footnote-text"><span>QT 学习之路 2（46）：视图和委托: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/03/qt-study-road-2-view-delegate/">https://www.devbean.net/2013/03/qt-study-road-2-view-delegate/</a>
+<a href="#fnref:7" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:8" class="footnote-text"><span>QT 学习之路 2（47）：视图选择: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/03/qt-study-road-2-view-selection/">https://www.devbean.net/2013/03/qt-study-road-2-view-selection/</a>
+<a href="#fnref:8" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:9" class="footnote-text"><span>QT 学习之路 2（48）：QSORTFILTERPROXYMODEL: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/04/qt-study-road-2-qsortfilterproxymodel/">https://www.devbean.net/2013/04/qt-study-road-2-qsortfilterproxymodel/</a>
+<a href="#fnref:9" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:10" class="footnote-text"><span>QT 学习之路 2（49）：自定义只读模型: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/05/qt-study-road-2-custom-readonly-model/">https://www.devbean.net/2013/05/qt-study-road-2-custom-readonly-model/</a>
+<a href="#fnref:10" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:11" class="footnote-text"><span>QT 学习之路 2（50）：自定义可编辑模型: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/05/qt-study-road-2-custom-editable-model/">https://www.devbean.net/2013/05/qt-study-road-2-custom-editable-model/</a>
+<a href="#fnref:11" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:12" class="footnote-text"><span>QT 学习之路 2（51）：布尔表达式树模型: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/05/qt-study-road-2-bool-tree-model/">https://www.devbean.net/2013/05/qt-study-road-2-bool-tree-model/</a>
+<a href="#fnref:12" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/" class="category-chain-item">QT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QT/" class="print-no-link">#QT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/" title="QT 数据库操作">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QT 数据库操作</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/Json/" title="QT Json">
+                        <span class="hidden-mobile">QT Json</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

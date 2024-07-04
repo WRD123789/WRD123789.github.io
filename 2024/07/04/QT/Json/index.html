@@ -1,0 +1,796 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Json JSON (JavaScrip Object Notation) 是一种轻量级的数据交换格式. 它基于 ECMAScript (欧洲计算机协会制定的 js 规范) 的一个子集, 采用完全独立于编程语言的文本格式来存储和表示数据. JSON 是一种数据格式, 和语言无关, 基于这种通用的数据格式, 一般处理两种任务:  组织数据 (数据序列化), 用于数据的网络传输. 组织数据 (数据序列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QT Json">
+<meta property="og:url" content="http://example.com/2024/07/04/QT/Json/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Json JSON (JavaScrip Object Notation) 是一种轻量级的数据交换格式. 它基于 ECMAScript (欧洲计算机协会制定的 js 规范) 的一个子集, 采用完全独立于编程语言的文本格式来存储和表示数据. JSON 是一种数据格式, 和语言无关, 基于这种通用的数据格式, 一般处理两种任务:  组织数据 (数据序列化), 用于数据的网络传输. 组织数据 (数据序列">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-04T12:46:05.000Z">
+<meta property="article:modified_time" content="2024-07-04T12:47:02.225Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="QT">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>QT Json - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QT Json"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:46" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          30 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">QT Json</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>Json</h1>
+<p>JSON (JavaScrip Object Notation) 是一种轻量级的数据交换格式. 它基于 ECMAScript (欧洲计算机协会制定的 js 规范) 的一个子集, 采用完全独立于编程语言的文本格式来存储和表示数据.</p>
+<p>JSON 是一种数据格式, 和语言无关, 基于这种通用的数据格式, 一般处理两种任务:</p>
+<ol>
+<li>组织数据 (数据序列化), 用于数据的网络传输.</li>
+<li>组织数据 (数据序列化), 写磁盘文件实现数据的持久化存储 (一般以 <code>.json</code> 作为文件后缀).</li>
+</ol>
+<p>JSON 的数据比 XML 更紧凑, 在传输效率上也要优于 XML, 但是 JSON 数据的层次化表达不及 XML.</p>
+<p>JSON 中主要有两种数据格式: JSON 数组和 JSON 对象, 并且这两种格式可以交叉嵌套使用.</p>
+<h2 id="JSON-数组">JSON 数组</h2>
+<p>JSON 数组使用 [] 表示, [] 里是元素, 元素和元素之间使用逗号间隔, <strong>最后一个元素后边没有逗号</strong>, 一个 JSON 数组中支持同时存在多种不同类型的成员, 包括: <code>整形</code>、 <code>浮点</code>、 <code>字符串</code>、 <code>布尔类型</code>、 <code>JSON 数组</code>、 <code>JSON 对象</code>、 <code>空值-null</code>.</p>
+<p>例如:</p>
+<ul>
+<li>JSON 数组中的元素数据类型一致  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-comment">// 整型  </span><br><span class="hljs-punctuation">[</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span><span class="hljs-number">2</span><span class="hljs-punctuation">,</span><span class="hljs-number">3</span><span class="hljs-punctuation">,</span><span class="hljs-number">4</span><span class="hljs-punctuation">,</span><span class="hljs-number">5</span><span class="hljs-punctuation">]</span>  <br><span class="hljs-comment">// 字符串  </span><br><span class="hljs-punctuation">[</span><span class="hljs-string">&quot;luffy&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;sanji&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;zoro&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;nami&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;robin&quot;</span><span class="hljs-punctuation">]</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>JSON 数组中的元素数据类型不一致  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">[</span><span class="hljs-number">12</span><span class="hljs-punctuation">,</span> <span class="hljs-number">13.34</span><span class="hljs-punctuation">,</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;hello,world&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">]</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>JSON 数组中的数组嵌套使用  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">[</span>  <br>    <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;cat&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;dog&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;panda&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;beer&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;rabbit&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>  <br>    <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;北京&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;上海&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;天津&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;重庆&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>  <br>    <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;luffy&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;boy&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-number">19</span><span class="hljs-punctuation">]</span>  <br><span class="hljs-punctuation">]</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>JSON 数组和对象嵌套使用  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">[</span>  <br>    <span class="hljs-punctuation">&#123;</span>  <br>        <span class="hljs-attr">&quot;luffy&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span>  <br>            <span class="hljs-attr">&quot;age&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">19</span><span class="hljs-punctuation">,</span>  <br>            <span class="hljs-attr">&quot;father&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;Monkey·D·Dragon&quot;</span><span class="hljs-punctuation">,</span>  <br>            <span class="hljs-attr">&quot;grandpa&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;Monkey D Garp&quot;</span><span class="hljs-punctuation">,</span>  <br>            <span class="hljs-attr">&quot;brother1&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;Portgas D Ace&quot;</span><span class="hljs-punctuation">,</span>  <br>            <span class="hljs-attr">&quot;brother2&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;Sabo&quot;</span>  <br>        <span class="hljs-punctuation">&#125;</span>  <br>    <span class="hljs-punctuation">&#125;</span>  <br><span class="hljs-punctuation">]</span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="JSON-对象">JSON 对象</h2>
+<p>JSON 对象使用 {} 来描述, 每个 JSON 对象中可以存储若干个元素, 每一个元素对应一个键值对 <code>key：value</code> , 元素和元素之间使用逗号间隔, 最后一个元素后边没有逗号.</p>
+<p>对于每个元素中的键值对有以下细节需要注意:</p>
+<ol>
+<li>键值 (key) 必须是字符串, 位于同一层级的键值不能重复.</li>
+<li>value 值的类型是可选的, 可根据实际需求指定, 可用类型包括: <code>整形</code>、 <code>浮点</code>、 <code>字符串</code>、 <code>布尔类型</code>、 <code>JSON 数组</code>、 <code>JSON 对象</code>、 <code>空值-null</code>.</li>
+</ol>
+<p>例如: 使用 JSON 对象描述一个人的信息</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span>  <br>    <span class="hljs-attr">&quot;Name&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;Ace&quot;</span><span class="hljs-punctuation">,</span>  <br>    <span class="hljs-attr">&quot;Sex&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;man&quot;</span><span class="hljs-punctuation">,</span>  <br>    <span class="hljs-attr">&quot;Age&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">20</span><span class="hljs-punctuation">,</span>  <br>    <span class="hljs-attr">&quot;Family&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span>  <br>        <span class="hljs-attr">&quot;Father&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;Gol·D·Roger&quot;</span><span class="hljs-punctuation">,</span>  <br>        <span class="hljs-attr">&quot;Mother&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;Portgas·D·Rouge&quot;</span><span class="hljs-punctuation">,</span>  <br>        <span class="hljs-attr">&quot;Brother&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">[</span><span class="hljs-string">&quot;Sabo&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;Monkey D. Luffy&quot;</span><span class="hljs-punctuation">]</span>  <br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span>  <br>    <span class="hljs-attr">&quot;IsAlive&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span>  <br>    <span class="hljs-attr">&quot;Comment&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;yyds&quot;</span>  <br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<p>如果需要将 JSON 数据持久化到磁盘文件中, 则在一个 JSON 文件中只能有一个 JSON 数组或者 JSON 对象的根节点, 不允许同时存储多个并列的根节点.</p>
+<p>例如, 错误的写法:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-comment">// test.json  </span><br><span class="hljs-punctuation">&#123;</span>  <br>    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;luffy&quot;</span><span class="hljs-punctuation">,</span>  <br>    <span class="hljs-attr">&quot;age&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">19</span>  <br><span class="hljs-punctuation">&#125;</span>  <br><span class="hljs-punctuation">&#123;</span>  <br>    <span class="hljs-attr">&quot;user&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;ace&quot;</span><span class="hljs-punctuation">,</span>  <br>    <span class="hljs-attr">&quot;passwd&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;123456&quot;</span>  <br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<h2 id="使用-QJson-处理-JSON">使用 QJson 处理 JSON</h2>
+<p>我们可以使用 <a target="_blank" rel="noopener" href="http://qjson.sourceforge.net/">QJson</a> 这个第三方库来解析 JSON, QJson 可以将 JSON 数据转换为 <code>QVariant</code> 对象, 将 JSON 数组转换成 <code>QVariantList</code> 对象, 将 JSON 对象转换成 <code>QVariantMap</code> 对象.</p>
+<p>由于 <code>QJson</code> 没有提供链接库的 pro 文件, 因此我们需要从<a target="_blank" rel="noopener" href="https://github.com/flavio/qjson">这里</a> 复制 <code>QJson</code> 的所有代码到自己的项目中.</p>
+<p>下例中使用 <code>QJson</code> 读取 JSON 文件中的内容:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;parser.h&quot;</span></span><br><span class="hljs-comment">//////////</span><br>QJson::Parser parser;<br><span class="hljs-type">bool</span> ok;<br><br><span class="hljs-function">QString <span class="hljs-title">json</span><span class="hljs-params">(<span class="hljs-string">&quot;&#123;&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">             <span class="hljs-string">&quot;\&quot;encoding\&quot; : \&quot;UTF-8\&quot;,&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">             <span class="hljs-string">&quot;\&quot;plug-ins\&quot; : [&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">             <span class="hljs-string">&quot;\&quot;python\&quot;,&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">             <span class="hljs-string">&quot;\&quot;c++\&quot;,&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">             <span class="hljs-string">&quot;\&quot;ruby\&quot;&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">             <span class="hljs-string">&quot;],&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">             <span class="hljs-string">&quot;\&quot;indent\&quot; : &#123; \&quot;length\&quot; : 3, \&quot;use_space\&quot; : true &#125;&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">             <span class="hljs-string">&quot;&#125;&quot;</span>)</span></span>;<br>QVariantMap result = parser.<span class="hljs-built_in">parse</span>(json.<span class="hljs-built_in">toUtf8</span>(), &amp;ok).<span class="hljs-built_in">toMap</span>();<br><span class="hljs-keyword">if</span> (!ok) &#123;<br>    <span class="hljs-built_in">qFatal</span>(<span class="hljs-string">&quot;An error occurred during parsing&quot;</span>);<br>    <span class="hljs-built_in">exit</span> (<span class="hljs-number">1</span>);<br>&#125;<br><br><span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;encoding:&quot;</span> &lt;&lt; result[<span class="hljs-string">&quot;encoding&quot;</span>].<span class="hljs-built_in">toString</span>();<br><span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;plugins:&quot;</span>;<br><br>foreach (QVariant plugin, result[<span class="hljs-string">&quot;plug-ins&quot;</span>].<span class="hljs-built_in">toList</span>()) &#123;<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;\t-&quot;</span> &lt;&lt; plugin.<span class="hljs-built_in">toString</span>();<br>&#125;<br><br>QVariantMap nestedMap = result[<span class="hljs-string">&quot;indent&quot;</span>].<span class="hljs-built_in">toMap</span>();<br><span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;length:&quot;</span> &lt;&lt; nestedMap[<span class="hljs-string">&quot;length&quot;</span>].<span class="hljs-built_in">toInt</span>();<br><span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;use_space:&quot;</span> &lt;&lt; nestedMap[<span class="hljs-string">&quot;use_space&quot;</span>].<span class="hljs-built_in">toBool</span>();<br></code></pre></td></tr></table></figure>
+<p>在上述代码中, 要将 JSON 对象转换成 <code>QVariant</code> 对象只需:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 1. 创建 QJson::Parser 对象</span><br>QJson::Parser parser;<br><br><span class="hljs-type">bool</span> ok;<br><span class="hljs-comment">// 2. 将 JSON 对象保存在一个对象 json 中，进行数据转换</span><br>QVariant result = parser.<span class="hljs-built_in">parse</span> (json, &amp;ok);<br></code></pre></td></tr></table></figure>
+<ul>
+<li>其中 <code>QJson::Parser::parse()</code> 函数接受两个参数, 第一个参数是 JSON 对象, 可以是 <code>QIODevice *</code> 或者是 <code>QByteArray</code>; 第二个参数是转换成功与否, 如果成功则被设置为 true.</li>
+</ul>
+<p>如果需要将 <code>QVariant</code> 转换为 JSON 对象, 可以使用 <code>QJson::Serializer</code>. 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QVariantList people;<br><br>QVariantMap bob;<br>bob.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;Name&quot;</span>, <span class="hljs-string">&quot;Bob&quot;</span>);<br>bob.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;Phonenumber&quot;</span>, <span class="hljs-number">123</span>);<br><br>QVariantMap alice;<br>alice.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;Name&quot;</span>, <span class="hljs-string">&quot;Alice&quot;</span>);<br>alice.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;Phonenumber&quot;</span>, <span class="hljs-number">321</span>);<br><br>people &lt;&lt; bob &lt;&lt; alice;<br><br>QJson::Serializer serializer;<br><span class="hljs-type">bool</span> ok;<br>QByteArray json = serializer.<span class="hljs-built_in">serialize</span>(people, &amp;ok);<br><br><span class="hljs-keyword">if</span> (ok) &#123;<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; json;<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-built_in">qCritical</span>() &lt;&lt; <span class="hljs-string">&quot;Something went wrong:&quot;</span> &lt;&lt; serializer.<span class="hljs-built_in">errorMessage</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>另外, <code>QJson</code> 还提供了另外一个类 <code>QObjectHelper</code>, 用于 <code>QVariant</code> 和 <code>QObject</code> 对象之间的转换. 由于上文中的转换都需要借助 <code>QVariant</code>, 但是我们在应用程序中使用的是 <code>QObject</code> 及其子类, 因此需要借助 <code>QObjectHelper</code> 提供的工具函数来完成 <code>QVariant</code> 和 <code>QObject</code> 之间的转换.</p>
+<p>例如, 假设我们有下面的类:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> : <span class="hljs-keyword">public</span> QObject<br>&#123;<br>    <span class="hljs-function">Q_OBJECT</span><br><span class="hljs-function">    </span><br><span class="hljs-function">    <span class="hljs-title">Q_PROPERTY</span><span class="hljs-params">(QString name READ name WRITE setName)</span></span><br><span class="hljs-function">    <span class="hljs-title">Q_PROPERTY</span><span class="hljs-params">(<span class="hljs-type">int</span> phoneNumber READ phoneNumber WRITE setPhoneNumber)</span></span><br><span class="hljs-function">    <span class="hljs-title">Q_PROPERTY</span><span class="hljs-params">(Gender gender READ gender WRITE setGender)</span></span><br><span class="hljs-function">    <span class="hljs-title">Q_PROPERTY</span><span class="hljs-params">(QDate brithday READ brithday WRITE setBrithday)</span></span><br><span class="hljs-function">    <span class="hljs-title">Q_ENUMS</span><span class="hljs-params">(Gender)</span></span><br><span class="hljs-function">    </span><br><span class="hljs-function"><span class="hljs-keyword">public</span>:</span><br><span class="hljs-function">    Person(QObject* parent =</span> <span class="hljs-number">0</span>);<br>    ~<span class="hljs-built_in">Person</span>();<br>    <br>    <span class="hljs-function">QString <span class="hljs-title">name</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setName</span><span class="hljs-params">(<span class="hljs-type">const</span> QString&amp; name)</span></span>;<br>    <br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">phoneNumber</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setPhoneNumber</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> phoneNumber)</span></span>;<br>    <br>    <span class="hljs-keyword">enum</span> <span class="hljs-title class_">Gender</span> &#123;Male, Female&#125;;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setGender</span><span class="hljs-params">(Gender gender)</span></span>;<br>    <span class="hljs-function">Gender <span class="hljs-title">gender</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br>    <br>    <span class="hljs-function">QDate <span class="hljs-title">brithday</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setBrithday</span><span class="hljs-params">(<span class="hljs-type">const</span> QDate&amp; dob)</span></span>;<br>    <br><span class="hljs-keyword">private</span>:<br>    QString m_name;<br>    <span class="hljs-type">int</span> m_phoneNumber;<br>    Gender m_gender;<br>    QDate m_dob;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>我们可以使用下面的代码将 <code>Person</code> 对象 JSON 序列化:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp">Person person;<br>person.<span class="hljs-built_in">setName</span>(<span class="hljs-string">&quot;Flavio&quot;</span>);<br>person.<span class="hljs-built_in">setPhoneNumber</span>(<span class="hljs-number">123456</span>);<br>person.<span class="hljs-built_in">setGender</span>(Person::Male);<br>person.<span class="hljs-built_in">setDob</span>(<span class="hljs-built_in">QDate</span>(<span class="hljs-number">1982</span>, <span class="hljs-number">7</span>, <span class="hljs-number">12</span>));<br><br>QVariantMap variant = QObjectHelper::<span class="hljs-built_in">qobject2qvariant</span>(&amp;person);<br>QJson::Serializer serializer;<br><span class="hljs-built_in">qDebug</span>() &lt;&lt; serializer.<span class="hljs-built_in">serialize</span>(variant);<br></code></pre></td></tr></table></figure>
+<p>以及将 JSON 对象转换为 <code>Person</code> 对象:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QJson::Parser parser;<br>QVariant variant = parser.<span class="hljs-built_in">parse</span>(json);<br>Person person;<br>QObjectHelper::<span class="hljs-built_in">qvariant2qobject</span>(variant.<span class="hljs-built_in">toMap</span>(), &amp;person);<br></code></pre></td></tr></table></figure>
+<h2 id="使用-QJsonDocument-处理-JSON">使用 QJsonDocument 处理 JSON</h2>
+<p>上文中的 <code>QJson</code> 是一个基于 Qt 的第三方库, 适用于 Qt4 和 Qt5 两个版本. 如果你的应用仅仅需要考虑兼容 Qt5, 其实已经有了内置的处理函数.</p>
+<p>Qt5 新增加了处理 JSON 的类, 与 XML 类库类似, 均以 QJson 开头, 在 QtCore 模块中, 不需要额外引入其它模块. 相关的类中常用的主要有 4 个:</p>
+<table>
+<thead>
+<tr>
+<th>JSON 类</th>
+<th>介绍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>QJsonDocument</code></td>
+<td>它封装了一个完整的 JSON 文档, 并且可以从 UTF-8 编码的基于文本的表示以及 Qt 自己的二进制格式读取和写入该文档</td>
+</tr>
+<tr>
+<td><code>QJsonArray</code></td>
+<td>JSON 数组是一个值列表. 可以通过从数组中插入和删除 <code>QJsonValue</code> 来操作该列表</td>
+</tr>
+<tr>
+<td><code>QJsonObject</code></td>
+<td>JSON 对象是键值对的列表, 其中键是唯一的字符串, 值由 <code>QJsonValue</code> 表示</td>
+</tr>
+<tr>
+<td><code>QJsonValue</code></td>
+<td>该类封装了 JSON 支持的数据类型</td>
+</tr>
+</tbody>
+</table>
+<h3 id="QJsonValue">QJsonValue</h3>
+<p>在 Qt 中 <code>QJsonValue</code> 可以封装的基础数据类型有六种 (和 JSON 支持的类型一致), 分别为:</p>
+<ul>
+<li>布尔类型: <code>QJsonValue::Bool</code></li>
+<li>浮点类型 (包括整形):  <code>QJsonValue::Double</code></li>
+<li>字符串类型: <code>QJsonValue::String</code></li>
+<li>JSON数组类型:  <code>QJsonValue::Array</code></li>
+<li>JSON对象类型: <code>QJsonValue::Object</code></li>
+<li>空值类型: <code>QJsonValue::Null</code></li>
+</ul>
+<p>这些类型可以<strong>通过 <code>QJSONValue</code> 的构造函数被封装为一个类对象</strong>:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// JSON对象  </span><br><span class="hljs-built_in">QJsonValue</span>(<span class="hljs-type">const</span> QJsonObject &amp;o);  <br><span class="hljs-comment">// JSON数组  </span><br><span class="hljs-built_in">QJsonValue</span>(<span class="hljs-type">const</span> QJsonArray &amp;a);  <br><span class="hljs-comment">// 字符串  </span><br><span class="hljs-built_in">QJsonValue</span>(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *s);  <br><span class="hljs-built_in">QJsonValue</span>(QLatin1String s);  <br><span class="hljs-built_in">QJsonValue</span>(<span class="hljs-type">const</span> QString &amp;s);  <br><span class="hljs-comment">// 整形 and 浮点型  </span><br><span class="hljs-built_in">QJsonValue</span>(qint64 v);  <br><span class="hljs-built_in">QJsonValue</span>(<span class="hljs-type">int</span> v);  <br><span class="hljs-built_in">QJsonValue</span>(<span class="hljs-type">double</span> v);  <br><span class="hljs-comment">// 布尔类型  </span><br><span class="hljs-built_in">QJsonValue</span>(<span class="hljs-type">bool</span> b);  <br><span class="hljs-comment">// 空值类型  </span><br><span class="hljs-built_in">QJsonValue</span>(QJsonValue::Type type = Null);<br></code></pre></td></tr></table></figure>
+<p>如果我们得到一个 <code>QJsonValue</code> 对象, 通过以下函数<strong>判断内部封装的数据的类型</strong>:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 是否是JSON数组  </span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">isArray</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-comment">// 是否是JSON对象  </span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">isObject</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-comment">// 是否是布尔类型  </span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">isBool</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-comment">// 是否是浮点类型(整形也是通过该函数判断)  </span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">isDouble</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-comment">// 是否是空值类型  </span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">isNull</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-comment">// 是否是字符串类型  </span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">isString</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-comment">// 是否是未定义类型(无法识别的类型)  </span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">isUndefined</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br></code></pre></td></tr></table></figure>
+<p>以下函数可以<strong>将 <code>QJsonValue</code> 对象转换为对应的基础数据类型</strong>:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 转换为JSON数组  </span><br><span class="hljs-function">QJsonArray <span class="hljs-title">toArray</span><span class="hljs-params">(<span class="hljs-type">const</span> QJsonArray &amp;defaultValue)</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-function">QJsonArray <span class="hljs-title">toArray</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-comment">// 转换为布尔类型  </span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">toBool</span><span class="hljs-params">(<span class="hljs-type">bool</span> defaultValue = <span class="hljs-literal">false</span>)</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-comment">// 转换为浮点类型  </span><br><span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">toDouble</span><span class="hljs-params">(<span class="hljs-type">double</span> defaultValue = <span class="hljs-number">0</span>)</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-comment">// 转换为整形  </span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">toInt</span><span class="hljs-params">(<span class="hljs-type">int</span> defaultValue = <span class="hljs-number">0</span>)</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-comment">// 转换为JSON对象  </span><br><span class="hljs-function">QJsonObject <span class="hljs-title">toObject</span><span class="hljs-params">(<span class="hljs-type">const</span> QJsonObject &amp;defaultValue)</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-function">QJsonObject <span class="hljs-title">toObject</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-comment">// 转换为字符串类型  </span><br><span class="hljs-function">QString <span class="hljs-title">toString</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-function">QString <span class="hljs-title">toString</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;defaultValue)</span> <span class="hljs-type">const</span></span>;<br></code></pre></td></tr></table></figure>
+<h3 id="QJsonObject">QJsonObject</h3>
+<p><code>QJsonObject</code> 封装了 JSON 中的对象, 在里边可以存储多个键值对, 为了方便操作, 键为字符串类型, 值为<code>QJsonValue</code>类型.</p>
+<p>以下是常用的 API 函数:</p>
+<ul>
+<li>创建空的 JSON 对象  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QJsonObject::<span class="hljs-built_in">QJsonObject</span>();	<span class="hljs-comment">// 构造空对象</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>将键值对添加到空对象中  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">iterator <span class="hljs-title">QJsonObject::insert</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;key, <span class="hljs-type">const</span> QJsonValue &amp;value)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>获取对象中键值对个数  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QJsonObject::count</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QJsonObject::size</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QJsonObject::length</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>通过 key 得到 value  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QJsonValue <span class="hljs-title">QJsonObject::value</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;key)</span> <span class="hljs-type">const</span></span>; <span class="hljs-comment">// utf8</span><br><span class="hljs-function">QJsonValue <span class="hljs-title">QJsonObject::value</span><span class="hljs-params">(QLatin1String key)</span> <span class="hljs-type">const</span></span>;  <span class="hljs-comment">// 字符串不支持中文</span><br><span class="hljs-comment">// 重载操作符 []</span><br>QJsonValue QJsonObject::<span class="hljs-keyword">operator</span>[](<span class="hljs-type">const</span> QString &amp;key) <span class="hljs-type">const</span>;<br>QJsonValue QJsonObject::<span class="hljs-keyword">operator</span>[](QLatin1String key) <span class="hljs-type">const</span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>删除键值对  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QJsonObject::remove</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;key)</span></span>;  <br><span class="hljs-function">QJsonValue <span class="hljs-title">QJsonObject::take</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;key)</span></span>;	<span class="hljs-comment">// 删除并返回key对应的value值</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>查找 key 来判断对象中是否存在键值  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">iterator <span class="hljs-title">QJsonObject::find</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;key)</span></span>;  <br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QJsonObject::contains</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;key)</span> <span class="hljs-type">const</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>遍历:
+<ul>
+<li>使用相关的迭代器.</li>
+<li>先得到对象中所有键的列表, 再遍历键列表来得到 value  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 得到键列表</span><br><span class="hljs-function">QStringList <span class="hljs-title">QJsonObject::keys</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="QJsonArray">QJsonArray</h3>
+<p><code>QJsonArray</code> 封装了 JSON 中的数组, 在里面可以存储多个元素, 为了方便操作, 所有的元素类统一为 <code>QJsonValue</code> 类型.</p>
+<p>该类常用的 API 函数如下:</p>
+<ul>
+<li>创建空的 JSON 数组  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QJsonArray::<span class="hljs-built_in">QJsonArray</span>();<br></code></pre></td></tr></table></figure>
+</li>
+<li>添加数据  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QJsonArray::append</span><span class="hljs-params">(<span class="hljs-type">const</span> QJsonValue &amp;value)</span></span>;	<span class="hljs-comment">// 在尾部追加  </span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QJsonArray::insert</span><span class="hljs-params">(<span class="hljs-type">int</span> i, <span class="hljs-type">const</span> QJsonValue &amp;value)</span></span>; <span class="hljs-comment">// 插入到 i 的位置之前  </span><br><span class="hljs-function">iterator <span class="hljs-title">QJsonArray::insert</span><span class="hljs-params">(iterator before, <span class="hljs-type">const</span> QJsonValue &amp;value)</span></span>;  <br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QJsonArray::prepend</span><span class="hljs-params">(<span class="hljs-type">const</span> QJsonValue &amp;value)</span></span>; <span class="hljs-comment">// 添加到数组头部  </span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QJsonArray::push_back</span><span class="hljs-params">(<span class="hljs-type">const</span> QJsonValue &amp;value)</span></span>; <span class="hljs-comment">// 添加到尾部  </span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QJsonArray::push_front</span><span class="hljs-params">(<span class="hljs-type">const</span> QJsonValue &amp;value)</span></span>; <span class="hljs-comment">// 添加到头部</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>计算数组元素的个数  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QJsonArray::count</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QJsonArray::size</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>从数组中取出某一个元素的值  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QJsonValue <span class="hljs-title">QJsonArray::at</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-function">QJsonValue <span class="hljs-title">QJsonArray::first</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>; <span class="hljs-comment">// 头部元素  </span><br><span class="hljs-function">QJsonValue <span class="hljs-title">QJsonArray::last</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>; <span class="hljs-comment">// 尾部元素  </span><br>QJsonValueRef QJsonArray::<span class="hljs-keyword">operator</span>[](<span class="hljs-type">int</span> i);<br></code></pre></td></tr></table></figure>
+</li>
+<li>删除数组中的某一个元素  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">iterator <span class="hljs-title">QJsonArray::erase</span><span class="hljs-params">(iterator it)</span></span>;    <span class="hljs-comment">// 基于迭代器删除  </span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QJsonArray::pop_back</span><span class="hljs-params">()</span></span>;           <span class="hljs-comment">// 删除尾部  </span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QJsonArray::pop_front</span><span class="hljs-params">()</span></span>;          <span class="hljs-comment">// 删除头部  </span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QJsonArray::removeAt</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span></span>;      <span class="hljs-comment">// 删除i位置的元素  </span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QJsonArray::removeFirst</span><span class="hljs-params">()</span></span>;        <span class="hljs-comment">// 删除头部  </span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QJsonArray::removeLast</span><span class="hljs-params">()</span></span>;         <span class="hljs-comment">// 删除尾部  </span><br><span class="hljs-function">QJsonValue <span class="hljs-title">QJsonArray::takeAt</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span></span>;  <span class="hljs-comment">// 删除i位置的原始, 并返回删除的元素的值</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>遍历:
+<ul>
+<li>用迭代器遍历.</li>
+<li>用数组的形式遍历.</li>
+</ul>
+</li>
+</ul>
+<h3 id="QJsonDocument">QJsonDocument</h3>
+<p><code>QJsonObject</code> 和 <code>QJsonArray</code> 这两个对象中的数据是不能直接转换为 JSON 格式字符串的, 如果要进行数据传输或者数据的持久化, 操作的都是 JSON 格式字符串而不是 <code>QJsonObject</code> 或者 <code>QJsonArray</code> 类对象, 因此我们需要<strong>通过一个 JSON 文档类进行二者之间的转换</strong>.</p>
+<p><strong><code>QJsonObject</code> 或 <code>QJsonArray</code> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> JSON 格式字符串 过程</strong></p>
+<ol>
+<li>创建 <code>QJsonDocument</code> 对象 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QJsonDocument::<span class="hljs-built_in">QJsonDocument</span>(<span class="hljs-type">const</span> QJsonObject &amp;object);  <br>QJsonDocument::<span class="hljs-built_in">QJsonDocument</span>(<span class="hljs-type">const</span> QJsonArray &amp;array);<br></code></pre></td></tr></table></figure>
+</li>
+<li>将文档对象中的数据进行序列化 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 二进制格式的 JSON 字符串  </span><br><span class="hljs-function">QByteArray <span class="hljs-title">QJsonDocument::toBinaryData</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;	   <br><span class="hljs-comment">// 文本格式的 JSON 字符串  </span><br><span class="hljs-function">QByteArray <span class="hljs-title">QJsonDocument::toJson</span><span class="hljs-params">(JsonFormat format = Indented)</span> <span class="hljs-type">const</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>使用得到的 JSON 格式字符串进行数据传输, 或者磁盘文件持久化</li>
+</ol>
+<p><strong>JSON 字符串 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> <code>QJsonObject</code> 或 <code>QJsonArray</code> 过程</strong><br>
+一般情况下, 通过网络通信或者读磁盘文件就会得到一个 JSON 格式字符串, 如果想要得到相关的原始数据就需要对字符串中的数据进行解析, 具体解析流程如下:</p>
+<ol>
+<li>将得到的 JSON 格式字符串通过 <code>QJsonDocument</code> 类的静态函数转换为<code>QJsonDocument</code> 类对象 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-type">static</span>] <span class="hljs-function">QJsonDocument <span class="hljs-title">QJsonDocument::fromBinaryData</span><span class="hljs-params">(<span class="hljs-type">const</span> QByteArray &amp;data, DataValidation validation = Validate)</span></span>;  <br><span class="hljs-comment">// 参数文件格式的JSON字符串  </span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QJsonDocument <span class="hljs-title">QJsonDocument::fromJson</span><span class="hljs-params">(<span class="hljs-type">const</span> QByteArray &amp;json, QJsonParseError *error = Q_NULLPTR)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>将文档对象转换为 JSON 数组/对象 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 判断文档对象中存储的数据是不是数组  </span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QJsonDocument::isArray</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-comment">// 判断文档对象中存储的数据是不是 JSON 对象  </span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QJsonDocument::isObject</span><span class="hljs-params">()</span> <span class="hljs-type">const</span>  </span><br><span class="hljs-function">      </span><br><span class="hljs-function"><span class="hljs-comment">// 文档对象中的数据转换为 JSON 对象  </span></span><br><span class="hljs-function">QJsonObject <span class="hljs-title">QJsonDocument::object</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;  <br><span class="hljs-comment">// 文档对象中的数据转换为 JSON 数组  </span><br><span class="hljs-function">QJsonArray <span class="hljs-title">QJsonDocument::array</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>通过调用 <code>QJsonArray</code>, <code>QJsonObject</code> 类提供的 API 读出存储在对象中的数据.</li>
+</ol>
+<p>示例, 使用 <code>QJsonValue</code>、<code>QJsonObject</code> 和 <code>QJsonArray</code>:</p>
+<ul>
+<li>生成 JSON 格式文件  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">writeJson</span><span class="hljs-params">()</span>  </span><br><span class="hljs-function"></span>&#123;  <br>    QJsonObject obj;  <br>    obj.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;Name&quot;</span>, <span class="hljs-string">&quot;Ace&quot;</span>);  <br>    obj.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;Sex&quot;</span>, <span class="hljs-string">&quot;man&quot;</span>);  <br>    obj.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;Age&quot;</span>, <span class="hljs-number">20</span>);  <br>  <br>    QJsonObject subObj;  <br>    subObj.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;Father&quot;</span>, <span class="hljs-string">&quot;Gol·D·Roger&quot;</span>);  <br>    subObj.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;Mother&quot;</span>, <span class="hljs-string">&quot;Portgas·D·Rouge&quot;</span>);  <br>    QJsonArray array;  <br>    array.<span class="hljs-built_in">append</span>(<span class="hljs-string">&quot;Sabo&quot;</span>);  <br>    array.<span class="hljs-built_in">append</span>(<span class="hljs-string">&quot;Monkey D. Luffy&quot;</span>);  <br>    subObj.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;Brother&quot;</span>, array);  <br>    obj.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;Family&quot;</span>, subObj);  <br>    obj.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;IsAlive&quot;</span>, <span class="hljs-literal">false</span>);  <br>    obj.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;Comment&quot;</span>, <span class="hljs-string">&quot;yyds&quot;</span>);  <br>  <br>    <span class="hljs-function">QJsonDocument <span class="hljs-title">doc</span><span class="hljs-params">(obj)</span></span>;  <br>    QByteArray json = doc.<span class="hljs-built_in">toJson</span>();  <br>  <br>    <span class="hljs-function">QFile <span class="hljs-title">file</span><span class="hljs-params">(<span class="hljs-string">&quot;d:\\ace.json&quot;</span>)</span></span>;  <br>    file.<span class="hljs-built_in">open</span>(QFile::WriteOnly);  <br>    file.<span class="hljs-built_in">write</span>(json);  <br>    file.<span class="hljs-built_in">close</span>();  <br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li>解析 JSON 格式文件  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::readJson</span><span class="hljs-params">()</span>  </span><br><span class="hljs-function"></span>&#123;  <br>    <span class="hljs-function">QFile <span class="hljs-title">file</span><span class="hljs-params">(<span class="hljs-string">&quot;d:\\ace.json&quot;</span>)</span></span>;  <br>    file.<span class="hljs-built_in">open</span>(QFile::ReadOnly);  <br>    QByteArray json = file.<span class="hljs-built_in">readAll</span>();  <br>    file.<span class="hljs-built_in">close</span>();  <br>  <br>    QJsonDocument doc = QJsonDocument::<span class="hljs-built_in">fromJson</span>(json);  <br>    <span class="hljs-keyword">if</span>(doc.<span class="hljs-built_in">isObject</span>())  <br>    &#123;  <br>        QJsonObject obj = doc.<span class="hljs-built_in">object</span>();  <br>        QStringList keys = obj.<span class="hljs-built_in">keys</span>();  <br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>; i&lt;keys.<span class="hljs-built_in">size</span>(); ++i)  <br>        &#123;  <br>            QString key = keys.<span class="hljs-built_in">at</span>(i);  <br>            QJsonValue value = obj.<span class="hljs-built_in">value</span>(key);  <br>            <span class="hljs-keyword">if</span>(value.<span class="hljs-built_in">isBool</span>())  <br>            &#123;  <br>                <span class="hljs-built_in">qDebug</span>() &lt;&lt; key &lt;&lt; <span class="hljs-string">&quot;:&quot;</span> &lt;&lt; value.<span class="hljs-built_in">toBool</span>();  <br>            &#125;  <br>            <span class="hljs-keyword">if</span>(value.<span class="hljs-built_in">isString</span>())  <br>            &#123;  <br>                <span class="hljs-built_in">qDebug</span>() &lt;&lt; key &lt;&lt; <span class="hljs-string">&quot;:&quot;</span> &lt;&lt; value.<span class="hljs-built_in">toString</span>();  <br>            &#125;  <br>            <span class="hljs-keyword">if</span>(value.<span class="hljs-built_in">isDouble</span>())  <br>            &#123;  <br>                <span class="hljs-built_in">qDebug</span>() &lt;&lt; key &lt;&lt; <span class="hljs-string">&quot;:&quot;</span> &lt;&lt; value.<span class="hljs-built_in">toInt</span>();  <br>            &#125;  <br>            <span class="hljs-keyword">if</span>(value.<span class="hljs-built_in">isObject</span>())  <br>            &#123;  <br>                <span class="hljs-built_in">qDebug</span>()&lt;&lt; key &lt;&lt; <span class="hljs-string">&quot;:&quot;</span>;  <br>                <span class="hljs-comment">// 直接处理内部键值对, 不再进行类型判断的演示  </span><br>                QJsonObject subObj = value.<span class="hljs-built_in">toObject</span>();  <br>                QStringList ls = subObj.<span class="hljs-built_in">keys</span>();  <br>                <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>; i&lt;ls.<span class="hljs-built_in">size</span>(); ++i)  <br>                &#123;  <br>                    QJsonValue subVal = subObj.<span class="hljs-built_in">value</span>(ls.<span class="hljs-built_in">at</span>(i));  <br>                    <span class="hljs-keyword">if</span>(subVal.<span class="hljs-built_in">isString</span>())  <br>                    &#123;  <br>                        <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;   &quot;</span> &lt;&lt; ls.<span class="hljs-built_in">at</span>(i) &lt;&lt; <span class="hljs-string">&quot;:&quot;</span> &lt;&lt; subVal.<span class="hljs-built_in">toString</span>();  <br>                    &#125;  <br>                    <span class="hljs-keyword">if</span>(subVal.<span class="hljs-built_in">isArray</span>())<br>                    &#123;  <br>                        QJsonArray array = subVal.<span class="hljs-built_in">toArray</span>();  <br>                        <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;   &quot;</span> &lt;&lt; ls.<span class="hljs-built_in">at</span>(i) &lt;&lt; <span class="hljs-string">&quot;:&quot;</span>;  <br>                        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>; j&lt;array.<span class="hljs-built_in">size</span>(); ++j)  <br>                        &#123;  <br>                            <span class="hljs-comment">// 因为知道数组内部全部为字符串, 不再对元素类型进行判断  </span><br>                            <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;       &quot;</span> &lt;&lt; array[j].<span class="hljs-built_in">toString</span>();  <br>                        &#125;  <br>                    &#125;  <br>                &#125;  <br>            &#125;  <br>        &#125;  <br>    &#125;  <br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>示例, 使用 <code>QVariantList</code>、<code>QVariantMap</code>:</p>
+<ul>
+<li>解析 JSON 格式数据:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QString <span class="hljs-title">json</span><span class="hljs-params">(<span class="hljs-string">&quot;&#123;&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">            <span class="hljs-string">&quot;\&quot;encoding\&quot; : \&quot;UTF-8\&quot;,&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">            <span class="hljs-string">&quot;\&quot;plug-ins\&quot; : [&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">            <span class="hljs-string">&quot;\&quot;python\&quot;,&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">            <span class="hljs-string">&quot;\&quot;c++\&quot;,&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">            <span class="hljs-string">&quot;\&quot;ruby\&quot;&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">            <span class="hljs-string">&quot;],&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">            <span class="hljs-string">&quot;\&quot;indent\&quot; : &#123; \&quot;length\&quot; : 3, \&quot;use_space\&quot; : true &#125;&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">            <span class="hljs-string">&quot;&#125;&quot;</span>)</span></span>;<br>QJsonParseError error;<br>QJsonDocument jsonDocument = QJsonDocument::<span class="hljs-built_in">fromJson</span>(json.<span class="hljs-built_in">toUtf8</span>(), &amp;error);<br><span class="hljs-keyword">if</span> (error.error == QJsonParseError::NoError) &#123;<br>    <span class="hljs-keyword">if</span> (jsonDocument.<span class="hljs-built_in">isObject</span>()) &#123;<br>        QVariantMap result = jsonDocument.<span class="hljs-built_in">toVariant</span>().<span class="hljs-built_in">toMap</span>();<br>        <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;encoding:&quot;</span> &lt;&lt; result[<span class="hljs-string">&quot;encoding&quot;</span>].<span class="hljs-built_in">toString</span>();<br>        <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;plugins:&quot;</span>;<br>        <br>        foreach (QVariant plugin, result[<span class="hljs-string">&quot;plug-ins&quot;</span>].<span class="hljs-built_in">toList</span>()) &#123;<br>            <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;\t-&quot;</span> &lt;&lt; plugin.<span class="hljs-built_in">toString</span>();<br>        &#125;<br>        <br>        QVariantMap nestedMap = result[<span class="hljs-string">&quot;indent&quot;</span>].<span class="hljs-built_in">toMap</span>();<br>        <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;length:&quot;</span> &lt;&lt; nestedMap[<span class="hljs-string">&quot;length&quot;</span>].<span class="hljs-built_in">toInt</span>();<br>        <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;use_space:&quot;</span> &lt;&lt; nestedMap[<span class="hljs-string">&quot;use_space&quot;</span>].<span class="hljs-built_in">toBool</span>();<br>    &#125;<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-built_in">qFatal</span>(error.<span class="hljs-built_in">errorString</span>().<span class="hljs-built_in">toUtf8</span>().<span class="hljs-built_in">constData</span>());<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li>生成 JSON 格式数据:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QVariantList people;<br><br>QVariantMap bob;<br>bob.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;Name&quot;</span>, <span class="hljs-string">&quot;Bob&quot;</span>);<br>bob.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;Phonenumber&quot;</span>, <span class="hljs-number">123</span>);<br><br>QVariantMap alice;<br>alice.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;Name&quot;</span>, <span class="hljs-string">&quot;Alice&quot;</span>);<br>alice.<span class="hljs-built_in">insert</span>(<span class="hljs-string">&quot;Phonenumber&quot;</span>, <span class="hljs-number">321</span>);<br><br>people &lt;&lt; bob &lt;&lt; alice;<br><br>QJsonDocument jsonDocument = QJsonDocument::<span class="hljs-built_in">fromVariant</span>(people);<br><span class="hljs-keyword">if</span> (!jsonDocument.<span class="hljs-built_in">isNull</span>()) &#123;<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; jsonDocument.<span class="hljs-built_in">toJson</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Qt中的Json操作: <a target="_blank" rel="noopener" href="https://subingwen.cn/qt/qt-json/">https://subingwen.cn/qt/qt-json/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>QT 学习之路 2（63）：使用 QJSON 处理 JSON: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/09/qt-study-road-2-qjson/">https://www.devbean.net/2013/09/qt-study-road-2-qjson/</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>QT 学习之路 2（64）：使用 QJSONDOCUMENT 处理 JSON: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/09/qt-study-road-2-qjsondocument/">https://www.devbean.net/2013/09/qt-study-road-2-qjsondocument/</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/" class="category-chain-item">QT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QT/" class="print-no-link">#QT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/Model-View%E6%9E%B6%E6%9E%84/" title="QT Model/View 架构">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QT Model/View 架构</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6/" title="QT 资源文件">
+                        <span class="hidden-mobile">QT 资源文件</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

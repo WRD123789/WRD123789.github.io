@@ -1,0 +1,738 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="系统编程概念 系统调用 系统调用是受控的内核入口, 借助于这一机制, 进程可以请求内核以自己的名义去执行某些动作. 以应用程序编程接口 (API) 的形式, 内核提供了一系列服务供程序访问, 这包括创建新进程、执行 I&#x2F;O 以及为进程间通信创建管道等. 下面以一个具体的硬件平台 — x86-32 为例, 按事件发生的顺序对步骤加以分析:  应用程序通过调用 C 语言函数库中的封装函数 (如 C 语">
+<meta property="og:type" content="article">
+<meta property="og:title" content="系统编程概念">
+<meta property="og:url" content="http://example.com/2024/07/04/Linux/Linux-UNIX%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="系统编程概念 系统调用 系统调用是受控的内核入口, 借助于这一机制, 进程可以请求内核以自己的名义去执行某些动作. 以应用程序编程接口 (API) 的形式, 内核提供了一系列服务供程序访问, 这包括创建新进程、执行 I&#x2F;O 以及为进程间通信创建管道等. 下面以一个具体的硬件平台 — x86-32 为例, 按事件发生的顺序对步骤加以分析:  应用程序通过调用 C 语言函数库中的封装函数 (如 C 语">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20240525164113.png">
+<meta property="article:published_time" content="2024-07-04T12:14:18.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.564Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Linux&#x2F;UNIX 系统编程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20240525164113.png">
+  
+  
+  
+  <title>系统编程概念 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="系统编程概念"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:14" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          33 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">系统编程概念</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>系统编程概念</h1>
+<h2 id="系统调用">系统调用</h2>
+<p>系统调用是受控的内核入口, 借助于这一机制, 进程可以请求内核以自己的名义去执行某些动作. 以应用程序编程接口 (API) 的形式, 内核提供了一系列服务供程序访问, 这包括创建新进程、执行 I/O 以及为进程间通信创建管道等.</p>
+<p>下面以一个具体的硬件平台 — x86-32 为例, 按事件发生的顺序对步骤加以分析:</p>
+<ol>
+<li>应用程序通过调用 C 语言函数库中的封装函数 (如 C 语言库中的 <code>write</code> 函数是对系统调用 <code>write</code> 的封装), 来发起系统调用.</li>
+<li>对于系统调用中断处理例程来说, 封装函数必须保证所有的系统调用参数可用. 封装函数会将上述参数复制到寄存器中, 并将系统调用编号写入寄存器中 (便于内核区分系统调用).</li>
+<li>封装函数执行一条中断机器指令 (int 0x80), 促使 CPU 从用户态切换到内核态, 并执行系统中断 0x80 的中断矢量所指向的代码.
+<ul>
+<li>较新的 x86-32 硬件平台实现了 <code>sysenter</code> 指令, 较之传统的 int 0x80 中断指令, <code>sysenter</code> 指令进入内核的速度更快.</li>
+</ul>
+</li>
+<li>内核会调用 <code>system_call()</code> 例程 (位于汇编文件 arch/i386/entry.S 中) 来处理本次中断, 具体如下:
+<ol>
+<li>在内核栈中保存寄存器值.</li>
+<li>判断系统调用编号的有效性.</li>
+<li>根据系统调用编号, 执行对应的系统调用处理例程. 系统调用处理例程执行完成后, 会将结果状态返回给 <code>system_call()</code> 例程.</li>
+<li>从内核栈中恢复各寄存器值, 并将系统调用返回值写入栈中.</li>
+<li>CPU 切换回用户态, 返回到封装函数中.</li>
+</ol>
+</li>
+<li>若 <code>system_call()</code> 例程的返回值表明调用有误, 封装函数会使用该值来设置全局变量 <code>errno</code>. 然后, 封装函数会返回到调用程序, 同时返回一个整型值, 以表明系统调用是否成功.
+<ul>
+<li>在 Linux 中, 如果系统调用成功, <code>system_call()</code> 例程会返回非负值; 如果系统调用失败, 那么 <code>system_call()</code> 例程会找到失败原因对应的 <code>errno</code> 的常量值, 对其取反后返回. C 语言函数库的封装函数会对它再次取反并保存到 <code>errno</code> 中, 同时以 -1 作为封装函数的返回值, 表示有错误发生.</li>
+</ul>
+</li>
+</ol>
+<p>以系统调用 <code>execve()</code> 为例, 下图展示了上文述及事件的发生过程:<br>
+<img src="/img/Pictures/20240525164113.png" srcset="/img/loading.gif" lazyload alt=""><br>
+在 Linux/x86-32 上, <code>execve()</code> 的系统调用号为 11(__NR_execve). 因此, 在 <code>sys_call_table</code> 向量中, 条目 11 包含了该系统调用的服务例程 <code>sys_execve()</code> 的地址.</p>
+<h2 id="库函数">库函数</h2>
+<p>库函数是指 C 语言标准库中的函数. 许多库函数 (如字符串操作函数) 不使用任何系统调用. 而<strong>有些库函数则构建于系统调用层</strong>之上, 例如, 库函数 <code>fopen()</code> 利用系统调用 <code>open()</code> 来执行打开文件的操作. 设计库函数的目的是<strong>为了提供比底层系统调用更方便的调用接口</strong>. 例如, <code>printf()</code> 函数可以提供格式化输出和数据缓存功能, 而 <code>write()</code> 系统调用只能输出字节块.</p>
+<h2 id="C-语言函数库">C 语言函数库</h2>
+<p>标准 C 语言函数库的实现与 UNIX 系统的实现相关, 而 GNU C 语言函数库 (glibc) 是 Linux 上最常用的实现.</p>
+<p>如果想要<strong>确定系统所安装的 glibc 的版本</strong>, 可以在 shell 中直接运行 glibc 的共享库文件, 这会输出各种文本信息, 其中包括了 glibc 的版本号. 而想要<strong>确定该库的位置</strong>, 可以针对某个与 glibc 动态链接的可执行文件, 运行 ldd (列出动态依赖性) 程序后, 检查输出的库依赖性列表, 来找到 glibc 共享库的位置:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">ldd <span class="hljs-built_in">test</span> | grep libc</span><br>	libc.so.6 =&gt; /lib/x86_64-linux-gnu/libc.so.6 (0x00007f87e77e9000)<br></code></pre></td></tr></table></figure>
+<p>接着运行库文件即可得到 glibc 的版本:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">/lib/x86_64-linux-gnu/libc.so.6</span><br>GNU C Library (Ubuntu GLIBC 2.31-0ubuntu9.9) stable release version 2.31.<br>Copyright (C) 2020 Free Software Foundation, Inc.<br>This is free software; see the source for copying conditions.<br>There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A<br>PARTICULAR PURPOSE.<br>Compiled by GNU CC version 9.4.0.<br>libc ABIs: UNIQUE IFUNC ABSOLUTE<br>For bug reporting instructions, please see:<br>&lt;https://bugs.launchpad.net/ubuntu/+source/glibc/+bugs&gt;.<br></code></pre></td></tr></table></figure>
+<p><strong>应用程序可通过测试常量和调用库函数</strong>这两种方法, 来<strong>确定系统所安装的 glibc 版本</strong>:</p>
+<ul>
+<li>测试常量. 从版本 2.0 开始, glibc 定义了两个常量: <code>__GLIBC__</code> 和 <code>__GLIBC_MINOR__</code>, 分别代表了 glibc 的主版本号和次版本号, 供程序在编译时 (在 <code>#ifdef</code> 语句中) 测试使用. 例如:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> __GLIBC__</span><br><span class="hljs-meta">#<span class="hljs-keyword">if</span> __GLIBC__ &gt;= 2 &amp;&amp; __GLIBC_MINOR__ &gt;= 14</span><br>    <span class="hljs-comment">// 使用在 glibc 2.14 及以后版本中可用的特性</span><br><span class="hljs-meta">#<span class="hljs-keyword">else</span></span><br>    <span class="hljs-comment">// 使用在 glibc 2.14 之前版本中可用的特性，或者提供替代实现</span><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br></code></pre></td></tr></table></figure>
+然而, 如果程序在 A 系统上编译, 而在 B 系统 (安装了不同版本的 glibc) 上运行, 这两个常量的作用就有限了.</li>
+<li>调用库函数. 库函数 <code>gnu_get_libc_version()</code> (包含在头文件 <code>gnu/libc-version.h</code> 中) 可以确定<strong>运行时</strong>的 glibc 版本, 也就不会存在上面常量的问题. 该函数会返回一个指针 (<code>const char *</code>), 指向包含 glibc 版本号的字符串.</li>
+</ul>
+<h2 id="处理来自系统调用和库函数的错误">处理来自系统调用和库函数的错误</h2>
+<p>几乎每个系统调用和库函数都会返回某类状态值, 用以表示是否调用成功. 要了解调用是否成功, 必须坚持对状态值进行检查.</p>
+<h3 id="处理系统调用错误">处理系统调用错误</h3>
+<p>每个系统调用的手册页记录有调用可能的返回值, 并指出了哪些值表示错误. 通常, 返回值为 -1 表示出错. 因此, 可使用以下代码对系统调用进行检查:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c">fd = open(pathname, flags, mode); <span class="hljs-comment">/* system call to open a file */</span><br><span class="hljs-keyword">if</span> (fd == <span class="hljs-number">-1</span>) &#123;<br>	<span class="hljs-comment">/* Code to handle the error */</span><br>&#125;<br><br>...<br><br><span class="hljs-keyword">if</span> (close(fd) == <span class="hljs-number">-1</span>) &#123;<br>	<span class="hljs-comment">/* Code to handle the error */</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>上文中提到过, 系统调用失败时, C 函数库中对应的封装函数会给全局变量 <code>errno</code> 设置一个正整数值, 以标识具体的错误. 因此, 程序应该包含头文件 <code>&lt;errno.h&gt;</code>, 该文件提供了对 <code>errno</code> 的声明, 以及一组针对各种错误编号而定义的常量, 这些常量都以 E 开头. 下面是一个利用 <code>errno</code> 判断系统调用错误的示例:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c">cnt = read(fd, buf, numbytes);<br><span class="hljs-keyword">if</span> (cnt == <span class="hljs-number">-1</span>) &#123;<br>	<span class="hljs-keyword">if</span> (errno == EINTR)<br>		<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;read was interrupted by a signal\n&quot;</span>);<br>	<span class="hljs-keyword">else</span> &#123;<br>		<span class="hljs-comment">/* Some other error occurred */</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>另外, 即使<strong>系统调用和库函数执行成功, <code>errno</code> 也不会被重置为 0</strong>. 因此, 在进行错误检查时, 必须首先检查函数的返回值是否表明系统调用出错, 再根据 <code>errno</code> 确定错误的原因.</p>
+<p>少数系统调用 (如, <code>getpriority()</code>) 在调用成功后, 也会返回 −1. 想要判断此类系统调用是否出错, 应该在调用前将 <code>errno</code> 置为 0, 并在调用后对其进行检查.</p>
+<p>C 语言函数库提供的库函数 <code>perror()</code> 和 <code>strerror()</code> 会根据 <code>errno</code> 值打印错误信息:</p>
+<ul>
+<li><code>perror()</code> 函数会在打印出 <code>msg</code> 参数所指向的字符串后, 紧跟一条与当前 <code>errno</code> 值相对应的消息:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">perror</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *msg)</span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>strerror()</code> 函数会针对其 <code>errnum</code> 参数中所给定的错误号, 返回相应的错误字符串:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-type">char</span> *<span class="hljs-title function_">strerror</span><span class="hljs-params">(<span class="hljs-type">int</span> errnum)</span>;<br></code></pre></td></tr></table></figure>
+若无法识别 <code>errnum</code> 所包含的错误编号, 则 <code>strerror()</code> 会返回 “Unknown error nnn.” 形式的字符串. 在某些实现中可能会返回 NULL.</li>
+</ul>
+<p>由于 <code>perror()</code> 和 <code>strerror()</code> 都属于对语言环境敏感的函数,  因此错误描述中使用的都是本地语言.</p>
+<h3 id="处理来自库函数的错误">处理来自库函数的错误</h3>
+<p>不同的库函数在调用发生错误时, 返回的数据类型和值也各不相同. 从错误处理的角度来说, 可将库函数划分为以下几类:</p>
+<ul>
+<li>某些库函数返回错误信息的方式与系统调用完全相同, 即返回值为 -1, 以 <code>errno</code> 来判断具体错误. 对此类函数所发生的错误进行诊断时, 方式与系统调用完全相同.</li>
+<li>某些库函数在出错时会返回 −1 之外的值, 但仍会设置 <code>errno</code> 来表明具体的出错情况. 例如, <code>fopen()</code> 在出错时返回一个 NULL 指针. 此时可以使用库函数 <code>perror()</code> 或 <code>strerror()</code> 诊断此类错误.</li>
+<li>还有些函数不使用 <code>errno</code>. 对此类函数来说, 确定错误存在与否及其起因的方法各不相同, 应当查看相关的手册, 不应该使用 <code>errno</code>、<code>perror()</code> 或 <code>strerror()</code> 来诊断错误.</li>
+</ul>
+<h2 id="可移植性">可移植性</h2>
+<h3 id="特性测试宏">特性测试宏</h3>
+<p>特性测试宏是一个用于控制系统的特定功能是否可用的<strong>编译时</strong>机制. 这些宏通常在编译时进行检查, 通过测试 (使用 <code>#if</code>) 应用程序为宏所定义的值, 来决定应该让哪些 (由头文件提供的) 特性可见.</p>
+<p>系统调用和库函数 API 的行为受到各种标准的制约. 编写可移植性应用程序时, 有时会<strong>希望各个头文件只显露遵循特定标准的定义</strong>. 要达到这一目的, 需要在编译程序时定义下列一个或多个特性测试宏. 方式之一是在程序源码包含任何头文件之前, 定义如下宏:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> _BSD_SOURCE 1</span><br></code></pre></td></tr></table></figure>
+<p>此外, 还可以使用 C 编译器的 -D 选项:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">cc -D_BSD_SOURCE prog.c</span><br></code></pre></td></tr></table></figure>
+<p>以下特性测试宏由<strong>相关标准定义生成</strong>, 因而在支持这些标准的所有系统上, 对这些宏的使用均是可移植的:</p>
+<ul>
+<li><code>_POSIX_SOURCE</code>. 一经定义 (任何值), 头文件会显露符合 POSIX.1-1990 和 ISO C (1990) 标准的定义. 该宏已被 <code>_POSIX_C_SOURCE</code> 取代.</li>
+<li><code>_POSIX_C_SOURCE</code>. 若定义为 1, 效果与 <code>_POSIX_SOURCE</code> 相同. 若将其值定义为大于等于 199309, 头文件还会显露遵循 POSIX.1b (实时) 标准的定义. 若将其值定义为大于等于 199506, 便会开启对 POSIX.1c (线程) 定义的支持. 若将其值定义为 200112, 则开启对 POSIX.1-2001 基本规范 (排除了 XSI 扩展) 定义的支持. 若将其值定义为 200809, 便会开启对 POSIX.1-2008 基本规范定义的支持.</li>
+<li><code>_XOPEN_SOURCE</code>. 一经定义 (任何值), 头文件会显露对 POSIX.1、POSIX.2 和 X/Open (XPG4) 标准的定义.  若将其值定义为大于等于 500, 还会开启对 SUSv2 (UNIX 98 和 XPG5) 扩展的支持. 若将其值设置为大于等于 600, 则又开启了对 SUSv3 XSI (UNIX 03) 扩展和 C99 扩展的支持. 若将其值设置为大于等于 700,  便会开启对 SUSv4 XSI 扩展的支持.</li>
+</ul>
+<p>以下特性测试宏是 <strong>glibc 专用</strong>的:</p>
+<ul>
+<li><code>_BSD_SOURCE</code>. 一经定义 (任何值), 开启对 BSD 定义的支持. 此外, 只要定义了该宏, 便以值 199506 定 义了 <code>_POSIX_C_SOURCE</code>. 极少数的情况下, 当标准之间发生冲突时, 显式设置该宏会导致系统向 BSD 定义倾斜.</li>
+<li><code>_SVID_SOURCE</code>. 一经定义 (任何值), 头文件会显露符合 System V 接口规范 (SVID) 的定义.</li>
+<li><code>_GNU_SOURCE</code>. 一经定义 (任何值), 头文件除了会显露符合前述所有标准的定义外, 还会开启对各种 GNU 扩展定义的支持.</li>
+</ul>
+<p>在不带任何特殊选项调用 GNU C 编译器时, <strong>默认启用</strong>宏 <code>_POSIX_SOURCE</code>、<code>_POSIX_ C_SOURCE=200809</code> (glibc 版本为 2.5-2.9 时, 其值为 200112; glibc 版本低于 2.4 时, 其值为 199506)、<code>_BSD_SOURCE</code> 以及 <code>_SVID_SOURCE</code>. 在对个别宏进行了定义, 或以其标准模式之一去调用编译器时 (比如, cc –ansi 或 cc – std=c99), 只会按需提供定义, 即GNU C 编译器默认定义的那些特性测试宏都不会被启用. 不过, 有一个例外: 若未对 <code>_POSIX_C_SOURCE</code> 另行定义, 且未以标准模式之一去调用编译器, 则 <code>_POSIX_C_SOURCE</code> 的值会被定义为 200809 (glibc 版本为 2.4-2.9 时, 其值为 200112; glibc 版本低于 2.4 时, 其值为 199506).</p>
+<p>定义多个宏有叠加效应, 可以使用 cc 命令来明确选择多个宏. 例如:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">cc -D_POSIX_SOURCE -D_POSIX_C_SOURCE=199506 \</span><br><span class="language-bash">				-D_BSD_SOURCE -D_SVID_SOURCE prog.c</span><br></code></pre></td></tr></table></figure>
+<p><code>&lt;features.h&gt;</code> 头文件和 feature_test_macros 手册页, 针对赋给每个特性测试宏的值, 提供了更多精确信息.</p>
+<p>手册页则描述了欲使某个特定常量定义或函数声明在头文件中可见, 应该定义哪些特性测试宏.</p>
+<h3 id="系统数据类型">系统数据类型</h3>
+<p>不同实现的数据类型, 例如: 进程 ID、用户 ID 以及文件偏移量, 表示时均采用标准 C 语言类型. 如果使用 C 语言的基本类型 (如 <code>int</code> 和 <code>long</code>), 则会增加不同 UNIX 系统间相互移植的难度:</p>
+<ul>
+<li>由于 UNIX 实现的不同, 或者是同一实现中编译环境的不同, C 语言基本类型的大小可能不相同 (例如, <code>long</code> 类型可能在系统 A 上长度为 4 字节, 在系统 B 上为 8 字节).</li>
+<li>对于同一 Unix 实现的不同版本, C 语言基本类型的大小也可能不相同.</li>
+</ul>
+<p>为避免此类可移植性问题, 每种标准系统数据类型的定义均使用 C 语言的 <code>typedef</code> 特性. 例如, <code>pid_t</code> 数据类型用以表示进程 ID, 在 Linux/x86-32 上, 其类型定义如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-type">int</span> <span class="hljs-type">pid_t</span>;<br></code></pre></td></tr></table></figure>
+<p>标准系统数据类型中的大多数的命名都以 <code>_t</code> 结尾, 其中有不少声明在头文件 <code>&lt;sys/types.h&gt;</code> 中.</p>
+<p>当需要打印系统数据类型的值的时候, <strong>调用 <code>printf()</code> 应留意不要引入对表现形式的依赖</strong>. 这是因为 C 语言在调用 <code>printf()</code> 时, 会自动将传入的整型参数的类型转换为 <code>int</code> 或 <code>long</code>, 而 <code>printf()</code> 在调用时无法判断参数的类型, 因此调用者必须明确格式限定符为 <code>%d</code> 或 <code>%ld</code>, 此时 <code>printf()</code> 中只针对一种限定符进行编码会导致对实现的依赖. <strong>常见的应对策略是强制转换相应值为 <code>long</code> 类型后, 再使用 <code>%ld</code> 限定符</strong>.</p>
+<p>此外, 该策略有一个例外. 因为在一些编译环境中数据类型 <code>off_t</code> 大小与 <code>long long</code> 相当, 所以会将 <code>off_t</code> 强制转换为 <code>long long</code> 并使用 <code>%lld</code> 限定符.</p>
+<h3 id="初始化操作和使用结构">初始化操作和使用结构</h3>
+<p>每种 UNIX 实现, 都明确定义了一系列标准结构, 用于各种系统调用及库函数. 例如, 用于表示信号量操作的结构 <code>sembuf</code>:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sembuf</span> &#123;</span><br>	<span class="hljs-type">unsigned</span> <span class="hljs-type">short</span> sem_num;<br>	<span class="hljs-type">short</span>          sem_op;<br>	<span class="hljs-type">short</span>          sem_flag;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>虽然 SUSv3 定义了诸如 sembuf 之类的结构, 但是没有对这些类结构内部的字段顺序作出规范, 并且, 一些情况下, 这些类结构内会包含额外的、与实现相关的字段.</p>
+<p>因此, 如果以如下方式对数据结构进行初始化, 其代码是无法移植的:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sembuf</span> <span class="hljs-title">s</span> =</span> &#123;<span class="hljs-number">3</span>, <span class="hljs-number">-1</span>, SEM_UNDO&#125;;<br></code></pre></td></tr></table></figure>
+<p>想要在初始化时消除此类移植问题, 必须明确采用如下赋值语句:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sembuf</span> <span class="hljs-title">s</span>;</span><br><br>s.sem_num = <span class="hljs-number">3</span>;<br>s.sem_op = <span class="hljs-number">-1</span>;<br>s.sem_flag = SEM_UNDO;<br></code></pre></td></tr></table></figure>
+<p>如果需要将标准结构的内容转储到文件中, 为了消除可移植性问题, 必须将结构内的字段以特定顺序逐一记录, 不能简单地将结构以二进制形式写入.</p>
+<h3 id="使用宏">使用宏</h3>
+<p>未必所有的 UNIX 实现都对一个宏做了定义. 想要处理此类潜在的可移植性问题, 可以使用 C 语言的预编译指令 <code>#ifdef</code>, 如下所示:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> MACRO</span><br>	<span class="hljs-comment">/* Use marco */</span><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br></code></pre></td></tr></table></figure>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Linux/UNIX 系统编程手册
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/Linux/" class="category-chain-item">Linux</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/Linux/Linux-UNIX%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/" class="category-chain-item">Linux-UNIX系统编程</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
+      
+        <a href="/tags/Linux-UNIX-%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/" class="print-no-link">#Linux/UNIX 系统编程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E6%8C%89%E9%92%AE/" title="QT 按钮">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QT 按钮</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/Linux/Linux-UNIX%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6%E6%96%87%E4%BB%B6IO/" title="深入探究文件 I/O">
+                        <span class="hidden-mobile">深入探究文件 I/O</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

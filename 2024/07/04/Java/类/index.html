@@ -1,0 +1,742 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="类 静态&#x2F;动态 静态属性、静态方法: 在属性或方法中包含关键字 static, 也称为类属性和类方法, 即可以通过类或实例来调用和访问的方法或属性, 但是静态方法中不能访问动态属性, 因为动态属性是实例的属性. 动态属性、动态方法: 在属性或方法中不包含关键字 static, 也称为实例属性和实例方法, 即只能通过类的实例来调用和访问的方法或属性. 访问修饰符 访问权限主要有以下四种:  默认 (">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 类">
+<meta property="og:url" content="http://example.com/2024/07/04/Java/%E7%B1%BB/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="类 静态&#x2F;动态 静态属性、静态方法: 在属性或方法中包含关键字 static, 也称为类属性和类方法, 即可以通过类或实例来调用和访问的方法或属性, 但是静态方法中不能访问动态属性, 因为动态属性是实例的属性. 动态属性、动态方法: 在属性或方法中不包含关键字 static, 也称为实例属性和实例方法, 即只能通过类的实例来调用和访问的方法或属性. 访问修饰符 访问权限主要有以下四种:  默认 (">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20220712160243.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220715141115.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220717180155.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220715223505.png">
+<meta property="article:published_time" content="2024-07-04T12:02:19.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CS61B">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20220712160243.png">
+  
+  
+  
+  <title>Java 类 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Java 类"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:02" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Java 类</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>类</h1>
+<h2 id="静态-动态">静态/动态</h2>
+<p>静态属性、静态方法: 在属性或方法中<strong>包含关键字 static</strong>, 也称为类属性和类方法, 即可以通过<strong>类或实例</strong>来调用和访问的方法或属性, 但是静态方法中不能访问动态属性, 因为动态属性是实例的属性.</p>
+<p>动态属性、动态方法: 在属性或方法中<strong>不包含关键字 static</strong>, 也称为实例属性和实例方法, 即<strong>只能通过类的实例</strong>来调用和访问的方法或属性.</p>
+<h2 id="访问修饰符">访问修饰符</h2>
+<p>访问权限主要有以下四种:</p>
+<ul>
+<li>默认 (即没有修饰符): 只在自己的包中可见.</li>
+<li>Public:  对所有类都可见.</li>
+<li>Private: 只在当前类中可见.</li>
+<li>Protected: 只在当前包或另一个包中当前类的子类中可见.</li>
+</ul>
+<p><img src="/img/Pictures/20220712160243.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>第一列表示<strong>类本身</strong>是否有权利访问由访问修饰符定义的成员.</li>
+<li>第二列表示<strong>当前类所属的包中的类</strong>是否有权利访问由访问修饰符定义的成员.</li>
+<li>第三列表示在<strong>此包外部声明的该类的子类</strong>是否有权访问由访问修饰符定义的成员.</li>
+<li>第四列表示<strong>所有类</strong>是否有权访问有访问修饰符定义的成员.</li>
+</ul>
+<h2 id="嵌套类">嵌套类</h2>
+<p>嵌套类分为两种:</p>
+<ul>
+<li>
+<p>非静态嵌套类: 可以访问其封闭类的任何成员, 即静态属性、静态方法、动态属性和动态方法, 包括以私有修饰符 Private 修饰的成员.</p>
+</li>
+<li>
+<p>静态嵌套类: 只能访问器封闭类的静态成员.</p>
+<p>例如:</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SLList</span> &#123;<br>      <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">IntNode</span> &#123;<br>           <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> item;<br>           <span class="hljs-keyword">public</span> IntNode next;<br>           <span class="hljs-keyword">public</span> <span class="hljs-title function_">IntNode</span><span class="hljs-params">(<span class="hljs-type">int</span> i, IntNode n)</span> &#123;<br>               item = i;<br>               next = n;<br>           &#125;<br>      &#125;<br><br>      <span class="hljs-keyword">private</span> IntNode first;<br>	...<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>此时嵌套类 IntNode 没法访问 SLList 类的 first 等成员.</p>
+</li>
+</ul>
+<p>注意: 如果一个类的嵌套类是 private, 该嵌套类有 public 方法, 如:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SLList</span> &#123;<br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">IntNode</span> &#123;<br>		<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">add</span><span class="hljs-params">()</span> &#123;<br>			...<br>		&#125;<br>	&#125;<br>	...<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如果你将该嵌套类的引用提供给外部类之外的某个人, 他也可以调用该内部类的那些公有方法.</p>
+<h2 id="继承">继承</h2>
+<p>如果 “A 是 B”, 则称 B 是 A 的<strong>上位词</strong>, 例如: 贵宾狗、雪橇狗、约克狗都是狗, 所以可以称狗是贵宾狗、雪橇狗、约克狗的上位词.</p>
+<p>相反, 如果 “A 是 B”, 则称 A 是 B 的<strong>下位词</strong>, 例如上例中的贵宾狗、雪橇狗、约克狗都是狗的下位词.</p>
+<p>多个上位词和下位词形成的层次结构如下图所示:<br>
+<img src="/img/Pictures/20220715141115.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>继承允许我们在保留父类的方法的基础上添加额外的方法, 通过关键字 extends 实现.</p>
+<p>例如:</p>
+<p>如果想要定义一个子类 RotatingSLList 在父类 SLList 的方法的基础上多添加一个 RotateRight 方法, 可以如下定义:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RotatingSLList</span>&lt;Item&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title class_">SLList</span>&lt;Item&gt; &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">RotateRight</span><span class="hljs-params">()</span> &#123;<br>		...<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>子类能够继承父类的以下成员(注意: 这些成员必须是公有的):</p>
+<ul>
+<li>所有的实例属性和静态属性.</li>
+<li>所有的方法.</li>
+<li>所有的嵌套类.</li>
+</ul>
+<p>在子类方法的函数体内, 可以通过关键字 super 调用父类的方法.</p>
+<p>例如:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RotatingSLList</span>&lt;Item&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title class_">SLList</span>&lt;Item&gt; &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">RotateRight</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-built_in">super</span>.removeLast();<br>		...<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>子类的构造函数必须调用父类的构造函数:</p>
+<ul>
+<li>
+<p>显示调用: 同样使用关键字 super, 如下:</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RotatingSLList</span>&lt;Item&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title class_">SLList</span>&lt;Item&gt; &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-title function_">RotatingSLList</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-built_in">super</span>();<br>		...<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>隐式调用: 如果不使用关键字 super, 则 Java 会自动调用父类的构造函数.</p>
+<p>(注意: 隐式调用只会调用父类无参数的构造函数, 即使子类的构造函数中传入了参数)</p>
+</li>
+</ul>
+<p>任何没有说明继承自特定类的类 (不包含接口, 接口不继承 Object 类)都隐式地继承 Object 类 (Object 类不是一个接口, 而是是一个具体的类, 即提供了一些方法的默认实现方式).</p>
+<p><img src="/img/Pictures/20220717180155.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="接口">接口</h3>
+<p>如果多个类处理的目标是一样的, 但是处理的方法方式不同, 那么就定义一个接口, 也就是一个标准, 让这些类用各自的处理方法实现目标.</p>
+<p>使用关键字 interface 来声明接口.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">List61B</span>&lt;Item&gt; &#123;<br>...<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>例如: 创建名为 List61B 的接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">List61B</span>&lt;Item&gt; &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addFirst</span><span class="hljs-params">(Item x)</span>;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addLast</span><span class="hljs-params">(Item x)</span>;<br>	<span class="hljs-keyword">public</span> Item <span class="hljs-title function_">getFirst</span><span class="hljs-params">()</span>;<br>	<span class="hljs-keyword">public</span> Item <span class="hljs-title function_">getLast</span><span class="hljs-params">()</span>;<br>	<span class="hljs-keyword">public</span> Item <span class="hljs-title function_">removeLast</span><span class="hljs-params">()</span>;<br>	<span class="hljs-keyword">public</span> Item <span class="hljs-title function_">get</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span>;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">insert</span><span class="hljs-params">(Item x, <span class="hljs-type">int</span> position)</span>;<br>	<span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">size</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>^3546f4</p>
+<h3 id="实现">实现</h3>
+<p>通过关键字 implements 声明实现.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SLList</span>&lt;Blorp&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title class_">List61B</span>&lt;Blorp&gt; &#123;<br>...<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>例如:<br>
+<img src="/img/Pictures/20220715223505.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>其中 List61B 为接口.</p>
+<ul>
+<li>用 SLList 实现 List61B 接口:</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SLList</span>&lt;Item&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title class_">List61B</span>&lt;Item&gt; &#123;  <br>    <span class="hljs-keyword">private</span> Node sentinel;  <br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> size;  <br>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Node</span> &#123;  <br>        <span class="hljs-keyword">public</span> Item item;  <br>        <span class="hljs-keyword">public</span> Node next;  <br>  <br>        <span class="hljs-keyword">public</span> <span class="hljs-title function_">Node</span><span class="hljs-params">(Item i, Node n)</span> &#123;  <br>            item = i;  <br>            next = n;  <br>        &#125;  <br>    &#125;  <br>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">SLList</span><span class="hljs-params">()</span> &#123;  <br>        sentinel = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(<span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>);  <br>        size = <span class="hljs-number">0</span>;  <br>    &#125;  <br>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">SLList</span><span class="hljs-params">(Item x)</span> &#123;  <br>        sentinel = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(<span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>);  <br>        sentinel.next = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(x, <span class="hljs-literal">null</span>);  <br>        size = <span class="hljs-number">1</span>;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Adds an item to the front of the list. */</span>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addFirst</span><span class="hljs-params">(Item x)</span> &#123;  <br>        sentinel.next = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(x, sentinel.next);  <br>        size += <span class="hljs-number">1</span>;  <br>    &#125;  <br>  <br>  <br>    <span class="hljs-comment">/** Retrieves the front item from the list. */</span>  <br>    <span class="hljs-keyword">public</span> Item <span class="hljs-title function_">getFirst</span><span class="hljs-params">()</span> &#123;  <br>        <span class="hljs-keyword">return</span> (Item) sentinel.next.item;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Adds an item to the end of the list. */</span>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addLast</span><span class="hljs-params">(Item x)</span> &#123;  <br>        <span class="hljs-type">Node</span> <span class="hljs-variable">p</span> <span class="hljs-operator">=</span> sentinel;  <br>  <br>        <span class="hljs-comment">/* Advance p to the end of the list. */</span>  <br>        <span class="hljs-keyword">while</span> (p.next != <span class="hljs-literal">null</span>) &#123;  <br>            p = p.next;  <br>        &#125;  <br>        p.next = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(x, <span class="hljs-literal">null</span>);  <br>        size += <span class="hljs-number">1</span>;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Returns the size of the list starting at IntNode p. */</span>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">size</span><span class="hljs-params">()</span> &#123;  <br>        <span class="hljs-keyword">return</span> size;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Retrieves the Last item from the list. */</span>  <br>    <span class="hljs-keyword">public</span> Item <span class="hljs-title function_">getLast</span><span class="hljs-params">()</span> &#123;  <br>        <span class="hljs-type">Node</span> <span class="hljs-variable">p</span> <span class="hljs-operator">=</span> sentinel;  <br>  <br>        <span class="hljs-keyword">while</span> (p.next != <span class="hljs-literal">null</span>) &#123;  <br>            p = p.next;  <br>        &#125;  <br>        <span class="hljs-keyword">return</span> p.item;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Removes the last element in the list. */</span>  <br>    <span class="hljs-keyword">public</span> Item <span class="hljs-title function_">removeLast</span><span class="hljs-params">()</span> &#123;  <br>        <span class="hljs-type">Node</span> <span class="hljs-variable">p</span> <span class="hljs-operator">=</span> sentinel;  <br>  <br>        <span class="hljs-comment">/** If there are no elements in the list, returns null. */</span>  <br>        <span class="hljs-keyword">if</span> (p.next == <span class="hljs-literal">null</span>) &#123;  <br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;  <br>        &#125;  <br>  <br>        <span class="hljs-keyword">while</span> (p.next.next != <span class="hljs-literal">null</span>) &#123;  <br>            p = p.next;  <br>        &#125;  <br>  <br>        <span class="hljs-type">Item</span> <span class="hljs-variable">x</span> <span class="hljs-operator">=</span> p.next.item;  <br>        p.next = <span class="hljs-literal">null</span>;  <br>        <span class="hljs-keyword">return</span> x;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Retrieves the i th element of the list. */</span>  <br>    <span class="hljs-keyword">public</span> Item <span class="hljs-title function_">get</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span> &#123;  <br>        <span class="hljs-comment">/** If the length of the list is less than i + 1, returns null. */</span>  <br>        <span class="hljs-keyword">if</span> (i &gt; size - <span class="hljs-number">1</span>) &#123;  <br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;  <br>        &#125;  <br>  <br>        <span class="hljs-type">Node</span> <span class="hljs-variable">p</span> <span class="hljs-operator">=</span> sentinel;  <br>  <br>        <span class="hljs-keyword">while</span> (p != <span class="hljs-literal">null</span> &amp;&amp; i &gt;= <span class="hljs-number">0</span>) &#123;  <br>            p = p.next;  <br>            i -= <span class="hljs-number">1</span>;  <br>        &#125;  <br>        <span class="hljs-keyword">return</span> p.item;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Inserts an element into the list at the position marked i. */</span>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">insert</span><span class="hljs-params">(Item x, <span class="hljs-type">int</span> i)</span> &#123;  <br>        <span class="hljs-type">Node</span> <span class="hljs-variable">p</span> <span class="hljs-operator">=</span> sentinel;  <br>  <br>        <span class="hljs-keyword">while</span> (p != <span class="hljs-literal">null</span> &amp;&amp; i &gt; <span class="hljs-number">0</span>) &#123;  <br>            p = p.next;  <br>            i -= <span class="hljs-number">1</span>;  <br>        &#125;  <br>  <br>        p.next = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(x, p.next);  <br>    &#125;  <br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>用 DLList 实现 List61B 接口:</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DLList</span>&lt;Item&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title class_">List61B</span>&lt;Item&gt; &#123;  <br>    <span class="hljs-keyword">private</span> Node sentinel;  <br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> size;  <br>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Node</span> &#123;  <br>        <span class="hljs-keyword">public</span> Item item;  <br>        <span class="hljs-keyword">public</span> Node next;  <br>        <span class="hljs-keyword">public</span> Node prev;  <br>  <br>        <span class="hljs-keyword">public</span> <span class="hljs-title function_">Node</span><span class="hljs-params">(Item i, Node prevPoint, Node nextPoint)</span> &#123;  <br>            item = i;  <br>            prev = prevPoint;  <br>            next = nextPoint;  <br>        &#125;  <br>    &#125;  <br>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">DLList</span><span class="hljs-params">()</span> &#123;  <br>        sentinel = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(<span class="hljs-literal">null</span>, sentinel, sentinel);  <br>        size = <span class="hljs-number">0</span>;  <br>    &#125;  <br>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">DLList</span><span class="hljs-params">(Item x)</span> &#123;  <br>        sentinel = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(<span class="hljs-literal">null</span>, sentinel, sentinel);  <br>        sentinel.next = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(x, sentinel, sentinel);  <br>        sentinel.prev = sentinel.next;  <br>        size = <span class="hljs-number">1</span>;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Adds an item to the front of the list. */</span>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addFirst</span><span class="hljs-params">(Item x)</span> &#123;  <br>        sentinel.next = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(x, sentinel, sentinel.next);  <br>        size += <span class="hljs-number">1</span>;  <br>    &#125;  <br>  <br>  <br>    <span class="hljs-comment">/** Retrieves the front item from the list. */</span>  <br>    <span class="hljs-keyword">public</span> Item <span class="hljs-title function_">getFirst</span><span class="hljs-params">()</span> &#123;  <br>        <span class="hljs-keyword">return</span> sentinel.next.item;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Adds an item to the end of the list. */</span>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addLast</span><span class="hljs-params">(Item x)</span> &#123;  <br>        sentinel.prev.next = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(x, sentinel.prev, sentinel);  <br>        sentinel.prev = sentinel.prev.next;  <br>        size += <span class="hljs-number">1</span>;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Retrieves the front item from the list. */</span>  <br>    <span class="hljs-keyword">public</span> Item <span class="hljs-title function_">getLast</span><span class="hljs-params">()</span> &#123;  <br>        <span class="hljs-keyword">return</span> sentinel.prev.item;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Returns the size of the list starting at IntNode p. */</span>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">size</span><span class="hljs-params">()</span> &#123;  <br>        <span class="hljs-keyword">return</span> size;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Removes the last element in the list. */</span>  <br>    <span class="hljs-keyword">public</span> Item <span class="hljs-title function_">removeLast</span><span class="hljs-params">()</span> &#123;  <br>        <span class="hljs-keyword">if</span> (sentinel.prev == sentinel) &#123;  <br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;  <br>        &#125;  <br>  <br>        <span class="hljs-type">Item</span> <span class="hljs-variable">x</span> <span class="hljs-operator">=</span> sentinel.prev.item;  <br>        sentinel.prev.prev.next = sentinel;  <br>        sentinel.prev = sentinel.prev.prev;  <br>        <span class="hljs-keyword">return</span> x;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Retrieves the i th element of the list. */</span>  <br>    <span class="hljs-keyword">public</span> Item <span class="hljs-title function_">get</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span> &#123;  <br>        <span class="hljs-comment">/** If the length of the list is less than i + 1, returns null. */</span>  <br>        <span class="hljs-keyword">if</span> (i &gt; size - <span class="hljs-number">1</span>) &#123;  <br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;  <br>        &#125;  <br>  <br>        <span class="hljs-comment">/** Choose which side to start from  </span><br><span class="hljs-comment">         * based on the distance between sentinel and i.*/</span>        <span class="hljs-type">Node</span> <span class="hljs-variable">p</span> <span class="hljs-operator">=</span> sentinel;  <br>        <span class="hljs-keyword">if</span> (i * <span class="hljs-number">2</span> &gt; size) &#123;  <br>            <span class="hljs-keyword">while</span> (p.prev != sentinel &amp;&amp; i &lt; size) &#123;  <br>                p = p.prev;  <br>                i += <span class="hljs-number">1</span>;  <br>            &#125;  <br>        &#125; <span class="hljs-keyword">else</span> &#123;  <br>            <span class="hljs-keyword">while</span> (p.next != sentinel &amp;&amp; i &gt;= <span class="hljs-number">0</span>) &#123;  <br>                p = p.next;  <br>                i -= <span class="hljs-number">1</span>;  <br>            &#125;  <br>        &#125;  <br>        <span class="hljs-keyword">return</span> p.item;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Inserts an element into the list at the position marked i. */</span>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">insert</span><span class="hljs-params">(Item x, <span class="hljs-type">int</span> i)</span> &#123;  <br>        <span class="hljs-comment">/** If the length of the list is less than i + 1,  </span><br><span class="hljs-comment">         * insert the element into the last of the list.*/</span>        <span class="hljs-keyword">if</span> (i &gt; size - <span class="hljs-number">1</span>) &#123;  <br>            addLast(x);  <br>            <span class="hljs-keyword">return</span> ;        &#125;  <br>  <br>        <span class="hljs-type">Node</span> <span class="hljs-variable">p</span> <span class="hljs-operator">=</span> sentinel;  <br>        <span class="hljs-keyword">if</span> (i * <span class="hljs-number">2</span> &gt; size) &#123;  <br>            <span class="hljs-keyword">while</span> (p.prev != sentinel &amp;&amp; i &lt; size - <span class="hljs-number">1</span>) &#123;  <br>                p = p.prev;  <br>                i += <span class="hljs-number">1</span>;  <br>            &#125;  <br>  <br>            p.prev = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(x, p.prev, p);  <br>            p.prev.prev.next = p.prev;  <br>        &#125; <span class="hljs-keyword">else</span> &#123;  <br>            <span class="hljs-keyword">while</span> (p.next != sentinel &amp;&amp; i &gt; <span class="hljs-number">0</span>) &#123;  <br>                p = p.next;  <br>                i -= <span class="hljs-number">1</span>;  <br>            &#125;  <br>  <br>            p.next = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(x, p, p.next);  <br>            p.next.next.prev = p.next;  <br>        &#125;  <br>    &#125;  <br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>用 AList 实现 CS61B 接口:</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AList</span>&lt;Item&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title class_">List61B</span>&lt;Item&gt; &#123;  <br>    <span class="hljs-keyword">private</span> Item[] items;  <br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> size;  <br>  <br>    <span class="hljs-comment">/** Creates an empty list. */</span>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">AList</span><span class="hljs-params">()</span> &#123;  <br>        Item[] items = (Item[]) <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[<span class="hljs-number">100</span>];  <br>        size = <span class="hljs-number">0</span>;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Resizes the underlying array to the target capacity. */</span>  <br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">resize</span><span class="hljs-params">(<span class="hljs-type">int</span> capacity)</span> &#123;  <br>        Item[] a = (Item[]) <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[capacity];  <br>        System.arraycopy(items, <span class="hljs-number">0</span>, a, <span class="hljs-number">0</span>, size);  <br>        items = a;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Inserts X into the back of the list. */</span>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addLast</span><span class="hljs-params">(Item x)</span> &#123;  <br>        <span class="hljs-keyword">if</span> (size == items.length) &#123;  <br>            resize((<span class="hljs-type">int</span>) (size * <span class="hljs-number">2.0</span>));  <br>        &#125;  <br>  <br>        items[size] = x;  <br>        size = size + <span class="hljs-number">1</span>;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Returns the item from the back of the list. */</span>  <br>    <span class="hljs-keyword">public</span> Item <span class="hljs-title function_">getLast</span><span class="hljs-params">()</span> &#123;  <br>        <span class="hljs-keyword">return</span> items[size - <span class="hljs-number">1</span>];  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Gets the ith item in the list (0 is the front). */</span>  <br>    <span class="hljs-keyword">public</span> Item <span class="hljs-title function_">get</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span> &#123;  <br>        <span class="hljs-comment">/** If the length of the list is less than i + 1, returns null. */</span>  <br>        <span class="hljs-keyword">if</span> (i &gt; size - <span class="hljs-number">1</span>) &#123;  <br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;  <br>        &#125;  <br>  <br>        <span class="hljs-keyword">return</span> items[i];  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Returns the number of items in the list. */</span>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">size</span><span class="hljs-params">()</span> &#123;  <br>        <span class="hljs-keyword">return</span> size;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Deletes item from back of the list and  </span><br><span class="hljs-comment">     * returns deleted item. */</span>    <span class="hljs-keyword">public</span> Item <span class="hljs-title function_">removeLast</span><span class="hljs-params">()</span> &#123;  <br>        <span class="hljs-type">Item</span> <span class="hljs-variable">x</span> <span class="hljs-operator">=</span> getLast();  <br>        size = size - <span class="hljs-number">1</span>;  <br>  <br>        <span class="hljs-keyword">if</span> ((<span class="hljs-type">float</span>)size / items.length &lt; <span class="hljs-number">0.25</span>) &#123;  <br>            resize(items.length / <span class="hljs-number">2</span>);  <br>        &#125;  <br>  <br>        <span class="hljs-keyword">return</span> x;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Adds an item to the front of the list. */</span>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addFirst</span><span class="hljs-params">(Item x)</span> &#123;  <br>        Item[] a = (Item[]) <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[size + <span class="hljs-number">1</span>];  <br>        System.arraycopy(items, <span class="hljs-number">0</span>, a, <span class="hljs-number">1</span>, size);  <br>        a[<span class="hljs-number">0</span>] = x;  <br>        items = a;  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Retrieves the front item from the list. */</span>  <br>    <span class="hljs-keyword">public</span> Item <span class="hljs-title function_">getFirst</span><span class="hljs-params">()</span>&#123;  <br>        <span class="hljs-keyword">return</span> items[<span class="hljs-number">0</span>];  <br>    &#125;  <br>  <br>    <span class="hljs-comment">/** Inserts an element into the list at the position marked i. */</span>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">insert</span><span class="hljs-params">(Item x, <span class="hljs-type">int</span> i)</span> &#123;  <br>        Item[] a = (Item[]) <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[size + <span class="hljs-number">1</span>];  <br>        System.arraycopy(items, <span class="hljs-number">0</span>, a, <span class="hljs-number">0</span>, i);  <br>        System.arraycopy(items, i, a, i + <span class="hljs-number">1</span>, size - i);  <br>        a[i] = x;  <br>        items = a;  <br>    &#125;  <br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="重写与重载">重写与重载</h3>
+<p><strong>重写</strong>: 发生在类的继承或接口与实现中, 当子类的方法和父类的方法<strong>签名 (方法名、参数列表和 const 限定符) 相同 (不看返回类型) <strong>时会发生重写, 即子类的方法</strong>覆盖</strong>父类的方法.</p>
+<p>例如:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Animal</span> &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">makeNoise</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Pig</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Animal</span> &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">makeNoise</span><span class="hljs-params">()</span> &#123;<br>		System.out.println(<span class="hljs-string">&quot;oink&quot;</span>);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>此时 Pig 类的 makeNoise 方法会覆盖 Animal 接口的 makeNoise 方法, 因为它们的方法签名相同.</p>
+<p>可以在实现的覆盖了接口的方法前面添加标签 @Override 来表明该方法是重写的, 该标签可以防止程序员输入错误, 也可以提醒程序员, 该方法是重写接口中的方法的.</p>
+<p><strong>重载</strong>: 在同一个类中, 当同一个类具有多个方法的方法名相同, 但<strong>参数列表不同</strong>, 则会使用重载, 此时多个同名的方法共存.</p>
+<p>例如:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Animal</span> &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">makeNoise</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Dog</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Animal</span> &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">makeNoise</span><span class="hljs-params">(Dog x)</span> &#123;<br>	...<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>此时 Dog 类的 makeNoise 方法的参数列表和 Animal 接口的 makeNoise 方法的参数列表不相同, 所以此时 Dog 类的 makeNoise 方法实现的是重载.</p>
+<h3 id="接口继承与实现继承">接口继承与实现继承</h3>
+<p><strong>接口继承</strong>: 子类只能继承接口中方法的签名, 无法继承实现.</p>
+<p>如之前 List61B 接口中的那些方法声明:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">List61B</span>&lt;Item&gt; &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addFirst</span><span class="hljs-params">(Item x)</span>;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addLast</span><span class="hljs-params">(Item x)</span>;<br>	<span class="hljs-keyword">public</span> Item <span class="hljs-title function_">getFirst</span><span class="hljs-params">()</span>;<br>	<span class="hljs-keyword">public</span> Item <span class="hljs-title function_">getLast</span><span class="hljs-params">()</span>;<br>	<span class="hljs-keyword">public</span> Item <span class="hljs-title function_">removeLast</span><span class="hljs-params">()</span>;<br>	<span class="hljs-keyword">public</span> Item <span class="hljs-title function_">get</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span>;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">insert</span><span class="hljs-params">(Item x, <span class="hljs-type">int</span> position)</span>;<br>	<span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">size</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>实现继承</strong>: 子类可以继承接口中的实现, 通过关键字 default 来声明:</p>
+<p>如下述代码中的 print 方法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">List61B</span>&lt;Item&gt; &#123;<br>	...<br>	<span class="hljs-keyword">default</span> <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; size(); i += <span class="hljs-number">1</span>) &#123;<br>			System.out.print(get(i) + <span class="hljs-string">&quot; &quot;</span>);<br>		&#125;<br>		System.out.println();<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>即该接口的子类可以直接调用接口中的 print 方法而无需自己实现.</p>
+<h3 id="封装">封装</h3>
+<p>将类的属性和方法结合成一个单独的整体, 隐藏具体的实现细节, 提供对外的接口, 能够减少程序的复杂度, 使代码使用者无需考虑内部实现, 只需要根据提供的接口使用即可.</p>
+<p>继承可能打破封装: 如果一个子类<strong>依赖</strong>于其超类中特定功能的实现细节. 而超类的实现可能随着发行版本的不同而改变, 即使子类的代码没有变化, 也可能导致子类被破坏.</p>
+<p>例如:</p>
+<p>假设存在超类 Dog 和子类 VerboseDog, 其中子类的 barkMany 方法的实现依赖于超类 bark 方法的实现.</p>
+<p>Dog 类的第一版实现如下所示:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Dog</span> &#123;<br>	...<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">bark</span><span class="hljs-params">()</span> &#123;<br>		System.out.println(<span class="hljs-string">&quot;bark&quot;</span>);<br>	&#125;<br><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">barkMany</span><span class="hljs-params">(<span class="hljs-type">int</span> N)</span> &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; N; i += <span class="hljs-number">1</span>) &#123;<br>			bark();<br>		&#125;<br>	&#125;<br>	...<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>VerboseDog 类的实现如下所示:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">VerboseDog</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Dog</span> &#123;<br>	...<br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">barkMany</span><span class="hljs-params">(<span class="hljs-type">int</span> N)</span> &#123;<br>		System.out.println(<span class="hljs-string">&quot;It is a VerboseDog!&quot;</span>);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; N; i += <span class="hljs-number">1</span>) &#123;<br>			bark();<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>Dog 类的第二版实现如下所示:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Dog</span> &#123;<br>	...<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">bark</span><span class="hljs-params">()</span> &#123;<br>		barkMany(<span class="hljs-number">1</span>);<br>	&#125;<br><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">barkMany</span><span class="hljs-params">(<span class="hljs-type">int</span> N)</span> &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; N; i += <span class="hljs-number">1</span>) &#123;<br>			System.out.println(<span class="hljs-string">&quot;bark&quot;</span>);<br>		&#125;<br>	&#125;<br>	...<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>第二版 Dog 类封装后向外提供的两个方法 bark 和 barkMany 的效果和第一版完全一致, 但是 VerboseDog 提供的方法 barkMany 却会发生死循环, 此时表明继承破坏了封装.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>CS61B Data Structures: <a target="_blank" rel="noopener" href="https://sp21.datastructur.es/">https://sp21.datastructur.es/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/Java/" class="category-chain-item">Java</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CS61B/" class="print-no-link">#CS61B</a>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/Java/%E6%9E%9A%E4%B8%BE/" title="Java 枚举">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java 枚举</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/Java/%E9%9D%99%E6%80%81%E5%88%86%E6%B4%BE%E4%B8%8E%E5%8A%A8%E6%80%81%E5%88%86%E6%B4%BE/" title="Java 静态分派与动态分派">
+                        <span class="hidden-mobile">Java 静态分派与动态分派</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

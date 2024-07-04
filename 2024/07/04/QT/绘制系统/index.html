@@ -1,0 +1,841 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="绘制系统 Qt 的绘图系统允许使用相同的 API 在屏幕和其它打印设备上进行绘制. 整个绘图系统基于 QPainter、QPainterDevice 和 QPaintEngine 三个类. 其中:  QPainter 用来执行绘制的操作. QPaintDevice 是一个二维空间的抽象, 这个二维空间允许 QPainter 在其上进行绘制, 也就是 QPainter 工作的空间. QPaintEn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QT 绘制系统">
+<meta property="og:url" content="http://example.com/2024/07/04/QT/%E7%BB%98%E5%88%B6%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="绘制系统 Qt 的绘图系统允许使用相同的 API 在屏幕和其它打印设备上进行绘制. 整个绘图系统基于 QPainter、QPainterDevice 和 QPaintEngine 三个类. 其中:  QPainter 用来执行绘制的操作. QPaintDevice 是一个二维空间的抽象, 这个二维空间允许 QPainter 在其上进行绘制, 也就是 QPainter 工作的空间. QPaintEn">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20231226152205.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231226163132.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231226170044.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231226173240.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231226201418.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231226173526.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231226201823.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231226173726.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231226202059.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231226220214.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231227145957.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231227150008.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231227150016.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231227152644.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231227153906.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231227204826.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231227210326.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231227210948.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231227212254.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231227222648.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231228172756.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231228200204.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231228202027.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231228202815.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231228215319.png">
+<meta property="article:published_time" content="2024-07-04T12:20:03.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="QT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20231226152205.png">
+  
+  
+  
+  <title>QT 绘制系统 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QT 绘制系统"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:20" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          60 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">QT 绘制系统</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>绘制系统</h1>
+<p>Qt 的绘图系统允许使用相同的 API 在屏幕和其它打印设备上进行绘制. 整个绘图系统基于 <code>QPainter</code>、<code>QPainterDevice</code> 和 <code>QPaintEngine</code> 三个类. 其中:</p>
+<ul>
+<li><code>QPainter</code> 用来执行绘制的操作.</li>
+<li><code>QPaintDevice</code> 是一个二维空间的抽象, 这个二维空间允许 <code>QPainter</code> 在其上进行绘制, 也就是 <code>QPainter</code> 工作的空间.</li>
+<li><code>QPaintEngine</code> 提供了画笔 (<code>QPainter</code>) 在不同的设备上进行绘制的统一的接口. <code>QPaintEngine</code>类应用于<code>QPainter</code>和<code>QPaintDevice</code> 之间, 通常对开发人员是透明的. 除非你需要自定义一个设备, 否则你不需要关心 <code>QPaintEngine</code> 类.</li>
+</ul>
+<p>我们可以把 <code>QPainter</code> 理解成画笔; 把<code>QPaintDevice</code>理解成使用绘画的地方, 如纸张、屏幕等; 而对于纸张、屏幕而言, 肯定要使用不同的画笔绘制, 为了统一使用一种画笔, 我们设计了 <code>QPaintEngine</code> 类, 这个类让不同的纸张、屏幕都能使用同一种画笔.</p>
+<p>这三个类之间的层次结构如下图所示:<br>
+<img src="/img/Pictures/20231226152205.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>下面是 <code>QPainter</code> 的使用示例:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// paintedwidget.h</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">PaintedWidget</span> : <span class="hljs-keyword">public</span> QWidget<br>&#123;<br>    Q_OBJECT<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">PaintedWidget</span>(QWidget *parent = <span class="hljs-number">0</span>);<br><span class="hljs-keyword">protected</span>:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">paintEvent</span><span class="hljs-params">(QPaintEvent *)</span></span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// paintedwidget.cpp</span><br>PaintedWidget::<span class="hljs-built_in">PaintedWidget</span>(QWidget *parent) :<br>    <span class="hljs-built_in">QWidget</span>(parent)<br>&#123;<br>    <span class="hljs-built_in">resize</span>(<span class="hljs-number">800</span>, <span class="hljs-number">600</span>);<br>    <span class="hljs-built_in">setWindowTitle</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Paint Demo&quot;</span>));<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">PaintedWidget::paintEvent</span><span class="hljs-params">(QPaintEvent *)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QPainter <span class="hljs-title">painter</span><span class="hljs-params">(<span class="hljs-keyword">this</span>)</span></span>;<br>    painter.<span class="hljs-built_in">drawLine</span>(<span class="hljs-number">80</span>, <span class="hljs-number">100</span>, <span class="hljs-number">650</span>, <span class="hljs-number">500</span>);<br>    painter.<span class="hljs-built_in">setPen</span>(Qt::red);<br>    painter.<span class="hljs-built_in">drawRect</span>(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>, <span class="hljs-number">100</span>, <span class="hljs-number">400</span>);<br>    painter.<span class="hljs-built_in">setPen</span>(<span class="hljs-built_in">QPen</span>(Qt::green, <span class="hljs-number">5</span>));<br>    painter.<span class="hljs-built_in">setBrush</span>(Qt::blue);<br>    painter.<span class="hljs-built_in">drawEllipse</span>(<span class="hljs-number">50</span>, <span class="hljs-number">150</span>, <span class="hljs-number">400</span>, <span class="hljs-number">200</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>该程序的执行结果如下:<br>
+<img src="/img/Pictures/20231226163132.png" srcset="/img/loading.gif" lazyload alt=""><br>
+在该程序中, 我们重写了 <code>QWidget</code> 的 <code>paintEvent()</code> 函数, 该函数作为重绘函数, 会在需要重绘时由 Qt 自动调用. “需要重绘” 可能发生在很多地方, 比如组件刚刚创建出来的时候就需要重绘; 组件最大化、最小化的时候也需要重新绘制; 组件由遮挡变成完全显示的时候也需要重绘…</p>
+<p><code>QPainter</code> 接收一个 <code>QPaintDevice</code> 指针作为参数. <code>QPaintDevice</code> 有很多子类, 比如 <code>QImage</code> 以及 <code>QWidget</code>. 由于现在我们希望在当前组件上绘制, 因此传入 <code>this</code> 指针.</p>
+<p><code>QPainter</code> 有很多以 draw 开头的函数, 用于各种图形的绘制. 例如这里的 <code>drawLine()</code>、<code>drawRect()</code> 以及 <code>drawEllipse()</code> 等. 当绘制轮廓线时,使用 <code>QPainter</code> 的 <code>pen()</code> 属性. 比如, 我们调用了 <code>painter.setPen(Qt::red)</code> 将 pen 设置为红色, 则上面绘制的矩形具有红色的轮廓线. 接下来, 我们将 pen 修改为绿色、5 像素宽 (<code>painter.setPen(QPen(Qt::green, 5))</code>), 又设置了画刷为蓝色, 这时候再调用 draw 函数, 则能绘制出具有绿色 5 像素宽轮廓线、蓝色填充的椭圆.</p>
+<p>另外需要注意的是: 先绘制的图形位于下层, 后绘制的图形位于上层.</p>
+<h2 id="画刷">画刷</h2>
+<p>画刷使用 <code>QBrush</code> 描述, 通常用于<strong>填充</strong>. <code>QBrush</code> 用于设置 <code>QPainter</code> 的填充模式, 具有样式、颜色、渐变以及纹理等属性:</p>
+<ul>
+<li>画刷的 <code>setStyle()</code> 函数用于设置<strong>填充的样式</strong>, 使用 <code>Qt::BrushStyle</code> 枚举, 默认值是 <code>Qt::NoBrush</code>, 即不进行任何填充. 下面是各种填充样式之间的区别:<br>
+<img src="/img/Pictures/20231226170044.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>画刷的 <code>setColor()</code> 函数用于设置<strong>填充的颜色</strong>. 这个颜色可以是 Qt 预定义的颜色常量, 即 <code>Qt::GlobalColor</code>, 也可以是任意 <code>QColor</code> 对象.</li>
+<li>画刷的 <code>gradient()</code> 函数能够返回正在使用的<strong>渐变填充</strong>, 一般在初始化画刷时设置. 这个属性只有在画刷样式为 <code>Qt::LinearGradientPattern</code>、<code>Qt::RadialGradientPattern</code> 或者 <code>Qt::ConicalGradientPattern</code> 之一时才有效. 渐变可以由 <code>QGradient</code> 对象表示, Qt 提供了三种渐变类: <code>QLinearGradient</code>、<code>QConicalGradient</code> 和 <code>QRadialGradient</code>, 它们都是 <code>QGradient</code> 的子类.
+<ul>
+<li>例如: 可以使用以下代码定以一个渐变的画刷:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QRadialGradient <span class="hljs-title">gradient</span><span class="hljs-params">(<span class="hljs-number">50</span>, <span class="hljs-number">50</span>, <span class="hljs-number">50</span>, <span class="hljs-number">50</span>, <span class="hljs-number">50</span>)</span></span>;<br>gradient.<span class="hljs-built_in">setColorAt</span>(<span class="hljs-number">0</span>, QColor::<span class="hljs-built_in">fromRgbF</span>(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>));<br>gradient.<span class="hljs-built_in">setColorAt</span>(<span class="hljs-number">1</span>, QColor::<span class="hljs-built_in">fromRgbF</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>));<br><br><span class="hljs-function">QBrush <span class="hljs-title">brush</span><span class="hljs-params">(gradient)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>画刷的 <code>setTexture()</code> 函数用于设置填充的纹理. 只有在画刷样式为 <code>Qt::TexturePattern</code> 时, <code>texture()</code> 函数才能返回填充的纹理. 另外, 即使你没有将画刷设置样式为 <code>Qt::TexturePattern</code>, 当你调用 <code>setTexture()</code> 函数时, <code>QBrush</code> 会自动将 <code>style()</code> 设置为 <code>Qt::TexturePattern</code>.</li>
+</ul>
+<h2 id="画笔">画笔</h2>
+<p>画笔使用 <code>QPen</code> 描述, 通常用于<strong>绘制轮廓线</strong>. <code>QPen</code> 用于设置 <code>QPainter</code> 的轮廓线样式, 画笔具有样式、宽度、画刷、笔帽样式和连接样式等属性:</p>
+<ul>
+<li>画笔的 <code>setStyle</code> 函数用于设置<strong>线的样式</strong>, 使用 <code>Qt::PenStyle</code> 枚举, 如下图所示:<br>
+<img src="/img/Pictures/20231226173240.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>可以通过 <code>QPen::setDashPattern</code> 函数来设置画笔的虚线模式, 将画笔的线型设置为自定义虚线 (<code>Qt::CustomDashLine</code>). 该函数声明如下:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QPen::setDashPattern</span><span class="hljs-params">(<span class="hljs-type">const</span> QVector&lt;qreal&gt; &amp;pattern)</span></span><br></code></pre></td></tr></table></figure>
+<ul>
+<li>参数 <code>pattern</code> 是一个 <code>QVector&lt;qreal&gt;</code> 类型的参数, 用于指定虚线的模式. 该模式必须由一系列正数构成, 其中奇数索引 (1, 3, 5…) 表示虚线的长度, 而偶数索引 (2, 4, 6…) 表示虚线之间的空白的长度. 这些长度都是以画笔宽度为单位的.</li>
+<li>当设置了虚线模式后, 画笔的线型会被隐式地转换为 <code>Qt::CustomDashLine</code>.</li>
+<li>例如:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">PaintedWidget::paintEvent</span><span class="hljs-params">(QPaintEvent *)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QPainter <span class="hljs-title">painter</span><span class="hljs-params">(<span class="hljs-keyword">this</span>)</span></span>;<br><br>    QPen pen;<br>    QVector&lt;qreal&gt; dashes;<br>    qreal space = <span class="hljs-number">4</span>;<br><br>    dashes &lt;&lt; <span class="hljs-number">1</span> &lt;&lt; space &lt;&lt; <span class="hljs-number">3</span> &lt;&lt; space &lt;&lt; <span class="hljs-number">9</span> &lt;&lt; space<br>           &lt;&lt; <span class="hljs-number">27</span> &lt;&lt; space &lt;&lt; <span class="hljs-number">9</span> &lt;&lt; space;<br><br>    pen.<span class="hljs-built_in">setDashPattern</span>(dashes);<br>    pen.<span class="hljs-built_in">setWidth</span>(<span class="hljs-number">10</span>);<br><br>    painter.<span class="hljs-built_in">setPen</span>(pen);<br><br>    painter.<span class="hljs-built_in">drawLine</span>(<span class="hljs-number">80</span>, <span class="hljs-number">100</span>, <span class="hljs-number">650</span>, <span class="hljs-number">500</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+该程序执行结果如下:<br>
+<img src="/img/Pictures/20231226201418.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>画笔的 <code>setCapStyle()</code> 函数用于设置<strong>线的末端的样式 (笔帽样式)</strong>, 使用 <code>Qt::PenCapStyle</code> 枚举, 默认为方形笔帽 (<code>Qt::SquareCap</code>), 如下图所示:<br>
+<img src="/img/Pictures/20231226173526.png" srcset="/img/loading.gif" lazyload alt=""><br>
+它们之间的区别是: <code>Qt::SquareCap</code> 是一种包含了最后一个点的方形端点, 使用半个线宽覆盖; <code>Qt::FlatCap</code> 不包含最后一个点; <code>Qt::RoundCap</code> 是包含最后一个点的圆形端点. 具体可以参考下面的示例:<br>
+<img src="/img/Pictures/20231226201823.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>画笔的 <code>setJoinStyle()</code> 函数用于设置<strong>两条线的连接方式</strong>, 使用 <code>Qt::PenJoinStyle</code> 枚举, 默认为斜面型连接 (<code>Qt::BevelJoin</code>), 如下图所示:<br>
+<img src="/img/Pictures/20231226173726.png" srcset="/img/loading.gif" lazyload alt=""><br>
+它们之间的区别可以参考下面的示例:<br>
+<img src="/img/Pictures/20231226202059.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>画笔的 <code>setWidth()</code> 或 <code>setWidthF()</code> 函数用于设置<strong>线的宽度</strong>. 需要注意的是: 不存在宽度为 0 的线, 如果你将宽度设置为 0, 画出的线的宽度却会变为 1 像素, 即画笔的宽度至少为 1 像素.</li>
+</ul>
+<p>上述属性既可以在构造时指定, 也可以在相应的 set 函数中指定. 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QPainter <span class="hljs-title">painter</span><span class="hljs-params">(<span class="hljs-keyword">this</span>)</span></span>;<br><span class="hljs-function">QPen <span class="hljs-title">pen</span><span class="hljs-params">(Qt::green, <span class="hljs-number">3</span>, Qt::DashDotLine, Qt::RoundCap, Qt::RoundJoin)</span></span>;<br>painter.<span class="hljs-built_in">setPen</span>(pen);<br></code></pre></td></tr></table></figure>
+<p>等价于</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QPainter <span class="hljs-title">painter</span><span class="hljs-params">(<span class="hljs-keyword">this</span>)</span></span>;<br>QPen pen;  <span class="hljs-comment">// creates a default pen</span><br><br>pen.<span class="hljs-built_in">setStyle</span>(Qt::DashDotLine);<br>pen.<span class="hljs-built_in">setWidth</span>(<span class="hljs-number">3</span>);<br>pen.<span class="hljs-built_in">setBrush</span>(Qt::green);<br>pen.<span class="hljs-built_in">setCapStyle</span>(Qt::RoundCap);<br>pen.<span class="hljs-built_in">setJoinStyle</span>(Qt::RoundJoin);<br><br>painter.<span class="hljs-built_in">setPen</span>(pen);<br></code></pre></td></tr></table></figure>
+<h2 id="反走样">反走样</h2>
+<p>我们在光栅图形显示器上绘制非水平、非垂直的直线或多边形边界时, 或多或少会呈现锯齿状外观. 这是因为直线和多边形的边界是连续的, 而光栅则是由离散的点组成. 在光栅显示设备上表现直线、多边形等, 必须在离散位置采样. 由于采样不充分重建后造成的信息失真, 就叫<strong>走样</strong>; 用于减少或消除这种效果的技术, 就称为<strong>反走样</strong>.</p>
+<p>反走样是图形学中的重要概念, 用以防止 “锯齿” 现象的出现. 很多系统的绘图 API 里面都内置了有关反走样的算法, 不过由于性能问题, 一般默认是关闭的, Qt 也不例外. 下面的代码能够清晰地展示反走样算法的效果:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">paintEvent</span><span class="hljs-params">(QPaintEvent *)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QPainter <span class="hljs-title">painter</span><span class="hljs-params">(<span class="hljs-keyword">this</span>)</span></span>;<br>    painter.<span class="hljs-built_in">setPen</span>(<span class="hljs-built_in">QPen</span>(Qt::black, <span class="hljs-number">5</span>, Qt::DashDotLine, Qt::RoundCap));<br>    painter.<span class="hljs-built_in">setBrush</span>(Qt::yellow);<br>    painter.<span class="hljs-built_in">drawEllipse</span>(<span class="hljs-number">50</span>, <span class="hljs-number">150</span>, <span class="hljs-number">200</span>, <span class="hljs-number">150</span>);<br>    <br>    painter.<span class="hljs-built_in">setRenderHint</span>(QPainter::Antialiasing, <span class="hljs-literal">true</span>);<br>    painter.<span class="hljs-built_in">setPen</span>(<span class="hljs-built_in">QPen</span>(Qt::black, <span class="hljs-number">5</span>, Qt::DashDotLine, Qt::RoundCap));<br>    painter.<span class="hljs-built_in">setBrush</span>(Qt::yellow);<br>    painter.<span class="hljs-built_in">drawEllipse</span>(<span class="hljs-number">300</span>, <span class="hljs-number">150</span>, <span class="hljs-number">200</span>, <span class="hljs-number">150</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>该程序运行结果如下:<br>
+<img src="/img/Pictures/20231226220214.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>想要开启反走样功能, 只需要将 <code>Antialiasing</code> 属性 (也就是反走样) 设置为 true, 也就是执行下面的代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">painter.<span class="hljs-built_in">setRenderHint</span>(QPainter::Antialiasing, <span class="hljs-literal">true</span>);<br></code></pre></td></tr></table></figure>
+<p>由于反走样需要比较复杂的算法, 在一些对图像质量要求不是很高的应用中, 是不需要进行反走样的. 为了提高效率, 一般的图形绘制系统, 如 Java2D、OpenGL 之类都是默认不进行反走样的, 而性能受限的环境下, 如嵌入式和手机环境, 也是不进行反走样的. 另外, 在一些必须精确操作像素的应用中, 也是不能进行反走样的, 这是由于反走样技术本身的限制的.</p>
+<h2 id="渐变">渐变</h2>
+<p>渐变是绘图中很常见的一种功能, 简单来说就是可以把几种颜色混合在一起, 让它们能够自然地过渡, 而不是一下子变成另一种颜色. 在 Qt 中, 渐变一般是用在填充里面的, 所以, 设置渐变是在 <code>QBrush</code> 中.</p>
+<p>Qt 提供了三种渐变:</p>
+<ul>
+<li>线性渐变 (<code>QLinearGradient</code>)<br>
+<img src="/img/Pictures/20231227145957.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>辐射渐变 (<code>QRadialGradient</code>)<br>
+<img src="/img/Pictures/20231227150008.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>锥形渐变 (<code>QConicalGradient</code>)<br>
+<img src="/img/Pictures/20231227150016.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+<p>下面是一个使用渐变进行填充的例子:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">PaintedWidget::paintEvent</span><span class="hljs-params">(QPaintEvent *)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QPainter <span class="hljs-title">painter</span><span class="hljs-params">(<span class="hljs-keyword">this</span>)</span></span>;<br>    <br>    <span class="hljs-function">QLinearGradient <span class="hljs-title">linearGradient</span><span class="hljs-params">(<span class="hljs-number">60</span>, <span class="hljs-number">50</span>, <span class="hljs-number">200</span>, <span class="hljs-number">200</span>)</span></span>;<br>    linearGradient.<span class="hljs-built_in">setColorAt</span>(<span class="hljs-number">0.2</span>, Qt::white);<br>    linearGradient.<span class="hljs-built_in">setColorAt</span>(<span class="hljs-number">0.6</span>, Qt::green);<br>    linearGradient.<span class="hljs-built_in">setColorAt</span>(<span class="hljs-number">1.0</span>, Qt::black);<br>    <br>    painter.<span class="hljs-built_in">setRenderHint</span>(QPainter::Antialiasing, <span class="hljs-literal">true</span>);<br>    painter.<span class="hljs-built_in">setBrush</span>(<span class="hljs-built_in">QBrush</span>(linearGradient));<br>    <br>    painter.<span class="hljs-built_in">drawEllipse</span>(<span class="hljs-number">50</span>, <span class="hljs-number">50</span>, <span class="hljs-number">200</span>, <span class="hljs-number">150</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>该程序执行结果如下:<br>
+<img src="/img/Pictures/20231227152644.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>该例中创建的是线性渐变 (<code>QLinearGradient</code>) 实例, 该类的构造函数有四个参数, 分别是 x1, y1, x2, y2, 即渐变的起始点和终止点. 另外, <strong>渐变的颜色是在 <code>setColorAt()</code> 函数中指定的</strong>, 该函数的声明如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QGradient::setColorAt</span> <span class="hljs-params">(qreal position, <span class="hljs-type">const</span> QColor &amp; color)</span></span><br></code></pre></td></tr></table></figure>
+<ul>
+<li>其中 <code>position</code> 表示颜色在渐变中的位置, 取值范围在 0.0 (起始位置) 到 1.0 (结束位置) 之间. 在这个范围内, 你可以指定多个颜色的位置, 渐变将在这些位置之间进行平滑过渡.</li>
+</ul>
+<p>下面绘制一个色轮 (一个带有颜色的圆盘), 实现代码如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ColorWheel::paintEvent</span><span class="hljs-params">(QPaintEvent *)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QPainter <span class="hljs-title">painter</span><span class="hljs-params">(<span class="hljs-keyword">this</span>)</span></span>;<br>    painter.<span class="hljs-built_in">setRenderHint</span>(QPainter::Antialiasing);<br><br>    <span class="hljs-type">const</span> <span class="hljs-type">int</span> r = <span class="hljs-number">150</span>;<br>    <span class="hljs-function">QConicalGradient <span class="hljs-title">conicalGradient</span><span class="hljs-params">(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)</span></span>;<br><br>    conicalGradient.<span class="hljs-built_in">setColorAt</span>(<span class="hljs-number">0.0</span>, Qt::red);<br>    conicalGradient.<span class="hljs-built_in">setColorAt</span>(<span class="hljs-number">60.0</span>/<span class="hljs-number">360.0</span>, Qt::yellow);<br>    conicalGradient.<span class="hljs-built_in">setColorAt</span>(<span class="hljs-number">120.0</span>/<span class="hljs-number">360.0</span>, Qt::green);<br>    conicalGradient.<span class="hljs-built_in">setColorAt</span>(<span class="hljs-number">180.0</span>/<span class="hljs-number">360.0</span>, Qt::cyan);<br>    conicalGradient.<span class="hljs-built_in">setColorAt</span>(<span class="hljs-number">240.0</span>/<span class="hljs-number">360.0</span>, Qt::blue);<br>    conicalGradient.<span class="hljs-built_in">setColorAt</span>(<span class="hljs-number">300.0</span>/<span class="hljs-number">360.0</span>, Qt::magenta);<br>    conicalGradient.<span class="hljs-built_in">setColorAt</span>(<span class="hljs-number">1.0</span>, Qt::red);<br><br>    painter.<span class="hljs-built_in">translate</span>(r, r);<br><br>    <span class="hljs-function">QBrush <span class="hljs-title">brush</span><span class="hljs-params">(conicalGradient)</span></span>;<br>    painter.<span class="hljs-built_in">setPen</span>(Qt::NoPen);<br>    painter.<span class="hljs-built_in">setBrush</span>(brush);<br>    painter.<span class="hljs-built_in">drawEllipse</span>(<span class="hljs-built_in">QPoint</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>), r, r);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>该程序执行结果如下:<br>
+<img src="/img/Pictures/20231227153906.png" srcset="/img/loading.gif" lazyload alt=""><br>
+该例中创建了一个锥形渐变 (<code>QConicalGradient</code>) 实例, 该类的构造函数如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QConicalGradient::<span class="hljs-built_in">QConicalGradient</span> (qreal cx, qreal cy, qreal angle)<br></code></pre></td></tr></table></figure>
+<ul>
+<li>其中 cx 和 cy 表示中心点的坐标, angle 是锥形的起始角度, 以顺时针方向测量, 单位为度.</li>
+</ul>
+<p>类似线性渐变, 锥形渐变的 <code>setColorAt()</code> 函数同样接收两个参数, 第一个是角度比例, 第二个是颜色, 具体可见上文代码.</p>
+<p>另外, 上例中的 <code>QPainter::translate(x, y)</code> 函数表示将坐标系的原点设置到 (x, y) 点. 原本坐标系原点位于左上角, 我们使用<code>translate(r, r)</code>, 将坐标原点设置为 (r, r). 这么一来, 左上角的点的坐标就应该是 (-r, -r).</p>
+<h2 id="坐标系统">坐标系统</h2>
+<p>由于 <code>QPaintDeice</code> 是进行绘制的对象, 因此, 所谓坐标系统, 也就是<code>QPaintDevice</code>上面的坐标. 默认坐标系统位于设备的左上角, 也就是坐标原点 (0, 0). x 轴方向向右; y 轴方向向下. 在基于像素的设备上 (比如显示器), 坐标的默认单位是像素, 在打印机上则是点 (1/72 英寸).</p>
+<p>将 <code>QPainter</code> 的逻辑坐标与 <code>QPaintDevice</code> 的物理坐标进行映射的工作, 是由 <code>QPainter</code> 的变换矩阵 (transformation matrix)、视口 (viewport) 和窗口 (window) 完成的.</p>
+<p>在 Qt 的坐标系统中, 每个像素占据 1×1 的空间. 你可以把它想象成一张方格纸, 每个小格都是 1 个像素. 方格的焦点 (左上角的点) 定义了坐标, 也就是说, 像素 (x, y) 的中心位置其实是在 (x + 0.5, y + 0.5) 的位置上. 因此, 这个坐标系实际上是一个 “半像素坐标系”. 我们可以通过下面的示意图来理解这种坐标系 (图中每个方格代表一个像素):<br>
+<img src="/img/Pictures/20231227204826.png" srcset="/img/loading.gif" lazyload alt=""><br>
+但是这只是坐标的逻辑表示, 实际绘制则与此不同. 因为在实际设备上, 像素是最小单位, 我们不能像上面一样, 在两个像素之间进行绘制. 所以在实际绘制时, <strong>Qt 的定义是, 绘制点所在像素是逻辑定义点的右下方的像素</strong>.</p>
+<p>对于线宽为 1 像素的画笔, 绘制结果比较简单, 如下图所示:<br>
+<img src="/img/Pictures/20231227210326.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>对于线宽大于 1 像素的画笔, 绘制结果相对复杂:</p>
+<ul>
+<li>如果绘制像素是偶数, 则实际绘制会包裹住逻辑坐标值.</li>
+<li>如果绘制像素是奇数, 则实际绘制会包裹住逻辑坐标值, 再加上右下角一个像素的偏移.</li>
+</ul>
+<p>如下图所示:<br>
+<img src="/img/Pictures/20231227210948.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>Qt 的这种处理, 带来的一个问题是: 我们可能获取不到真实的坐标值. 由于历史原因, <code>QRect::right()</code> 和 <code>QRect::bottom()</code> 的返回值并不是矩形右下角点的真实坐标值: <code>QRect::right()</code> 返回的是 <code>left() + width() - 1</code>; <code>QRect::bottom()</code> 则返回  <code>top() + height() - 1</code>, 上图的绿色点指出了这两个函数的返回点的坐标.</p>
+<p>为避免这个问题, 建议使用 <code>QRectF</code>. <code>QRectF</code> 使用浮点值, 而不是整数值, 来描述坐标. 这个类的两个函数 <code>QRectF::right()</code> 和 <code>QRectF::bottom()</code> 是正确的. 如果你不得不使用 <code>QRect</code>, 那么可以使用 <code>x() + width()</code> 和 <code>y() + height()</code> 来替代 <code>right()</code> 和 <code>bottom()</code> 函数.</p>
+<p>对于反走样, 实际绘制会包裹住逻辑坐标值:<br>
+<img src="/img/Pictures/20231227212254.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>在反走样中, 像素颜色不一致是由于反走样算法导致.</li>
+</ul>
+<p>当我们临时绘制一些图像时, 可能需要暂存一些可以改变的状态, 比如画笔颜色、粗细等, 在临时绘制结束之后再全部恢复. 对此, <code>QPainter</code> 提供了内置的函数: <code>save()</code> 和 <code>restore()</code>. <code>save()</code> 就是保存下当前状态; <code>restore()</code> 则恢复上一次保存的结果. 这两个函数必须成对出现: <code>QPainter</code> 使用栈来保存数据, 每一次 <code>save()</code>, 将当前状态压入栈顶, <code>restore()</code> 则弹出栈顶进行恢复.</p>
+<p>另外, Qt 提供了四种坐标变换: 平移 (translate)、旋转 (rotate)、缩放 (scale) 和扭曲 (shear). 这些函数的效果可以看下面的例子.</p>
+<p>示例如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">PaintDemo::paintEvent</span><span class="hljs-params">(QPaintEvent *)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QPainter <span class="hljs-title">painter</span><span class="hljs-params">(<span class="hljs-keyword">this</span>)</span></span>;<br>    <br>    painter.<span class="hljs-built_in">fillRect</span>(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>, <span class="hljs-number">50</span>, <span class="hljs-number">100</span>, Qt::red);<br>    <br>    painter.<span class="hljs-built_in">save</span>();<br>    painter.<span class="hljs-built_in">translate</span>(<span class="hljs-number">100</span>, <span class="hljs-number">0</span>); <span class="hljs-comment">// 向右平移 100px</span><br>    painter.<span class="hljs-built_in">fillRect</span>(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>, <span class="hljs-number">50</span>, <span class="hljs-number">100</span>, Qt::yellow);<br>    painter.<span class="hljs-built_in">restore</span>();<br>    <br>    painter.<span class="hljs-built_in">save</span>();<br>    painter.<span class="hljs-built_in">translate</span>(<span class="hljs-number">300</span>, <span class="hljs-number">0</span>); <span class="hljs-comment">// 向右平移 300px</span><br>    painter.<span class="hljs-built_in">rotate</span>(<span class="hljs-number">30</span>);        <span class="hljs-comment">// 顺时针旋转 30 度</span><br>    painter.<span class="hljs-built_in">fillRect</span>(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>, <span class="hljs-number">50</span>, <span class="hljs-number">100</span>, Qt::green);<br>    painter.<span class="hljs-built_in">restore</span>();<br>    <br>    painter.<span class="hljs-built_in">save</span>();<br>    painter.<span class="hljs-built_in">translate</span>(<span class="hljs-number">400</span>, <span class="hljs-number">0</span>); <span class="hljs-comment">// 向右平移 400px</span><br>    painter.<span class="hljs-built_in">scale</span>(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>);       <span class="hljs-comment">// 横坐标单位放大 2 倍，纵坐标放大 3 倍</span><br>    painter.<span class="hljs-built_in">fillRect</span>(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>, <span class="hljs-number">50</span>, <span class="hljs-number">100</span>, Qt::blue);<br>    painter.<span class="hljs-built_in">restore</span>();<br>    <br>    painter.<span class="hljs-built_in">save</span>();<br>    painter.<span class="hljs-built_in">translate</span>(<span class="hljs-number">600</span>, <span class="hljs-number">0</span>); <span class="hljs-comment">// 向右平移 600px</span><br>    painter.<span class="hljs-built_in">shear</span>(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>);       <span class="hljs-comment">// 横向不变，纵向扭曲 1 倍</span><br>    painter.<span class="hljs-built_in">fillRect</span>(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>, <span class="hljs-number">50</span>, <span class="hljs-number">100</span>, Qt::cyan);<br>    painter.<span class="hljs-built_in">restore</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在这段代码中, 我们首先在 (10, 10) 点绘制一个红色的 50 × 100 矩形. 保存当前状态, 将坐标系平移到 (100, 0), 绘制一个黄色的矩形. 注意, <code>translate()</code> 操作平移的是坐标系, 不是矩形. 因此, 我们还是在 (10, 10) 点绘制一个 50 × 100 的矩形, 现在, 它跑到了右侧的位置. 然后恢复先前状态, 也就是把坐标系重新设为默认坐标系 (相当于进行<code>translate(-100, 0)</code>), 再进行下面的操作. 之后的也是类似的. 所有这些操作都是针对坐标系的, 因此在绘制时, 我们提供的矩形的坐标参数都是不变的.</li>
+</ul>
+<p>该程序执行结果如下:<br>
+<img src="/img/Pictures/20231227222648.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>Qt 的坐标分为逻辑坐标和物理坐标. 在我们绘制时, 提供给 <code>QPainter</code> 的都是逻辑坐标. 之前我们看到的坐标变换, 也是针对逻辑坐标的. 所谓物理坐标, 就是绘制底层 <code>QPaintDevice</code> 的坐标. 单单只有逻辑坐标, 我们是不能在设备上进行绘制的. 要想在设备上绘制, 必须提供设备认识的物理坐标. Qt 使用视口-窗口机制将我们提供的逻辑坐标转换成绘制设备使用的物理坐标, 该方法是: 在逻辑坐标和物理坐标之间提供一层 “窗口” 坐标. 视口是由任意矩形指定的物理坐标, 表示绘图设备上的可见区域; 窗口则是该矩形的逻辑坐标表示. 默认情况下, 物理坐标和逻辑坐标是一致的, 都等于设备矩形. Qt 的这种坐标系统设计允许开发者在逻辑坐标系中方便地进行图形元素的定位和操作, 而底层的绘图设备则负责将逻辑坐标转换为实际的物理坐标以在设备上进行渲染.</p>
+<p>视口坐标 (也就是物理坐标) 和窗口坐标是一个简单的线性变换. 比如对于一个 400 × 400 的窗口, 我们添加如下代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">PaintDemo::paintEvent</span><span class="hljs-params">(QPaintEvent *)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QPainter <span class="hljs-title">painter</span><span class="hljs-params">(<span class="hljs-keyword">this</span>)</span></span>;<br>    painter.<span class="hljs-built_in">setWindow</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">200</span>, <span class="hljs-number">200</span>);<br>    painter.<span class="hljs-built_in">fillRect</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">200</span>, <span class="hljs-number">200</span>, Qt::red);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>我们将窗口矩形设置为左上角坐标为 (0, 0), 长和宽都是 200px. 此时, 坐标原点不变, 还是在左上角, 但是, 对于原来的 (400, 400) 点, 新的窗口坐标是 (200, 200). 我们可以理解为: 逻辑坐标被 “重新分配”. 这段代码的运行结果是对整个窗口进行填充.</li>
+</ul>
+<p>上例中的 <code>setWindow()</code> 和 <code>translate()</code> 有一定的区别: <code>translate()</code> 函数只是简单地将坐标原点重新设置, 而 <code>setWindow()</code> 则是将整个坐标系进行了修改. 例如 (对于 400 × 400 的窗口):</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">painter.<span class="hljs-built_in">translate</span>(<span class="hljs-number">200</span>, <span class="hljs-number">200</span>);<br>painter.<span class="hljs-built_in">setWindow</span>(<span class="hljs-number">-160</span>, <span class="hljs-number">-320</span>, <span class="hljs-number">320</span>, <span class="hljs-number">640</span>);<br></code></pre></td></tr></table></figure>
+<ul>
+<li>对于第一行代码, 我们将坐标原点设置到 (200, 200) 处, 此时横坐标范围是 [-200, 200], 纵坐标范围是 [-200, 200]; 对于第二行代码, 我们将物理宽 400px 映射成窗口宽 320px, 物理高 400px 映射成窗口高 640px, 此时, 横坐标范围是 [-160, 160]，纵坐标范围是 [-320, 320]. 这种变换只是一种简单的线性变换, 假设原来有个点坐标为 (64, 60), 那么新的坐标系下该点的坐标为 ((-160 + 64 × 320 / 400), (-320 + 60 × 640 / 400)) = (-108.8, -224).</li>
+</ul>
+<p>下面再来理解下视口的含义 (对于 400 × 400 的窗口):</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">PaintDemo::paintEvent</span><span class="hljs-params">(QPaintEvent *)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-function">QPainter <span class="hljs-title">painter</span><span class="hljs-params">(<span class="hljs-keyword">this</span>)</span></span>;<br>	painter.<span class="hljs-built_in">setViewport</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">200</span>, <span class="hljs-number">200</span>);<br>	painter.<span class="hljs-built_in">fillRect</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">200</span>, <span class="hljs-number">200</span>, Qt::red);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>此处的 <code>setViewport()</code> 函数只是将物理坐标区域定义为左上角位于 (0, 0)、长高都是 200px 的矩形. 由于我们修改了物理坐标, 但是没有修改相应的窗口坐标, 而默认的逻辑坐标范围是左上角坐标为 (0, 0)、长宽都是 400px 的矩形, 因此此时会将物理宽 200px 映射成窗口宽 400px, 物理高 200px 映射成窗口高 400px. 所以原始点 (200, 200) 的坐标变为 ((0 + 200 × 200 / 400), (0 + 200 × 200 / 400)) = (100, 100).</li>
+</ul>
+<p>此时可以用一张图总结逻辑坐标、窗口坐标和物理坐标之间的关系:<br>
+<img src="/img/Pictures/20231228172756.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>我们传给 <code>QPainter</code> 的是逻辑坐标. 如果使用了平移、旋转、缩放等操作, 逻辑坐标通过变换矩阵转换成窗口坐标; 如果没有进行平移、旋转等操作, Qt 默认使用单位矩阵将逻辑坐标映射到窗口坐标, 此时逻辑坐标和窗口坐标是一一对应的. 窗口坐标通过窗口-视口机制转换成物理坐标.</li>
+</ul>
+<h2 id="绘制设备">绘制设备</h2>
+<p>绘图设备是继承 <code>QPainterDevice</code> 的类. <code>QPaintDevice</code> 就是能够进行绘制的类, 也就是说, <code>QPainter</code> 可以在任何 <code>QPaintDevice</code> 的子类上进行绘制. Qt 提供了一些这样的类:<br>
+<img src="/img/Pictures/20231228200204.png" srcset="/img/loading.gif" lazyload alt=""><br>
+其中 <code>QGLPixelBuffer</code> 已经被废弃. <code>QGLWidget</code> 和 <code>QGLFramebufferObject</code> 是 OpenGL 的相关类. <strong><code>QPixmap</code> 专门为图像在屏幕上的显示做了优化</strong>; <code>QBitmap</code> 是 <code>QPixmap</code> 的一个子类, 它的色深 (用于表现颜色的二进制的位数) 限定为 1, 你可以使用 <code>QPixmap</code> 的 <code>isQBitmap()</code> 函数来确定这个 <code>QPixmap</code> 是不是一个 <code>QBitmap</code>. <strong><code>QImage</code> 专门为图像的像素级访问做了优化</strong>. <strong><code>QPicture</code> 则可以记录和重现 <code>QPainter</code> 的各条命令</strong>.</p>
+<p><code>QPixmap</code> 继承了 <code>QPaintDevice</code>, 因此, 你可以使用 <code>QPainter</code> 直接在上面绘制图形. <code>QPixmap</code> 也可以接受一个字符串作为一个文件的路径来显示这个文件, 比如你想在程序之中打开 png、jpeg 之类的文件, 就可以使用 <code>QPixmap</code>. 使用 <code>QPainter::drawPixmap()</code> 函数可以把这个文件绘制到一个 <code>QLabel</code>、<code>QPushButton</code> 或者其他的设备上面. 正如前面所说的那样, <code>QPixmap</code> 是针对屏幕进行特殊优化的, 因此, 它与实际的底层显示设备息息相关. 注意, 这里说的显示设备并不是硬件, 而是操作系统提供的原生的绘图引擎. 所以, <strong>在不同的操作系统平台下, <code>QPixmap</code> 的显示可能会有所差别</strong>.</p>
+<p><code>QPixmap</code> 提供了静态的 <code>grabWidget()</code> 和 <code>grabWindow()</code> 函数, 用于将自身图像绘制到目标上. 同时, 在使用 <code>QPixmap</code> 时, 你可以直接使用传值的形式, 而不需要传指针, 因为 <code>QPixmap</code> 提供了 “隐式数据共享”. 简单来说, 就是一般对于大型数据 (图像无疑是一种 “大型数据”), 为性能起见, 通常会采用传指针的方式, 但是由于 <code>QPixmap</code> 内置了隐式数据共享, 因此只需传递值即可.</p>
+<p>由于 <code>QBitmap</code> 继承自 <code>QPixmap</code>, 因此具有 <code>QPixmap</code> 的所有特性. 不同之处在于, <code>QBitmap</code>的色深始终为 1. 因为 1 个位只有两种状态: 0 和 1, 因此它所表示的颜色就只有两种: 黑和白. 所以说, <code>QBitmap</code> 实际上是只有黑白两色的图像数据. 由于 <code>QBitmap</code> 色深小, 因此只占用很少的存储空间, 所以适合做光标文件和笔刷.</p>
+<p>下面我们来看同一个图像文件在 <code>QPixmap</code> 和 <code>QBitmap</code> 下的不同表现:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">paintEvent</span><span class="hljs-params">(QPaintEvent *)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QPainter <span class="hljs-title">painter</span><span class="hljs-params">(<span class="hljs-keyword">this</span>)</span></span>;<br>    <span class="hljs-function">QPixmap <span class="hljs-title">pixmap</span><span class="hljs-params">(<span class="hljs-string">&quot;qt-logo.png&quot;</span>)</span></span>;<br>    <span class="hljs-function">QBitmap <span class="hljs-title">bitmap</span><span class="hljs-params">(<span class="hljs-string">&quot;qt-logo.png&quot;</span>)</span></span>;<br>    painter.<span class="hljs-built_in">drawPixmap</span>(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>, <span class="hljs-number">250</span>, <span class="hljs-number">125</span>, pixmap);<br>    painter.<span class="hljs-built_in">drawPixmap</span>(<span class="hljs-number">270</span>, <span class="hljs-number">10</span>, <span class="hljs-number">250</span>, <span class="hljs-number">125</span>, bitmap);<br>    <span class="hljs-function">QPixmap <span class="hljs-title">whitePixmap</span><span class="hljs-params">(<span class="hljs-string">&quot;qt-logo-white.png&quot;</span>)</span></span>;<br>    <span class="hljs-function">QBitmap <span class="hljs-title">whiteBitmap</span><span class="hljs-params">(<span class="hljs-string">&quot;qt-logo-white.png&quot;</span>)</span></span>;<br>    painter.<span class="hljs-built_in">drawPixmap</span>(<span class="hljs-number">10</span>, <span class="hljs-number">140</span>, <span class="hljs-number">250</span>, <span class="hljs-number">125</span>, whitePixmap);<br>    painter.<span class="hljs-built_in">drawPixmap</span>(<span class="hljs-number">270</span>, <span class="hljs-number">140</span>, <span class="hljs-number">250</span>, <span class="hljs-number">125</span>, whiteBitmap);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>对于两张 png 格式的图片, 一张有透明背景 (qt-logo.png), 一张有白色背景 (qt-logo-white.png), 分别用 <code>QPixmap</code> 和 <code>QBitmap</code> 来加载它们, 会得到不同的结果:<br>
+<img src="/img/Pictures/20231228202027.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>可见, 白色的背景在 <code>QBitmap</code> 中消失了, 而透明色在 <code>QBitmap</code> 中转换成了黑色, 其他颜色则是使用点的疏密程度来体现的.</li>
+</ul>
+<p><code>QPixmap</code> 使用底层平台的绘制系统进行绘制, <strong>无法提供像素级别的操作</strong>; 而 <code>QImage</code> 则是使用独立于硬件的绘制系统, 实际上是自己绘制自己, 因此提供了像素级别的操作, 并且能够在不同系统之上提供一个<strong>一致</strong>的显示形式.</p>
+<p><code>QImage</code> 的简单使用如下所示:<br>
+<img src="/img/Pictures/20231228202815.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><code>QImage</code> 与 <code>QPixmap</code> 相比, 最大的优势在于能够进行像素级别的操作. 我们通过上面的示意图可以看到, 我们声明一个 3 × 3 像素的 <code>QImage</code> 对象, 然后利用 <code>setPixel()</code> 函数进行颜色的设置. 你可以把 <code>QImage</code> 想象成一个 RGB 颜色的二维数组, 记录了每一像素的颜色.</p>
+<p>最后一种 <code>QPicture</code> 是平台无关的, 因此它可以使用在多种设备之上, 比如 svg、pdf、ps、打印机或者屏幕.  <code>QPicture</code> 使用系统分辨率, 并且可以调整 <code>QPainter</code> 来消除不同设备之间的显示差异. 如果我们要记录下 <code>QPainter</code> 的命令, 首先要使用 <code>QPainter::begin()</code> 函数, 将 <code>QPicture</code> 实例作为参数传递进去, 以便告诉系统开始记录, 记录完毕后使用 <code>QPainter::end()</code> 命令终止. 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QPicture picture;<br>QPainter painter;<br>painter.<span class="hljs-built_in">begin</span>(&amp;picture);             <span class="hljs-comment">// 在 picture 进行绘制</span><br>painter.<span class="hljs-built_in">drawEllipse</span>(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">80</span>, <span class="hljs-number">70</span>); <span class="hljs-comment">// 绘制一个椭圆</span><br>painter.<span class="hljs-built_in">end</span>();                       <span class="hljs-comment">// 绘制完成</span><br>picture.<span class="hljs-built_in">save</span>(<span class="hljs-string">&quot;drawing.pic&quot;</span>);         <span class="hljs-comment">// 保存 picture</span><br></code></pre></td></tr></table></figure>
+<p>如果我们要重现命令, 首先要使用 <code>QPicture::load()</code> 函数进行装载:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QPicture picture;<br>picture.<span class="hljs-built_in">load</span>(<span class="hljs-string">&quot;drawing.pic&quot;</span>);           <span class="hljs-comment">// 加载 picture</span><br>QPainter painter;<br>painter.<span class="hljs-built_in">begin</span>(&amp;myImage);               <span class="hljs-comment">// 在 myImage 上开始绘制</span><br>painter.<span class="hljs-built_in">drawPicture</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, picture);    <span class="hljs-comment">// 在 (0, 0) 点开始绘制 picture</span><br>painter.<span class="hljs-built_in">end</span>();                         <span class="hljs-comment">// 绘制完成</span><br></code></pre></td></tr></table></figure>
+<p>我们也可以直接使用 <code>QPicture::play()</code> 进行绘制:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QPicture::play</span><span class="hljs-params">(QPainter *painter)</span></span><br></code></pre></td></tr></table></figure>
+<p>这个函数等价于 <code>painter.drawPicture(0, 0, picture);</code>.</p>
+<h2 id="Graphics-View-框架">Graphics View 框架</h2>
+<p>Graphics View 提供了一种接口, 用于管理大量自定义的 2D 图形元素, 并与之进行交互; 还提供了用于将这些元素进行可视化显示的观察组件, 并支持缩放和旋转.</p>
+<p>Graphics View 框架包含了一套完整的事件体系, 可以用于与场景中的元素进行双精度的交互. 这些元素同样支持键盘事件、鼠标事件等. Graphics View 使用了 BSP 树 (Binary Space Partitioning tree) 来提供非常快速的元素发现, 也正因为如此, 才能够实现一种上百万数量级元素的实时显示机制.</p>
+<p>Graphics View 是一个基于元素的 MV 架构的框架。它可以分成三个部分: 元素、场景和视图.</p>
+<p>基于元素的意思是, 它的每一个组件都是一个独立的元素. 这与之前的 <code>QPainter</code> 不同, 使用 <code>QPainter</code> 绘图, 大多是采用一种面向过程的描述方式: 首先使用 <code>drawLine()</code> 画一条直线, 然后使用 <code>drawPolygon()</code> 画一个多边形; 对于 Graphics View, 相同的过程可以是, 首先创建一个场景, 然后创建一个直线对象和一个多边形对象, 再使用场景的 <code>add()</code> 函数将直线和多边形添加到场景中, 最后通过视图进行观察. 虽然看起来更加复杂, 但是当图像中存在大量直线、多边形之类的图形时, 管理这些对象要比管理 <code>QPainter</code> 的绘制语句容易得多. 并且, 这些图形对象也更加符合面向对象的设计要求: 一个很复杂的图形可以很方便的复用.</p>
+<p>MV 架构的意思是, Graphics View 提供一个 模型 (model) 和一个视图 (view). 模型就是我们添加的各种对象; 视图就是我们观察这些对象的视口. 同一个模型可以由很多视图从不同的角度进行观察, 这是很常见的需求. 使用 <code>QPainter</code> 很难实现这一点, 这需要很复杂的计算, 而 Graphics View 却可以很容易的实现.</p>
+<p>Graphics View 提供了 <code>QGraphicsScene</code> 作为场景, 即允许我们添加图形的空间; <code>QGraphicsView</code> 作为视口, 也就是我们的观察窗口, 相当于照相机的取景框, 这个取景框可以覆盖整个场景, 也可以是场景的一部分; <code>QGraphicsItem</code> 作为图形元件, 以便添加到场景中. Qt 内置了很多图形, 比如直线、多边形等, 它们都是继承自 <code>QGraphicsItem</code>.</p>
+<p>Graphics View 的使用示例如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QApplication <span class="hljs-title">app</span><span class="hljs-params">(argc, argv)</span></span>;<br><br>    QGraphicsScene scene;<br>    scene.<span class="hljs-built_in">addLine</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">150</span>, <span class="hljs-number">150</span>);<br><br>    <span class="hljs-function">QGraphicsView <span class="hljs-title">view</span><span class="hljs-params">(&amp;scene)</span></span>;<br>    view.<span class="hljs-built_in">setWindowTitle</span>(<span class="hljs-string">&quot;Graphics View&quot;</span>);<br>    view.<span class="hljs-built_in">resize</span>(<span class="hljs-number">500</span>, <span class="hljs-number">500</span>);<br>    view.<span class="hljs-built_in">show</span>();<br><br>    <span class="hljs-keyword">return</span> app.<span class="hljs-built_in">exec</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>这段代码很简单: 首先创建一个场景, 也就是 <code>QGraphicsScene</code> 对象. 然后我们使用 <code>addLine()</code> 函数向场景中添加了一个直线. 通过这两步, 我们已经有了场景和元素. 之后, 我们创建一个 <code>GraphicsView</code> 对象, 绑定到一个场景上. 注意, <code>QGraphicsScene</code> 不是 <code>QWidget</code> 的子类, 因此该构造函数并不是调用 <code>QGraphicsView(QWidget *parent)</code>.</li>
+</ul>
+<p>该代码执行结果如下:<br>
+<img src="/img/Pictures/20231228215319.png" srcset="/img/loading.gif" lazyload alt=""><br>
+注意到这个直线自动在视图居中显示, 如果不想这么做, 我们可以给 scene 设置一下 <code>sceneRect()</code> 属性:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QApplication <span class="hljs-title">a</span><span class="hljs-params">(argc, argv)</span></span>;<br><br>    QGraphicsScene scene;<br>    scene.<span class="hljs-built_in">setSceneRect</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">300</span>, <span class="hljs-number">300</span>);<br>    scene.<span class="hljs-built_in">addLine</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">150</span>, <span class="hljs-number">150</span>);<br><br>    <span class="hljs-function">QGraphicsView <span class="hljs-title">view</span><span class="hljs-params">(&amp;scene)</span></span>;<br>    view.<span class="hljs-built_in">setWindowTitle</span>(<span class="hljs-string">&quot;Graphics View&quot;</span>);<br>    <span class="hljs-comment">//view.resize(500, 500);</span><br>    view.<span class="hljs-built_in">show</span>();<br><br>    <span class="hljs-keyword">return</span> a.<span class="hljs-built_in">exec</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>QGraphicsScene</code> 的 <code>sceneRect</code> 属性供 <code>QGraphicsView</code> 确定视图默认的滚动条区域, 之所以去掉 <code>view.resize()</code> 一行, 是因为我们让系统去决定视图的最小尺寸.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>QT 学习之路 2（24）：QT 绘制系统简介: <a target="_blank" rel="noopener" href="https://www.devbean.net/2012/10/qt-study-road-2-paint-sys/">https://www.devbean.net/2012/10/qt-study-road-2-paint-sys/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>QT 学习之路 2（25）：画刷和画笔: <a target="_blank" rel="noopener" href="https://www.devbean.net/2012/11/qt-study-road-2-brush-pen/">https://www.devbean.net/2012/11/qt-study-road-2-brush-pen/</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>QT 学习之路 2（26）：反走样: <a target="_blank" rel="noopener" href="https://www.bookstack.cn/read/qt-study-road-2/072db2deab546a57.md">https://www.bookstack.cn/read/qt-study-road-2/072db2deab546a57.md</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>QT 学习之路 2（27）：渐变: <a target="_blank" rel="noopener" href="https://www.devbean.net/2012/11/qt-study-road-2-gradient/">https://www.devbean.net/2012/11/qt-study-road-2-gradient/</a>
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:5" class="footnote-text"><span>QT 学习之路 2（28）：坐标系统: <a target="_blank" rel="noopener" href="https://www.devbean.net/2012/11/qt-study-road-2-coordinate-system/">https://www.devbean.net/2012/11/qt-study-road-2-coordinate-system/</a>
+<a href="#fnref:5" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:6" class="footnote-text"><span>QT 学习之路 2（29）：绘制设备: <a target="_blank" rel="noopener" href="https://www.devbean.net/2012/12/qt-study-road-2-paint-device/">https://www.devbean.net/2012/12/qt-study-road-2-paint-device/</a>
+<a href="#fnref:6" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:7" class="footnote-text"><span>QT 学习之路 2（30）：GRAPHICS VIEW FRAMEWORK: <a target="_blank" rel="noopener" href="https://www.devbean.net/2012/12/qt-study-road-2-gvf/">https://www.devbean.net/2012/12/qt-study-road-2-gvf/</a>
+<a href="#fnref:7" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/" class="category-chain-item">QT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QT/" class="print-no-link">#QT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E5%89%AA%E8%B4%B4%E6%9D%BF/" title="QT 剪贴板">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QT 剪贴板</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="QT 多线程">
+                        <span class="hidden-mobile">QT 多线程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

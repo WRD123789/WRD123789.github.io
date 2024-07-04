@@ -1,0 +1,965 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="窗口 内嵌窗口与独立窗口  内嵌窗口  依附于某一个大的窗口 (在创建窗口对象的时候指定父对象来依附), 作为了大窗口的一部分. 大窗口就是这个内嵌窗口的父窗口. 父窗口显示的时候 (调用 show 函数), 内嵌的窗口也就被显示出来了 (内嵌窗口对象不需要调用 show 函数).   独立窗口 (不内嵌)  这类窗口有边框, 有标题栏. 需要调用函数 (show 函数) 才可以显示.    坐标">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QT 窗口">
+<meta property="og:url" content="http://example.com/2024/07/04/QT/%E7%AA%97%E5%8F%A3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="窗口 内嵌窗口与独立窗口  内嵌窗口  依附于某一个大的窗口 (在创建窗口对象的时候指定父对象来依附), 作为了大窗口的一部分. 大窗口就是这个内嵌窗口的父窗口. 父窗口显示的时候 (调用 show 函数), 内嵌的窗口也就被显示出来了 (内嵌窗口对象不需要调用 show 函数).   独立窗口 (不内嵌)  这类窗口有边框, 有标题栏. 需要调用函数 (show 函数) 才可以显示.    坐标">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20231106160834.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231106160822.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231108145558.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231223180118.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231108222336.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231108222340.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231108222402.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231108222407.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231223204457.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231224154440.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231224154348.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231224154452.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231224154528.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231105203009.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111150134.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111150212.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111152423.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111153106.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111162217.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111162236.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111190234.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111190305.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111190408.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111190420.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111190427.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111190459.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111192418.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111192042.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111192202.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231222190506.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111191750.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111191808.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231111191938.png">
+<meta property="article:published_time" content="2024-07-04T12:16:25.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="QT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20231106160834.png">
+  
+  
+  
+  <title>QT 窗口 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QT 窗口"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:16" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          103 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">QT 窗口</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>窗口</h1>
+<h2 id="内嵌窗口与独立窗口">内嵌窗口与独立窗口</h2>
+<ul>
+<li>内嵌窗口
+<ul>
+<li>依附于某一个大的窗口 (在创建窗口对象的时候指定父对象来依附), 作为了大窗口的一部分.</li>
+<li>大窗口就是这个内嵌窗口的父窗口.</li>
+<li>父窗口显示的时候 (调用 <code>show</code> 函数), 内嵌的窗口也就被显示出来了 (内嵌窗口对象不需要调用 <code>show</code> 函数).</li>
+</ul>
+</li>
+<li>独立窗口 (不内嵌)
+<ul>
+<li>这类窗口有边框, 有标题栏.</li>
+<li>需要调用函数 (<code>show</code> 函数) 才可以显示.</li>
+</ul>
+</li>
+</ul>
+<h2 id="坐标体系">坐标体系</h2>
+<p>在 Qt 关于窗口的显示是需要指定位置的, 这个位置是通过坐标来确定的, 所有坐标的选取又都是基于坐标原点来确定的.</p>
+<p><img src="/img/Pictures/20231106160834.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>所有坐标的确定都需要先找到坐标原点, <strong>Qt 的坐标原点在窗口的左上角</strong>:</p>
+<ul>
+<li><strong>x 轴向右递增</strong>.</li>
+<li><strong>y 轴向下递增</strong>.</li>
+</ul>
+<p>在一个 Qt 窗口中一般都有很多子窗口内嵌到这个父窗口中, 其中每个窗口都有自己的坐标原点:</p>
+<p><img src="/img/Pictures/20231106160822.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>每个窗口都有坐标原点, 在左上角. <strong>子窗口的位置是基于父窗口的坐标体系来确定的, 也就是说通过父窗口的坐标原点来确定自己的位置, 所以窗口显示的时候使用的是相对坐标, 相对于父窗口</strong>.</li>
+<li>将子窗口移动到父窗口的某个位置  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 所有窗口类的基类: QWidget</span><br><span class="hljs-comment">// QWidget中提供了移动窗口的 API 函数</span><br><span class="hljs-comment">// 参数 x, y是要移动的窗口的左上角的点, 窗口的左上角移动到这个坐标点</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::move</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::move</span><span class="hljs-params">(<span class="hljs-type">const</span> QPoint &amp;)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="位置和尺寸">位置和尺寸</h2>
+<p>在QT中我们常见的点, 线, 尺寸, 矩形都被进行了封装.</p>
+<h3 id="QPoint">QPoint</h3>
+<p><code>QPoint</code> 类封装了坐标点 (x, y), 常用的 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br><span class="hljs-comment">// 构造一个坐标原点, 即(0, 0)</span><br>QPoint::<span class="hljs-built_in">QPoint</span>();<br><span class="hljs-comment">// 参数为 x轴坐标, y轴坐标</span><br>QPoint::<span class="hljs-built_in">QPoint</span>(<span class="hljs-type">int</span> xpos, <span class="hljs-type">int</span> ypos);<br><br><span class="hljs-comment">// 设置x轴坐标</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QPoint::setX</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span>;<br><span class="hljs-comment">// 设置y轴坐标</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QPoint::setY</span><span class="hljs-params">(<span class="hljs-type">int</span> y)</span></span>;<br><br><span class="hljs-comment">// 得到x轴坐标</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QPoint::x</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 得到x轴坐标的引用</span><br><span class="hljs-function"><span class="hljs-type">int</span> &amp;<span class="hljs-title">QPoint::rx</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 得到y轴坐标</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QPoint::y</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 得到y轴坐标的引用</span><br><span class="hljs-function"><span class="hljs-type">int</span> &amp;<span class="hljs-title">QPoint::ry</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-comment">// 直接通过坐标对象进行算术运算: 加减乘除</span><br>QPoint &amp;QPoint::<span class="hljs-keyword">operator</span>*=(<span class="hljs-type">float</span> factor);<br>QPoint &amp;QPoint::<span class="hljs-keyword">operator</span>*=(<span class="hljs-type">double</span> factor);<br>QPoint &amp;QPoint::<span class="hljs-keyword">operator</span>*=(<span class="hljs-type">int</span> factor);<br>QPoint &amp;QPoint::<span class="hljs-keyword">operator</span>+=(<span class="hljs-type">const</span> QPoint &amp;point);<br>QPoint &amp;QPoint::<span class="hljs-keyword">operator</span>-=(<span class="hljs-type">const</span> QPoint &amp;point);<br>QPoint &amp;QPoint::<span class="hljs-keyword">operator</span>/=(qreal divisor);<br>......<br></code></pre></td></tr></table></figure>
+<h3 id="QLine">QLine</h3>
+<p><code>QLine</code> 是一个直线类, 封装了两个坐标点. 常用 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br><span class="hljs-comment">// 构造一个空对象</span><br>QLine::<span class="hljs-built_in">QLine</span>();<br><span class="hljs-comment">// 构造一条直线, 通过两个坐标点</span><br>QLine::<span class="hljs-built_in">QLine</span>(<span class="hljs-type">const</span> QPoint &amp;p1, <span class="hljs-type">const</span> QPoint &amp;p2);<br><span class="hljs-comment">// 从点 (x1, y1) 到 (x2, y2)</span><br>QLine::<span class="hljs-built_in">QLine</span>(<span class="hljs-type">int</span> x1, <span class="hljs-type">int</span> y1, <span class="hljs-type">int</span> x2, <span class="hljs-type">int</span> y2);<br><br><span class="hljs-comment">// 给直线对象设置坐标点</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QLine::setPoints</span><span class="hljs-params">(<span class="hljs-type">const</span> QPoint &amp;p1, <span class="hljs-type">const</span> QPoint &amp;p2)</span></span>;<br><span class="hljs-comment">// 起始点(x1, y1), 终点(x2, y2)</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QLine::setLine</span><span class="hljs-params">(<span class="hljs-type">int</span> x1, <span class="hljs-type">int</span> y1, <span class="hljs-type">int</span> x2, <span class="hljs-type">int</span> y2)</span></span>;<br><span class="hljs-comment">// 设置直线的起点坐标</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QLine::setP1</span><span class="hljs-params">(<span class="hljs-type">const</span> QPoint &amp;p1)</span></span>;<br><span class="hljs-comment">// 设置直线的终点坐标</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QLine::setP2</span><span class="hljs-params">(<span class="hljs-type">const</span> QPoint &amp;p2)</span></span>;<br><br><span class="hljs-comment">// 返回直线的起始点坐标</span><br><span class="hljs-function">QPoint <span class="hljs-title">QLine::p1</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回直线的终点坐标</span><br><span class="hljs-function">QPoint <span class="hljs-title">QLine::p2</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回值直线的中心点坐标, (p1() + p2()) / 2</span><br><span class="hljs-function">QPoint <span class="hljs-title">QLine::center</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 返回值直线起点的 x 坐标</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QLine::x1</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回值直线终点的 x 坐标</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QLine::x2</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回值直线起点的 y 坐标</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QLine::y1</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回值直线终点的 y 坐标</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QLine::y2</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 用给定的坐标点平移这条直线</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QLine::translate</span><span class="hljs-params">(<span class="hljs-type">const</span> QPoint &amp;offset)</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QLine::translate</span><span class="hljs-params">(<span class="hljs-type">int</span> dx, <span class="hljs-type">int</span> dy)</span></span>;<br><span class="hljs-comment">// 用给定的坐标点平移这条直线, 返回平移之后的坐标点</span><br><span class="hljs-function">QLine <span class="hljs-title">QLine::translated</span><span class="hljs-params">(<span class="hljs-type">const</span> QPoint &amp;offset)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function">QLine <span class="hljs-title">QLine::translated</span><span class="hljs-params">(<span class="hljs-type">int</span> dx, <span class="hljs-type">int</span> dy)</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 直线对象进行比较</span><br><span class="hljs-type">bool</span> QLine::<span class="hljs-keyword">operator</span>!=(<span class="hljs-type">const</span> QLine &amp;line) <span class="hljs-type">const</span>;<br><span class="hljs-type">bool</span> QLine::<span class="hljs-keyword">operator</span>==(<span class="hljs-type">const</span> QLine &amp;line) <span class="hljs-type">const</span>;<br>......<br></code></pre></td></tr></table></figure>
+<h3 id="QSize">QSize</h3>
+<p>在QT中 <code>QSize</code> 类用来表示长度和宽度, 常用的 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br><span class="hljs-comment">// 构造空对象, 对象中的宽和高都是无效的</span><br>QSize::<span class="hljs-built_in">QSize</span>();<br><span class="hljs-comment">// 使用宽和高构造一个有效对象</span><br>QSize::<span class="hljs-built_in">QSize</span>(<span class="hljs-type">int</span> width, <span class="hljs-type">int</span> height);<br><br><span class="hljs-comment">// 设置宽度</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QSize::setWidth</span><span class="hljs-params">(<span class="hljs-type">int</span> width)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 设置高度</span></span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QSize::setHeight</span><span class="hljs-params">(<span class="hljs-type">int</span> height)</span></span>;<br><br><span class="hljs-comment">// 得到宽度</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QSize::width</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 得到宽度的引用</span><br><span class="hljs-function"><span class="hljs-type">int</span> &amp;<span class="hljs-title">QSize::rwidth</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 得到高度</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QSize::height</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 得到高度的引用</span><br><span class="hljs-function"><span class="hljs-type">int</span> &amp;<span class="hljs-title">QSize::rheight</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-comment">// 交换高度和宽度的值</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QSize::transpose</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 交换高度和宽度的值, 返回交换之后的尺寸信息</span><br><span class="hljs-function">QSize <span class="hljs-title">QSize::transposed</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 进行算法运算: 加减乘除</span><br>QSize &amp;QSize::<span class="hljs-keyword">operator</span>*=(qreal factor);<br>QSize &amp;QSize::<span class="hljs-keyword">operator</span>+=(<span class="hljs-type">const</span> QSize &amp;size);<br>QSize &amp;QSize::<span class="hljs-keyword">operator</span>-=(<span class="hljs-type">const</span> QSize &amp;size);<br>QSize &amp;QSize::<span class="hljs-keyword">operator</span>/=(qreal divisor);<br>......<br></code></pre></td></tr></table></figure>
+<h3 id="QRect">QRect</h3>
+<p>在 Qt 中使用 <code>QRect</code> 类来表示一个矩形, 常用的 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br><span class="hljs-comment">// 构造一个空对象</span><br>QRect::<span class="hljs-built_in">QRect</span>();<br><span class="hljs-comment">// 基于左上角坐标, 和右下角坐标构造一个矩形对象</span><br>QRect::<span class="hljs-built_in">QRect</span>(<span class="hljs-type">const</span> QPoint &amp;topLeft, <span class="hljs-type">const</span> QPoint &amp;bottomRight);<br><span class="hljs-comment">// 基于左上角坐标, 和 宽度, 高度构造一个矩形对象</span><br>QRect::<span class="hljs-built_in">QRect</span>(<span class="hljs-type">const</span> QPoint &amp;topLeft, <span class="hljs-type">const</span> QSize &amp;size);<br><span class="hljs-comment">// 通过 左上角坐标(x, y), 和 矩形尺寸(width, height) 构造一个矩形对象</span><br>QRect::<span class="hljs-built_in">QRect</span>(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y, <span class="hljs-type">int</span> width, <span class="hljs-type">int</span> height);<br><br><span class="hljs-comment">// 设置矩形的尺寸信息, 左上角坐标不变</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QRect::setSize</span><span class="hljs-params">(<span class="hljs-type">const</span> QSize &amp;size)</span></span>;<br><span class="hljs-comment">// 设置矩形左上角坐标为(x,y), 大小为(width, height)</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QRect::setRect</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y, <span class="hljs-type">int</span> width, <span class="hljs-type">int</span> height)</span></span>;<br><span class="hljs-comment">// 设置矩形宽度</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QRect::setWidth</span><span class="hljs-params">(<span class="hljs-type">int</span> width)</span></span>;<br><span class="hljs-comment">// 设置矩形高度</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QRect::setHeight</span><span class="hljs-params">(<span class="hljs-type">int</span> height)</span></span>;<br><br><span class="hljs-comment">// 返回值矩形左上角坐标</span><br><span class="hljs-function">QPoint <span class="hljs-title">QRect::topLeft</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回矩形右上角坐标</span><br><span class="hljs-comment">// 该坐标点值为: QPoint(left() + width() -1, top())</span><br><span class="hljs-function">QPoint <span class="hljs-title">QRect::topRight</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回矩形左下角坐标</span><br><span class="hljs-comment">// 该坐标点值为: QPoint(left(), top() + height() - 1)</span><br><span class="hljs-function">QPoint <span class="hljs-title">QRect::bottomLeft</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回矩形右下角坐标</span><br><span class="hljs-comment">// 该坐标点值为: QPoint(left() + width() -1, top() + height() - 1)</span><br><span class="hljs-function">QPoint <span class="hljs-title">QRect::bottomRight</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回矩形中心点坐标</span><br><span class="hljs-function">QPoint <span class="hljs-title">QRect::center</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 返回矩形上边缘y轴坐标</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QRect::top</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QRect::y</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回值矩形下边缘y轴坐标</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QRect::bottom</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回矩形左边缘 x轴坐标</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QRect::x</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QRect::left</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回矩形右边缘x轴坐标</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QRect::right</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br>......<br></code></pre></td></tr></table></figure>
+<h2 id="基本窗口类">基本窗口类</h2>
+<p><img src="/img/Pictures/20231108145558.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>常用的窗口类有三个, 在创建 Qt 窗口的时候, 需要让自己的窗口类继承上述三个窗口类中的一个:</p>
+<ul>
+<li><code>QWidget</code>
+<ul>
+<li>所有窗口类的基类.</li>
+<li>Qt中的控件 (按钮, 输入框, 单选框…) 也属于窗口, 基类都是 <code>QWidget</code>.</li>
+<li>可以内嵌到其他窗口中: 没有边框.</li>
+<li>可以不内嵌单独显示: 独立的窗口, 有边框.</li>
+</ul>
+</li>
+<li><code>QDialog</code>
+<ul>
+<li>对话框类, 后边的章节会具体介绍这个窗口.</li>
+<li>不能内嵌到其他窗口中.</li>
+<li>有模态和非模态两种显示形式  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// QWidget是所有窗口类的基类, 调用这个提供的 show() 方法就可以显示将任何窗口显示出来</span><br><span class="hljs-comment">// 非模态显示</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::show</span><span class="hljs-params">()</span></span>;	<span class="hljs-comment">// 显示当前窗口和它的子窗口</span><br><br><span class="hljs-comment">// `TestDialog` 类继承自 `QDialog`</span><br>TestDialog* dlg = <span class="hljs-keyword">new</span> TestDialog;<br><br><span class="hljs-comment">// 对话框窗口的非模态显示, 焦点可以切换, </span><br><span class="hljs-comment">// 即不同窗口之间可以切换</span><br>dlg-&gt;<span class="hljs-built_in">show</span>();<br><br><span class="hljs-comment">// 对话框窗口的模态显示, 会阻塞程序的执行, 此时焦点不能切换,</span><br><span class="hljs-comment">// 即不同窗口之间不可以切换</span><br>dlg-&gt;<span class="hljs-built_in">exec</span>();<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><code>QMainWindow</code>
+<ul>
+<li>有工具栏, 状态栏, 菜单栏, 后边的章节会具体介绍这个窗口.</li>
+<li>不能内嵌到其他窗口中.</li>
+</ul>
+</li>
+</ul>
+<h3 id="QWidget">QWidget</h3>
+<p><code>QWidget</code> 类是所有窗口类的父类 (控件类是也属于窗口类), 并且 <code>QWidget</code> 类的父类是<code>QObject</code>, 也就意味着所有的窗口类对象只要指定了父对象, 都可以实现内存资源的自动回收.</p>
+<p><code>QWidget</code> 的常用 API 如下:<br>
+1. <strong>设置父对象</strong>:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br>QWidget::<span class="hljs-built_in">QWidget</span>(QWidget *parent = <span class="hljs-literal">nullptr</span>, Qt::WindowFlags f = Qt::<span class="hljs-built_in">WindowFlags</span>());<br><br><span class="hljs-comment">// 公共成员函数</span><br><span class="hljs-comment">// 给当前窗口设置父对象</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::setParent</span><span class="hljs-params">(QWidget *parent)</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::setParent</span><span class="hljs-params">(QWidget *parent, Qt::WindowFlags f)</span></span>;<br><span class="hljs-comment">// 获取当前窗口的父对象, 没有父对象返回 nullptr</span><br><span class="hljs-function">QWidget *<span class="hljs-title">QWidget::parentWidget</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br></code></pre></td></tr></table></figure>
+<p>2. <strong>窗口位置</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//------------- 窗口位置 -------------</span><br><span class="hljs-comment">// 得到相对于当前窗口父窗口的几何信息, 边框也被计算在内</span><br><span class="hljs-function">QRect <span class="hljs-title">QWidget::frameGeometry</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 得到相对于当前窗口父窗口的几何信息, 不包括边框</span><br><span class="hljs-function"><span class="hljs-type">const</span> QRect &amp;<span class="hljs-title">geometry</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置当前窗口的几何信息(位置和尺寸信息), 不包括边框</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setGeometry</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y, <span class="hljs-type">int</span> w, <span class="hljs-type">int</span> h)</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setGeometry</span><span class="hljs-params">(<span class="hljs-type">const</span> QRect &amp;)</span></span>;<br>    <br><span class="hljs-comment">// 移动窗口, 重新设置窗口的位置</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">move</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">move</span><span class="hljs-params">(<span class="hljs-type">const</span> QPoint &amp;)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>3. <strong>窗口尺寸</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//------------- 窗口尺寸 -------------</span><br><span class="hljs-comment">// 获取当前窗口的尺寸信息</span><br><span class="hljs-function">QSize <span class="hljs-title">size</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"><span class="hljs-comment">// 重新设置窗口的尺寸信息</span></span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">resize</span><span class="hljs-params">(<span class="hljs-type">int</span> w, <span class="hljs-type">int</span> h)</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">resize</span><span class="hljs-params">(<span class="hljs-type">const</span> QSize &amp;)</span></span>;<br><span class="hljs-comment">// 获取当前窗口的最大尺寸信息</span><br><span class="hljs-function">QSize <span class="hljs-title">maximumSize</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 获取当前窗口的最小尺寸信息</span><br><span class="hljs-function">QSize <span class="hljs-title">minimumSize</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置当前窗口固定的尺寸信息</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::setFixedSize</span><span class="hljs-params">(<span class="hljs-type">const</span> QSize &amp;s)</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::setFixedSize</span><span class="hljs-params">(<span class="hljs-type">int</span> w, <span class="hljs-type">int</span> h)</span></span>;<br><span class="hljs-comment">// 设置当前窗口的最大尺寸信息</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setMaximumSize</span><span class="hljs-params">(<span class="hljs-type">const</span> QSize &amp;)</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setMaximumSize</span><span class="hljs-params">(<span class="hljs-type">int</span> maxw, <span class="hljs-type">int</span> maxh)</span></span>;<br><span class="hljs-comment">// 设置当前窗口的最小尺寸信息</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setMinimumSize</span><span class="hljs-params">(<span class="hljs-type">const</span> QSize &amp;)</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setMinimumSize</span><span class="hljs-params">(<span class="hljs-type">int</span> minw, <span class="hljs-type">int</span> minh)</span></span>;<br><br><br><span class="hljs-comment">// 获取当前窗口的高度    </span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">height</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 获取当前窗口的最小高度</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">minimumHeight</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 获取当前窗口的最大高度</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">maximumHeight</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 给窗口设置固定的高度</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::setFixedHeight</span><span class="hljs-params">(<span class="hljs-type">int</span> h)</span></span>;<br><span class="hljs-comment">// 给窗口设置最大高度</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setMaximumHeight</span><span class="hljs-params">(<span class="hljs-type">int</span> maxh)</span></span>;<br><span class="hljs-comment">// 给窗口设置最小高度</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setMinimumHeight</span><span class="hljs-params">(<span class="hljs-type">int</span> minh)</span></span>;<br><br><span class="hljs-comment">// 获取当前窗口的宽度</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">width</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 获取当前窗口的最小宽度</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">minimumWidth</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 获取当前窗口的最大宽度</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">maximumWidth</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 给窗口设置固定宽度</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::setFixedWidth</span><span class="hljs-params">(<span class="hljs-type">int</span> w)</span></span>;<br><span class="hljs-comment">// 给窗口设置最大宽度</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setMaximumWidth</span><span class="hljs-params">(<span class="hljs-type">int</span> maxw)</span></span>;<br><span class="hljs-comment">// 给窗口设置最小宽度</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setMinimumWidth</span><span class="hljs-params">(<span class="hljs-type">int</span> minw)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>4. <strong>窗口标题和图标</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//------------- 窗口图标 -------------</span><br><span class="hljs-comment">// 得到当前窗口的图标</span><br><span class="hljs-function">QIcon <span class="hljs-title">windowIcon</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 构造图标对象, 参数为图片的路径</span><br>QIcon::<span class="hljs-built_in">QIcon</span>(<span class="hljs-type">const</span> QString &amp;fileName);<br><span class="hljs-comment">// 设置当前窗口的图标</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setWindowIcon</span><span class="hljs-params">(<span class="hljs-type">const</span> QIcon &amp;icon)</span></span>;<br><br><span class="hljs-comment">//------------- 窗口标题 -------------</span><br><span class="hljs-comment">// 得到当前窗口的标题</span><br><span class="hljs-function">QString <span class="hljs-title">windowTitle</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置当前窗口的标题</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setWindowTitle</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>5. <strong>信号</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// QWidget::setContextMenuPolicy(Qt::ContextMenuPolicy policy);</span><br><span class="hljs-comment">// 窗口的右键菜单策略 contextMenuPolicy() 参数设置为 Qt::CustomContextMenu, 按下鼠标右键发射该信号</span><br>[signal] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::customContextMenuRequested</span><span class="hljs-params">(<span class="hljs-type">const</span> QPoint &amp;pos)</span></span>;<br><span class="hljs-comment">// 窗口图标发生变化, 发射此信号</span><br>[signal] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::windowIconChanged</span><span class="hljs-params">(<span class="hljs-type">const</span> QIcon &amp;icon)</span></span>;<br><span class="hljs-comment">// 窗口标题发生变化, 发射此信号</span><br>[signal] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::windowTitleChanged</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;title)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>6. <strong>槽函数</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//------------- 窗口显示 -------------</span><br><span class="hljs-comment">// 关闭当前窗口</span><br>[slot] <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QWidget::close</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 隐藏当前窗口</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::hide</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 显示当前创建以及其子窗口</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::show</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 全屏显示当前窗口, 只对windows有效</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::showFullScreen</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 窗口最大化显示, 只对windows有效</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::showMaximized</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 窗口最小化显示, 只对windows有效</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::showMinimized</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 将窗口回复为最大化/最小化之前的状态, 只对windows有效</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::showNormal</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-comment">//------------- 窗口状态 -------------</span><br><span class="hljs-comment">// 判断窗口是否可用</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QWidget::isEnabled</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>; <span class="hljs-comment">// 非槽函数</span><br><span class="hljs-comment">// 设置窗口是否可用, 不可用窗口无法接收和处理窗口事件</span><br><span class="hljs-comment">// 参数true-&gt;可用, false-&gt;不可用</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::setEnabled</span><span class="hljs-params">(<span class="hljs-type">bool</span>)</span></span>;<br><span class="hljs-comment">// 设置窗口是否可用, 不可用窗口无法接收和处理窗口事件</span><br><span class="hljs-comment">// 参数true-&gt;不可用, false-&gt;可用</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::setDisabled</span><span class="hljs-params">(<span class="hljs-type">bool</span> disable)</span></span>;<br><span class="hljs-comment">// 设置窗口是否可见, 参数为true-&gt;可见, false-&gt;不可见</span><br>[slot] <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">QWidget::setVisible</span><span class="hljs-params">(<span class="hljs-type">bool</span> visible)</span></span>;<br></code></pre></td></tr></table></figure>
+<h3 id="对话框">对话框</h3>
+<p>对话框是 GUI 程序中不可或缺的组成部分. 很多不能或者不适合放入主窗口的功能组件都必须放在对话框中设置. 对话框通常会是一个顶层窗口, 出现在程序最上层, 用于实现短期任务或者简洁的用户交互.</p>
+<p>Qt 中使用 <code>QDialog</code> 类实现对话框, 对话框类是 <code>QWidget</code> 类的子类, 除了继承自父类的属性之外, 还有一些自己所特有的属性, 常用的一些 API 函数如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br>QDialog::<span class="hljs-built_in">QDialog</span>(QWidget *parent = <span class="hljs-literal">nullptr</span>, Qt::WindowFlags f = Qt::<span class="hljs-built_in">WindowFlags</span>());<br><br><span class="hljs-comment">// 模态显示窗口</span><br>[<span class="hljs-keyword">virtual</span> slot] <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QDialog::exec</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 隐藏模态窗口, 并且解除模态窗口的阻塞, 将 exec() 的返回值设置为 QDialog::Accepted</span><br>[<span class="hljs-keyword">virtual</span> slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QDialog::accept</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 隐藏模态窗口, 并且解除模态窗口的阻塞, 将 exec() 的返回值设置为 QDialog::Rejected</span><br>[<span class="hljs-keyword">virtual</span> slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QDialog::reject</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 关闭对话框并将其结果代码 (exec 的返回值) 设置为 r. 发出finished()信号来传递r;</span><br><span class="hljs-comment">// 如果r是QDialog::Accepted 或 QDialog::Rejected，则还将分别发出accept()或Rejected()信号。</span><br>[<span class="hljs-keyword">virtual</span> slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QDialog::done</span><span class="hljs-params">(<span class="hljs-type">int</span> r)</span></span>;<br><br>[signal] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QDialog::accepted</span><span class="hljs-params">()</span></span>;<br>[signal] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QDialog::rejected</span><span class="hljs-params">()</span></span>;<br>[signal] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QDialog::finished</span><span class="hljs-params">(<span class="hljs-type">int</span> result)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>例如: 有两个窗口, 主窗口和一个对话框子窗口, 对话框窗口先显示, 根据用户操作选择是否显示主窗口.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//------------- MyDialog.cpp -------------</span><br><span class="hljs-comment">// 对话框窗口中三个普通按钮按下之后对应的槽函数</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyDialog::on_acceptBtn_clicked</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">this</span>-&gt;<span class="hljs-built_in">accept</span>();  <span class="hljs-comment">// exec()函数返回值为QDialog::Accepted</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyDialog::on_rejectBtn_clicked</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">this</span>-&gt;<span class="hljs-built_in">reject</span>();  <span class="hljs-comment">// exec()函数返回值为QDialog::Rejected</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyDialog::on_donBtn_clicked</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// exec()函数返回值为 done() 的参数, 并根据参数发射出对应的信号</span><br>    <span class="hljs-keyword">this</span>-&gt;<span class="hljs-built_in">done</span>(<span class="hljs-number">10</span>);   <br>&#125;<br><span class="hljs-comment">//------------- MainWindow.cpp -------------</span><br><span class="hljs-comment">// 创建对话框对象</span><br>MyDialog dlg;    <br><span class="hljs-type">int</span> ret = dlg.<span class="hljs-built_in">exec</span>();<br><span class="hljs-keyword">if</span>(ret == QDialog::Accepted)<br>&#123;<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;accept button clicked...&quot;</span>;<br>    <span class="hljs-comment">// 显示主窗口</span><br>    MainWindow* w = <span class="hljs-keyword">new</span> MainWindow;<br>    w-&gt;<span class="hljs-built_in">show</span>();<br>&#125;<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ret == QDialog::Rejected)<br>&#123;<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;reject button clicked...&quot;</span>;<br>    <span class="hljs-comment">// 不显示主窗口</span><br>    ......<br>    ......<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    <span class="hljs-comment">// ret == 10</span><br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;done button clicked...&quot;</span>;<br>    <span class="hljs-comment">// 根据需求进行逻辑处理</span><br>    ......<br>    ......<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="模态对话框-非模态对话框">模态对话框 / 非模态对话框</h4>
+<p>对话框分为模态对话框和非模态对话框. 所谓<strong>模态对话框, 就是会阻塞同一应用程序中其它窗口的输入</strong>. 模态对话框很常见, 比如 “打开文件” 功能. 你可以尝试一下记事本的打开文件, 当打开文件对话框出现时, 我们是不能对除此对话框之外的窗口部分进行操作的; 与此相反的是非模态对话框, <strong>非模态对话框不会阻塞用户与程序其他窗口进行交互</strong>. 例如查找对话框, 我们可以在显示着查找对话框的同时, 继续对记事本的内容进行编辑.</p>
+<p>Qt 支持模态对话框和非模态对话框. 其中, Qt 有两种级别的模态对话框: 应用程序级别的模态和窗口级别的模态, 默认是应用程序级别的模态. <strong>应用程序级别的模态是指, 当该种模态的对话框出现时, 用户必须首先与对话框进行交互, 直到关闭对话框, 然后才能访问程序中其他的窗口</strong>.</p>
+<p><strong>窗口级别的模态是指, 该模态仅仅阻塞与其父窗口和属于其父窗口的其他子窗口的交互, 而不会阻塞与应用程序其他窗口的交互</strong>.</p>
+<ul>
+<li>例如, 一个程序中每个文档都使用一个独立的窗口打开, 如果使用应用程序级别的模态对话框进行保存, 所有文档窗口都会被阻塞; 如果使用窗口级别模态对话框, 则只有打开它的那个窗口 (也就是其父窗口) 被阻塞.</li>
+</ul>
+<p>当然, 使用这种模态要求对话框必须有一个父窗口.</p>
+<p>Qt 4.1 起, <code>QWidget</code> 引入了一个新的属性 <strong><code>windowModality</code>, 用于设置窗口是哪种类型的模态</strong>. 当窗口被创建出来, <code>windowModality</code> 会被设置为 <code>Qt::NonModal</code>, 因此默认都是非模态的. 另外, <code>Qt::ApplicationModal</code> 表示应用程序级模态, <code>Qt::WindowModal</code> 表示窗口级模态. 可以通过 <code>setWindowModality</code> 来设置:<br>
+<img src="/img/Pictures/20231223180118.png" srcset="/img/loading.gif" lazyload alt=""><br>
+并且, 在窗口可见时设置该属性是无效的.</p>
+<p>当使用 Qt 中的 <code>Dialog</code> 类时, 有三种主要的方法来显示对话框:</p>
+<ul>
+<li><code>exec()</code>: <code>exec()</code> 是一个同步方法, 它会启动一个事件循环并阻塞程序的执行, 直到对话框关闭. 如果对话框是应用程序模态的, 它将阻塞整个应用程序的其他窗口; 如果对话框是窗口级模态的, 它将阻塞其父窗口和属于其父窗口的其他子窗口. 如果没有通过 <code>setWindowModality</code> 函数设置 <code>windowModality</code> 属性, 那么 <strong><code>exec()</code> 默认以应用程序级模态显示对话框.</strong> 该函数会返回一个 <code>QDialog::DialogCode</code> 值 (一般为 <code>QDialog::Accepted</code> 或者 <code>QDialog::Rejected</code>, 即用户点击了 “确认” 还是 “取消”), 表示对话框的关闭状态.</li>
+<li><code>open()</code>:  <code>open()</code> 是一个异步方法, 它不会启动额外的事件循环, 也不会阻塞程序的执行, 而是在后台打开对话框. 不管是否通过 <code>setWindowModality</code> 函数设置 <code>windowModality</code> 属性, <strong>该函数只会以窗口级模态显示对话框</strong>. 该函数会在对话框关闭的时候发出 <code>finshed()</code> 信号.</li>
+<li><code>show()</code>: 该函数不会阻塞程序执行, 默认以非模态显示对话框, 如果调用该函数前通过 <code>setWindowModality</code> 函数设置 <code>windowModality</code> 属性, 则根据 <code>windowModality</code> 属性显示对话框. 该函数不会返回任何状态.</li>
+</ul>
+<p>一个简单的使用示例如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp">MyQDialogSubclass dialog;<br><span class="hljs-comment">// 初始化操作</span><br><span class="hljs-keyword">if</span> (dialog.<span class="hljs-built_in">exec</span>() == QDialog::Accept) &#123;<br>    <span class="hljs-comment">// 获取返回值等</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>这段代码首先创建一个 <code>QDialog</code> 子类的对象, 然后调用 <code>exec()</code> 函数. <code>exec()</code> 函数会阻止代码继续运行, 直到其返回, 最后根据对话框返回值来决定进行哪些操作. 这种模态被称为 “应用程序级别模态”. 在这种级别的模态下, 用户输入 (如鼠标和键盘) 只能派发给模态对话框, 其他窗口则不能接收到.</li>
+</ul>
+<h4 id="数据传输">数据传输</h4>
+<p>对于模态对话框, 可以通过函数的返回值判断状态. 但是对于非模态对话框,  <code>QDialog::show()</code> 函数会立即返回, 且不会返回任何状态. 此时可以使用信号槽机制.</p>
+<p>由于非模态对话框在关闭时会调用 <code>QWidget::closeEvent</code> 函数, 而在该函数中可能会调用 <code>QDialog::accept()</code> 或者 <code>QDialog::reject()</code> 或者更通用的 <code>QDialog::done()</code>, 它们会发出信号. 另外, 如果找不到合适的信号发出点, 也可以自己重写 <code>QWidget::closeEvent</code> 函数, 在这里面发出信号.</p>
+<p>重写 <code>QDialog::accept()</code> 来发送自定义信号的示例如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//!!! Qt 5</span><br><span class="hljs-comment">// in dialog:</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">UserAgeDialog::accept</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">emit <span class="hljs-title">userAgeChanged</span><span class="hljs-params">(newAge)</span></span>; <span class="hljs-comment">// newAge is an int</span><br>    QDialog::<span class="hljs-built_in">accept</span>();<br>&#125;<br><br><span class="hljs-comment">// in main window:</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::showUserAgeDialog</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    UserAgeDialog *dialog = <span class="hljs-keyword">new</span> <span class="hljs-built_in">UserAgeDialog</span>(<span class="hljs-keyword">this</span>);<br>    <span class="hljs-built_in">connect</span>(dialog, &amp;UserAgeDialog::userAgeChanged, <span class="hljs-keyword">this</span>, &amp;MainWindow::setUserAge);<br>    dialog-&gt;<span class="hljs-built_in">show</span>();<br>&#125;<br><br><span class="hljs-comment">// ...</span><br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::setUserAge</span><span class="hljs-params">(<span class="hljs-type">int</span> age)</span></span><br><span class="hljs-function"></span>&#123;<br>    userAge = age;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="QMessageBox">QMessageBox</h4>
+<p><code>QMessageBox</code> 对话框类是 <code>QDialog</code> 类的子类, 通过这个类可以显示一些简单的提示框, 用于展示警告、错误、问题等信息.<br>
+常用 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 显示一个模态对话框, 将参数 text 的信息展示到窗口中</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QMessageBox::about</span><span class="hljs-params">(QWidget *parent, <span class="hljs-type">const</span> QString &amp;title, <span class="hljs-type">const</span> QString &amp;text)</span></span>;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">参数:</span><br><span class="hljs-comment">- parent: 对话框窗口的父窗口</span><br><span class="hljs-comment">- title: 对话框窗口的标题</span><br><span class="hljs-comment">- text: 对话框窗口中显示的提示信息</span><br><span class="hljs-comment">- buttons: 对话框窗口中显示的按钮(一个或多个)</span><br><span class="hljs-comment">- defaultButton</span><br><span class="hljs-comment">    1. defaultButton指定按下Enter键时使用的按钮。</span><br><span class="hljs-comment">    2. defaultButton必须引用在参数 buttons 中给定的按钮。</span><br><span class="hljs-comment">    3. 如果defaultButton是QMessageBox::NoButton, QMessageBox会自动选择一个合适的默认值。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-comment">// 显示一个信息模态对话框</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QMessageBox::StandardButton <span class="hljs-title">QMessageBox::information</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">           QWidget *parent, <span class="hljs-type">const</span> QString &amp;title, </span></span><br><span class="hljs-params"><span class="hljs-function">           <span class="hljs-type">const</span> QString &amp;text, </span></span><br><span class="hljs-params"><span class="hljs-function">           QMessageBox::StandardButtons buttons = Ok,</span></span><br><span class="hljs-params"><span class="hljs-function">           QMessageBox::StandardButton defaultButton = NoButton)</span></span>;<br><br><span class="hljs-comment">// 显示一个错误模态对话框</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QMessageBox::StandardButton <span class="hljs-title">QMessageBox::critical</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">           QWidget *parent, <span class="hljs-type">const</span> QString &amp;title, </span></span><br><span class="hljs-params"><span class="hljs-function">           <span class="hljs-type">const</span> QString &amp;text, </span></span><br><span class="hljs-params"><span class="hljs-function">           QMessageBox::StandardButtons buttons = Ok,</span></span><br><span class="hljs-params"><span class="hljs-function">           QMessageBox::StandardButton defaultButton = NoButton)</span></span>;<br><br><span class="hljs-comment">// 显示一个问题模态对话框</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QMessageBox::StandardButton <span class="hljs-title">QMessageBox::question</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">           QWidget *parent, <span class="hljs-type">const</span> QString &amp;title, </span></span><br><span class="hljs-params"><span class="hljs-function">           <span class="hljs-type">const</span> QString &amp;text, </span></span><br><span class="hljs-params"><span class="hljs-function">           QMessageBox::StandardButtons buttons = StandardButtons(Yes | No), </span></span><br><span class="hljs-params"><span class="hljs-function">           QMessageBox::StandardButton defaultButton = NoButton)</span></span>;<br><br><span class="hljs-comment">// 显示一个警告模态对话框</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QMessageBox::StandardButton <span class="hljs-title">QMessageBox::warning</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">           QWidget *parent, <span class="hljs-type">const</span> QString &amp;title, </span></span><br><span class="hljs-params"><span class="hljs-function">           <span class="hljs-type">const</span> QString &amp;text, </span></span><br><span class="hljs-params"><span class="hljs-function">           QMessageBox::StandardButtons buttons = Ok,</span></span><br><span class="hljs-params"><span class="hljs-function">           QMessageBox::StandardButton defaultButton = NoButton)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::on_msgbox_clicked</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    QMessageBox::<span class="hljs-built_in">about</span>(<span class="hljs-keyword">this</span>, <span class="hljs-string">&quot;about&quot;</span>,  <span class="hljs-string">&quot;这是一个简单的消息提示框!&quot;</span>);<br>    QMessageBox::<span class="hljs-built_in">critical</span>(<span class="hljs-keyword">this</span>, <span class="hljs-string">&quot;critical&quot;</span>, <span class="hljs-string">&quot;这是一个错误对话框&quot;</span>);<br>    <span class="hljs-type">int</span> ret = QMessageBox::<span class="hljs-built_in">question</span>(<span class="hljs-keyword">this</span>, <span class="hljs-string">&quot;question&quot;</span>, <br>             <span class="hljs-string">&quot;你要保存修改的文件内容吗?&quot;</span>,                               <br>              QMessageBox::Save | QMessageBox::Cancel, <br>              QMessageBox::Cancel);<br>    <span class="hljs-keyword">if</span>(ret == QMessageBox::Save)<br>    &#123;<br>        QMessageBox::<span class="hljs-built_in">information</span>(<span class="hljs-keyword">this</span>, <span class="hljs-string">&quot;information&quot;</span>, <span class="hljs-string">&quot;保存成功!&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ret == QMessageBox::Cancel)<br>    &#123;<br>        QMessageBox::<span class="hljs-built_in">warning</span>(<span class="hljs-keyword">this</span>, <span class="hljs-string">&quot;warning&quot;</span>, <span class="hljs-string">&quot;放弃保存!&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>得到的对话框窗口效果如下:<br>
+<img src="/img/Pictures/20231108222336.png" srcset="/img/loading.gif" lazyload alt=""><br>
+<img src="/img/Pictures/20231108222340.png" srcset="/img/loading.gif" lazyload alt=""><br>
+<img src="/img/Pictures/20231108222402.png" srcset="/img/loading.gif" lazyload alt=""><br>
+<img src="/img/Pictures/20231108222407.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><code>QMessageBox</code> 类的 <code>static</code> 函数优点是方便使用, 缺点也很明显: 非常不灵活. 我们只能使用简单的几种形式. 为了能够定制 <code>QMessageBox</code> 细节, 我们必须使用 <code>QMessageBox</code> 的属性设置 API. 如果我们希望制作一个询问是否保存的对话框, 我们可以使用如下的代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QMessageBox msgBox;<br>msgBox.<span class="hljs-built_in">setText</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;The document has been modified.&quot;</span>));<br>msgBox.<span class="hljs-built_in">setInformativeText</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Do you want to save your changes?&quot;</span>));<br>msgBox.<span class="hljs-built_in">setDetailedText</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Differences here...&quot;</span>));<br>msgBox.<span class="hljs-built_in">setStandardButtons</span>(QMessageBox::Save<br>                          | QMessageBox::Discard<br>                          | QMessageBox::Cancel);<br>msgBox.<span class="hljs-built_in">setDefaultButton</span>(QMessageBox::Save);<br><span class="hljs-type">int</span> ret = msgBox.<span class="hljs-built_in">exec</span>();<br><span class="hljs-keyword">switch</span> (ret) &#123;<br><span class="hljs-keyword">case</span> QMessageBox::Save:<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;Save document!&quot;</span>;<br>    <span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> QMessageBox::Discard:<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;Discard changes!&quot;</span>;<br>    <span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> QMessageBox::Cancel:<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;Close document!&quot;</span>;<br>    <span class="hljs-keyword">break</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>该程序执行结果如下:<br>
+<img src="/img/Pictures/20231223204457.png" srcset="/img/loading.gif" lazyload alt=""><br>
+需要注意的是: 虽然我们没有指定 <code>QMessageBox</code> 下方按钮的排列顺序, 但是 Qt 已经帮我们按照不同平台的使用习惯进行了排列.</p>
+<h4 id="QFileDialog">QFileDialog</h4>
+<p><code>QFileDialog</code> 对话框类是 <code>QDialog</code> 类的子类, 通过这个类可以选择要打开/保存的文件或者目录.<br>
+常用 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">通用参数:</span><br><span class="hljs-comment">  - parent: 当前对话框窗口的父对象也就是父窗口</span><br><span class="hljs-comment">  - caption: 当前对话框窗口的标题</span><br><span class="hljs-comment">  - dir: 当前对话框窗口打开的默认目录</span><br><span class="hljs-comment">  - options: 当前对话框窗口的一些可选项,枚举类型, 一般不需要进行设置, 使用默认值即可</span><br><span class="hljs-comment">  - filter: 过滤器, 在对话框中只显示满足条件的文件, 可以指定多个过滤器, 使用 ;; 分隔</span><br><span class="hljs-comment">    - 样式举例 (Images、Text files 这些描述符可以随意指定): </span><br><span class="hljs-comment">	- &quot;Images (*.png *.jpg)&quot;&quot;</span><br><span class="hljs-comment">	- &quot;Images (*.png *.jpg);;Text files (*.txt)&quot;</span><br><span class="hljs-comment">  - selectedFilter: 如果指定了多个过滤器, 通过该参数指定默认使用哪一个, 不指定默认使用第一个过滤器</span><br><span class="hljs-comment">*/</span><br><span class="hljs-comment">// 打开一个目录, 得到这个目录的绝对路径</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QString <span class="hljs-title">QFileDialog::getExistingDirectory</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">                  QWidget *parent = <span class="hljs-literal">nullptr</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">                  <span class="hljs-type">const</span> QString &amp;caption = QString(), </span></span><br><span class="hljs-params"><span class="hljs-function">                  <span class="hljs-type">const</span> QString &amp;dir = QString(), </span></span><br><span class="hljs-params"><span class="hljs-function">                  QFileDialog::Options options = ShowDirsOnly)</span></span>;<br><br><span class="hljs-comment">// 打开一个文件, 得到这个文件的绝对路径</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QString <span class="hljs-title">QFileDialog::getOpenFileName</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    	          QWidget *parent = <span class="hljs-literal">nullptr</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">    		  <span class="hljs-type">const</span> QString &amp;caption = QString(), </span></span><br><span class="hljs-params"><span class="hljs-function">                  <span class="hljs-type">const</span> QString &amp;dir = QString(), </span></span><br><span class="hljs-params"><span class="hljs-function">                  <span class="hljs-type">const</span> QString &amp;filter = QString(), </span></span><br><span class="hljs-params"><span class="hljs-function">                  QString *selectedFilter = <span class="hljs-literal">nullptr</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">                  QFileDialog::Options options = Options())</span></span>;<br><br><span class="hljs-comment">// 打开多个文件, 得到这多个文件的绝对路径</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QStringList <span class="hljs-title">QFileDialog::getOpenFileNames</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    	          QWidget *parent = <span class="hljs-literal">nullptr</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">                  <span class="hljs-type">const</span> QString &amp;caption = QString(), </span></span><br><span class="hljs-params"><span class="hljs-function">                  <span class="hljs-type">const</span> QString &amp;dir = QString(), </span></span><br><span class="hljs-params"><span class="hljs-function">                  <span class="hljs-type">const</span> QString &amp;filter = QString(), </span></span><br><span class="hljs-params"><span class="hljs-function">                  QString *selectedFilter = <span class="hljs-literal">nullptr</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">                  QFileDialog::Options options = Options())</span></span>;<br><br><span class="hljs-comment">// 打开一个目录, 使用这个目录来保存指定的文件</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QString <span class="hljs-title">QFileDialog::getSaveFileName</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    		  QWidget *parent = <span class="hljs-literal">nullptr</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">                  <span class="hljs-type">const</span> QString &amp;caption = QString(), </span></span><br><span class="hljs-params"><span class="hljs-function">                  <span class="hljs-type">const</span> QString &amp;dir = QString(), </span></span><br><span class="hljs-params"><span class="hljs-function">                  <span class="hljs-type">const</span> QString &amp;filter = QString(), </span></span><br><span class="hljs-params"><span class="hljs-function">                  QString *selectedFilter = <span class="hljs-literal">nullptr</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">                  QFileDialog::Options options = Options())</span></span>;<br></code></pre></td></tr></table></figure>
+<p>下面编写一个具有文本编辑功能的窗口:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs cpp">openAction = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QAction</span>(<span class="hljs-built_in">QIcon</span>(<span class="hljs-string">&quot;:/images/file-open&quot;</span>), <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;&amp;Open...&quot;</span>), <span class="hljs-keyword">this</span>);<br>openAction-&gt;<span class="hljs-built_in">setShortcuts</span>(QKeySequence::Open);<br>openAction-&gt;<span class="hljs-built_in">setStatusTip</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Open an existing file&quot;</span>));<br><br>saveAction = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QAction</span>(<span class="hljs-built_in">QIcon</span>(<span class="hljs-string">&quot;:/images/file-save&quot;</span>), <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;&amp;Save...&quot;</span>), <span class="hljs-keyword">this</span>);<br>saveAction-&gt;<span class="hljs-built_in">setShortcuts</span>(QKeySequence::Save);<br>saveAction-&gt;<span class="hljs-built_in">setStatusTip</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Save a new file&quot;</span>));<br><br>QMenu *file = <span class="hljs-built_in">menuBar</span>()-&gt;<span class="hljs-built_in">addMenu</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;&amp;File&quot;</span>));<br>file-&gt;<span class="hljs-built_in">addAction</span>(openAction);<br>file-&gt;<span class="hljs-built_in">addAction</span>(saveAction);<br><br>QToolBar *toolBar = <span class="hljs-built_in">addToolBar</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;&amp;File&quot;</span>));<br>toolBar-&gt;<span class="hljs-built_in">addAction</span>(openAction);<br>toolBar-&gt;<span class="hljs-built_in">addAction</span>(saveAction);<br><br>textEdit = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTextEdit</span>(<span class="hljs-keyword">this</span>);<br><span class="hljs-built_in">setCentralWidget</span>(textEdit);<br><br><span class="hljs-built_in">connect</span>(openAction, &amp;QAction::triggered, <span class="hljs-keyword">this</span>, &amp;MainWindow::openFile);<br><span class="hljs-built_in">connect</span>(saveAction, &amp;QAction::triggered, <span class="hljs-keyword">this</span>, &amp;MainWindow::saveFile);<br></code></pre></td></tr></table></figure>
+<ul>
+<li>我们首先在菜单和工具栏添加了两个动作: 打开和保存. 接下来是一个 <code>QTextEdit</code> 类, 这个类用于显示富文本文件. 也就是说, 它不仅仅用于显示文本, 还可以显示图片、表格等等. 不过, 我们现在只用它显示纯文本文件. <code>QMainWindow</code> 有一个 <code>setCentralWidget()</code> 函数, 可以将一个组件作为窗口的中心组件, 放在窗口中央显示区. 然后通过 <code>connect</code> 函数为这两个动作添加响应动作.</li>
+</ul>
+<p>最重要的 <code>openFile()</code> 和 <code>saveFile()</code> 函数的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::openFile</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    QString path = QFileDialog::<span class="hljs-built_in">getOpenFileName</span>(<span class="hljs-keyword">this</span>,<br>                                                <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Open File&quot;</span>),<br>                                                <span class="hljs-string">&quot;.&quot;</span>,<br>                                                <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Text Files(*.txt)&quot;</span>));<br>    <span class="hljs-keyword">if</span>(!path.<span class="hljs-built_in">isEmpty</span>()) &#123;<br>        <span class="hljs-function">QFile <span class="hljs-title">file</span><span class="hljs-params">(path)</span></span>;<br>        <span class="hljs-keyword">if</span> (!file.<span class="hljs-built_in">open</span>(QIODevice::ReadOnly | QIODevice::Text)) &#123;<br>            QMessageBox::<span class="hljs-built_in">warning</span>(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Read File&quot;</span>),<br>                                 <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Cannot open file:\n%1&quot;</span>).<span class="hljs-built_in">arg</span>(path));<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-function">QTextStream <span class="hljs-title">in</span><span class="hljs-params">(&amp;file)</span></span>;<br>        textEdit-&gt;<span class="hljs-built_in">setText</span>(in.<span class="hljs-built_in">readAll</span>());<br>        file.<span class="hljs-built_in">close</span>();<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        QMessageBox::<span class="hljs-built_in">warning</span>(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Path&quot;</span>),<br>                             <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;You did not select any file.&quot;</span>));<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::saveFile</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    QString path = QFileDialog::<span class="hljs-built_in">getSaveFileName</span>(<span class="hljs-keyword">this</span>,<br>                                                <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Open File&quot;</span>),<br>                                                <span class="hljs-string">&quot;.&quot;</span>,<br>                                                <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Text Files(*.txt)&quot;</span>));<br>    <span class="hljs-keyword">if</span>(!path.<span class="hljs-built_in">isEmpty</span>()) &#123;<br>        <span class="hljs-function">QFile <span class="hljs-title">file</span><span class="hljs-params">(path)</span></span>;<br>        <span class="hljs-keyword">if</span> (!file.<span class="hljs-built_in">open</span>(QIODevice::WriteOnly | QIODevice::Text)) &#123;<br>            QMessageBox::<span class="hljs-built_in">warning</span>(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Write File&quot;</span>),<br>                                       <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Cannot open file:\n%1&quot;</span>).<span class="hljs-built_in">arg</span>(path));<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-function">QTextStream <span class="hljs-title">out</span><span class="hljs-params">(&amp;file)</span></span>;<br>        out &lt;&lt; textEdit-&gt;<span class="hljs-built_in">toPlainText</span>();<br>        file.<span class="hljs-built_in">close</span>();<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        QMessageBox::<span class="hljs-built_in">warning</span>(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Path&quot;</span>),<br>                             <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;You did not select any file.&quot;</span>));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>此处使用的是静态函数 <code>QFileDialog::getOpenFileName()</code>, 当<strong>使用这种静态函数时, 在 Windows、Mac OS 上面会直接调用本地系统的文件对话框</strong>, 而在 Linux 上则使用 Qt 自己的模拟文件对话框. 如果你选择创建一个 <code>QFileDialog</code> 对象, 并对其进行定制设置, 那么得到的对话框很可能与系统对话框的外观不一致.</li>
+<li>在这两个函数中, 我们创建了一个 <code>QFile</code> 对象, 将用户选择的文件路径传递给这个对象. 然后我们需要打开这个文件, 使用的是 <code>QFile::open()</code>, 其参数是指定的打开方式, 这里我们使用只读 / 只写方式和文本方式打开这个文件. 后面再通过文件操作将文件内容显示到 <code>QTextEdit</code> 中或是将 <code>QTextEdit</code> 的内容输出到文件中.</li>
+<li>当然, 该实现存在一定的问题, 很多必要的检查工作没有实现, 此处不过多说明.</li>
+</ul>
+<p>最终程序的运行结果如下:<br>
+<img src="/img/Pictures/20231224154440.png" srcset="/img/loading.gif" lazyload alt=""><br>
+<img src="/img/Pictures/20231224154348.png" srcset="/img/loading.gif" lazyload alt=""><br>
+<img src="/img/Pictures/20231224154452.png" srcset="/img/loading.gif" lazyload alt=""><br>
+<img src="/img/Pictures/20231224154528.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h4 id="QFontDialog">QFontDialog</h4>
+<p><code>QFontDialog</code> 类是 <code>QDialog</code> 的子类, 通过这个类我们可以得到一个进行字体属性设置的对话框窗口.</p>
+<p><strong>QFont 字体类</strong><br>
+关于字体的属性信息, 在 QT 框架中被封装到了一个叫 <code>QFont</code> 的类中, 这个类的常用 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br>  QFont::<span class="hljs-built_in">QFont</span>();<br>  <span class="hljs-comment">/*</span><br><span class="hljs-comment">  参数:</span><br><span class="hljs-comment">    - family: 本地字库中的字体名, 通过 office 等文件软件可以查看</span><br><span class="hljs-comment">    - pointSize: 字体的字号</span><br><span class="hljs-comment">    - weight: 字体的粗细, 有效范围为 0 ~ 99</span><br><span class="hljs-comment">    - italic: 字体是否倾斜显示, 默认不倾斜</span><br><span class="hljs-comment">  */</span><br>  QFont::<span class="hljs-built_in">QFont</span>(<span class="hljs-type">const</span> QString &amp;family, <span class="hljs-type">int</span> pointSize = <span class="hljs-number">-1</span>, <span class="hljs-type">int</span> weight = <span class="hljs-number">-1</span>, <span class="hljs-type">bool</span> italic = <span class="hljs-literal">false</span>);<br>  <br>  <span class="hljs-comment">// 设置字体</span><br>  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QFont::setFamily</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;family)</span></span>;<br>  <span class="hljs-comment">// 根据字号设置字体大小</span><br>  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QFont::setPointSize</span><span class="hljs-params">(<span class="hljs-type">int</span> pointSize)</span></span>;<br>  <span class="hljs-comment">// 根据像素设置字体大小</span><br>  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QFont::setPixelSize</span><span class="hljs-params">(<span class="hljs-type">int</span> pixelSize)</span></span>;<br>  <span class="hljs-comment">// 设置字体的粗细程度, 有效范围: 0 ~ 99</span><br>  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QFont::setWeight</span><span class="hljs-params">(<span class="hljs-type">int</span> weight)</span></span>;<br>  <span class="hljs-comment">// 设置字体是否加粗显示</span><br>  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QFont::setBold</span><span class="hljs-params">(<span class="hljs-type">bool</span> enable)</span></span>;<br>  <span class="hljs-comment">// 设置字体是否要倾斜显示</span><br>  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QFont::setItalic</span><span class="hljs-params">(<span class="hljs-type">bool</span> enable)</span></span>;<br>  <br>  <span class="hljs-comment">// 获取字体相关属性(一般规律: 去掉设置函数的 set 就是获取相关属性对应的函数名)</span><br>  <span class="hljs-function">QString <span class="hljs-title">QFont::family</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QFont::italic</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QFont::pixelSize</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QFont::pointSize</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QFont::bold</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QFont::weight</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br></code></pre></td></tr></table></figure>
+<p>如果一个 <code>QFont</code> 对象被创建, 并且进行了初始化, 我们可以将这个属性设置给某个窗口, 或者设置给当前应用程序对象:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// QWidget 类</span><br><span class="hljs-comment">// 得到当前窗口使用的字体</span><br><span class="hljs-function"><span class="hljs-type">const</span> QWidget::QFont&amp; <span class="hljs-title">font</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 给当前窗口设置字体, 只对当前窗口类生效</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::setFont</span><span class="hljs-params">(<span class="hljs-type">const</span> QFont &amp;)</span></span>;<br><br><span class="hljs-comment">// QApplication 类</span><br><span class="hljs-comment">// 得到当前应用程序对象使用的字体</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QFont <span class="hljs-title">QApplication::font</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 给当前应用程序对象设置字体, 作用于当前应用程序的所有窗口</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QApplication::setFont</span><span class="hljs-params">(<span class="hljs-type">const</span> QFont &amp;font, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *className = <span class="hljs-literal">nullptr</span>)</span></span>;<br></code></pre></td></tr></table></figure>
+<p><strong>QFontDialog 类</strong><br>
+该类的常用 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">参数:</span><br><span class="hljs-comment">  - ok: 传出参数, 用于判断是否获得了有效字体信息, 指定一个布尔类型变量地址</span><br><span class="hljs-comment">  - initial: 字体对话框中默认选中并显示该字体信息, 用于对话框的初始化</span><br><span class="hljs-comment">  - parent: 字体对话框窗口的父对象</span><br><span class="hljs-comment">  - title: 字体对话框的窗口标题</span><br><span class="hljs-comment">  - options: 字体对话框选项, 使用默认属性即可, 一般不设置</span><br><span class="hljs-comment">*/</span><br>  [<span class="hljs-type">static</span>] <span class="hljs-function">QFont <span class="hljs-title">QFontDialog::getFont</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">		<span class="hljs-type">bool</span> *ok, <span class="hljs-type">const</span> QFont &amp;initial, </span></span><br><span class="hljs-params"><span class="hljs-function">		QWidget *parent = <span class="hljs-literal">nullptr</span>, <span class="hljs-type">const</span> QString &amp;title = QString(), </span></span><br><span class="hljs-params"><span class="hljs-function">		QFontDialog::FontDialogOptions options = FontDialogOptions())</span></span>;<br>  <br>  [<span class="hljs-type">static</span>] <span class="hljs-function">QFont <span class="hljs-title">QFontDialog::getFont</span><span class="hljs-params">(<span class="hljs-type">bool</span> *ok, QWidget *parent = <span class="hljs-literal">nullptr</span>)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>例如: 通过字体对话框选择字体, 并将选择的字体设置给当前窗口</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::on_fontdlg_clicked</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br><span class="hljs-meta">#<span class="hljs-keyword">if</span> 1</span><br>    <span class="hljs-comment">// 方式1</span><br>    <span class="hljs-type">bool</span> ok;<br>    QFont ft = QFontDialog::<span class="hljs-built_in">getFont</span>(<br>                &amp;ok, <span class="hljs-built_in">QFont</span>(<span class="hljs-string">&quot;微软雅黑&quot;</span>, <span class="hljs-number">12</span>, QFont::Bold), <span class="hljs-keyword">this</span>, <span class="hljs-string">&quot;选择字体&quot;</span>);<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;ok value is: &quot;</span> &lt;&lt; ok;<br><span class="hljs-meta">#<span class="hljs-keyword">else</span></span><br>    <span class="hljs-comment">// 方式2</span><br>    QFont ft = QFontDialog::<span class="hljs-built_in">getFont</span>(<span class="hljs-literal">NULL</span>);<br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br>    <span class="hljs-comment">// 将选择的字体设置给当前窗口对象</span><br>    <span class="hljs-keyword">this</span>-&gt;<span class="hljs-built_in">setFont</span>(ft);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="QColorDialog">QColorDialog</h4>
+<p><code>QColorDialog</code> 类是 <code>QDialog</code> 的子类, 通过这个类我们可以得到一个选择颜色的对话框窗口.</p>
+<p><strong>QColor 类</strong><br>
+关于颜色的属性信息, 在 QT 框架中被封装到了一个叫 <code>QColor</code> 的类中, 该类的 API 如下所示:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br>QColor::<span class="hljs-built_in">QColor</span>(Qt::GlobalColor color);<br>QColor::<span class="hljs-built_in">QColor</span>(<span class="hljs-type">int</span> r, <span class="hljs-type">int</span> g, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> a = ...);<br>QColor::<span class="hljs-built_in">QColor</span>();<br><br><span class="hljs-comment">// 参数设置 red, green, blue, alpha, 取值范围都是 0-255</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QColor::setRed</span><span class="hljs-params">(<span class="hljs-type">int</span> red)</span></span>;		<span class="hljs-comment">// 红色</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QColor::setGreen</span><span class="hljs-params">(<span class="hljs-type">int</span> green)</span></span>;	<span class="hljs-comment">// 绿色</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QColor::setBlue</span><span class="hljs-params">(<span class="hljs-type">int</span> blue)</span></span>;	<span class="hljs-comment">// 蓝色</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QColor::setAlpha</span><span class="hljs-params">(<span class="hljs-type">int</span> alpha)</span></span>;	<span class="hljs-comment">// 透明度, 默认不透明(255)</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QColor::setRgb</span><span class="hljs-params">(<span class="hljs-type">int</span> r, <span class="hljs-type">int</span> g, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> a = <span class="hljs-number">255</span>)</span></span>;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QColor::red</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QColor::green</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QColor::blue</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QColor::alpha</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QColor::getRgb</span><span class="hljs-params">(<span class="hljs-type">int</span> *r, <span class="hljs-type">int</span> *g, <span class="hljs-type">int</span> *b, <span class="hljs-type">int</span> *a = <span class="hljs-literal">nullptr</span>)</span> <span class="hljs-type">const</span></span>;<br></code></pre></td></tr></table></figure>
+<p><strong>QColorDialog 类</strong></p>
+<p>该类的常用 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp">  <span class="hljs-comment">// 弹出颜色选择对话框, 并返回选中的颜色信息</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">参数:</span><br><span class="hljs-comment">    - initial: 对话框中默认选中的颜色, 用于窗口初始化</span><br><span class="hljs-comment">    - parent: 给对话框窗口指定父对象</span><br><span class="hljs-comment">    - title: 对话框窗口的标题</span><br><span class="hljs-comment">    - options: 颜色对话框窗口选项, 使用默认属性即可, 一般不需要设置</span><br><span class="hljs-comment">*/</span><br>  [<span class="hljs-type">static</span>] <span class="hljs-function">QColor <span class="hljs-title">QColorDialog::getColor</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">		<span class="hljs-type">const</span> QColor &amp;initial = Qt::white, </span></span><br><span class="hljs-params"><span class="hljs-function">		QWidget *parent = <span class="hljs-literal">nullptr</span>, <span class="hljs-type">const</span> QString &amp;title = QString(), </span></span><br><span class="hljs-params"><span class="hljs-function">		QColorDialog::ColorDialogOptions options = ColorDialogOptions())</span></span>;<br></code></pre></td></tr></table></figure>
+<h4 id="QInputDialog">QInputDialog</h4>
+<p><code>QInputDialog</code> 类是 <code>QDialog</code> 的子类, 通过这个类我们可以得到一个输入对话框窗口, 根据实际需求我们可以在这个输入窗口中输入整形, 浮点型, 字符串类型的数据, 并且还可以显示下拉菜单供使用者选择. 该类常用的 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 得到一个可以输入浮点数的对话框窗口, 返回对话框窗口中输入的浮点数</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">参数:</span><br><span class="hljs-comment">  - parent: 对话框窗口的父窗口</span><br><span class="hljs-comment">  - title: 对话框窗口显示的标题信息</span><br><span class="hljs-comment">  - label: 对话框窗口中显示的文本信息(用于描述对话框的功能)</span><br><span class="hljs-comment">  - value: 对话框窗口中显示的浮点值, 默认为 0</span><br><span class="hljs-comment">  - min: 对话框窗口支持显示的最小数值</span><br><span class="hljs-comment">  - max: 对话框窗口支持显示的最大数值</span><br><span class="hljs-comment">  - decimals: 浮点数的精度, 默认保留小数点以后1位</span><br><span class="hljs-comment">  - ok: 传出参数, 用于判断是否得到了有效数据, 一般不会使用该参数</span><br><span class="hljs-comment">  - flags: 对话框窗口的窗口属性, 使用默认值即可</span><br><span class="hljs-comment">*/</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">QInputDialog::getDouble</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    		QWidget *parent, <span class="hljs-type">const</span> QString &amp;title, </span></span><br><span class="hljs-params"><span class="hljs-function">    		<span class="hljs-type">const</span> QString &amp;label, <span class="hljs-type">double</span> value = <span class="hljs-number">0</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">    		<span class="hljs-type">double</span> min = <span class="hljs-number">-2147483647</span>, <span class="hljs-type">double</span> max = <span class="hljs-number">2147483647</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">    		<span class="hljs-type">int</span> decimals = <span class="hljs-number">1</span>, <span class="hljs-type">bool</span> *ok = <span class="hljs-literal">nullptr</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">    		Qt::WindowFlags flags = Qt::WindowFlags())</span></span>;<br><br><span class="hljs-comment">// 得到一个可以输入整形数的对话框窗口, 返回对话框窗口中输入的整形数</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">参数:</span><br><span class="hljs-comment">  - parent: 对话框窗口的父窗口</span><br><span class="hljs-comment">  - title: 对话框窗口显示的标题信息</span><br><span class="hljs-comment">  - label: 对话框窗口中显示的文本信息(用于描述对话框的功能)</span><br><span class="hljs-comment">  - value: 对话框窗口中显示的整形值, 默认为 0</span><br><span class="hljs-comment">  - min: 对话框窗口支持显示的最小数值</span><br><span class="hljs-comment">  - max: 对话框窗口支持显示的最大数值</span><br><span class="hljs-comment">  - step: 步长, 通过对话框提供的按钮调节数值每次增长/递减的量</span><br><span class="hljs-comment">  - ok: 传出参数, 用于判断是否得到了有效数据, 一般不会使用该参数</span><br><span class="hljs-comment">  - flags: 对话框窗口的窗口属性, 使用默认值即可</span><br><span class="hljs-comment">*/</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QInputDialog::getInt</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    		QWidget *parent, <span class="hljs-type">const</span> QString &amp;title, </span></span><br><span class="hljs-params"><span class="hljs-function">    		<span class="hljs-type">const</span> QString &amp;label, <span class="hljs-type">int</span> value = <span class="hljs-number">0</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">    		<span class="hljs-type">int</span> min = <span class="hljs-number">-2147483647</span>, <span class="hljs-type">int</span> max = <span class="hljs-number">2147483647</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">    		<span class="hljs-type">int</span> step = <span class="hljs-number">1</span>, <span class="hljs-type">bool</span> *ok = <span class="hljs-literal">nullptr</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">    		Qt::WindowFlags flags = Qt::WindowFlags())</span></span>;<br><br><span class="hljs-comment">// 得到一个带下拉菜单的对话框窗口, 返回选择的菜单项上的文本信息</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">参数:</span><br><span class="hljs-comment">  - parent: 对话框窗口的父窗口</span><br><span class="hljs-comment">  - title: 对话框窗口显示的标题信息</span><br><span class="hljs-comment">  - label: 对话框窗口中显示的文本信息(用于描述对话框的功能)</span><br><span class="hljs-comment">  - items: 字符串列表, 用于初始化窗口中的下拉菜单, 每个字符串对应一个菜单项</span><br><span class="hljs-comment">  - current: 通过菜单项的索引指定显示下拉菜单中的哪个菜单项, 默认显示第一个(编号为0)</span><br><span class="hljs-comment">  - editable: 设置菜单项上的文本信息是否可以进行编辑, 默认为true, 即可以编辑</span><br><span class="hljs-comment">  - ok: 传出参数, 用于判断是否得到了有效数据, 一般不会使用该参数</span><br><span class="hljs-comment">  - flags: 对话框窗口的窗口属性, 使用默认值即可</span><br><span class="hljs-comment">  - inputMethodHints: 设置显示模式, 默认没有指定任何特殊显示格式, 显示普通文本字符串</span><br><span class="hljs-comment">    - 如果有特殊需求, 可以参数帮助文档进行相关设置</span><br><span class="hljs-comment">*/</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QString <span class="hljs-title">QInputDialog::getItem</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    		QWidget *parent, <span class="hljs-type">const</span> QString &amp;title, </span></span><br><span class="hljs-params"><span class="hljs-function">    		<span class="hljs-type">const</span> QString &amp;label, <span class="hljs-type">const</span> QStringList &amp;items, </span></span><br><span class="hljs-params"><span class="hljs-function">    		<span class="hljs-type">int</span> current = <span class="hljs-number">0</span>, <span class="hljs-type">bool</span> editable = <span class="hljs-literal">true</span>, <span class="hljs-type">bool</span> *ok = <span class="hljs-literal">nullptr</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">    		Qt::WindowFlags flags = Qt::WindowFlags(), </span></span><br><span class="hljs-params"><span class="hljs-function">    		Qt::InputMethodHints inputMethodHints = Qt::ImhNone)</span></span>;<br><br><span class="hljs-comment">// 得到一个可以输入多行数据的对话框窗口, 返回用户在窗口中输入的文本信息</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">参数:</span><br><span class="hljs-comment">  - parent: 对话框窗口的父窗口</span><br><span class="hljs-comment">  - title: 对话框窗口显示的标题信息</span><br><span class="hljs-comment">  - label: 对话框窗口中显示的文本信息(用于描述对话框的功能)</span><br><span class="hljs-comment">  - text: 指定显示到多行输入框中的文本信息, 默认是空字符串</span><br><span class="hljs-comment">  - ok: 传出参数, 用于判断是否得到了有效数据, 一般不会使用该参数</span><br><span class="hljs-comment">  - flags: 对话框窗口的窗口属性, 使用默认值即可</span><br><span class="hljs-comment">  - inputMethodHints: 设置显示模式, 默认没有指定任何特殊显示格式, 显示普通文本字符串</span><br><span class="hljs-comment">    - 如果有特殊需求, 可以参数帮助文档进行相关设置</span><br><span class="hljs-comment">*/</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QString <span class="hljs-title">QInputDialog::getMultiLineText</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    		QWidget *parent, <span class="hljs-type">const</span> QString &amp;title, <span class="hljs-type">const</span> QString &amp;label, </span></span><br><span class="hljs-params"><span class="hljs-function">    		<span class="hljs-type">const</span> QString &amp;text = QString(), <span class="hljs-type">bool</span> *ok = <span class="hljs-literal">nullptr</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">    		Qt::WindowFlags flags = Qt::WindowFlags(), </span></span><br><span class="hljs-params"><span class="hljs-function">    		Qt::InputMethodHints inputMethodHints = Qt::ImhNone)</span></span>;<br><br><span class="hljs-comment">// 得到一个可以输入单行信息的对话框窗口, 返回用户在窗口中输入的文本信息</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">参数:</span><br><span class="hljs-comment">  - parent: 对话框窗口的父窗口 </span><br><span class="hljs-comment">  - title: 对话框窗口显示的标题信息</span><br><span class="hljs-comment">  - label: 对话框窗口中显示的文本信息(用于描述对话框的功能)</span><br><span class="hljs-comment">  - mode: 指定单行编辑框中数据的反馈模式, 是一个 QLineEdit::EchoMode 类型的枚举值</span><br><span class="hljs-comment">    - QLineEdit::Normal: 显示输入的字符。这是默认值</span><br><span class="hljs-comment">    - QLineEdit::NoEcho: 不要展示任何东西。这可能适用于连密码长度都应该保密的密码。</span><br><span class="hljs-comment">    - QLineEdit::Password: 显示与平台相关的密码掩码字符，而不是实际输入的字符。</span><br><span class="hljs-comment">    - QLineEdit::PasswordEchoOnEdit: 在编辑时按输入显示字符，否则按密码显示字符。</span><br><span class="hljs-comment">  - text: 指定显示到单行输入框中的文本信息, 默认是空字符串</span><br><span class="hljs-comment">  - ok: 传出参数, 用于判断是否得到了有效数据, 一般不会使用该参数</span><br><span class="hljs-comment">  - flags: 对话框窗口的窗口属性, 使用默认值即可</span><br><span class="hljs-comment">  - inputMethodHints: 设置显示模式, 默认没有指定任何特殊显示格式, 显示普通文本字符串</span><br><span class="hljs-comment">     - 如果有特殊需求, 可以参数帮助文档进行相关设置</span><br><span class="hljs-comment">*/</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QString <span class="hljs-title">QInputDialog::getText</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    		QWidget *parent, <span class="hljs-type">const</span> QString &amp;title, <span class="hljs-type">const</span> QString &amp;label,</span></span><br><span class="hljs-params"><span class="hljs-function">    		QLineEdit::EchoMode mode = QLineEdit::Normal, </span></span><br><span class="hljs-params"><span class="hljs-function">    		<span class="hljs-type">const</span> QString &amp;text = QString(), <span class="hljs-type">bool</span> *ok = <span class="hljs-literal">nullptr</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">    		Qt::WindowFlags flags = Qt::WindowFlags(), </span></span><br><span class="hljs-params"><span class="hljs-function">    		Qt::InputMethodHints inputMethodHints = Qt::ImhNone)</span></span>;<br></code></pre></td></tr></table></figure>
+<h4 id="QProgressDialog">QProgressDialog</h4>
+<p><code>QProgressDialog</code> 类是 <code>QDialog</code> 的子类, 通过这个类我们可以得到一个带进度条的对话框窗口, 这种类型的对话框窗口一般常用于文件拷贝、数据传输等实时交互的场景中.</p>
+<p>该类的常用 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">参数:</span><br><span class="hljs-comment">  - labelText: 对话框中显示的提示信息</span><br><span class="hljs-comment">  - cancelButtonText: 取消按钮上显示的文本信息</span><br><span class="hljs-comment">  - minimum: 进度条最小值</span><br><span class="hljs-comment">  - maximum: 进度条最大值</span><br><span class="hljs-comment">  - parent: 当前窗口的父对象</span><br><span class="hljs-comment">  - f: 当前进度窗口的flag属性, 使用默认属性即可, 无需设置</span><br><span class="hljs-comment">*/</span><br>QProgressDialog::<span class="hljs-built_in">QProgressDialog</span>(<br>	QWidget *parent = <span class="hljs-literal">nullptr</span>, <br>	Qt::WindowFlags f = Qt::<span class="hljs-built_in">WindowFlags</span>());<br><br>QProgressDialog::<span class="hljs-built_in">QProgressDialog</span>(<br>	<span class="hljs-type">const</span> QString &amp;labelText, <span class="hljs-type">const</span> QString &amp;cancelButtonText, <br>	<span class="hljs-type">int</span> minimum, <span class="hljs-type">int</span> maximum, QWidget *parent = <span class="hljs-literal">nullptr</span>,<br>	Qt::WindowFlags f = Qt::<span class="hljs-built_in">WindowFlags</span>());<br><br><br><span class="hljs-comment">// 设置取消按钮显示的文本信息</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QProgressDialog::setCancelButtonText</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;cancelButtonText)</span></span>;<br><br><span class="hljs-comment">// 公共成员函数和槽函数</span><br><span class="hljs-function">QString <span class="hljs-title">QProgressDialog::labelText</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QProgressDialog::setLabelText</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;text)</span></span>;<br><br><span class="hljs-comment">// 得到进度条最小值</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QProgressDialog::minimum</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置进度条最小值</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QProgressDialog::setMinimum</span><span class="hljs-params">(<span class="hljs-type">int</span> minimum)</span></span>;<br><br><span class="hljs-comment">// 得到进度条最大值</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QProgressDialog::maximum</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置进度条最大值</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QProgressDialog::setMaximum</span><span class="hljs-params">(<span class="hljs-type">int</span> maximum)</span></span>;<br><br><span class="hljs-comment">// 设置进度条范围(最大和最小值)</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QProgressDialog::setRange</span><span class="hljs-params">(<span class="hljs-type">int</span> minimum, <span class="hljs-type">int</span> maximum)</span></span>;<br><br><span class="hljs-comment">// 得到进度条当前的值</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QProgressDialog::value</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置进度条当前的值</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QProgressDialog::setValue</span><span class="hljs-params">(<span class="hljs-type">int</span> progress)</span></span>;<br><br><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QProgressDialog::autoReset</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 当value() = maximum()时，进程对话框是否调用reset()，此属性默认为true。</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QProgressDialog::setAutoReset</span><span class="hljs-params">(<span class="hljs-type">bool</span> reset)</span></span>;<br><br><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QProgressDialog::autoClose</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 当value() = maximum()时，进程对话框是否调用close()并且隐藏，此属性默认为true。</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QProgressDialog::setAutoClose</span><span class="hljs-params">(<span class="hljs-type">bool</span> close)</span></span>;<br><br><span class="hljs-comment">// 判断用户是否按下了取消键, 按下了返回true, 否则返回false</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">wasCanceled</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br><br><span class="hljs-comment">// 重置进度条</span><br><span class="hljs-comment">// 重置进度对话框。wascancelled()变为true，直到进程对话框被重置。进度对话框被隐藏。</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QProgressDialog::cancel</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 重置进度对话框。如果autoClose()为真，进程对话框将隐藏。</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QProgressDialog::reset</span><span class="hljs-params">()</span></span>;   <br><br><span class="hljs-comment">// 信号</span><br><span class="hljs-comment">// 当单击cancel按钮时，将发出此信号。默认情况下，它连接到cancel()槽。</span><br>[signal] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QProgressDialog::canceled</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-comment">// 设置窗口的显示状态(模态, 非模态)</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">参数:</span><br><span class="hljs-comment">	Qt::NonModal  -&gt; 非模态</span><br><span class="hljs-comment">	Qt::WindowModal	-&gt; 模态, 阻塞父窗口</span><br><span class="hljs-comment">	Qt::ApplicationModal -&gt; 模态, 阻塞应用程序中的所有窗口</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::setWindowModality</span><span class="hljs-params">(Qt::WindowModality windowModality)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>例如: 基于定时器模拟文件拷贝的场景, 点击窗口按钮, 进度条窗口显示, 同时启动定时器, 通过定时器信号, 按照固定频率更新对话框窗口进度条, 当进度条当前值 == 最大值, 关闭定时器, 关闭并析构进度对话框.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::on_progressdlg_clicked</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// 1. 创建进度条对话框窗口对象</span><br>    QProgressDialog *progress = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QProgressDialog</span>(<br>                <span class="hljs-string">&quot;正在拷贝数据...&quot;</span>, <span class="hljs-string">&quot;取消拷贝&quot;</span>, <span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-keyword">this</span>);<br>    <span class="hljs-comment">// 2. 初始化并显示进度条窗口</span><br>    progress-&gt;<span class="hljs-built_in">setWindowTitle</span>(<span class="hljs-string">&quot;请稍后&quot;</span>);<br>    progress-&gt;<span class="hljs-built_in">setWindowModality</span>(Qt::WindowModal);<br>    progress-&gt;<span class="hljs-built_in">show</span>();<br><br>    <span class="hljs-comment">// 3. 更新进度条</span><br>    <span class="hljs-type">static</span> <span class="hljs-type">int</span> value = <span class="hljs-number">0</span>;<br>    QTimer *timer = <span class="hljs-keyword">new</span> QTimer;<br>    <span class="hljs-built_in">connect</span>(timer, &amp;QTimer::timeout, <span class="hljs-keyword">this</span>, [=]()<br>    &#123;<br>         progress-&gt;<span class="hljs-built_in">setValue</span>(value);<br>         value++;<br>         <span class="hljs-comment">// 当value &gt; 最大值的时候</span><br>         <span class="hljs-keyword">if</span>(value &gt; progress-&gt;<span class="hljs-built_in">maximum</span>())<br>         &#123;<br>             timer-&gt;<span class="hljs-built_in">stop</span>();<br>             value = <span class="hljs-number">0</span>;<br>             <span class="hljs-keyword">delete</span> progress;<br>             <span class="hljs-keyword">delete</span> timer;<br>         &#125;<br>    &#125;);<br><br>    <span class="hljs-built_in">connect</span>(progress, &amp;QProgressDialog::canceled, <span class="hljs-keyword">this</span>, [=]()<br>    &#123;<br>        timer-&gt;<span class="hljs-built_in">stop</span>();<br>        value = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">delete</span> progress;<br>        <span class="hljs-keyword">delete</span> timer;<br>    &#125;);<br><br>    timer-&gt;<span class="hljs-built_in">start</span>(<span class="hljs-number">50</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="QMainWindow">QMainWindow</h3>
+<p><img src="/img/Pictures/20231105203009.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><code>QMainWindow</code>是标准基础窗口中结构最复杂的窗口, 其组成如下:</p>
+<ul>
+<li>Window Title (标题栏): 通常用于显示标题和控制按钮, 比如最大化、最小化和关闭等. 只能有一个.</li>
+<li>Menu Bar (菜单栏): 用于显示菜单. 只能有一个.</li>
+<li>Status Bar (状态栏): 当鼠标滑过某些组件时, 可以在状态栏中显示某些信息.  只能有一个.
+<ul>
+<li>比如: 浏览器中, 鼠标滑过带有链接的文件时, 可以在窗口底部看到链接的实际 URL.</li>
+</ul>
+</li>
+<li>Tool Bar Area (工具栏区域): QT 的主窗口支持多个工具栏, 你可以将工具栏拖放到不同的位置. 可以有多个, 默认提供一个.</li>
+<li>Dock Widget Area (停靠窗口区域): 像 Photoshop 的工具箱一样, 可以停靠在主窗口的四周, 也可以浮动显示. 可以有多个, 默认不提供.</li>
+<li>Central Widget (工作区): 我们会将程序最主要的工作区域放置在这里, 类似 Word 的稿纸或者 Photoshop 的画布.</li>
+</ul>
+<h4 id="菜单栏">菜单栏</h4>
+<p>Qt 中, 表示菜单栏的类是 <code>QMenuBar</code>. <code>QMenuBar</code>代表的是窗口最上方的一条菜单栏.</p>
+<p>添加菜单项</p>
+<ol>
+<li>关于顶级菜单可以直接在 UI 窗口中双击, 直接输入文本信息即可, 对应子菜单项也可以通过先双击在输入的方式完成添加, 但是<strong>这种方式不支持中文的输入</strong>:<br>
+<img src="/img/Pictures/20231111150134.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>一般情况下, 我们都是先在外面创建出 <code>QAction</code> 对象, 然后再将其拖拽到某个菜单下边:<br>
+<img src="/img/Pictures/20231111150212.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>通过代码的方式添加菜单或者菜单项: <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 返回主窗口的菜单栏, 如果没有, 则会新创建一个</span><br><span class="hljs-function">QMenuBar *<span class="hljs-title">QMainWindow::menuBar</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-comment">// 给菜单栏添加菜单</span><br><span class="hljs-function">QAction *<span class="hljs-title">QMenuBar::addMenu</span><span class="hljs-params">(QMenu *menu)</span></span>;<br><span class="hljs-function">QMenu *<span class="hljs-title">QMenuBar::addMenu</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;title)</span></span>;<br><span class="hljs-function">QMenu *<span class="hljs-title">QMenuBar::addMenu</span><span class="hljs-params">(<span class="hljs-type">const</span> QIcon &amp;icon, <span class="hljs-type">const</span> QString &amp;title)</span></span>;<br>	<br><span class="hljs-comment">// 给菜单对象添加菜单项(QAction)</span><br><span class="hljs-function">QAction *<span class="hljs-title">QMenu::addAction</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;text)</span></span>;<br><span class="hljs-function">QAction *<span class="hljs-title">QMenu::addAction</span><span class="hljs-params">(<span class="hljs-type">const</span> QIcon &amp;icon, <span class="hljs-type">const</span> QString &amp;text)</span></span>;<br>	<br><span class="hljs-comment">// 添加分割线</span><br><span class="hljs-function">QAction *<span class="hljs-title">QMenu::addSeparator</span><span class="hljs-params">()</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>菜单项 <code>QAction</code> 事件的处理: 单击菜单项, 该对象会发出一个信号:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 点击QAction对象发出该信号</span><br>[signal] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QAction::triggered</span><span class="hljs-params">(<span class="hljs-type">bool</span> checked = <span class="hljs-literal">false</span>)</span></span>;<br></code></pre></td></tr></table></figure>
+<h4 id="工具栏">工具栏</h4>
+<p>在 Qt 中, <code>QToolBar</code> 表示一个工具栏.</p>
+<p>添加工具按钮</p>
+<ol>
+<li>先创建 <code>QAction</code> 对象, 然后拖拽到工具栏中, 和添加菜单项的方式相同:<br>
+<img src="/img/Pictures/20231111152423.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>调用相关的 API 函数: <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 在QMainWindow窗口中添加工具栏</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QMainWindow::addToolBar</span><span class="hljs-params">(ToolBarArea area, QToolBar *toolbar)</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QMainWindow::addToolBar</span><span class="hljs-params">(QToolBar *toolbar)</span></span>;<br><span class="hljs-function">QToolBar *<span class="hljs-title">QMainWindow::addToolBar</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;title)</span></span>;<br>	<br><span class="hljs-comment">// 将Qt控件放到工具栏中</span><br><span class="hljs-comment">// 工具栏类: QToolBar</span><br><span class="hljs-comment">// 添加的对象只要是QWidget或者启子类都可以被添加</span><br><span class="hljs-function">QAction *<span class="hljs-title">QToolBar::addWidget</span><span class="hljs-params">(QWidget *widget)</span></span>;<br>	<br><span class="hljs-comment">// 添加QAction对象</span><br><span class="hljs-function">QAction *<span class="hljs-title">QToolBar::addAction</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;text)</span></span>;<br><span class="hljs-function">QAction *<span class="hljs-title">QToolBar::addAction</span><span class="hljs-params">(<span class="hljs-type">const</span> QIcon &amp;icon, <span class="hljs-type">const</span> QString &amp;text)</span></span>;<br>	<br><span class="hljs-comment">// 添加分隔线</span><br><span class="hljs-function">QAction *<span class="hljs-title">QToolBar::addSeparator</span><span class="hljs-params">()</span></span><br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>在 ui 窗口的树状列表中, 找到工具栏节点, 就可以到的工具栏的属性设置面板:<br>
+<img src="/img/Pictures/20231111153106.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h4 id="状态栏">状态栏</h4>
+<p>在 Qt 中, <code>QStatusBar</code> 表示状态栏. 可以通过以下函数返回主窗口的状态栏:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QStatusBar *<span class="hljs-title">QMainWindow::statusBar</span><span class="hljs-params">()</span></span>;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>如果主窗口没有状态栏, 则会为主窗口创建一个新的状态栏.</li>
+</ul>
+<p><code>QStatusBar</code> 继承了 <code>QWidget</code>, 因此, 我们可以将其它任意 <code>QWidget</code> 子类添加到状态栏, 从而实现类似 Photoshop 窗口底部那种有比例显示、有网格开关的复杂状态栏.</p>
+<p><code>QStatusBar</code> 相关的一些 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 类型: QStatusBar</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QStatusBar::addWidget</span><span class="hljs-params">(QWidget *widget, <span class="hljs-type">int</span> stretch = <span class="hljs-number">0</span>)</span></span>;<br><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QStatusBar::clearMessage</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// timeout 表示消息停留时间, 0 表示永久停留; </span><br><span class="hljs-comment">// 非 0 表示停留时间, 以 ms 为单位</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QStatusBar::showMessage</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;message, <span class="hljs-type">int</span> timeout = <span class="hljs-number">0</span>)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>使用示例:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp">MainWindow::<span class="hljs-built_in">MainWindow</span>(QWidget *parent)<br>    : <span class="hljs-built_in">QMainWindow</span>(parent)<br>    , <span class="hljs-built_in">ui</span>(<span class="hljs-keyword">new</span> Ui::MainWindow)<br>&#123;<br>    ui-&gt;<span class="hljs-built_in">setupUi</span>(<span class="hljs-keyword">this</span>);<br><br>    <span class="hljs-comment">// 状态栏添加子控件</span><br>    <span class="hljs-comment">// 按钮</span><br>    QPushButton* button = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-string">&quot;按钮&quot;</span>);<br>    ui-&gt;statusBar-&gt;<span class="hljs-built_in">addWidget</span>(button);<br>    <span class="hljs-comment">// 标签</span><br>    QLabel* label = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QLabel</span>(<span class="hljs-string">&quot;hello,world&quot;</span>);<br>    ui-&gt;statusBar-&gt;<span class="hljs-built_in">addWidget</span>(label);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="停靠窗口">停靠窗口</h4>
+<p>停靠窗口可以通过鼠标拖动停靠到窗口的上、下、左、右, 或者浮动在窗口上方. 如果需要这种类型的窗口必须手动添加, <strong>如果在非 <code>QMainWindow</code> 类型的窗口中添加了停靠窗口, 那么这个窗口是不能移动和浮动的</strong>.</p>
+<p>浮动窗口在工具栏中， 直接将其拖拽到 ui 界面上即可:<br>
+<img src="/img/Pictures/20231111162217.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>停靠窗口也有一个属性面板, 我们可以在其对应属性面板中直接进行设置和修改相关属性:<br>
+<img src="/img/Pictures/20231111162236.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="布局">布局</h2>
+<p>所谓 GUI 界面, 归根结底, 就是一堆组件的叠加. 我们创建一个窗口, 把按钮放上面, 把图标放上面, 这样就成了一个界面. 在放置时, 组件的位置尤其重要. 我们必须要指定组件放在哪里, 以便窗口能够按照我们需要的方式进行渲染. 这就涉及到组件定位的机制. Qt 提供了两种组件定位机制: 绝对定位和布局定位.</p>
+<p>绝对定位在上文中已经涉及. 但是这样做会带来一个问题: 如果用户改变了窗口大小, 比如点击最大化按钮或者使用鼠标拖动窗口边缘, 采用绝对定位的组件是不会有任何响应的. 这也很自然, 因为你并没有告诉 Qt, 在窗口变化时, 组件是否要更新自己以及如何更新. 如果你需要让组件自动更新, 比如在最大化时, Word 总会把稿纸区放大、把工具栏拉长, 就要自己编写相应的函数来响应这些变化. 这相对来说比较繁琐.</p>
+<p>针对这种变化的需求, Qt 提供了布局来解决这个问题. QT 窗口布局是指将多个子窗口按照某种排列方式展示到对应的父窗口中. 你只要把组件放入某一种布局 (布局由专门的布局管理器进行管理), 当需要调整大小或者位置的时候, Qt 使用对应的布局管理器进行调整.</p>
+<h3 id="样式">样式</h3>
+<p>在 QT 中有三种常用的布局样式:</p>
+<ul>
+<li>水平布局: 布局中的所有的控件水平排列.</li>
+<li>垂直布局: 布局中的所有的控件垂直排列.</li>
+<li>网格布局: 布局中的所有的控件垂直+水平排列.</li>
+</ul>
+<p>各种布局是可以无限嵌套使用的, 这样就可以制作出复杂的窗口.</p>
+<h3 id="设置布局">设置布局</h3>
+<p>有三种布局的方式:</p>
+<ol>
+<li>在 ui 窗口中, 使用 QT 提供的布局, 从工具箱中找到相关的布局, 然后将其拖拽到 ui 窗口中:<br>
+<img src="/img/Pictures/20231111190234.png" srcset="/img/loading.gif" lazyload alt=""><br>
+将相应的控件放入到布局对应的红色框内部, 这些控件就会按照布局的样式自动排列:<br>
+<img src="/img/Pictures/20231111190305.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>在 ui 窗口中, 直接在父窗口中对子部件进行布局, 如果窗口结构很复杂需要嵌套, 那么就需要先将这些子部件放到一个<strong>容器类型</strong>的窗口中, 然后再对这个容器类型的窗口进行布局:<br>
+<img src="/img/Pictures/20231111190408.png" srcset="/img/loading.gif" lazyload alt=""><br>
+<img src="/img/Pictures/20231111190420.png" srcset="/img/loading.gif" lazyload alt=""><br>
+<img src="/img/Pictures/20231111190427.png" srcset="/img/loading.gif" lazyload alt=""><br>
+也可以通过窗口上方工具栏提供的布局按钮进行窗口布局:<br>
+<img src="/img/Pictures/20231111190459.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>在程序中, 通过 API 设置布局:
+<ul>
+<li>在 QT 中, 布局也有对应的类, 布局类之间的关系如下:<br>
+<img src="/img/Pictures/20231111192418.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li><code>QLayout</code>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 在布局最后面添加一个窗口</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QLayout::addWidget</span><span class="hljs-params">(QWidget *w)</span></span>;<br><span class="hljs-comment">// 将某个窗口对象从布局中移除, 窗口对象如果不再使用需要自己析构</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QLayout::removeWidget</span><span class="hljs-params">(QWidget *widget)</span></span>;<br><span class="hljs-comment">// 设置布局的四个边界大小, 即: 左、上、右和下的边距。</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QLayout::setContentsMargins</span><span class="hljs-params">(<span class="hljs-type">int</span> left, <span class="hljs-type">int</span> top, <span class="hljs-type">int</span> right, <span class="hljs-type">int</span> bottom)</span></span>;<br><span class="hljs-comment">// 设置布局中各个窗口之间的间隙大小</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setSpacing</span><span class="hljs-params">(<span class="hljs-type">int</span>)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>上述布局类中, 常用的三个布局类如下所示:
+<ul>
+<li><code>QHBoxLayout</code>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 创建父窗口对象</span><br>QWidget *window = <span class="hljs-keyword">new</span> QWidget;<br><span class="hljs-comment">// 创建若干个子窗口对象</span><br>QPushButton *button1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-string">&quot;One&quot;</span>);<br>QPushButton *button2 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-string">&quot;Two&quot;</span>);<br>QPushButton *button3 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-string">&quot;Three&quot;</span>);<br>QPushButton *button4 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-string">&quot;Four&quot;</span>);<br>QPushButton *button5 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-string">&quot;Five&quot;</span>);<br><br><span class="hljs-comment">// 创建水平布局对象</span><br>QHBoxLayout *layout = <span class="hljs-keyword">new</span> QHBoxLayout;<br><span class="hljs-comment">// 将子窗口添加到布局中</span><br>layout-&gt;<span class="hljs-built_in">addWidget</span>(button1);<br>layout-&gt;<span class="hljs-built_in">addWidget</span>(button2);<br>layout-&gt;<span class="hljs-built_in">addWidget</span>(button3);<br>layout-&gt;<span class="hljs-built_in">addWidget</span>(button4);<br>layout-&gt;<span class="hljs-built_in">addWidget</span>(button5);<br><br><span class="hljs-comment">// 将水平布局设置给父窗口对象</span><br>window-&gt;<span class="hljs-built_in">setLayout</span>(layout);<br><span class="hljs-comment">// 显示父窗口</span><br>window-&gt;<span class="hljs-built_in">show</span>();<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>QVBoxLayout</code>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 创建父窗口对象</span><br>QWidget *window = <span class="hljs-keyword">new</span> QWidget;<br><span class="hljs-comment">// 创建若干个子窗口对象</span><br>QPushButton *button1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-string">&quot;One&quot;</span>);<br>QPushButton *button2 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-string">&quot;Two&quot;</span>);<br>QPushButton *button3 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-string">&quot;Three&quot;</span>);<br>QPushButton *button4 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-string">&quot;Four&quot;</span>);<br>QPushButton *button5 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QPushButton</span>(<span class="hljs-string">&quot;Five&quot;</span>);<br><br><span class="hljs-comment">// 创建垂直布局对象</span><br>QVBoxLayout *layout = <span class="hljs-keyword">new</span> QVBoxLayout;<br><span class="hljs-comment">// 将子窗口添加到布局中</span><br>layout-&gt;<span class="hljs-built_in">addWidget</span>(button1);<br>layout-&gt;<span class="hljs-built_in">addWidget</span>(button2);<br>layout-&gt;<span class="hljs-built_in">addWidget</span>(button3);<br>layout-&gt;<span class="hljs-built_in">addWidget</span>(button4);<br>layout-&gt;<span class="hljs-built_in">addWidget</span>(button5);<br><br><span class="hljs-comment">// 将垂直布局设置给父窗口对象</span><br>window-&gt;<span class="hljs-built_in">setLayout</span>(layout);<br><span class="hljs-comment">// 显示父窗口</span><br>window-&gt;<span class="hljs-built_in">show</span>();<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>QGridLayout</code>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br>QGridLayout::<span class="hljs-built_in">QGridLayout</span>();<br>QGridLayout::<span class="hljs-built_in">QGridLayout</span>(QWidget *parent);<br><br><span class="hljs-comment">// 添加窗口对象到网格布局中</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">参数:</span><br><span class="hljs-comment">  - widget: 添加到布局中的窗口对象</span><br><span class="hljs-comment">  - row: 添加到布局中的窗口对象位于第几行 (从0开始)</span><br><span class="hljs-comment">  - column: 添加到布局中的窗口对象位于第几列 (从0开始)</span><br><span class="hljs-comment">  - alignment: 窗口在布局中的对齐方式, 没有特殊需求使用默认值即可</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QGridLayout::addWidget</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">	QWidget *widget, <span class="hljs-type">int</span> row, <span class="hljs-type">int</span> column, </span></span><br><span class="hljs-params"><span class="hljs-function">Qt::Alignment alignment = Qt::Alignment())</span></span>;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">参数:</span><br><span class="hljs-comment">  - widget: 添加到布局中的窗口对象</span><br><span class="hljs-comment">  - fromRow: 添加到布局中的窗口对象位于第几行 (从0开始)</span><br><span class="hljs-comment">  - fromColumn: 添加到布局中的窗口对象位于第几列 (从0开始)</span><br><span class="hljs-comment">  - rowSpan: 添加的窗口从 fromRow 行开始跨越的行数</span><br><span class="hljs-comment">  - columnSpan: 添加的窗口从 fromColumn 列开始跨越的列数</span><br><span class="hljs-comment">  - alignment: 窗口在布局中的对齐方式, 没有特殊需求使用默认值即可</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QGridLayout::addWidget</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">QWidget *widget, <span class="hljs-type">int</span> fromRow, <span class="hljs-type">int</span> fromColumn, </span></span><br><span class="hljs-params"><span class="hljs-function"><span class="hljs-type">int</span> rowSpan, <span class="hljs-type">int</span> columnSpan, </span></span><br><span class="hljs-params"><span class="hljs-function">Qt::Alignment alignment = Qt::Alignment())</span></span>;<br><br><span class="hljs-comment">// 设置第 column 列的宽度, 单位: 像素</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QGridLayout::setColumnMinimumWidth</span><span class="hljs-params">(<span class="hljs-type">int</span> column, <span class="hljs-type">int</span> minSize)</span></span>;<br><br><span class="hljs-comment">// 设置布局中水平方向窗口之间间隔的宽度</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QGridLayout::setHorizontalSpacing</span><span class="hljs-params">(<span class="hljs-type">int</span> spacing)</span></span>;<br><br><span class="hljs-comment">// 设置布局中垂直方向窗口之间间隔的宽度</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QGridLayout::setVerticalSpacing</span><span class="hljs-params">(<span class="hljs-type">int</span> spacing)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>当我们给窗口设置了布局之后, 选中当前窗口, 就可以看到在其对应的属性窗口中除了有窗口属性, 还有一个布局属性:<br>
+<img src="/img/Pictures/20231111192042.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>通过 ui 编辑窗口的树状列表我们可以对所有窗口的布局进行检查, 如果发现某个窗口没有布局, 一定要对其进行设置, 如果某个窗口没有进行布局, 那么当这个窗口显示出来之后里边的子部件就可能无法被显示出来:<br>
+<img src="/img/Pictures/20231111192202.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>下面给出一个简单的通过 API 设置水平布局的示例:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// main.cpp</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QSpinBox&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QSlider&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QHBoxLayout&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QApplication&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QApplication <span class="hljs-title">a</span><span class="hljs-params">(argc, argv)</span></span>;<br><br>    QWidget window;<br>    window.<span class="hljs-built_in">setWindowTitle</span>(<span class="hljs-string">&quot;Enter your age&quot;</span>);<br><br>    QSpinBox *spinBox = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QSpinBox</span>(&amp;window);<br>    QSlider *slider = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QSlider</span>(Qt::Horizontal, &amp;window);<br>    spinBox-&gt;<span class="hljs-built_in">setRange</span>(<span class="hljs-number">0</span>, <span class="hljs-number">130</span>);<br>    slider-&gt;<span class="hljs-built_in">setRange</span>(<span class="hljs-number">0</span>, <span class="hljs-number">130</span>);<br><br>    QObject::<span class="hljs-built_in">connect</span>(slider, &amp;QSlider::valueChanged, spinBox, &amp;QSpinBox::setValue);<br>    <span class="hljs-built_in">void</span> (QSpinBox:: *spinBoxSignal)(<span class="hljs-type">int</span>) = &amp;QSpinBox::valueChanged;<br>    QObject::<span class="hljs-built_in">connect</span>(spinBox, spinBoxSignal, slider, &amp;QSlider::setValue);<br><br>    spinBox-&gt;<span class="hljs-built_in">setValue</span>(<span class="hljs-number">35</span>);<br><br>    QHBoxLayout *layout = <span class="hljs-keyword">new</span> QHBoxLayout;<br>    layout-&gt;<span class="hljs-built_in">addWidget</span>(spinBox);<br>    layout-&gt;<span class="hljs-built_in">addWidget</span>(slider);<br>    window.<span class="hljs-built_in">setLayout</span>(layout);<br><br>    window.<span class="hljs-built_in">show</span>();<br><br>    <span class="hljs-keyword">return</span> a.<span class="hljs-built_in">exec</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>该程序执行结果如下:<br>
+<img src="/img/Pictures/20231222190506.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>该示例中使用了两个新的组件: <code>QSpinBox</code> 和 <code>QSlider</code>. <code>QSpinBox</code> 就是只能输入数字的输入框, 并且带有上下箭头的步进按钮; <code>QSlider</code> 则是带有滑块的滑杆, 我们可以从上面的截图中清楚地辨别出这两个组件.</p>
+<p>两个 <code>connect</code> 函数用于双向的数据绑定. 其中需要注意的是, 如果将第二个 <code>connect</code> 直接写成这样:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QObject::<span class="hljs-built_in">connect</span>(spinBox, &amp;QSpinBox::valueChanged, slider, &amp;QSlider::setValue);<br></code></pre></td></tr></table></figure>
+<p>编译器会报错, 因为 <code>valueChanged</code> 是一个重载函数, 它有两个版本:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">valueChanged</span><span class="hljs-params">(<span class="hljs-type">int</span>)</span></span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">valueChanged</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;)</span></span><br></code></pre></td></tr></table></figure>
+<p>此时编译器无法决定使用哪个版本, 因此在上例中使用函数指针来指定调用的 <code>valueChanged</code> 的版本, 从而避免了编译错误.</p>
+<h3 id="弹簧">弹簧</h3>
+<p>在进行窗口布局的时候为了让界面看起来更加美观, 需要调整控件的位置, 比如: 靠左, 靠右, 居中, 又或者我们需要调节两个控件之间的距离, 以上这些需求使用弹簧都是可以实现的.</p>
+<p>弹簧的样式有两种:<br>
+<img src="/img/Pictures/20231111191750.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>水平弹簧: 在水平方向上起作用.</li>
+<li>垂直弹簧: 在垂直方向上起作用.</li>
+</ul>
+<p>弹簧也有对应的属性可以设置, 具体属性如下图所示:<br>
+<img src="/img/Pictures/20231111191808.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>弹簧的 <code>sizeType</code> 属性中常用的两个为:<br>
+<img src="/img/Pictures/20231111191938.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li><code>Fixed</code>: 得到一个固定大小的弹簧.</li>
+<li><code>Expanding</code>: 得到一个可伸缩的弹簧, 默认情况下弹簧伸展到最大.</li>
+</ul>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>QT 学习之路 2: <a target="_blank" rel="noopener" href="https://www.devbean.net/2012/08/qt-study-road-2-catelog/">https://www.devbean.net/2012/08/qt-study-road-2-catelog/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>Qt入门: <a target="_blank" rel="noopener" href="https://subingwen.cn/qt/qt-primer/">https://subingwen.cn/qt/qt-primer/</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>Qt中的基础窗口类: <a target="_blank" rel="noopener" href="https://subingwen.cn/qt/qt-base-window/">https://subingwen.cn/qt/qt-base-window/</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>Qt窗口布局: <a target="_blank" rel="noopener" href="https://subingwen.cn/qt/qt-layout/">https://subingwen.cn/qt/qt-layout/</a>
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/" class="category-chain-item">QT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QT/" class="print-no-link">#QT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E5%8A%A8%E4%BD%9C/" title="QT 动作">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QT 动作</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E6%8C%89%E9%92%AE/" title="QT 按钮">
+                        <span class="hidden-mobile">QT 按钮</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

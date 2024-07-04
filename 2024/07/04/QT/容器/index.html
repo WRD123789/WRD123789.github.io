@@ -1,0 +1,679 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="容器 QWidget QWidget 这个类是所有窗口类的父类, 可以作为独立窗口使用, 也可以内嵌到其它窗口中使用, QT 中的所有控件都属于窗口类,  因此这个类也是所有控件类的基类. 该类的属性设置如下:  这些属性大部分都有对应的API 函数, 在属性名前加 set 即可. Frame QFrame 就是一个升级版的 QWidget, 它继承了 QWidget 的属性, 并且做了拓展, 这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QT 容器">
+<meta property="og:url" content="http://example.com/2024/07/04/QT/%E5%AE%B9%E5%99%A8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="容器 QWidget QWidget 这个类是所有窗口类的父类, 可以作为独立窗口使用, 也可以内嵌到其它窗口中使用, QT 中的所有控件都属于窗口类,  因此这个类也是所有控件类的基类. 该类的属性设置如下:  这些属性大部分都有对应的API 函数, 在属性名前加 set 即可. Frame QFrame 就是一个升级版的 QWidget, 它继承了 QWidget 的属性, 并且做了拓展, 这">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20231113181435.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231113194445.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231113194527.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231113195435.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231113195551.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231113200704.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231113203723.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231113224557.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231113230954.png">
+<meta property="article:published_time" content="2024-07-04T12:36:16.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="QT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20231113181435.png">
+  
+  
+  
+  <title>QT 容器 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QT 容器"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:36" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          37 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">QT 容器</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>容器</h1>
+<h2 id="QWidget">QWidget</h2>
+<p><code>QWidget</code> 这个类是所有窗口类的父类, 可以作为独立窗口使用, 也可以内嵌到其它窗口中使用, QT 中的所有控件都属于窗口类,  因此这个类也是所有控件类的基类.<br>
+该类的属性设置如下:<br>
+<img src="/img/Pictures/20231113181435.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>这些属性大部分都有对应的API 函数, 在属性名前加 <code>set</code> 即可.</p>
+<h2 id="Frame">Frame</h2>
+<p><code>QFrame</code> 就是一个升级版的 <code>QWidget</code>, 它继承了 <code>QWidget</code> 的属性, 并且做了拓展, 这种类型的容器窗口可以提供边框, 并且可以设置边框的样式、宽度以及边框的阴影.<br>
+常用的 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment">边框形状为布尔类型, 可选项为:</span><br><span class="hljs-comment">    - QFrame::NoFrame: 没有边框</span><br><span class="hljs-comment">    - QFrame::Box: 绘制一个框</span><br><span class="hljs-comment">    - QFrame::Panel: 绘制一个面板，使内容显示为凸起或凹陷</span><br><span class="hljs-comment">    - QFrame::StyledPanel: 绘制一个外观取决于当前GUI样式的矩形面板。它可以上升也可以下沉。</span><br><span class="hljs-comment">    - QFrame::HLine: 画一条没有边框的水平线(用作分隔符)</span><br><span class="hljs-comment">    - QFrame::VLine: 画一条没有边框的垂直线(用作分隔符)</span><br><span class="hljs-comment">    - QFrame::WinPanel: 绘制一个矩形面板，可以像Windows 2000那样向上或向下移动。</span><br><span class="hljs-comment">	                指定此形状将线宽设置为2像素。WinPanel是为了兼容而提供的。</span><br><span class="hljs-comment">	                对于GUI风格的独立性，我们建议使用StyledPanel代替。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-comment">// 获取边框形状</span><br><span class="hljs-function">Shape <span class="hljs-title">frameShape</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置边框形状</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setFrameShape</span><span class="hljs-params">(Shape)</span></span>;<br><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">Qt中关于边框的阴影(QFrame::Shadow)提供了3种样式, 分别为: </span><br><span class="hljs-comment">    - QFrame::Plain: 简单的,朴素的, 框架和内容与周围环境显得水平;</span><br><span class="hljs-comment">	             使用调色板绘制QPalette::WindowText颜色(没有任何3D效果)</span><br><span class="hljs-comment">    - QFrame::Raised: 框架和内容出现凸起;使用当前颜色组的明暗颜色绘制3D凸起线</span><br><span class="hljs-comment">    - QFrame::Sunken: 框架及内容物凹陷;使用当前颜色组的明暗颜色绘制3D凹线</span><br><span class="hljs-comment">*/</span><br><span class="hljs-comment">// 获取边框阴影样式</span><br><span class="hljs-function">Shadow <span class="hljs-title">frameShadow</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置边框阴影样式</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setFrameShadow</span><span class="hljs-params">(Shadow)</span></span>;<br><br><span class="hljs-comment">// 得到边框线宽度</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">lineWidth</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置边框线宽度, 默认值为1</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setLineWidth</span><span class="hljs-params">(<span class="hljs-type">int</span>)</span></span>;<br><br><span class="hljs-comment">// 得到中线的宽度</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">midLineWidth</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置中线宽度, 默认值为0, 这条线会影响边框阴影的显示</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setMidLineWidth</span><span class="hljs-params">(<span class="hljs-type">int</span>)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>该类的属性设置如下:<br>
+<img src="/img/Pictures/20231113194445.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>以下为边框样式、线宽和阴影的组合:<br>
+<img src="/img/Pictures/20231113194527.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Group-Box">Group Box</h2>
+<p><code>QGroupBox</code> 类的基类是 <code>QWidget</code>, 在这种类型的窗口中可以绘制边框、给窗口指定标题, 并且还支持显示复选框.<br>
+该类相关的 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br>QGroupBox::<span class="hljs-built_in">QGroupBox</span>(QWidget *parent = Q_NULLPTR);<br>QGroupBox::<span class="hljs-built_in">QGroupBox</span>(<span class="hljs-type">const</span> QString &amp;title, QWidget *parent = Q_NULLPTR);<br><br><span class="hljs-comment">// 公共成员函数</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QGroupBox::isCheckable</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置是否在组框中显示一个复选框</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QGroupBox::setCheckable</span><span class="hljs-params">(<span class="hljs-type">bool</span> checkable)</span></span>;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">关于对齐方式需要使用枚举类型 Qt::Alignment, 其可选项为:</span><br><span class="hljs-comment">    - Qt::AlignLeft: 左对齐(水平方向)</span><br><span class="hljs-comment">    - Qt::AlignRight: 右对齐(水平方向)</span><br><span class="hljs-comment">    - Qt::AlignHCenter: 水平居中</span><br><span class="hljs-comment">    - Qt::AlignJustify: 在可用的空间内调整文本(水平方向)</span><br><span class="hljs-comment">	</span><br><span class="hljs-comment">    - Qt::AlignTop: 上对齐(垂直方向)</span><br><span class="hljs-comment">    - Qt::AlignBottom: 下对齐(垂直方向)</span><br><span class="hljs-comment">    - Qt::AlignVCenter: 垂直居中</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function">Qt::Alignment <span class="hljs-title">QGroupBox::alignment</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置组框标题的对齐方式</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QGroupBox::setAlignment</span><span class="hljs-params">(<span class="hljs-type">int</span> alignment)</span></span>;<br><br><span class="hljs-function">QString <span class="hljs-title">QGroupBox::title</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置组框的标题</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QGroupBox::setTitle</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;title)</span></span>;<br><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QGroupBox::isChecked</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置组框中复选框的选中状态</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QGroupBox::setChecked</span><span class="hljs-params">(<span class="hljs-type">bool</span> checked)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>该类的属性设置如下:<br>
+<img src="/img/Pictures/20231113195435.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>上述属性中的 <code>flat</code> 属性没有对应的 API 函数, 只能在属性窗口中设置, 它控制的是窗口边框的绘制方式, 如果打开该属性, 组框的边框就消失了, 效果如下:<br>
+<img src="/img/Pictures/20231113195551.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+<h2 id="Scroll-Area">Scroll Area</h2>
+<p><code>QScrollArea</code> 这种类型的容器, 里边可以放置一些窗口控件, 当放置的窗口控件大于当前区域导致无法全部显示的时候, 滚动区域容器会自动添加相应的滚动条 (水平方向或者垂直方向), 保证放置到该区域中的所有窗口内容都可以正常显示出来.</p>
+<p>该类常用的 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br>QScrollArea::<span class="hljs-built_in">QScrollArea</span>(QWidget *parent = Q_NULLPTR);<br><br><span class="hljs-comment">// 公共成员函数</span><br><span class="hljs-comment">// 给滚动区域设置要显示的子窗口widget</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QScrollArea::setWidget</span><span class="hljs-params">(QWidget *widget)</span></span>;<br><span class="hljs-comment">// 删除滚动区域中的子窗口, 并返回被删除的子窗口对象</span><br><span class="hljs-function">QWidget *<span class="hljs-title">QScrollArea::takeWidget</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">关于显示位置的设定, 是一个枚举类型, 可选项为:</span><br><span class="hljs-comment">    - Qt::AlignLeft: 左对齐</span><br><span class="hljs-comment">    - Qt::AlignHCenter: 水平居中</span><br><span class="hljs-comment">    - Qt::AlignRight: 右对齐</span><br><span class="hljs-comment">    - Qt::AlignTop: 顶部对齐</span><br><span class="hljs-comment">    - Qt::AlignVCenter: 垂直对其</span><br><span class="hljs-comment">    - Qt::AlignBottom: 底部对其</span><br><span class="hljs-comment">*/</span><br><span class="hljs-comment">// 获取子窗口在滚动区域中的显示位置</span><br><span class="hljs-function">Qt::Alignment <span class="hljs-title">alignment</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置滚动区域中子窗口的对其方式, 默认显示的位置是右上</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setAlignment</span><span class="hljs-params">(Qt::Alignment)</span></span>;<br><br><span class="hljs-comment">// 判断滚动区域是否有自动调节小部件大小的属性</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">widgetResizable</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">1. 设置滚动区域是否应该调整视图小部件的大小, 该属性默认为false, 滚动区域按照小部件的默认大小进行显示。</span><br><span class="hljs-comment">2. 如果该属性设置为true，滚动区域将自动调整小部件的大小，避免滚动条出现在本可以避免的地方，</span><br><span class="hljs-comment">   或者利用额外的空间。</span><br><span class="hljs-comment">3. 不管这个属性是什么，我们都可以使用widget()-&gt;resize()以编程方式调整小部件的大小，</span><br><span class="hljs-comment">   滚动区域将自动调整自己以适应新的大小。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setWidgetResizable</span><span class="hljs-params">(<span class="hljs-type">bool</span> resizable)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>该类的属性设置如下:<br>
+<img src="/img/Pictures/20231113200704.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>例如: 往滚动区域中添加多个子窗口</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs cpp">MainWindow::<span class="hljs-built_in">MainWindow</span>(QWidget *parent)<br>    : <span class="hljs-built_in">QMainWindow</span>(parent)<br>    , <span class="hljs-built_in">ui</span>(<span class="hljs-keyword">new</span> Ui::MainWindow)<br>&#123;<br>    ui-&gt;<span class="hljs-built_in">setupUi</span>(<span class="hljs-keyword">this</span>);<br><br>    <span class="hljs-comment">// 创建一个垂直布局对象</span><br>    QVBoxLayout* vlayout = <span class="hljs-keyword">new</span> QVBoxLayout;<br><br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">11</span>; ++i)<br>    &#123;<br>        <span class="hljs-comment">// 创建标签对象</span><br>        QLabel* pic = <span class="hljs-keyword">new</span> QLabel;<br>        <span class="hljs-comment">// 拼接图片在资源文件中的路径</span><br>        QString name = <span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;:/images/%1.png&quot;</span>).<span class="hljs-built_in">arg</span>(i+<span class="hljs-number">1</span>);<br>        <span class="hljs-comment">// 给标签对象设置显示的图片</span><br>        pic-&gt;<span class="hljs-built_in">setPixmap</span>(<span class="hljs-built_in">QPixmap</span>(name));<br>        <span class="hljs-comment">// 设置图片在便签内部的对其方式</span><br>        pic-&gt;<span class="hljs-built_in">setAlignment</span>(Qt::AlignHCenter);<br>        <span class="hljs-comment">// 将标签添加到垂直布局中</span><br>        vlayout-&gt;<span class="hljs-built_in">addWidget</span>(pic);<br>    &#125;<br><br>    <span class="hljs-comment">// 创建一个窗口对象</span><br>    QWidget* wg = <span class="hljs-keyword">new</span> QWidget;<br>    <span class="hljs-comment">// 将垂直布局设置给窗口对象</span><br>    wg-&gt;<span class="hljs-built_in">setLayout</span>(vlayout);<br>    <span class="hljs-comment">// 将带有垂直布局的窗口设置到滚动区域中</span><br>    ui-&gt;scrollArea-&gt;<span class="hljs-built_in">setWidget</span>(wg);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>上述代码中调用 <code>setWidget(wg)</code> 之后, wg 会自动平铺填充满整个滚动区域, 因此</p>
+<ul>
+<li>在程序中调用 <code>void setWidgetResizable(bool resizable);</code> 不会有明显效果.</li>
+<li>在程序中调用 <code>void setAlignment(Qt::Alignment);</code> 不会看到任何效果.</li>
+<li>如果要设置显示的图片的对其方式要设置图片的载体对象, 在上例中为标签对象.</li>
+<li>如果要动态移除滚动区域中的窗口, 直接使用滚动区域对象调用 <code>takeWidget()</code> 即可.</li>
+<li>滚动区域中只能通过 <code>setWidget(wg)</code> 添加一个子窗口, 如果要添加多个可使用布局的方式来实现.</li>
+</ul>
+<h2 id="Tool-Box">Tool Box</h2>
+<p><code>QToolBox</code> 工具箱控件, 可以存储多个子窗口, 该控件可以实现类似 QQ 的抽屉效果, 每一个抽屉都可以设置图标和标题, 并且对应一个子窗口, 通过抽屉按钮就可以实现各个子窗口显示的切换.</p>
+<p>该类常用的 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br>QToolBox::<span class="hljs-built_in">QToolBox</span>(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = Qt::<span class="hljs-built_in">WindowFlags</span>());<br><br><span class="hljs-comment">// 公共成员</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">addItem(), insertItem()函数相关参数:</span><br><span class="hljs-comment">    - widget: 添加到工具箱中的选项卡对应的子窗口对象</span><br><span class="hljs-comment">    - icon: 工具箱新的选项卡上显示的图标</span><br><span class="hljs-comment">    - text: 工具箱新的选项卡上显示的标题</span><br><span class="hljs-comment">    - index: 指定在工具箱中插入的新的选项卡的位置</span><br><span class="hljs-comment">*/</span><br><span class="hljs-comment">// 给工具箱尾部添加一个选项卡, 每个选项卡在工具箱中就是一个子窗口, 即参数widget</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QToolBox::addItem</span><span class="hljs-params">(QWidget *widget, <span class="hljs-type">const</span> QString &amp;text)</span></span>;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QToolBox::addItem</span><span class="hljs-params">(QWidget *widget, <span class="hljs-type">const</span> QIcon &amp;icon, <span class="hljs-type">const</span> QString &amp;text)</span></span>;<br><span class="hljs-comment">// 在工具箱的指定位置添加一个选项卡, 即添加一个子窗口</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QToolBox::insertItem</span><span class="hljs-params">(<span class="hljs-type">int</span> index, QWidget *widget, <span class="hljs-type">const</span> QString &amp;text)</span></span>;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QToolBox::insertItem</span><span class="hljs-params">(<span class="hljs-type">int</span> index, QWidget *widget, <span class="hljs-type">const</span> QIcon &amp;icon, </span></span><br><span class="hljs-params"><span class="hljs-function">                         <span class="hljs-type">const</span> QString &amp;text)</span></span>;<br><span class="hljs-comment">// 移除工具箱中索引index位置对应的选项卡, 注意: 只是移除对应的窗口对象并没有被销毁</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QToolBox::removeItem</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span></span>;<br><br><span class="hljs-comment">// 设置索引index位置的选项卡是否可用, 参数 enabled=true为可用, enabled=false为禁用</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QToolBox::setItemEnabled</span><span class="hljs-params">(<span class="hljs-type">int</span> index, <span class="hljs-type">bool</span> enabled)</span></span>;<br><span class="hljs-comment">// 设置工具箱中index位置选项卡的图标</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QToolBox::setItemIcon</span><span class="hljs-params">(<span class="hljs-type">int</span> index, <span class="hljs-type">const</span> QIcon &amp;icon)</span></span>;<br><span class="hljs-comment">// 设置工具箱中index位置选项卡的标题</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QToolBox::setItemText</span><span class="hljs-params">(<span class="hljs-type">int</span> index, <span class="hljs-type">const</span> QString &amp;text)</span></span>;<br><span class="hljs-comment">// 设置工具箱中index位置选项卡的提示信息(需要鼠标在选项卡上悬停一定时长才能显示)</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QToolBox::setItemToolTip</span><span class="hljs-params">(<span class="hljs-type">int</span> index, <span class="hljs-type">const</span> QString &amp;toolTip)</span></span>;<br><br><span class="hljs-comment">// 如果位置索引的项已启用，则返回true;否则返回false。</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QToolBox::isItemEnabled</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回位置索引处项目的图标，如果索引超出范围，则返回空图标。</span><br><span class="hljs-function">QIcon <span class="hljs-title">QToolBox::itemIcon</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回位于位置索引处的项的文本，如果索引超出范围，则返回空字符串。</span><br><span class="hljs-function">QString <span class="hljs-title">QToolBox::itemText</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回位于位置索引处的项的工具提示，如果索引超出范围，则返回空字符串。</span><br><span class="hljs-function">QString <span class="hljs-title">QToolBox::itemToolTip</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 得到当前工具箱中显示的选项卡对应的索引</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QToolBox::currentIndex</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回指向当前选项卡对应的子窗口的指针，如果没有这样的项，则返回0。</span><br><span class="hljs-function">QWidget *<span class="hljs-title">QToolBox::currentWidget</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回工具箱中子窗口的索引，如果widget对象不存在，则返回-1</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QToolBox::indexOf</span><span class="hljs-params">(QWidget *widget)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回工具箱中包含的项的数量。</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QToolBox::count</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 信号</span><br><span class="hljs-comment">// 工具箱中当前显示的选项卡发生变化, 该信号被发射, index为当前显示的新的选项卡的对应的索引</span><br>[signal] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QToolBox::currentChanged</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span></span>;<br><br><span class="hljs-comment">// 槽函数</span><br><span class="hljs-comment">// 通过工具箱中选项卡对应的索引设置当前要显示哪一个选项卡中的子窗口</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QToolBox::setCurrentIndex</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span></span>;<br><span class="hljs-comment">// 通过工具箱中选项卡对应的子窗口对象设置当前要显示哪一个选项卡中的子窗口</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QToolBox::setCurrentWidget</span><span class="hljs-params">(QWidget *widget)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>该类的属性设置如下:<br>
+<img src="/img/Pictures/20231113203723.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Tab-Widget">Tab Widget</h2>
+<p><code>QTabWidget</code> 是一种带标签页的窗口, 在这种类型的窗口中可以存储多个子窗口, 每个子窗口的显示可以通过对应的标签进行切换.</p>
+<p>该类相关的 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br>QTabWidget::<span class="hljs-built_in">QTabWidget</span>(QWidget *parent = Q_NULLPTR);<br><br><span class="hljs-comment">// 公共成员函数</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">添加选项卡addTab()或者插入选项卡insertTab()函数相关的参数如下:</span><br><span class="hljs-comment">    - page: 添加或者插入的选项卡对应的窗口实例对象</span><br><span class="hljs-comment">    - label: 添加或者插入的选项卡的标题</span><br><span class="hljs-comment">    - icon: 添加或者插入的选项卡的图标</span><br><span class="hljs-comment">    - index: 将新的选项卡插入到索引index的位置上</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QTabWidget::addTab</span><span class="hljs-params">(QWidget *page, <span class="hljs-type">const</span> QString &amp;label)</span></span>;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QTabWidget::addTab</span><span class="hljs-params">(QWidget *page, <span class="hljs-type">const</span> QIcon &amp;icon, <span class="hljs-type">const</span> QString &amp;label)</span></span>;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QTabWidget::insertTab</span><span class="hljs-params">(<span class="hljs-type">int</span> index, QWidget *page, <span class="hljs-type">const</span> QString &amp;label)</span></span>;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QTabWidget::insertTab</span><span class="hljs-params">(<span class="hljs-type">int</span> index, QWidget *page, </span></span><br><span class="hljs-params"><span class="hljs-function">                          <span class="hljs-type">const</span> QIcon &amp;icon, <span class="hljs-type">const</span> QString &amp;label)</span></span>;<br><span class="hljs-comment">// 删除index位置的选项卡</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::removeTab</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span></span>;<br><br><span class="hljs-comment">// 得到选项卡栏中的选项卡的数量</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">count</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 从窗口中移除所有页面，但不删除它们。调用这个函数相当于调用removeTab()，直到选项卡小部件为空为止。</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::clear</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 获取当前选项卡对应的索引</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QTabWidget::currentIndex</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 获取当前选项卡对应的窗口对象地址</span><br><span class="hljs-function">QWidget *<span class="hljs-title">QTabWidget::currentWidget</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 返回索引位置为index的选项卡页，如果索引超出范围则返回0。</span><br><span class="hljs-function">QWidget *<span class="hljs-title">QTabWidget::widget</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">标签上显示的文本样式为枚举类型 Qt::TextElideMode, 可选项为:</span><br><span class="hljs-comment">    - Qt::ElideLeft: 省略号应出现在课文的开头，例如：.....是的,我很帅。</span><br><span class="hljs-comment">    - Qt::ElideRight: 省略号应出现在文本的末尾，例如：我帅吗.....。</span><br><span class="hljs-comment">    - Qt::ElideMiddle: 省略号应出现在文本的中间，例如：我帅.....很帅。</span><br><span class="hljs-comment">    - Qt::ElideNone: 省略号不应出现在文本中</span><br><span class="hljs-comment">*/</span><br><span class="hljs-comment">// 获取标签上显示的文本模式</span><br><span class="hljs-function">Qt::TextElideMode <span class="hljs-title">QTabWidget::elideMode</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 如何省略标签栏中的文本, 此属性控制在给定的选项卡栏大小没有足够的空间显示项时如何省略项。</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::setElideMode</span><span class="hljs-params">(Qt::TextElideMode)</span></span>;<br>    <br><span class="hljs-comment">// 得到选项卡上图标的尺寸信息</span><br><span class="hljs-function">QSize <span class="hljs-title">QTabWidget::iconSize</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"><span class="hljs-comment">// 设置选项卡上显示的图标大小</span></span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::setIconSize</span><span class="hljs-params">(<span class="hljs-type">const</span> QSize &amp;size)</span></span><br><span class="hljs-function"></span><br><span class="hljs-function"><span class="hljs-comment">// 判断用户是否可以在选项卡区域内移动选项卡, 可以返回true, 否则返回false</span></span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QTabWidget::isMovable</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 此属性用于设置用户是否可以在选项卡区域内移动选项卡。默认情况下，此属性为false;</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::setMovable</span><span class="hljs-params">(<span class="hljs-type">bool</span> movable)</span></span>;<br><br><span class="hljs-comment">// 判断选项卡是否可以自动隐藏, 如果可以自动隐藏返回true, 否则返回false</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QTabWidget::tabBarAutoHide</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 如果为true，则当选项卡栏包含少于2个选项卡时，它将自动隐藏。默认情况下，此属性为false。</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::setTabBarAutoHide</span><span class="hljs-params">(<span class="hljs-type">bool</span> enabled)</span></span>;<br><br><span class="hljs-comment">// 判断index对应的选项卡是否是被启用的, 如果是被启用的返回true, 否则返回false</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QTabWidget::isTabEnabled</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 如果enable为true，则在索引位置的页面是启用的;否则，在位置索引处的页面将被禁用。</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::setTabEnabled</span><span class="hljs-params">(<span class="hljs-type">int</span> index, <span class="hljs-type">bool</span> enable)</span></span>;<br><br><span class="hljs-comment">// 得到index位置的标签对应的图标</span><br><span class="hljs-function">QIcon <span class="hljs-title">QTabWidget::tabIcon</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 在位置索引处设置标签的图标。</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::setTabIcon</span><span class="hljs-params">(<span class="hljs-type">int</span> index, <span class="hljs-type">const</span> QIcon &amp;icon)</span></span>;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">选项卡标签的位置通过枚举值进行指定, 可使用的选项如下:</span><br><span class="hljs-comment">	- QTabWidget::North: 北(上), 默认</span><br><span class="hljs-comment">	- QTabWidget::South: 南(下)</span><br><span class="hljs-comment">	- QTabWidget::West:	 西(左)</span><br><span class="hljs-comment">	- QTabWidget::East:  东(右)</span><br><span class="hljs-comment">*/</span><br><span class="hljs-comment">// 得到选项卡中显示的标签的位置, 即: 东, 西, 南, 北</span><br><span class="hljs-function">TabPosition <span class="hljs-title">QTabWidget::tabPosition</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置选项卡中标签显示的位置, 默认情况下，此属性设置为North。</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::setTabPosition</span><span class="hljs-params">(TabPosition)</span></span>;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">选项卡标签的形状通过枚举值进行指定, 可使用的选项如下:</span><br><span class="hljs-comment">	- QTabWidget::Rounded: 标签以圆形的外观绘制。这是默认形状</span><br><span class="hljs-comment">	- QTabWidget::Triangular: 选项卡以三角形外观绘制。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-comment">// 获得选项卡标签的形状</span><br><span class="hljs-function">TabShape <span class="hljs-title">QTabWidget::tabShape</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置选项卡标签的形状</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::setTabShape</span><span class="hljs-params">(TabShape s)</span></span>;<br><br><span class="hljs-comment">// 得到index位置的标签的标题</span><br><span class="hljs-function">QString <span class="hljs-title">QTabWidget::tabText</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置选项卡index位置的标签的标题</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::setTabText</span><span class="hljs-params">(<span class="hljs-type">int</span> index, <span class="hljs-type">const</span> QString &amp;label)</span></span>;<br><br><br><span class="hljs-comment">// 获取index对应的标签页上设置的提示信息</span><br><span class="hljs-function">QString <span class="hljs-title">QTabWidget::tabToolTip</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置选项卡index位置的标签的提示信息(鼠标需要悬停在标签上一定时长才能显示)</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::setTabToolTip</span><span class="hljs-params">(<span class="hljs-type">int</span> index, <span class="hljs-type">const</span> QString &amp;tip)</span></span>;<br><br><br><span class="hljs-comment">// 判断选项卡标签也上是否有关闭按钮, 如果有返回true, 否则返回false</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QTabWidget::tabsClosable</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置选项卡的标签页上是否显示关闭按钮, 该属性默认情况下为false</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::setTabsClosable</span><span class="hljs-params">(<span class="hljs-type">bool</span> closeable)</span></span>;<br><br><br><span class="hljs-comment">// 判断选项卡栏中是否有滚动按钮, 如果有返回true, 否则返回false</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QTabWidget::usesScrollButtons</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置选项卡栏有许多标签时，它是否应该使用按钮来滚动标签。</span><br><span class="hljs-comment">// 当一个选项卡栏有太多的标签时，选项卡栏可以选择扩大它的大小，或者添加按钮，让标签在选项卡栏中滚动。</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::setUsesScrollButtons</span><span class="hljs-params">(<span class="hljs-type">bool</span> useButtons)</span></span>;<br><br><span class="hljs-comment">// 判断窗口是否设置了文档模式, 如果设置了返回true, 否则返回false</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QTabWidget::documentMode</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 此属性保存选项卡小部件是否以适合文档页面的模式呈现。这与macOS上的文档模式相同。</span><br><span class="hljs-comment">// 不设置该属性, QTabWidget窗口是带边框的, 如果设置了该属性边框就没有了。</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::setDocumentMode</span><span class="hljs-params">(<span class="hljs-type">bool</span> set)</span></span>;<br><br><span class="hljs-comment">// 每当当前页索引改变时，就会发出这个信号。参数是新的当前页索引位置，如果没有新的索引位置，则为-1</span><br>[signal] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::currentChanged</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span></span>;<br><span class="hljs-comment">// 当用户单击索引处的选项卡时，就会发出这个信号。index指所单击的选项卡，如果光标下没有选项卡，则为-1。</span><br>[signal] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::tabBarClicked</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 当用户双击索引上的一个选项卡时，就会发出这个信号。</span></span><br><span class="hljs-function"><span class="hljs-comment">// index是单击的选项卡的索引，如果光标下没有选项卡，则为-1。</span></span><br><span class="hljs-function">[signal] <span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::tabBarDoubleClicked</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span></span>;<br><span class="hljs-comment">// 此信号在单击选项卡上的close按钮时发出。索引是应该被删除的索引。 	</span><br>[signal] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::tabCloseRequested</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span></span>;<br><br><span class="hljs-comment">// 设置当前窗口中显示选项卡index位置对应的标签页内容</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::setCurrentIndex</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span></span>;<br><span class="hljs-comment">// 设置当前窗口中显示选项卡中子窗口widget中的内容</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTabWidget::setCurrentWidget</span><span class="hljs-params">(QWidget *widget)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>该类属性设置如下:<br>
+<img src="/img/Pictures/20231113224557.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Stacked-Widget">Stacked Widget</h2>
+<p><code>QStackedWidget</code> 栈类型窗口, 在这种类型的窗口中可以存储多个子窗口, 但是只有其中某一个可以被显示出来, 至于是哪个子窗口被显示, 需要在程序中进行控制, 在这种类型的窗口中没有直接切换子窗口的按钮或者标签.</p>
+<p>该函数的常用 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br>QStackedWidget::<span class="hljs-built_in">QStackedWidget</span>(QWidget *parent = Q_NULLPTR);<br><br><span class="hljs-comment">// 公共成员函数</span><br><span class="hljs-comment">// 在栈窗口中后边添加一个子窗口, 返回这个子窗口在栈窗口中的索引值(从0开始计数)</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QStackedWidget::addWidget</span><span class="hljs-params">(QWidget *widget)</span></span>;<br><span class="hljs-comment">// 将子窗口widget插入到栈窗口的index位置</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QStackedWidget::insertWidget</span><span class="hljs-params">(<span class="hljs-type">int</span> index, QWidget *widget)</span></span>;<br><span class="hljs-comment">// 将子窗口widget从栈窗口中删除</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QStackedWidget::removeWidget</span><span class="hljs-params">(QWidget *widget)</span></span>;<br><br><span class="hljs-comment">// 返回栈容器窗口中存储的子窗口的个数</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QStackedWidget::count</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 得到当前栈窗口中显示的子窗口的索引</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QStackedWidget::currentIndex</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 得到当前栈窗口中显示的子窗口的指针(窗口地址)</span><br><span class="hljs-function">QWidget *<span class="hljs-title">QStackedWidget::currentWidget</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 基于索引index得到栈窗口中对应的子窗口的指针</span><br><span class="hljs-function">QWidget *<span class="hljs-title">QStackedWidget::widget</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 基于子窗口的指针(实例地址)得到其在栈窗口中的索引</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QStackedWidget::indexOf</span><span class="hljs-params">(QWidget *widget)</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 信号</span><br><span class="hljs-comment">// 切换栈窗口中显示子窗口, 该信息被发射出来, index为新的当前窗口对应的索引值</span><br>[signal] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QStackedWidget::currentChanged</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span></span>;<br><span class="hljs-comment">// 当栈窗口的子窗口被删除, 该信号被发射出来, index为被删除的窗口对应的索引值</span><br>[signal] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QStackedWidget::widgetRemoved</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span></span>;<br><br><span class="hljs-comment">// 槽函数</span><br><span class="hljs-comment">// 基于子窗口的index索引指定当前栈窗口中显示哪一个子窗口</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QStackedWidget::setCurrentIndex</span><span class="hljs-params">(<span class="hljs-type">int</span> index)</span></span>;<br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QStackedWidget::setCurrentWidget</span><span class="hljs-params">(QWidget *widget)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>该类的属性设置如下:<br>
+<img src="/img/Pictures/20231113230954.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Qt中容器类型的控件: <a target="_blank" rel="noopener" href="https://subingwen.cn/qt/qt-containers/">https://subingwen.cn/qt/qt-containers/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/" class="category-chain-item">QT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QT/" class="print-no-link">#QT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E6%97%B6%E9%97%B4/" title="QT 时间">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QT 时间</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA/" title="QT 日志输出">
+                        <span class="hidden-mobile">QT 日志输出</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

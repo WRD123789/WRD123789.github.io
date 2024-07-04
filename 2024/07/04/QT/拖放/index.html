@@ -1,0 +1,711 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="拖放 拖放 (Drag and Drop, DnD), 是现代软件开发中必不可少的一项技术. 它提供了一种能够在应用程序内部甚至是应用程序之间进行信息交换的机制. 操作系统与应用程序之间进行的剪贴板内容的交换, 也可以被认为是拖放的一部分. 拖放其实是由两部分组成的:  拖动: 将被拖放对象进行移动, 一个按下鼠标按键并移动的过程. 释放: 将被拖放对象放下, 一个松开鼠标按键的过程.  示例一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QT 拖放">
+<meta property="og:url" content="http://example.com/2024/07/04/QT/%E6%8B%96%E6%94%BE/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="拖放 拖放 (Drag and Drop, DnD), 是现代软件开发中必不可少的一项技术. 它提供了一种能够在应用程序内部甚至是应用程序之间进行信息交换的机制. 操作系统与应用程序之间进行的剪贴板内容的交换, 也可以被认为是拖放的一部分. 拖放其实是由两部分组成的:  拖动: 将被拖放对象进行移动, 一个按下鼠标按键并移动的过程. 释放: 将被拖放对象放下, 一个松开鼠标按键的过程.  示例一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20240203152322.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240203152354.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240204153341.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240204153402.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240205184017.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240205184037.png">
+<meta property="article:published_time" content="2024-07-04T12:40:48.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="QT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20240203152322.png">
+  
+  
+  
+  <title>QT 拖放 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QT 拖放"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:40" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          35 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">QT 拖放</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>拖放</h1>
+<p>拖放 (Drag and Drop, DnD), 是现代软件开发中必不可少的一项技术. 它提供了一种能够在应用程序内部甚至是应用程序之间进行信息交换的机制. 操作系统与应用程序之间进行的剪贴板内容的交换, 也可以被认为是拖放的一部分.</p>
+<p>拖放其实是由两部分组成的:</p>
+<ul>
+<li>拖动: 将被拖放对象进行移动, 一个按下鼠标按键并移动的过程.</li>
+<li>释放: 将被拖放对象放下, 一个松开鼠标按键的过程.</li>
+</ul>
+<h2 id="示例一">示例一</h2>
+<p>实现一个程序, 能够将操作系统中的文本文件拖进一个窗口中, 并在该窗口中显示文件内容:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp">MainWindow::<span class="hljs-built_in">MainWindow</span>(QWidget *parent)<br>    : <span class="hljs-built_in">QMainWindow</span>(parent)<br>&#123;<br>    textEdit = <span class="hljs-keyword">new</span> QTextEdit;<br>    <span class="hljs-built_in">setCentralWidget</span>(textEdit);<br><br>    textEdit-&gt;<span class="hljs-built_in">setAcceptDrops</span>(<span class="hljs-literal">false</span>);<br>    <span class="hljs-built_in">setAcceptDrops</span>(<span class="hljs-literal">true</span>);<br><br>    <span class="hljs-built_in">setWindowTitle</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Text Editor&quot;</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在构造函数中, 我们创建了 <code>QTextEdit</code> 的对象. 默认情况下, <code>QTextEdit</code> 可以接受从其它应用程序拖放过来的文本类型的数据. 如果用户把一个文件拖入其中, 则默认会把文件名插入到光标处. 但是我们希望让 <code>MainWindow</code> 来读取文件内容, 而不是仅仅插入文件名, 所以我们在 <code>MainWindow</code> 中加入了拖放操作, 这样我们就能够让 <code>MainWindow</code> 截获拖放事件, 而不是交给 <code>QTextEdit</code> 处理.</li>
+</ul>
+<p>当用户将对象拖动到组件上面时, 系统会回调 <code>dragEnterEvent()</code> 函数:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::dragEnterEvent</span><span class="hljs-params">(QDragEnterEvent *event)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (event-&gt;<span class="hljs-built_in">mimeData</span>()-&gt;<span class="hljs-built_in">hasFormat</span>(<span class="hljs-string">&quot;text/uri-list&quot;</span>)) &#123;<br>        event-&gt;<span class="hljs-built_in">acceptProposedAction</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>如果我们在事件处理函数中调用 <code>acceptProposeAction()</code> 函数, 就可以向用户暗示, 你可以将拖动的对象放在这个组件上. 默认情况下, 组件是不会接受拖放的. 如果我们调用了这个函数, 那么 Qt 会自动以光标样式的变化来提示用户是否可以将对象放在组件上.</li>
+<li>由于在这里我们仅接受某一种类型的文件, 因此我们需要检查拖放文件的 MIME 类型信息. <a target="_blank" rel="noopener" href="https://www.iana.org/assignments/media-types/media-types.xhtml">MIME</a> 类型由 Internet Assigned Numbers Authority (IANA) 定义, Qt 的拖放事件使用 MIME 类型来判断拖放对象的类型. 上述代码中的 text/uri-list 是一种 MIME 类型, 通常表示包含多个 URI (统一资源标识符) 的文本数据. URI 包括两个主要的子集: URL (统一资源定位符) 和 URN (统一资源名称). URL 用于定位资源 (如 <a target="_blank" rel="noopener" href="https://www.example.com/page">https://www.example.com/page</a>, 它指向一个特定的网页), 而 URN 则用于给资源一个唯一的名称 (如 “urn:isbn:0451450523” 可能代表特定的图书 ISBN 号). 在上述代码中, 如果发现用户拖入的数据中包含 URI 列表, 我们便接受这个动作.</li>
+</ul>
+<p>当用户将对象释放到组件上面时, 系统回调 <code>dropEvent()</code> 函数:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::dropEvent</span><span class="hljs-params">(QDropEvent *event)</span></span><br><span class="hljs-function"></span>&#123;<br>    QList&lt;QUrl&gt; urls = event-&gt;<span class="hljs-built_in">mimeData</span>()-&gt;<span class="hljs-built_in">urls</span>();<br>    <span class="hljs-keyword">if</span> (urls.<span class="hljs-built_in">isEmpty</span>()) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    QString fileName = urls.<span class="hljs-built_in">first</span>().<span class="hljs-built_in">toLocalFile</span>();<br>    <span class="hljs-keyword">if</span> (fileName.<span class="hljs-built_in">isEmpty</span>()) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">readFile</span>(fileName)) &#123;<br>        <span class="hljs-built_in">setWindowTitle</span>(<span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;%1 - %2&quot;</span>).<span class="hljs-built_in">arg</span>(fileName, <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;Drag File&quot;</span>)));<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">MainWindow::readFile</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;fileName)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">bool</span> r = <span class="hljs-literal">false</span>;<br>    <span class="hljs-function">QFile <span class="hljs-title">file</span><span class="hljs-params">(fileName)</span></span>;<br>    QString content;<br>    <span class="hljs-keyword">if</span>(file.<span class="hljs-built_in">open</span>(QIODevice::ReadOnly)) &#123;<br>        content = file.<span class="hljs-built_in">readAll</span>();<br>        r = <span class="hljs-literal">true</span>;<br>    &#125;<br>    textEdit-&gt;<span class="hljs-built_in">setText</span>(content);<br>    <span class="hljs-keyword">return</span> r;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>我们使用 <code>QMimeData::urls()</code> 来获得一个 URL 列表. 通常, 这种拖动应该只有一个文件, 但是也不排除多个文件一起拖动的情况. 我们还需要检查这个列表是否为空, 如果不为空, 则取出第一个, 否则立即返回. 最后我们调用 <code>readFile()</code> 函数读取文件内容.</li>
+</ul>
+<p>上述程序的执行结果如下:<br>
+<img src="/img/Pictures/20240203152322.png" srcset="/img/loading.gif" lazyload alt=""><br>
+<img src="/img/Pictures/20240203152354.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="示例二">示例二</h2>
+<p>创建两个列表, 可以实现二者之间数据的相互拖动:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// projectlistwidget.h</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ProjectListWidget</span> : <span class="hljs-keyword">public</span> QListWidget<br>&#123;<br>    Q_OBJECT<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">ProjectListWidget</span>(QWidget *parent = <span class="hljs-number">0</span>);<br><span class="hljs-keyword">protected</span>:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">mousePressEvent</span><span class="hljs-params">(QMouseEvent *event)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">mouseMoveEvent</span><span class="hljs-params">(QMouseEvent *event)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dragEnterEvent</span><span class="hljs-params">(QDragEnterEvent *event)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dragMoveEvent</span><span class="hljs-params">(QDragMoveEvent *event)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dropEvent</span><span class="hljs-params">(QDropEvent *event)</span></span>;<br><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">performDrag</span><span class="hljs-params">()</span></span>;<br>    QPoint startPos;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// projectlistwidget.cpp</span><br>ProjectListWidget::<span class="hljs-built_in">ProjectListWidget</span>(QWidget *parent)<br>    : <span class="hljs-built_in">QListWidget</span>(parent)<br>&#123;<br>    <span class="hljs-built_in">setAcceptDrops</span>(<span class="hljs-literal">true</span>);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ProjectListWidget::mousePressEvent</span><span class="hljs-params">(QMouseEvent *event)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (event-&gt;<span class="hljs-built_in">button</span>() == Qt::LeftButton)<br>        startPos = event-&gt;<span class="hljs-built_in">pos</span>();<br>    QListWidget::<span class="hljs-built_in">mousePressEvent</span>(event);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ProjectListWidget::mouseMoveEvent</span><span class="hljs-params">(QMouseEvent *event)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (event-&gt;<span class="hljs-built_in">buttons</span>() &amp; Qt::LeftButton) &#123;<br>        <span class="hljs-type">int</span> distance = (event-&gt;<span class="hljs-built_in">pos</span>() - startPos).<span class="hljs-built_in">manhattanLength</span>();<br>        <span class="hljs-keyword">if</span> (distance &gt;= QApplication::<span class="hljs-built_in">startDragDistance</span>())<br>            <span class="hljs-built_in">performDrag</span>();<br>    &#125;<br>    QListWidget::<span class="hljs-built_in">mouseMoveEvent</span>(event);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ProjectListWidget::performDrag</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-comment">// 获取当前选中的列表项</span><br>    QListWidgetItem *item = <span class="hljs-built_in">currentItem</span>();<br>    <span class="hljs-keyword">if</span> (item) &#123;<br>        QMimeData *mimeData = <span class="hljs-keyword">new</span> QMimeData;<br>        mimeData-&gt;<span class="hljs-built_in">setText</span>(item-&gt;<span class="hljs-built_in">text</span>());<br><br>        QDrag *drag = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QDrag</span>(<span class="hljs-keyword">this</span>);<br>        drag-&gt;<span class="hljs-built_in">setMimeData</span>(mimeData);<br>        drag-&gt;<span class="hljs-built_in">setPixmap</span>(<span class="hljs-built_in">QPixmap</span>(<span class="hljs-string">&quot;:/images/person.png&quot;</span>));<br>        <span class="hljs-keyword">if</span> (drag-&gt;<span class="hljs-built_in">exec</span>(Qt::MoveAction) == Qt::MoveAction)<br>            <span class="hljs-keyword">delete</span> item;<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ProjectListWidget::dragEnterEvent</span><span class="hljs-params">(QDragEnterEvent *event)</span></span><br><span class="hljs-function"></span>&#123;<br>    ProjectListWidget *source =<br>        <span class="hljs-built_in">qobject_cast</span>&lt;ProjectListWidget *&gt;(event-&gt;<span class="hljs-built_in">source</span>());<br>    <span class="hljs-keyword">if</span> (source &amp;&amp; source != <span class="hljs-keyword">this</span>) &#123;<br>        event-&gt;<span class="hljs-built_in">accept</span>();<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ProjectListWidget::dragMoveEvent</span><span class="hljs-params">(QDragMoveEvent *event)</span></span><br><span class="hljs-function"></span>&#123;<br>    ProjectListWidget *source =<br>        <span class="hljs-built_in">qobject_cast</span>&lt;ProjectListWidget *&gt;(event-&gt;<span class="hljs-built_in">source</span>());<br>    <span class="hljs-keyword">if</span> (source &amp;&amp; source != <span class="hljs-keyword">this</span>) &#123;<br>        event-&gt;<span class="hljs-built_in">accept</span>();<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ProjectListWidget::dropEvent</span><span class="hljs-params">(QDropEvent *event)</span></span><br><span class="hljs-function"></span>&#123;<br>    ProjectListWidget *source =<br>        <span class="hljs-built_in">qobject_cast</span>&lt;ProjectListWidget *&gt;(event-&gt;<span class="hljs-built_in">source</span>());<br>    <span class="hljs-keyword">if</span> (source &amp;&amp; source != <span class="hljs-keyword">this</span>) &#123;<br>        <span class="hljs-built_in">addItem</span>(event-&gt;<span class="hljs-built_in">mimeData</span>()-&gt;<span class="hljs-built_in">text</span>());<br>        event-&gt;<span class="hljs-built_in">setDropAction</span>(Qt::MoveAction);<br>        event-&gt;<span class="hljs-built_in">accept</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在 <code>mousePressEvent()</code> 函数中, 我们检测是否是鼠标左键点击, 如果是的话就记录下当前位置.</li>
+<li>在 <code>mouseMoveEvent()</code> 函数中, 如果鼠标在移动的时候一直按住左键, 那么就计算曼哈顿距离 (两点之间的距离, 通过 <code>manhattanLength()</code> 函数得到). 之后还需判断拖动的距离是否大于 <code>QApplication::startDragDistance()</code>, 如果是我们才进行释放操作. 这一判断的意义在于, 防止用户因为手的抖动等因素造成的鼠标拖动. 用户必须将鼠标拖动一段距离之后, 我们才认为他是希望进行拖动操作, 而这一距离就是由 <code>QApplication::startDragDistance()</code> 提供的, 这个值通常是 4px.</li>
+<li>在 <code>performDrag()</code> 函数中启动拖放. 在该函数中通过 <code>QMimeData</code> 对象存储拖放操作的 MIME 数据, 通过 <code>setText</code> 方法, 将当前选中的列表项的文本设置为 MIME 数据. 然后创建了一个 <code>QDrag</code> 对象, <code>QDrag</code> 对象在拖动过程中跟随鼠标移动, 确保拖动的外观和行为符合用户的预期, 它还负责将拖动的数据传递给拖动的目标对象, 它使用 <code>QMimeData</code> 存储数据. <code>QDrag</code> 的 <code>setPixmap()</code> 方法用于设置拖动发生时鼠标的样式. 调用 <code>QDrag::exec()</code> 启动拖拽操作, 此时会触发拖放的主要事件循环, 直到拖拽操作完成. 它的函数签名如下:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">Qt::DropAction <span class="hljs-title">QDrag::exec</span><span class="hljs-params">(Qt::DropActions supportedActions, Qt::DropAction defaultAction)</span></span><br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>supportedActions</code> 参数是一个位掩码, 用于指定拖拽操作的支持动作集合, 即 <code>exec</code> 函数的返回值只能是该集合中的某个动作.</li>
+<li><code>defaultAction</code> 参数是一个默认的拖拽动作, 如果用户在拖拽操作期间按下了不支持的按键或发生其他无法识别的情况, 将执行默认的拖拽动作.</li>
+<li>该函数返回一个 <code>Qt::DropAction</code> 枚举值, 表示拖拽操作的结果. 可能的返回值包括:
+<ul>
+<li><code>Qt::IgnoreAction</code>: 用户取消了拖拽操作.</li>
+<li><code>Qt::CopyAction</code>: 执行了复制操作.</li>
+<li><code>Qt::MoveAction</code>: 执行了移动操作.</li>
+<li><code>Qt::LinkAction</code>: 执行了链接操作.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>QDragEnterEvent</code> 事件当拖拽进入组件时触发, 该事件处理函数通常用于检查拖拽进入时的数据格式或者其他条件. 如果不接受拖拽, 将使得拖拽无法进入该组件.</li>
+<li><code>QDragMoveEvent</code> 事件当拖拽在组件上移动时不断触发, 该事件处理函数允许你根据鼠标位置或其他条件来更新拖拽操作的状态. 如果不接受拖拽, 则无法在该组件上拖拽.</li>
+<li><code>QDropEvent</code> 事件在鼠标左键释放时触发, 表示拖拽的数据要被放置在该组件上. 该事件处理函数可以处理放置数据的逻辑, 如果不接受拖拽, 则无法将数据放置在该组件上. 在该事件处理函数中, <code>QDropEvent::setDropAction()</code> 函数用于设置目标对数据执行的拖拽操作, 上述代码中可以不使用.</li>
+</ul>
+<p>此时的执行结果如下:<br>
+<img src="/img/Pictures/20240204153341.png" srcset="/img/loading.gif" lazyload alt=""><br>
+<img src="/img/Pictures/20240204153402.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="自定义拖动数据">自定义拖动数据</h2>
+<p>之前的示例使用 <code>QMimeData</code> 进行拖放数据的存储. 如果你希望使用一些自定义的对象作为拖放数据, 可以从下面三种实现方式中选择一个:</p>
+<ul>
+<li>将自定义数据转换为 <code>QByteArray</code> 对象, 然后通过 <code>QMimeData::setData()</code> 将其存储到 <code>QMimeData</code> 中.</li>
+<li>继承 <code>QMimeData</code> 类, 重写其中的 <code>formats()</code> 和 <code>retrieveData()</code> 函数来操作自定义数据.</li>
+<li>如果拖放操作仅仅发生在同一个应用程序, 可以直接继承 <code>QMimeData</code>, 然后使用任意合适的数据结构直接存储.</li>
+</ul>
+<p>对于第一种方法, 它不需要继承任何类, 但是无论拖放是否发生, 都需要将自定义的数据对象转换成 <code>QByteArray</code> 对象, 这可能影响程序的性能; 另外, 如果你希望支持多种数据的拖放, 那么每种类型的数据都必须使用一个 <code>QMimeData</code> 类. 而后两种方法则不会有这些问题.</p>
+<h3 id="方法一">方法一</h3>
+<p>下面尝试用第一种方法来实现一个表格, 这个表格允许我们选择一部分数据, 然后拖放到另外的一个空白表格中. 在数据拖动过程中, 我们使用 CSV 格式对数据进行存储:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// datatablewidget.h</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">DataTableWidget</span> : <span class="hljs-keyword">public</span> QTableWidget<br>&#123;<br>    Q_OBJECT<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">DataTableWidget</span>(QWidget *parent = <span class="hljs-number">0</span>);<br><span class="hljs-keyword">protected</span>:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">mousePressEvent</span><span class="hljs-params">(QMouseEvent *event)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">mouseMoveEvent</span><span class="hljs-params">(QMouseEvent *event)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dragEnterEvent</span><span class="hljs-params">(QDragEnterEvent *event)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dragMoveEvent</span><span class="hljs-params">(QDragMoveEvent *event)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dropEvent</span><span class="hljs-params">(QDropEvent *event)</span></span>;<br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">performDrag</span><span class="hljs-params">()</span></span>;<br>    <span class="hljs-function">QString <span class="hljs-title">selectionText</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br>    <span class="hljs-function">QString <span class="hljs-title">toHtml</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;plainText)</span> <span class="hljs-type">const</span></span>;<br>    <span class="hljs-function">QString <span class="hljs-title">toCsv</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;plainText)</span> <span class="hljs-type">const</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">fromCsv</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;csvText)</span></span>;<br><br>    QPoint startPos;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// datatablewidget.cpp</span><br>DataTableWidget::<span class="hljs-built_in">DataTableWidget</span>(QWidget *parent)<br>    : <span class="hljs-built_in">QTableWidget</span>(parent)<br>&#123;<br>    <span class="hljs-built_in">setAcceptDrops</span>(<span class="hljs-literal">true</span>);<br>    <span class="hljs-built_in">setSelectionMode</span>(ContiguousSelection);<br><br>    <span class="hljs-built_in">setColumnCount</span>(<span class="hljs-number">3</span>);<br>    <span class="hljs-built_in">setRowCount</span>(<span class="hljs-number">5</span>);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">DataTableWidget::mousePressEvent</span><span class="hljs-params">(QMouseEvent *event)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (event-&gt;<span class="hljs-built_in">button</span>() == Qt::LeftButton) &#123;<br>        startPos = event-&gt;<span class="hljs-built_in">pos</span>();<br>    &#125;<br>    QTableWidget::<span class="hljs-built_in">mousePressEvent</span>(event);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">DataTableWidget::mouseMoveEvent</span><span class="hljs-params">(QMouseEvent *event)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (event-&gt;<span class="hljs-built_in">buttons</span>() &amp; Qt::LeftButton) &#123;<br>        <span class="hljs-type">int</span> distance = (event-&gt;<span class="hljs-built_in">pos</span>() - startPos).<span class="hljs-built_in">manhattanLength</span>();<br>        <span class="hljs-keyword">if</span> (distance &gt;= QApplication::<span class="hljs-built_in">startDragDistance</span>()) &#123;<br>            <span class="hljs-built_in">performDrag</span>();<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">DataTableWidget::dragEnterEvent</span><span class="hljs-params">(QDragEnterEvent *event)</span></span><br><span class="hljs-function"></span>&#123;<br>    DataTableWidget *source =<br>        <span class="hljs-built_in">qobject_cast</span>&lt;DataTableWidget *&gt;(event-&gt;<span class="hljs-built_in">source</span>());<br>    <span class="hljs-keyword">if</span> (source &amp;&amp; source != <span class="hljs-keyword">this</span>) &#123;<br>        event-&gt;<span class="hljs-built_in">setDropAction</span>(Qt::MoveAction);<br>        event-&gt;<span class="hljs-built_in">accept</span>();<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">DataTableWidget::dragMoveEvent</span><span class="hljs-params">(QDragMoveEvent *event)</span></span><br><span class="hljs-function"></span>&#123;<br>    DataTableWidget *source =<br>        <span class="hljs-built_in">qobject_cast</span>&lt;DataTableWidget *&gt;(event-&gt;<span class="hljs-built_in">source</span>());<br>    <span class="hljs-keyword">if</span> (source &amp;&amp; source != <span class="hljs-keyword">this</span>) &#123;<br>        event-&gt;<span class="hljs-built_in">setDropAction</span>(Qt::MoveAction);<br>        event-&gt;<span class="hljs-built_in">accept</span>();<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">DataTableWidget::performDrag</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    QString selectedString = <span class="hljs-built_in">selectionText</span>();<br>    <span class="hljs-keyword">if</span> (selectedString.<span class="hljs-built_in">isEmpty</span>()) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    QMimeData *mimeData = <span class="hljs-keyword">new</span> QMimeData;<br>    mimeData-&gt;<span class="hljs-built_in">setHtml</span>(<span class="hljs-built_in">toHtml</span>(selectedString));<br>    mimeData-&gt;<span class="hljs-built_in">setData</span>(<span class="hljs-string">&quot;text/csv&quot;</span>, <span class="hljs-built_in">toCsv</span>(selectedString).<span class="hljs-built_in">toUtf8</span>());<br><br>    QDrag *drag = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QDrag</span>(<span class="hljs-keyword">this</span>);<br>    drag-&gt;<span class="hljs-built_in">setMimeData</span>(mimeData);<br>    <span class="hljs-keyword">if</span> (drag-&gt;<span class="hljs-built_in">exec</span>(Qt::CopyAction | Qt::MoveAction) == Qt::MoveAction) &#123;<br>        <span class="hljs-built_in">selectionModel</span>()-&gt;<span class="hljs-built_in">clearSelection</span>();<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">DataTableWidget::dropEvent</span><span class="hljs-params">(QDropEvent *event)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-comment">// 检查拖放事件的数据是否包含了 &quot;text/csv&quot; 格式的 MIME 数据</span><br>    <span class="hljs-keyword">if</span> (event-&gt;<span class="hljs-built_in">mimeData</span>()-&gt;<span class="hljs-built_in">hasFormat</span>(<span class="hljs-string">&quot;text/csv&quot;</span>)) &#123;<br>	    <span class="hljs-comment">// 从 MIME 数据中获取 &quot;text/csv&quot; 格式的字节数组</span><br>        QByteArray csvData = event-&gt;<span class="hljs-built_in">mimeData</span>()-&gt;<span class="hljs-built_in">data</span>(<span class="hljs-string">&quot;text/csv&quot;</span>);<br>        <span class="hljs-comment">// 将字节数组转换为 UTF-8 编码的字符串, 得到 CSV 格式的文本数据</span><br>        QString csvText = QString::<span class="hljs-built_in">fromUtf8</span>(csvData);<br>        <span class="hljs-built_in">fromCsv</span>(csvText);<br>        <span class="hljs-comment">// 接受拖放操作, 并采取建议的操作</span><br>        event-&gt;<span class="hljs-built_in">acceptProposedAction</span>();<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 获取当前选中范围内的表头和数据, 并以制表符分隔, </span><br><span class="hljs-comment"> * 行与行之间用换行符分隔, 返回一个格式化的文本字符串</span><br><span class="hljs-comment"> */</span> <br><span class="hljs-function">QString <span class="hljs-title">DataTableWidget::selectionText</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    QString selectionString;<br>    QString headerString;<br>    QAbstractItemModel *itemModel = <span class="hljs-built_in">model</span>();<br>    <span class="hljs-comment">// 从所有选中范围中取第一个范围</span><br>    QTableWidgetSelectionRange selection = <span class="hljs-built_in">selectedRanges</span>().<span class="hljs-built_in">at</span>(<span class="hljs-number">0</span>);<br>    <span class="hljs-comment">// 遍历选中范围中的所有单元格</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> row = selection.<span class="hljs-built_in">topRow</span>(), firstRow = row;<br>         row &lt;= selection.<span class="hljs-built_in">bottomRow</span>(); row++) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> col = selection.<span class="hljs-built_in">leftColumn</span>();<br>             col &lt;= selection.<span class="hljs-built_in">rightColumn</span>(); col++) &#123;<br>             <span class="hljs-comment">/*</span><br><span class="hljs-comment">              * 在第一行的循环内, 获取每列的水平表头项的文本, </span><br><span class="hljs-comment">              * 并添加到 `headerString` 中, 用制表符分隔</span><br><span class="hljs-comment">              */</span> <br>            <span class="hljs-keyword">if</span> (row == firstRow) &#123;<br>                headerString.<span class="hljs-built_in">append</span>(<span class="hljs-built_in">horizontalHeaderItem</span>(col)-&gt;<span class="hljs-built_in">text</span>()).<span class="hljs-built_in">append</span>(<span class="hljs-string">&quot;\t&quot;</span>);<br>            &#125;<br>            QModelIndex index = itemModel-&gt;<span class="hljs-built_in">index</span>(row, col);<br>            selectionString.<span class="hljs-built_in">append</span>(index.<span class="hljs-built_in">data</span>().<span class="hljs-built_in">toString</span>()).<span class="hljs-built_in">append</span>(<span class="hljs-string">&quot;\t&quot;</span>);<br>        &#125;<br>        <span class="hljs-comment">// 移除 `selectionString` 字符串两端的空白字符</span><br>        selectionString = selectionString.<span class="hljs-built_in">trimmed</span>();<br>        selectionString.<span class="hljs-built_in">append</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">return</span> headerString.<span class="hljs-built_in">trimmed</span>() + <span class="hljs-string">&quot;\n&quot;</span> + selectionString.<span class="hljs-built_in">trimmed</span>();<br>&#125;<br><br><span class="hljs-comment">// 将输入的纯文本转换为 HTML 形式</span><br><span class="hljs-function">QString <span class="hljs-title">DataTableWidget::toHtml</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;plainText)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br><span class="hljs-comment">// 检查 Qt 版本是否大于或等于 5</span><br><span class="hljs-meta">#<span class="hljs-keyword">if</span> QT_VERSION &gt;= 0x050000</span><br>	<span class="hljs-comment">// 使用 `toHtmlEscaped()` 函数将纯文本转换为 HTML 编码的字符串</span><br>    QString result = plainText.<span class="hljs-built_in">toHtmlEscaped</span>();<br><span class="hljs-meta">#<span class="hljs-keyword">else</span></span><br>	<span class="hljs-comment">// 使用 `Qt::escape()` 函数进行 HTML 编码</span><br>    QString result = Qt::<span class="hljs-built_in">escape</span>(plainText);<br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br>    result.<span class="hljs-built_in">replace</span>(<span class="hljs-string">&quot;\t&quot;</span>, <span class="hljs-string">&quot;&lt;td&gt;&quot;</span>);<br>    result.<span class="hljs-built_in">replace</span>(<span class="hljs-string">&quot;\n&quot;</span>, <span class="hljs-string">&quot;\n&lt;tr&gt;&lt;td&gt;&quot;</span>);<br>    result.<span class="hljs-built_in">prepend</span>(<span class="hljs-string">&quot;&lt;table&gt;\n&lt;tr&gt;&lt;td&gt;&quot;</span>);<br>    result.<span class="hljs-built_in">append</span>(<span class="hljs-string">&quot;\n&lt;/table&gt;&quot;</span>);<br>    <span class="hljs-keyword">return</span> result;<br>&#125;<br><br><span class="hljs-comment">// 将输入的纯文本转换为 CSV 形式</span><br><span class="hljs-function">QString <span class="hljs-title">DataTableWidget::toCsv</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;plainText)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    QString result = plainText;<br>    result.<span class="hljs-built_in">replace</span>(<span class="hljs-string">&quot;\\&quot;</span>, <span class="hljs-string">&quot;\\\\&quot;</span>);<br>    result.<span class="hljs-built_in">replace</span>(<span class="hljs-string">&quot;\&quot;&quot;</span>, <span class="hljs-string">&quot;\\\&quot;&quot;</span>);<br>    result.<span class="hljs-built_in">replace</span>(<span class="hljs-string">&quot;\t&quot;</span>, <span class="hljs-string">&quot;\&quot;, \&quot;&quot;</span>);<br>    result.<span class="hljs-built_in">replace</span>(<span class="hljs-string">&quot;\n&quot;</span>, <span class="hljs-string">&quot;\&quot;\n\&quot;&quot;</span>);<br>    result.<span class="hljs-built_in">prepend</span>(<span class="hljs-string">&quot;\&quot;&quot;</span>);<br>    result.<span class="hljs-built_in">append</span>(<span class="hljs-string">&quot;\&quot;&quot;</span>);<br>    <span class="hljs-keyword">return</span> result;<br>&#125;<br><br><span class="hljs-comment">// 从 CSV 格式的文本中读取数据, 并将数据加载到表格中</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">DataTableWidget::fromCsv</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;csvText)</span></span><br><span class="hljs-function"></span>&#123;<br>    QStringList rows = csvText.<span class="hljs-built_in">split</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br>    QStringList headers = rows.<span class="hljs-built_in">at</span>(<span class="hljs-number">0</span>).<span class="hljs-built_in">split</span>(<span class="hljs-string">&quot;, &quot;</span>);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> h = <span class="hljs-number">0</span>; h &lt; headers.<span class="hljs-built_in">size</span>(); ++h) &#123;<br>        QString header = headers.<span class="hljs-built_in">at</span>(h);<br>        headers.<span class="hljs-built_in">replace</span>(h, header.<span class="hljs-built_in">replace</span>(<span class="hljs-string">&#x27;&quot;&#x27;</span>, <span class="hljs-string">&quot;&quot;</span>));<br>    &#125;<br>    <span class="hljs-built_in">setHorizontalHeaderLabels</span>(headers);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> r = <span class="hljs-number">1</span>; r &lt; rows.<span class="hljs-built_in">size</span>(); ++r) &#123;<br>        QStringList row = rows.<span class="hljs-built_in">at</span>(r).<span class="hljs-built_in">split</span>(<span class="hljs-string">&quot;, &quot;</span>);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> c = <span class="hljs-number">0</span>; c &lt; row.<span class="hljs-built_in">size</span>(); ++c) &#123;<br>            <span class="hljs-built_in">setItem</span>(r - <span class="hljs-number">1</span>, c, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(row.<span class="hljs-built_in">at</span>(c).<span class="hljs-built_in">trimmed</span>().<span class="hljs-built_in">replace</span>(<span class="hljs-string">&#x27;&quot;&#x27;</span>, <span class="hljs-string">&quot;&quot;</span>)));<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在构造函数中, 由于我们要针对两个表格进行相互拖拽, 因此设置了 <code>setAcceptDrops()</code> 函数. 将选择模式设置为连续是为了简化后面的实现. 其他几个事件处理函数和前面的差不多, 不再赘述.</li>
+<li>在 <code>performDrag()</code> 函数中, 首先我们获取选择的文本 (通过 <code>selectionText()</code> 函数). 然后创建一个 <code>QMimeData</code> 对象, 设置了两个数据: HTML 格式和 CSV 格式. 其中 CSV 格式是以 <code>QByteArray</code> 形式存储的. 之后我们创建了 <code>QDrag</code> 对象, 将这个 <code>QMimeData</code> 作为拖动时所需要的数据, 执行其 <code>exec()</code> 函数. <code>exec()</code> 函数指明, 这里的拖动操作接受两种类型: 复制和移动.</li>
+<li>另外, 虽然 <code>QMimeData</code>在创建时并没有提供 parent 属性, 但是调用 <code>setMimeData()</code> 函数会将 <code>QMimeData</code> 对象的 parent 设置为 drag.</li>
+</ul>
+<p><code>MainWindow</code> 中的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs cpp">MainWindow::<span class="hljs-built_in">MainWindow</span>(QWidget *parent)<br>    : <span class="hljs-built_in">QMainWindow</span>(parent)<br>&#123;<br>    topTable = <span class="hljs-keyword">new</span> <span class="hljs-built_in">DataTableWidget</span>(<span class="hljs-keyword">this</span>);<br>    QStringList headers;<br>    headers &lt;&lt; <span class="hljs-string">&quot;ID&quot;</span> &lt;&lt; <span class="hljs-string">&quot;Name&quot;</span> &lt;&lt; <span class="hljs-string">&quot;Age&quot;</span>;<br>    topTable-&gt;<span class="hljs-built_in">setHorizontalHeaderLabels</span>(headers);<br>    topTable-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;0001&quot;</span>)));<br>    topTable-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;Anna&quot;</span>)));<br>    topTable-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;20&quot;</span>)));<br>    topTable-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;0002&quot;</span>)));<br>    topTable-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;Tommy&quot;</span>)));<br>    topTable-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;21&quot;</span>)));<br>    topTable-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;0003&quot;</span>)));<br>    topTable-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;Jim&quot;</span>)));<br>    topTable-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;21&quot;</span>)));<br>    topTable-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">3</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;0004&quot;</span>)));<br>    topTable-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;Dick&quot;</span>)));<br>    topTable-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;24&quot;</span>)));<br>    topTable-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">4</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;0005&quot;</span>)));<br>    topTable-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">4</span>, <span class="hljs-number">1</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;Tim&quot;</span>)));<br>    topTable-&gt;<span class="hljs-built_in">setItem</span>(<span class="hljs-number">4</span>, <span class="hljs-number">2</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTableWidgetItem</span>(<span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;22&quot;</span>)));<br><br>    bottomTable = <span class="hljs-keyword">new</span> <span class="hljs-built_in">DataTableWidget</span>(<span class="hljs-keyword">this</span>);<br><br>    QWidget *content = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QWidget</span>(<span class="hljs-keyword">this</span>);<br>    QVBoxLayout *layout = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QVBoxLayout</span>(content);<br>    layout-&gt;<span class="hljs-built_in">addWidget</span>(topTable);<br>    layout-&gt;<span class="hljs-built_in">addWidget</span>(bottomTable);<br><br>    <span class="hljs-built_in">setCentralWidget</span>(content);<br><br>    <span class="hljs-built_in">setWindowTitle</span>(<span class="hljs-string">&quot;Data Table&quot;</span>);<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<p>此时的运行结果如下:<br>
+<img src="/img/Pictures/20240205184017.png" srcset="/img/loading.gif" lazyload alt=""><br>
+<img src="/img/Pictures/20240205184037.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="方法二">方法二</h3>
+<p>下面我们换用继承 <code>QMimeData</code> 的方法来尝试重新实现上面的功能:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// tablemimedata.h</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">TableMimeData</span> : <span class="hljs-keyword">public</span> QMimeData<br>&#123;<br>    Q_OBJECT<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">TableMimeData</span>(<span class="hljs-type">const</span> QTableWidget *tableWidget,<br>                  <span class="hljs-type">const</span> QTableWidgetSelectionRange &amp;range);<br><br>    <span class="hljs-function"><span class="hljs-type">const</span> QTableWidget *<span class="hljs-title">tableWidget</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123; <span class="hljs-keyword">return</span> dataTableWidget; &#125;<br><br>    <span class="hljs-function">QTableWidgetSelectionRange <span class="hljs-title">range</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123; <span class="hljs-keyword">return</span> selectionRange; &#125;<br><br>    <span class="hljs-function">QStringList <span class="hljs-title">formats</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123; <span class="hljs-keyword">return</span> dataFormats; &#125;<br><br><span class="hljs-keyword">protected</span>:<br>    <span class="hljs-function">QVariant <span class="hljs-title">retrieveData</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;format,</span></span><br><span class="hljs-params"><span class="hljs-function">                          QVariant::Type preferredType)</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-function"><span class="hljs-type">static</span> QString <span class="hljs-title">toHtml</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;plainText)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">static</span> QString <span class="hljs-title">toCsv</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;plainText)</span></span>;<br>    <span class="hljs-function">QString <span class="hljs-title">text</span><span class="hljs-params">(<span class="hljs-type">int</span> row, <span class="hljs-type">int</span> column)</span> <span class="hljs-type">const</span></span>;<br>    <span class="hljs-function">QString <span class="hljs-title">selectionText</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br>    <span class="hljs-type">const</span> QTableWidget *dataTableWidget;<br>    QTableWidgetSelectionRange selectionRange;<br>    QStringList dataFormats;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>dataTableWidget 直接存储 <code>QTableWidget</code> 类的对象指针; selectionRange 存储 dataTableWidget 上的选中范围; dataFormats 指明该数据对象所支持的数据格式.</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// tablemimedata.cpp</span><br>TableMimeData::<span class="hljs-built_in">TableMimeData</span>(<span class="hljs-type">const</span> QTableWidget *tableWidget,<br>                             <span class="hljs-type">const</span> QTableWidgetSelectionRange &amp;range)<br>&#123;<br>    dataTableWidget = tableWidget;<br>    selectionRange = range;<br>    dataFormats &lt;&lt; <span class="hljs-string">&quot;text/csv&quot;</span> &lt;&lt; <span class="hljs-string">&quot;text/html&quot;</span>;<br>&#125;<br><br><span class="hljs-function">QVariant <span class="hljs-title">TableMimeData::retrieveData</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;format,</span></span><br><span class="hljs-params"><span class="hljs-function">                                     QVariant::Type preferredType)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (format == <span class="hljs-string">&quot;text/csv&quot;</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">toCsv</span>(<span class="hljs-built_in">selectionText</span>());<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (format == <span class="hljs-string">&quot;text/html&quot;</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">toHtml</span>(<span class="hljs-built_in">selectionText</span>());<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> QMimeData::<span class="hljs-built_in">retrieveData</span>(format, preferredType);<br>    &#125;<br>&#125;<br><br><br></code></pre></td></tr></table></figure>
+<ul>
+<li>函数 <code>retrieveData()</code> 根据请求的数据格式, 调用相应的函数将当前选中范围的文本数据转换为相应格式. 参数 format 的值通常是 <code>formats()</code> 函数返回值之一, 但这不是一定的, 因为并不是所有的应用程序都会通过 <code>formats()</code> 函数检查 MIME 类型. 另外, 一些返回函数, 比如 <code>text()</code>、<code>html()</code>、<code>urls()</code>、<code>imageData()</code>、<code>colorData()</code> 和 <code>data()</code>, 它们实际上是基于 <code>QMimeData</code> 的 <code>retrieveData()</code> 函数实现的, 即这些函数的调用实际上会触发 <code>retrieveData()</code> 函数, 而不是直接返回数据; 参数<code>preferredType</code> 用于指定期望的数据类型, 函数会尝试以这种类型返回数据. 如果指定的类型不匹配实际数据的类型, 将会进行类型转换.</li>
+</ul>
+<p>在组件的 <code>dragEvent()</code> 函数中, 需要按照自己定义的数据类型进行选择:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">DataTableWidget::dropEvent</span><span class="hljs-params">(QDropEvent *event)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">const</span> TableMimeData *tableData =<br>        <span class="hljs-built_in">qobject_cast</span>&lt;<span class="hljs-type">const</span> TableMimeData *&gt;(event-&gt;<span class="hljs-built_in">mimeData</span>());<br>    <br>    <span class="hljs-keyword">if</span> (tableData) &#123;<br>        <span class="hljs-type">const</span> QTableWidget *otherTable = tableData-&gt;<span class="hljs-built_in">tableWidget</span>();<br>        QTableWidgetSelectionRange otherRange = tableData-&gt;<span class="hljs-built_in">range</span>();<br>        <span class="hljs-comment">// ...</span><br>        event-&gt;<span class="hljs-built_in">acceptProposedAction</span>();<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (event-&gt;<span class="hljs-built_in">mimeData</span>()-&gt;<span class="hljs-built_in">hasFormat</span>(<span class="hljs-string">&quot;text/csv&quot;</span>)) &#123;<br>        QByteArray csvData = event-&gt;<span class="hljs-built_in">mimeData</span>()-&gt;<span class="hljs-built_in">data</span>(<span class="hljs-string">&quot;text/csv&quot;</span>);<br>        QString csvText = QString::<span class="hljs-built_in">fromUtf8</span>(csvData);<br>        <span class="hljs-comment">// ...</span><br>        event-&gt;<span class="hljs-built_in">acceptProposedAction</span>();<br>    &#125;<br>    QTableWidget::<span class="hljs-built_in">mouseMoveEvent</span>(event);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在该函数中, 通过 <code>qobject_cast</code> 宏进行类型转换. 如果成功, 说明拖放的是表格数据, 执行相应的处理逻辑; 如果转换失败, 说明拖放的是 CSV 数据, 执行相应的处理逻辑.</li>
+</ul>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>QT 学习之路 2（52）：使用拖放: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/05/qt-study-road-2-dnd/">https://www.devbean.net/2013/05/qt-study-road-2-dnd/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>QT 学习之路 2（53）：自定义拖放数据: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/05/qt-study-road-2-dnd-data/">https://www.devbean.net/2013/05/qt-study-road-2-dnd-data/</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/" class="category-chain-item">QT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QT/" class="print-no-link">#QT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/" title="QT 网络通信">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QT 网络通信</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="QT 数据类型">
+                        <span class="hidden-mobile">QT 数据类型</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

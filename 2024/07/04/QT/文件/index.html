@@ -1,0 +1,1130 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="文件 Qt 作为一个通用开发库, 提供了跨平台的文件操作能力. Qt 通过 QIODevice 提供了对 I&#x2F;O 设备的抽象, 这些设备具有读写字节块的能力. 下面是 I&#x2F;O 设备的类图:  Qt4  Qt5   从上面的类图可以看出, Qt4 和 Qt5 在 I&#x2F;O 设备部分大同小异. 只不过 Qt5 新增加了一个 QFileDevice 类. 图中所涉及的类的简要说明如下:  QIODevic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QT 文件">
+<meta property="og:url" content="http://example.com/2024/07/04/QT/%E6%96%87%E4%BB%B6/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="文件 Qt 作为一个通用开发库, 提供了跨平台的文件操作能力. Qt 通过 QIODevice 提供了对 I&#x2F;O 设备的抽象, 这些设备具有读写字节块的能力. 下面是 I&#x2F;O 设备的类图:  Qt4  Qt5   从上面的类图可以看出, Qt4 和 Qt5 在 I&#x2F;O 设备部分大同小异. 只不过 Qt5 新增加了一个 QFileDevice 类. 图中所涉及的类的简要说明如下:  QIODevic">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20240110135944.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240110140000.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240112172242.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240112204445.png">
+<meta property="article:published_time" content="2024-07-04T12:42:33.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="QT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20240110135944.png">
+  
+  
+  
+  <title>QT 文件 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QT 文件"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:42" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          71 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">QT 文件</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>文件</h1>
+<p>Qt 作为一个通用开发库, 提供了跨平台的文件操作能力.</p>
+<p>Qt 通过 <code>QIODevice</code> 提供了对 I/O 设备的抽象, 这些设备具有读写字节块的能力. 下面是 I/O 设备的类图:</p>
+<ul>
+<li>Qt4<br>
+<img src="/img/Pictures/20240110135944.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>Qt5<br>
+<img src="/img/Pictures/20240110140000.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+<p>从上面的类图可以看出, Qt4 和 Qt5 在 I/O 设备部分大同小异. 只不过 Qt5 新增加了一个 <code>QFileDevice</code> 类. 图中所涉及的类的简要说明如下:</p>
+<ul>
+<li><code>QIODevice</code>: 所有 I/O 设备类的父类, 提供了字节块读写的通用操作以及基本接口.</li>
+<li><code>QFlie</code>: 访问本地文件或者嵌入资源.</li>
+<li><code>QTemporaryFile</code>: 创建和访问本地文件系统的临时文件.</li>
+<li><code>QBuffer</code>: 读写 <code>QByteArray</code>.</li>
+<li><code>QProcess</code>: 运行外部程序, 处理进程间通讯.</li>
+<li><code>QAbstractSocket</code>: 所有套接字类的父类.</li>
+<li><code>QTcpSocket</code>: TCP 协议网络数据传输.</li>
+<li><code>QUdpSocket</code>: 传输 UDP 报文.</li>
+<li><code>QSslSocket</code>: 使用 SSL/TLS 传输数据.</li>
+<li><code>QFileDevice</code>: Qt5 新增加的类, 提供了有关文件操作的通用实现.</li>
+</ul>
+<p>其中 <code>QProcess</code>、<code>QTcpSocket</code>、<code>QUdpSoctet</code> 和 <code>QSslSocket</code> 是顺序访问设备; <code>QFile</code>、<code>QTemporaryFile</code> 和 <code>QBuffer</code> 是随机访问设备.</p>
+<h2 id="简单文件操作">简单文件操作</h2>
+<p>在所有的 I/O 设备中, 文件 I/O 是最重要的部分之一. 因为我们大多数的程序依旧需要首先访问本地文件. <code>QFile</code> 提供了从文件中读取和写入数据的能力. Qt5 新加入的 <code>QFileDevice</code> 类, 则将这部分公共操作放到了这个单独的类中.</p>
+<p>我们通常会将文件路径作为参数传给 <code>QFile</code> 的构造函数. 不过也可以在创建好对象之后, 使用 <code>setFileName()</code> 来修改. <code>QFile</code> 需要使用 “/” 作为文件分隔符, 不过, <strong>它会自动将其转换成操作系统所需要的形式</strong>.</p>
+<p><code>QFile</code> 主要提供了有关文件的各种操作, 比如打开文件、关闭文件、刷新文件等. 我们可以使用 <code>QDataStream</code> 或 <code>QTextStream</code> 类来读写文件, 也可以使用 <code>QIODevice</code> 类提供的 <code>read()</code>、<code>readLine()</code>、<code>readAll()</code> 以及 <code>write()</code> 这样的函数. 值得注意的是, 有关文件本身的信息, 比如文件名、文件所在目录的名字等, 则是通过 <code>QFileInfo</code> 获取.</p>
+<p><code>QFile</code> 类的简单使用如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QApplication <span class="hljs-title">app</span><span class="hljs-params">(argc, argv)</span></span>;<br><br>    <span class="hljs-function">QFile <span class="hljs-title">file</span><span class="hljs-params">(<span class="hljs-string">&quot;in.txt&quot;</span>)</span></span>;<br>    <span class="hljs-keyword">if</span> (!file.<span class="hljs-built_in">open</span>(QIODevice::ReadOnly | QIODevice::Text)) &#123;<br>        <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;Open file failed.&quot;</span>;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">while</span> (!file.<span class="hljs-built_in">atEnd</span>()) &#123;<br>            <span class="hljs-built_in">qDebug</span>() &lt;&lt; file.<span class="hljs-built_in">readLine</span>();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-function">QFileInfo <span class="hljs-title">info</span><span class="hljs-params">(file)</span></span>;<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; info.<span class="hljs-built_in">isDir</span>();<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; info.<span class="hljs-built_in">isExecutable</span>();<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; info.<span class="hljs-built_in">baseName</span>();<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; info.<span class="hljs-built_in">completeBaseName</span>();<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; info.<span class="hljs-built_in">suffix</span>();<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; info.<span class="hljs-built_in">completeSuffix</span>();<br><br>    <span class="hljs-keyword">return</span> app.<span class="hljs-built_in">exec</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在这段代码中, 我们首先使用 <code>QFile</code> 创建了一个文件对象. 另外, 可以通过 <code>QDir::currentPath()</code> 来获得应用程序执行时的当前路径. 然后我们使用 <code>open()</code> 函数打开这个文件, 打开形式是只读方式、文本格式. 之后我们通过 <code>QFileInfo</code> 获取有关该文件的信息. <code>QFileInfo</code> 中有很多函数:
+<ul>
+<li><code>isDir()</code> 检查该文件是否是目录.</li>
+<li><code>isExecutable()</code> 检查该文件是否是可执行文件.</li>
+<li><code>baseName()</code> 可以直接获得文件名.</li>
+<li><code>suffix()</code> 可以获取文件后缀名. 可以通过下面的示例看到 <code>baseName()</code>、<code>completeBaseName()</code>、<code>suffix()</code> 和 <code>completeSuffix()</code> 的区别:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QFileInfo <span class="hljs-title">fi</span><span class="hljs-params">(<span class="hljs-string">&quot;/tmp/archive.tar.gz&quot;</span>)</span></span>;<br>QString base  = fi.<span class="hljs-built_in">baseName</span>();          <span class="hljs-comment">// base = &quot;archive&quot;</span><br>QString cbase = fi.<span class="hljs-built_in">completeBaseName</span>();  <span class="hljs-comment">// base = &quot;archive.tar&quot;</span><br>QString ext   = fi.<span class="hljs-built_in">suffix</span>();            <span class="hljs-comment">// ext = &quot;gz&quot;</span><br>QString ext   = fi.<span class="hljs-built_in">completeSuffix</span>();    <span class="hljs-comment">// ext = &quot;tar.gz&quot;</span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="二进制文件读写">二进制文件读写</h2>
+<p><code>QDataStream</code> 提供了基于 <code>QIODevice</code> 的二进制数据的序列化. 数据流是一种二进制流, 这种流<strong>完全不依赖</strong>于底层操作系统、CPU 或者字节顺序 (大端或小端).</p>
+<ul>
+<li>例如, 在安装了 Windows 的 PC 上面写入的一个数据流, 可以不经过任何处理, 直接拿到运行了 Solaris 的 SPARC 机器上读取.</li>
+</ul>
+<p>由于数据流就是二进制流, 因此我们也可以直接读写没有编码的二进制数据, 例如图像、视频、音频等.</p>
+<p><code>QDataStream</code> 既能够存取 C++ 基本类型, 如 int、char、short 等, 也可以存取复杂的数据类型, 例如自定义的类. 实际上, <code>QDataStream</code> 对于类的存储, 是将复杂的类分割为很多基本单元实现的.</p>
+<p>使用 <code>QDataStream</code> 类写入文件的示例如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QFile <span class="hljs-title">file</span><span class="hljs-params">(<span class="hljs-string">&quot;file.dat&quot;</span>)</span></span>;<br>file.<span class="hljs-built_in">open</span>(QIODevice::WriteOnly);<br><span class="hljs-function">QDataStream <span class="hljs-title">out</span><span class="hljs-params">(&amp;file)</span></span>;<br>out &lt;&lt; <span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;the answer is&quot;</span>);<br>out &lt;&lt; (qint32)<span class="hljs-number">42</span>;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在这段代码中, 我们首先打开一个名为 file.dat 的文件, 然后将刚刚创建的 <code>file</code> 对象的指针传递给一个 <code>QDataStream</code> 实例 <code>out</code>, 类似 <code>std::cout</code> 标准输出流, <code>QDataStream</code> 也重载了输出重定向 <code>&lt;&lt;</code> 运算符, 我们将 “the answer is” 和数字 42 输出到数据流中, 由于 <code>out</code> 对象建立在 <code>file</code> 之上, 因此这相当于将这些内容写入文件 file.dat 中. 需要注意的是, 最好使用 Qt 整型来进行读写, 比如程序中的<code>qint32</code>. 这保证了在任意平台和任意编译器上都能有相同的行为.</li>
+</ul>
+<p>我们通过一个例子来看看 Qt 是如何存储数据的. 例如 <code>char *</code> 字符串, 在存储时, 会首先存储该字符串包括 \0 结束符的长度, 然后是字符串的内容以及结束符 \0. 在读取时, 先以 32 位整型读出整个的长度, 然后按照这个长度取出整个字符串的内容.</p>
+<p>但是, 如果你直接运行这段代码, 你会得到一个空白的 file.dat, 并没有写入任何数据. 这是因为我们的 <code>file</code> 没有正常关闭. 为性能起见, 数据只有在文件关闭时才会真正写入. 因此, 我们必须在最后添加一行代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">file.<span class="hljs-built_in">close</span>(); <span class="hljs-comment">// 如果不想关闭文件, 可以使用 file.flush()</span><br></code></pre></td></tr></table></figure>
+<p>使用 <code>QDataStream</code> 类读取文件的示例如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QFile <span class="hljs-title">file</span><span class="hljs-params">(<span class="hljs-string">&quot;file.dat&quot;</span>)</span></span>;<br>file.<span class="hljs-built_in">open</span>(QIODevice::ReadOnly);<br><span class="hljs-function">QDataStream <span class="hljs-title">in</span><span class="hljs-params">(&amp;file)</span></span>;<br>QString str;<br>qint32 a;<br>in &gt;&gt; str &gt;&gt; a;<br></code></pre></td></tr></table></figure>
+<p>由于二进制流是纯粹的字节数据, 带来的问题是: 如果程序不同版本之间按照不同的方式读取, 数据就会出现错误. 因此, 我们必须提供一种机制来确保不同版本之间的一致性. 通常, 我们会使用如下的代码来进行写入:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QFile <span class="hljs-title">file</span><span class="hljs-params">(<span class="hljs-string">&quot;file.dat&quot;</span>)</span></span>;<br>file.<span class="hljs-built_in">open</span>(QIODevice::WriteOnly);<br><span class="hljs-function">QDataStream <span class="hljs-title">out</span><span class="hljs-params">(&amp;file)</span></span>;<br><br><span class="hljs-comment">// 写入魔术数字和版本</span><br>out &lt;&lt; (quint32)<span class="hljs-number">0xA0B0C0D0</span>;<br>out &lt;&lt; (qint32)<span class="hljs-number">123</span>;<br><br>out.<span class="hljs-built_in">setVersion</span>(QDataStream::Qt_4_0);<br><br><span class="hljs-comment">// 写入数据</span><br>out &lt;&lt; lots_of_interesting_data;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>对于 <code>out &lt;&lt; (quint32)0xA0B0C0D0;</code>, 该行代码用于写入魔术数字. 所谓魔术数字, 是二进制输出中经常使用的一种技术. 二进制格式是人不可读的, 并且通常具有相同的后缀名 (比如 dat 之类), 因此我们没有办法区分两个二进制文件哪个是合法的. 所以, 我们定义的二进制格式通常具有一个魔术数字, 用于标识文件的合法性. 在本例中, 我们在文件最开始写入 0xA0B0C0D0, 在读取的时候首先检查这个数字是不是 0xA0B0C0D0. 如果不是的话, 说明这个文件不是可识别格式, 因此根本不需要去继续读取. 一般二进制文件都会有这么一个魔术数字, 例如 Java 的 class 文件的魔术数字就是 0xCAFEBABE. 魔术数字是一个 32 位的无符号整型, 因此我们使用 <code>quint32</code> 来得到一个平台无关的 32 位无符号整型.</li>
+<li>对于 <code>out &lt;&lt; (qint32)123;</code>, 该行代码用于标识文件的版本. 我们用魔术数字标识文件的类型, 从而判断文件是否合法. 但是, 文件的不同版本之间也可能存在差异: 我们可能在第一版保存整型, 第二版可能保存字符串. 为了标识不同的版本, 我们只能将版本写入文件.</li>
+<li>对于 <code>out.setVersion(QDataStream::Qt_4_0);</code>, 该行代码用于指定 Qt 的版本按照哪个版本去读, 因为 Qt 不同版本之间的读取方式可能不同. 这里指定以 Qt 4.0 的格式去读取内容.</li>
+</ul>
+<p>当以上述方式写入文件之后, 我们在读取该文件的时候就需要增加一系列的判断:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QFile <span class="hljs-title">file</span><span class="hljs-params">(<span class="hljs-string">&quot;file.dat&quot;</span>)</span></span>;<br>file.<span class="hljs-built_in">open</span>(QIODevice::ReadOnly);<br><span class="hljs-function">QDataStream <span class="hljs-title">in</span><span class="hljs-params">(&amp;file)</span></span>;<br><br><span class="hljs-comment">// 检查魔术数字</span><br>quint32 magic;<br>in &gt;&gt; magic;<br><span class="hljs-keyword">if</span> (magic != <span class="hljs-number">0xA0B0C0D0</span>) &#123;<br>    <span class="hljs-keyword">return</span> BAD_FILE_FORMAT;<br>&#125;<br><br><span class="hljs-comment">// 检查版本</span><br>qint32 version;<br>in &gt;&gt; version;<br><span class="hljs-keyword">if</span> (version &lt; <span class="hljs-number">100</span>) &#123;<br>    <span class="hljs-keyword">return</span> BAD_FILE_TOO_OLD;<br>&#125;<br><span class="hljs-keyword">if</span> (version &gt; <span class="hljs-number">123</span>) &#123;<br>    <span class="hljs-keyword">return</span> BAD_FILE_TOO_NEW;<br>&#125;<br><br><span class="hljs-keyword">if</span> (version &lt;= <span class="hljs-number">110</span>) &#123;<br>    in.<span class="hljs-built_in">setVersion</span>(QDataStream::Qt_3_2);<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>    in.<span class="hljs-built_in">setVersion</span>(QDataStream::Qt_4_0);<br>&#125;<br><span class="hljs-comment">// 读取数据</span><br>in &gt;&gt; lots_of_interesting_data;<br><span class="hljs-keyword">if</span> (version &gt;= <span class="hljs-number">120</span>) &#123;<br>    in &gt;&gt; data_new_in_version_1_2;<br>&#125;<br>in &gt;&gt; other_interesting_data;<br></code></pre></td></tr></table></figure>
+<p>既然 <code>QIODevice</code> 提供了 <code>read()</code>、<code>readLine()</code> 之类的函数, 为什么还要有 <code>QDataStream</code> 呢? <code>QDataStream</code> 同 <code>QIODevice</code> 有什么区别? 区别在于, <code>QDataStream</code> 提供流的形式, 性能上一般比直接调用原始 API 更好一些.</p>
+<p>以下代码能展示什么是流:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QFile <span class="hljs-title">file</span><span class="hljs-params">(<span class="hljs-string">&quot;file.dat&quot;</span>)</span></span>;<br>file.<span class="hljs-built_in">open</span>(QIODevice::ReadWrite);<br><br><span class="hljs-function">QDataStream <span class="hljs-title">stream</span><span class="hljs-params">(&amp;file)</span></span>;<br>QString str = <span class="hljs-string">&quot;the answer is 42&quot;</span>;<br>QString strout;<br><br>stream &lt;&lt; str;<br>file.<span class="hljs-built_in">flush</span>();<br>stream &gt;&gt; strout;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>如果执行该代码, 会发现 <code>strout</code> 实际上是空的, 因为我们使用的是 “流”. 所谓流, 就像水流一样, 它的游标会随着输出向后移动. 当使用 <code>&lt;&lt;</code> 操作符输出之后, 流的游标已经到了最后, 此时你再去读, 当然什么也读不到了. 所以你需要在输出之后重新把游标设置为 0 的位置才能够继续读取. 例如:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp">stream &lt;&lt; str;<br>stream.<span class="hljs-built_in">device</span>()-&gt;<span class="hljs-built_in">seek</span>(<span class="hljs-number">0</span>);<br>stream &gt;&gt; strout;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="文本文件读写">文本文件读写</h2>
+<p>二进制文件比较小巧, 却不是人可读的格式. 而文本文件是一种人可读的文件. 为了操作这种文件, 我们需要使用 <code>QTextStream</code> 类. <code>QTextStream</code> 和 <code>QDataStream</code> 的使用类似, 只不过它是操作纯文本文件的. 另外, 像 XML、HTML 这种, 虽然也是文本文件, 可以由 <code>QTextStream</code> 生成, 但 Qt 提供了更方便的 XML 操作类.</p>
+<p><code>QTextStream</code> 会自动将 Unicode 编码同操作系统的编码进行转换, 它使用16 位的 <code>QChar</code> 作为基础的数据存储单位, 同样, 它也支持 C++ 标准类型, 如 int 等.</p>
+<p><code>QTextStream</code> 和 <code>QDataStream</code> 的使用基本一致, 例如, 将 “The answer is 42” 写入到 file.txt 文件中:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QFile <span class="hljs-title">data</span><span class="hljs-params">(<span class="hljs-string">&quot;file.txt&quot;</span>)</span></span>;<br><span class="hljs-keyword">if</span> (data.<span class="hljs-built_in">open</span>(QFile::WriteOnly | QIODevice::Truncate)) &#123;<br>	<span class="hljs-function">QTextStream <span class="hljs-title">out</span><span class="hljs-params">(&amp;data)</span></span>;<br>	out &lt;&lt; <span class="hljs-string">&quot;The answer is &quot;</span> &lt;&lt; <span class="hljs-number">42</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在上述代码的 <code>open()</code> 函数中, 使用了 <code>QIODevice::Truncate</code> 打开方式. 我们可以从下表中看到这些打开方式的区别:</p>
+<table>
+<thead>
+<tr>
+<th>枚举值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>QIODevice::NotOpen</code></td>
+<td>未打开</td>
+</tr>
+<tr>
+<td><code>QIODevice::ReadOnly</code></td>
+<td>以只读方式打开</td>
+</tr>
+<tr>
+<td><code>QIODevice::WriteOnly</code></td>
+<td>以只写方式打开</td>
+</tr>
+<tr>
+<td><code>QIODevice::ReadWrite</code></td>
+<td>以读写方式打开</td>
+</tr>
+<tr>
+<td><code>QIODevice::Append</code></td>
+<td>以追加的方式打开, 新增加的内容将被追加到文件末尾</td>
+</tr>
+<tr>
+<td><code>QIODevice::Truncate</code></td>
+<td>以重写的方式打开, 在写入新的数据时会将原有数据全部清除, 游标设置在文件开头.</td>
+</tr>
+<tr>
+<td><code>QIODevice::Text</code></td>
+<td>在读取时, 将行结束符转换成 \n; 在写入时, 将行结束符转换成本地格式, 例如 Win32 平台上是 \r\n</td>
+</tr>
+<tr>
+<td><code>QIODevice::Unbuffered</code></td>
+<td>忽略缓存</td>
+</tr>
+</tbody>
+</table>
+<p>虽然 <code>QTextStream</code> 的写入内容与 <code>QDataStream</code> 一致, 但是读取时却会有些困难:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QFile <span class="hljs-title">data</span><span class="hljs-params">(<span class="hljs-string">&quot;file.txt&quot;</span>)</span></span>;<br><span class="hljs-keyword">if</span> (data.<span class="hljs-built_in">open</span>(QFile::ReadOnly)) &#123;<br>	<span class="hljs-function">QTextStream <span class="hljs-title">in</span><span class="hljs-params">(&amp;data)</span></span>;<br>	QString str;<br>	<span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>	in &gt;&gt; str &gt;&gt; ans;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在使用 <code>QDataStream</code> 的时候, 这样的代码很方便, 但是使用了 <code>QTextStream</code> 时却有所不同: 读出的时候, <code>str</code> 里面将是 “The answer is 4”, ans 是 0. 这是因为以文本形式写入数据, 是没有数据之间的分隔的 (使用 <code>QDataStream</code> 写入的时候, 实际上会在要写入的内容前面, 额外添加一个这段内容的长度值). 因此, 使用文本文件时会一次性读取所有文本, 之后再对得到的 <code>QString</code> 对象进行处理.</li>
+</ul>
+<p>默认情况下, <code>QTextStream</code> 的编码格式是 Unicode, 如果我们需要使用另外的编码, 可以使用如下函数进行设置:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">stream.<span class="hljs-built_in">setCodec</span>(<span class="hljs-string">&quot;UTF-8&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>另外, 为方便起见, <code>QTextStream</code> 同 <code>std::cout</code> 一样提供了很多描述符, 被称为 stream manipulators. 因为文本文件是供人去读的, 自然需要良好的格式 (相比而言, 二进制文件就没有这些问题, 只要数据准确就可以了). 这些描述符是一些函数的简写, 我们可以从文档中找到:</p>
+<table>
+<thead>
+<tr>
+<th>描述符</th>
+<th>等价于</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bin</code></td>
+<td><code>setIntegerBase(2)</code></td>
+</tr>
+<tr>
+<td><code>oct</code></td>
+<td><code>setIntegerBase(8)</code></td>
+</tr>
+<tr>
+<td><code>dec</code></td>
+<td><code>setIntegerBase(10)</code></td>
+</tr>
+<tr>
+<td><code>hex</code></td>
+<td><code>setIntegerBase(16)</code></td>
+</tr>
+<tr>
+<td><code>showbase</code></td>
+<td><code>setNumberFlags(numberFlags() | ShowBase)</code></td>
+</tr>
+<tr>
+<td><code>forcesign</code></td>
+<td><code>setNumberFlags(numberFlags() | ForceSign)</code></td>
+</tr>
+<tr>
+<td><code>forcepoint</code></td>
+<td><code>setNumberFlags(numberFlags() | ForcePoint)</code></td>
+</tr>
+<tr>
+<td><code>noshowbase</code></td>
+<td><code>setNumberFlags(numberFlags() &amp; ~ShowBase)</code></td>
+</tr>
+<tr>
+<td><code>noforcesign</code></td>
+<td><code>setNumberFlags(numberFlags() &amp; ~ForceSign)</code></td>
+</tr>
+<tr>
+<td><code>noforcepoint</code></td>
+<td><code>setNumberFlags(numberFlags() &amp; ~ForcePoint)</code></td>
+</tr>
+<tr>
+<td><code>uppercasebase</code></td>
+<td><code>setNumberFlags(numberFlags() | UppercaseBase)</code></td>
+</tr>
+<tr>
+<td><code>uppercasedigits</code></td>
+<td><code>setNumberFlags(numberFlags() | UppercaseDigits)</code></td>
+</tr>
+<tr>
+<td><code>lowercasebase</code></td>
+<td><code>setNumberFlags(numberFlags() &amp; ~UppercaseBase)</code></td>
+</tr>
+<tr>
+<td><code>lowercasedigits</code></td>
+<td><code>setNumberFlags(numberFlags() &amp; ~UppercaseDigits)</code></td>
+</tr>
+<tr>
+<td><code>fixed</code></td>
+<td><code>setRealNumberNotation(FixedNotation)</code></td>
+</tr>
+<tr>
+<td><code>scientific</code></td>
+<td><code>setRealNumberNotation(ScientificNotation)</code></td>
+</tr>
+<tr>
+<td><code>left</code></td>
+<td><code>setFieldAlignment(AlignLeft)</code></td>
+</tr>
+<tr>
+<td><code>right</code></td>
+<td><code>setFieldAlignment(AlignRight)</code></td>
+</tr>
+<tr>
+<td><code>center</code></td>
+<td><code>setFieldAlignment(AlignCenter)</code></td>
+</tr>
+<tr>
+<td><code>endl</code></td>
+<td><code>operator &lt;&lt; ('\n')</code> 和 <code>flush()</code></td>
+</tr>
+<tr>
+<td><code>flush</code></td>
+<td><code>flush()</code></td>
+</tr>
+<tr>
+<td><code>reset</code></td>
+<td><code>reset()</code></td>
+</tr>
+<tr>
+<td><code>ws</code></td>
+<td><code>skipWhiteSpace()</code></td>
+</tr>
+<tr>
+<td><code>bom</code></td>
+<td><code>setGenerateByteOrderMark(true)</code></td>
+</tr>
+</tbody>
+</table>
+<p>例如, 我们想要输出 12345678 的二进制形式, 那么可以直接使用:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">out &lt;&lt; bin &lt;&lt; <span class="hljs-number">12345678</span>;<br></code></pre></td></tr></table></figure>
+<p>这等价于:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">out.<span class="hljs-built_in">setIntegerBase</span>(<span class="hljs-number">2</span>);<br>out &lt;&lt; <span class="hljs-number">12345678</span>;<br></code></pre></td></tr></table></figure>
+<p>还可以通过 <code>QTextStream</code> 直接将内容输出到 <code>QString</code> 中. 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QString str;<br><span class="hljs-function">QTextStream <span class="hljs-title">stream</span><span class="hljs-params">(&amp;str)</span></span>;<br>stream &lt;&lt; Qt::oct &lt;&lt; <span class="hljs-number">31</span> &lt;&lt; <span class="hljs-string">&quot; &quot;</span> &lt;&lt; Qt::dec &lt;&lt; <span class="hljs-number">25</span> &lt;&lt; Qt::endl;<br><span class="hljs-built_in">qDebug</span>() &lt;&lt; str; <span class="hljs-comment">// 输出结果为: 37 25\n</span><br></code></pre></td></tr></table></figure>
+<h2 id="存储容器">存储容器</h2>
+<p>存储容器有时候也被称为集合, 是能够在内存中存储其它特定类型的对象, 通常是一些常用的数据结构, 一般是通用模板类的形式.</p>
+<p>Qt 提供了另外一套基于模板的容器类. 相比 STL, 这些容器类通常更轻量、更安全、更容易使用.</p>
+<p>Qt 的容器类都不继承 <code>QObject</code>, 都提供了隐式数据共享、不可变的特性, 并且为速度做了优化, 具有较低的内存占用量、线程安全等优点. 这些容器类是平台无关的, 即不因编译器的不同而具有不同的实现.</p>
+<ul>
+<li>隐式数据共享, 也被称为 “写时复制”, 其基本思想是, 当一个容器对象被拷贝时, 实际上并不复制它的数据, 相反, 两个对象共享同一块数据, 直到其中一个对象发生了修改. 在发生修改时, 才会执行数据的复制, 以确保对象之间的独立性. 这种技术有助于避免不必要的内存复制, 提供内存利用率.</li>
+</ul>
+<p>遍历是容器类的重要操作. Qt 容器类提供了类似 Java 的迭代器语法, 同样也提供了类似 STL 的迭代器语法, 以方便用户选择自己习惯的编码方式. 相比而言, Java 风格的迭代器更易用, 是一种高层次的函数; 而 STL 风格的迭代器更高效, 同时能够支持 Qt 和 STL 的通用算法. 另外, 在一些嵌入式平台, STL 往往是不可用的, 这时你就只能使用 Qt 提供的容器类.</p>
+<p>Qt 提供了顺序存储容器: <code>QList</code>、<code>QLinkedList</code>、<code>QVector</code>、<code>QStack</code> 和 <code>QQueue</code>. 对于绝大多数应用程序, <code>QList</code> 是最好的选择. 虽然它是基于数组实现的列表, 但它提供了快速的向前添加和向后追加的操作. 如果你需要链表, 可以使用 <code>QLinkedList</code>. 如果你希望所有元素占用连续地址空间, 可以选择 <code>QVector</code>. <code>QStack</code> 和 <code>QQueue</code> 则是 LIFO 和 FIFO 的.</p>
+<p>Qt 还提供了关联容器: <code>QMap</code>、<code>QMultiMap</code>、<code>QHash</code>、<code>QMultiHash</code> 和 <code>QSet</code>. 带有 “Multi” 字样的容器支持在一个键上面关联多个值. “Hash” 容器提供了基于散列函数的更快的查找, 而非 Hash 容器则是基于二分搜索的有序集合.</p>
+<p>另外两个特例: <code>QCache</code> 和 <code>QContiguousCache</code> 提供了在有限缓存空间中的高效 hash 查找.</p>
+<p>Qt 提供的各个容器类如下:</p>
+<ul>
+<li><code>QList&lt;T&gt;</code>: 这是至今为止提供的最通用的容器类. 它将给定的类型 T 的对象以列表的形式进行存储, 与一个整型的索引关联. <code>QList</code> 在内部使用数组实现, 同时提供基于索引的快速访问. 我们可以使用 <code>QList::append()</code> 和 <code>QList::prepend()</code> 在列表尾部或头部添加元素, 也可以使用 <code>QList::insert()</code> 在中间插入. 相比其它容器类, <code>QList</code> 专门为这种修改操作做了优化. <code>QStringList</code> 继承自 <code>QList&lt;QString&gt;</code>.</li>
+<li><code>QLinkedList&lt;T&gt;</code>: 类似于 <code>QList</code>, 除了它是使用迭代器进行遍历, 而不是基于整数索引的随机访问. 对于在中部插入大量数据, 它的性能要优于 <code>QList</code>. 同时具有更好的迭代器语义 (只要数据元素存在, <code>QLinkedList</code> 的迭代器就会指向一个合法元素, 相比而言, 当插入或删除数据时, <code>QList</code> 的迭代器就会指向一个非法值).</li>
+<li><code>QVector&lt;T&gt;</code>: 用于在内存的连续区存储一系列给定类型的值. 在头部或中间插入数据可能会非常慢, 因为这会引起大量数据在内存中的移动.</li>
+<li><code>QStack&lt;T&gt;</code>: 这是 <code>QVector</code> 的子类, 提供了后进先出 (LIFO) 语义. 相比 <code>QVector</code>, 它提供了额外的函数: <code>push()</code>、<code>pop()</code> 和 <code>top()</code>.</li>
+<li><code>QQueue&lt;T&gt;</code>: 这是 <code>QList</code> 的子类, 提供了先进先出 (FIFO) 语义. 相比 <code>QList</code>, 它提供了额外的函数: <code>enqueue()</code>、<code>dequeue()</code> 和 <code>head()</code>.</li>
+<li><code>QSet&lt;T&gt;</code>: 提供单值的数学上面的集合, 具有快速的查找性能.</li>
+<li><code>QMap&lt;Key, T&gt;</code>: 提供了字典数据结构 (关联数组), 将类型 T 的值同类型 Key 的键关联起来. 通常, 每个键与一个值关联. <code>QMap</code> 以键的顺序存储数据; 如果顺序无关, <code>QHash</code> 提供了更好的性能。</li>
+<li><code>QMultiMap&lt;Key, T&gt;</code>: 这是 <code>QMap</code> 的子类, 提供了多值映射: 一个键可以与多个值关联.</li>
+<li><code>QHash&lt;Key, T&gt;</code>: 该类同 <code>QMap</code> 的接口几乎相同, 但是提供了更快的查找. <code>QHash</code> 以字母顺序存储数据.</li>
+<li><code>QMultiHash&lt;Key, T&gt;</code>: 这是 <code>QHash</code> 的子类, 提供了多值散列.</li>
+</ul>
+<p>所有的容器都可以嵌套. 例如, <code>QMap&lt;QString, QList&lt;int&gt; &gt;</code> 是一个映射, 其键是 <code>QString</code> 类型, 值是 <code>QList&lt;int&gt;</code> 类型. 这里需要注意的是, <strong>C++ 编译器会将连续的两个 &gt; 当做输入重定向运算符</strong>, 因此, 这里的两个 &gt; 中间必须有一个空格.</p>
+<p>能够存储在容器中的数据必须是<strong>可赋值数据类型</strong>. 所谓可赋值数据类型, 是指具有默认构造函数、拷贝构造函数和赋值运算符的类型. 绝大多数数据类型, 包括基本类型, 比如 int 和 double、指针、Qt 数据类型, 例如 <code>QString</code>、<code>QDate</code> 和 <code>QTime</code>, 都是可赋值数据类型. 但是, <code>QObject</code> 及其子类 (<code>QWidget</code>、<code>QTimer</code> 等) 都不是. 也就是说, 你不能使用 <code>QList&lt;QWidget&gt;</code> 这种容器, 因为 <code>QWidget</code> 的拷贝构造函数和赋值运算符不可用. 如果你需要这种类型的容器, 只能存储其指针, 也就是<code>QList&lt;QWidget *&gt;</code>.</p>
+<p>如果要使用 <code>QMap</code> 或者 <code>QHash</code>, 作为键的类型必须提供额外的辅助函数: <code>QMap</code> 的键必须提供 <code>operator&lt;()</code> 重载, <code>QHash</code> 的键必须提供 <code>operator==()</code> 重载和一个名字是 <code>qHash()</code> 的全局函数.</p>
+<p>例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">Movie</span><br>&#123;<br>    <span class="hljs-type">int</span> id;<br>    QString title;<br>    QDate releaseDate;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>由于这个类没有额外的构造函数, 因此编译器会为我们生成一个默认构造函数. 同时, 编译器还会生成默认的拷贝构造函数和赋值运算符. 这就满足了将其放入容器类存储的条件:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QList&lt;Movie&gt; movs;<br></code></pre></td></tr></table></figure>
+<p>Qt 容器类可以直接使用 <code>QDataStream</code> 进行存取. 此时, 容器中所存储的类型必须也能够使用 <code>QDataStream</code> 进行存储. 这意味着, 我们需要重载 <code>operator&lt;&lt;()</code> 和 <code>operator&gt;&gt;()</code> 运算符:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QDataStream &amp;<span class="hljs-keyword">operator</span>&lt;&lt;(QDataStream &amp;out, <span class="hljs-type">const</span> Movie &amp;movie)<br>&#123;<br>    out &lt;&lt; (quint32)movie.id &lt;&lt; movie.title<br>        &lt;&lt; movie.releaseDate;<br>    <span class="hljs-keyword">return</span> out;<br>&#125;<br><br>QDataStream &amp;<span class="hljs-keyword">operator</span>&gt;&gt;(QDataStream &amp;in, Movie &amp;movie)<br>&#123;<br>    quint32 id;<br>    QDate date;<br><br>    in &gt;&gt; id &gt;&gt; movie.title &gt;&gt; date;<br>    movie.id = (<span class="hljs-type">int</span>)id;<br>    movie.releaseDate = date;<br>    <span class="hljs-keyword">return</span> in;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>Qt 顺序容器的时间复杂度如下:</p>
+<table>
+<thead>
+<tr>
+<th>容器</th>
+<th>查找</th>
+<th>插入</th>
+<th>前方添加</th>
+<th>后方追加</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>QLinkedList&lt;T&gt;</code></td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>O(1)</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td><code>QList&lt;T&gt;</code></td>
+<td>O(1)</td>
+<td>O(n)</td>
+<td>统计 O(1)</td>
+<td>统计 O(1)</td>
+</tr>
+<tr>
+<td><code>QVector&lt;T&gt;</code></td>
+<td>O(1)</td>
+<td>O(n)</td>
+<td>O(n)</td>
+<td>统计 O(1)</td>
+</tr>
+</tbody>
+</table>
+<p>上表中的 “统计” 是指统计意义上的数据. 例如 “统计 O(1)” 是指, 如果只调用一次, 其运行时间复杂度是 O(n), 但是如果调用足够多次, 则平均时间复杂度是 O(1).</p>
+<p>Qt 关联容器的时间复杂度如下:</p>
+<table>
+<thead>
+<tr>
+<th>容器</th>
+<th>查找键</th>
+<th></th>
+<th>插入</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>平均</td>
+<td>最坏</td>
+<td>平均</td>
+<td>最坏</td>
+</tr>
+<tr>
+<td><code>QMap&lt;Key, T&gt;</code></td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+</tr>
+<tr>
+<td><code>QMultiMap&lt;Key, T&gt;</code></td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+</tr>
+<tr>
+<td><code>QHash&lt;Key, T&gt;</code></td>
+<td>统计 O(1)</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>统计 O(n)</td>
+</tr>
+<tr>
+<td><code>QSet&lt;Key, T&gt;</code></td>
+<td>统计 O(1)</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>统计 O(n)</td>
+</tr>
+</tbody>
+</table>
+<p><code>QVector</code>、<code>QHash</code> 和 <code>QSet</code> 的头部添加是统计意义上的 O(log n). 然而, 通过给定插入位置之前的元素个数来调用 <code>QVector::reserve()</code>、<code>QHash::reserve()</code> 和 <code>QSet::reserve()</code>, 我们可以把复杂度降到 O(1).</p>
+<p><code>QVector&lt;T&gt;</code>、<code>QString</code> 和 <code>QByteArray</code> 在连续内存空间中存储数据. <code>QList&lt;T&gt;</code> 维护指向其数据的指针数组, 提供基于索引的快速访问 (如果 T 就是指针类型, 或者是与指针大小相同的其它类型, 那么 <code>QList</code> 的内部数组中存的就是其实际值, 而不是其指针. 对于较大的对象, 存储指针可以减小 <code>QList</code> 对象的大小, 从而降低内存开销). <code>QHash&lt;Key, T&gt;</code>维护一张散列表, 其大小与散列中数据量相同. 为避免每次插入数据都要重新分配数据空间, 这些类都提供了多余实际值的数据位.</p>
+<p>另外, <code>QVector&lt;T&gt;</code>、<code>QHash&lt;Key, T&gt;</code>、<code>QSet&lt;T&gt;</code>、<code>QString</code> 和 <code>QByteArray</code> 提供了一系列函数, 用于检测和指定究竟要分配多少内存:</p>
+<ul>
+<li><code>capacity()</code>: 返回实际已经分配内存的元素数目 (对于 <code>QHash</code> 和 <code>QSet</code>, 则是散列表中桶的个数).</li>
+<li><code>reserve(size)</code>: 为指定数目的元素显式地预分配内存.</li>
+<li><code>squeeze()</code>: 释放那些不需要真实存储数据的内存空间.</li>
+</ul>
+<p>如果你知道容器大约有多少数据, 那么你可以通过调用 <code>reserve()</code> 函数来减少内存占用. 如果已经将所有数据全部存入容器, 则可以调用 <code>squeeze()</code> 函数, 释放所有未使用的预分配空间.</p>
+<h2 id="遍历容器">遍历容器</h2>
+<p>没有迭代器时, 如果我们需要向外界提供一个列表, 我们通常会将其返回:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QList&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">intlist</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> list;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这样会向用户暴露集合的内部实现 (用户此时能够知道你在集合内部使用 <code>QList</code>). 为此, 我们希望有这么一种对象: 通过它就能够提供一种通用的访问集合元素的方法, 这就是迭代器.</p>
+<p>Qt 的容器类提供了两种风格的迭代器: Java 风格和 STL 风格. 这两种风格的迭代器在通过非 <code>const</code> 函数对集合进行修改时都是不可用的.</p>
+<h3 id="Java-风格的迭代器">Java 风格的迭代器</h3>
+<p>Java 风格的迭代器是在 Qt4 首先引入的, 是 Qt 应用程序首先推荐使用的形式. 这种风格比起 STL 风格的迭代器更方便. 方便的代价就是不如后者高效, 它们的 API 非常类似于 Java 的迭代器类.</p>
+<p>每一种容器都有两种 Java 风格的迭代器: 一种提供只读访问, 一种提供读写访问:</p>
+<table>
+<thead>
+<tr>
+<th>容器</th>
+<th>只读迭代器</th>
+<th>读写迭代器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>QList&lt;T&gt;</code>, <code>QQueue&lt;T&gt;</code></td>
+<td><code>QListIterator&lt;T&gt;</code></td>
+<td><code>QMutableListIterator&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td><code>QLinkedList&lt;T&gt;</code></td>
+<td><code>QLinkedListIterator&lt;T&gt;</code></td>
+<td><code>QMutableLinkedListIterator&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td><code>QVector&lt;T&gt;</code>, <code>QStack&lt;T&gt;</code></td>
+<td><code>QVectorIterator&lt;T&gt;</code></td>
+<td><code>QMutableVectorIterator&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td><code>QSet&lt;T&gt;</code></td>
+<td><code>QSetIterator&lt;T&gt;</code></td>
+<td><code>QMutableSetIterator&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td><code>QMap&lt;Key, T&gt;</code>, <code>QMultiMap&lt;Key, T&gt;</code></td>
+<td><code>QMapIterator&lt;T&gt;</code></td>
+<td><code>QMutableMapIterator&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td><code>QHash&lt;Key, T&gt;</code>, <code>QMultiHash&lt;Key, T&gt;</code></td>
+<td><code>QHashIterator&lt;T&gt;</code></td>
+<td><code>QMutableHashIterator&lt;T&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p>这里只讨论 <code>QList</code> 和 <code>QMap</code> 的迭代器. <code>QLinkedList</code>、<code>QVector</code> 和 <code>QSet</code> 的迭代器接口与 <code>QList</code> 的是一样的; <code>QHash</code> 迭代器的接口则同 <code>QMap</code> 是一样的.</p>
+<p>不同于 STL 风格的迭代器, Java 风格的迭代器指向的是两个元素之间的位置, 而不是指向元素本身. 因此, 它们可能会指向集合第一个元素之前的位置, 也可能指向集合的最后一个元素之后的位置, 如下图所示:<br>
+<img src="/img/Pictures/20240112172242.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>这种迭代器的使用示例如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QList&lt;QString&gt; list;<br>list &lt;&lt; <span class="hljs-string">&quot;A&quot;</span> &lt;&lt; <span class="hljs-string">&quot;B&quot;</span> &lt;&lt; <span class="hljs-string">&quot;C&quot;</span> &lt;&lt; <span class="hljs-string">&quot;D&quot;</span>;<br><br><span class="hljs-function">QListIterator&lt;QString&gt; <span class="hljs-title">i</span><span class="hljs-params">(list)</span></span>;<br><span class="hljs-keyword">while</span> (i.<span class="hljs-built_in">hasNext</span>()) &#123;<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; i.<span class="hljs-built_in">next</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>首先, 我们使用 <code>list</code> 对象创建一个迭代器. 刚刚创建完成时, 该迭代器位于第一个元素之前. 我们通过调用 <code>hasNext()</code> 函数判断迭代器之后的位置上有无元素. <code>next()</code> 会返回下一个元素的值, 并将迭代器往后移动一位. 当然, 我们也可以使用 <code>hasPrevious()</code> 和 <code>previous()</code> 函数来从尾部开始遍历.</li>
+</ul>
+<p><code>QListIterator</code> 是只读迭代器, 不能插入或者删除数据. 如果需要这些操作, 我们可以使用 <code>QMutableListIterator</code>. 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QMutableListIterator&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">i</span><span class="hljs-params">(list)</span></span>;<br><span class="hljs-keyword">while</span> (i.<span class="hljs-built_in">hasNext</span>()) &#123;<br>    <span class="hljs-keyword">if</span> (i.<span class="hljs-built_in">next</span>() % <span class="hljs-number">2</span> != <span class="hljs-number">0</span>) &#123;<br>        i.<span class="hljs-built_in">remove</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>remove()</code> 会移除迭代器当前指向的元素. 调用 <code>remove()</code> 函数并不会将迭代器置为不可用, 因此我们可以连续调用这个函数.</li>
+</ul>
+<p>如果想要通过迭代器修改已经存在的元素, 可以使用 <code>setValue()</code> 函数来修改迭代器当前指向的元素. 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QMutableListIterator&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">i</span><span class="hljs-params">(list)</span></span>;<br><span class="hljs-keyword">while</span> (i.<span class="hljs-built_in">hasNext</span>()) &#123;<br>    <span class="hljs-keyword">if</span> (i.<span class="hljs-built_in">next</span>() &gt; <span class="hljs-number">128</span>) &#123;<br>        i.<span class="hljs-built_in">setValue</span>(<span class="hljs-number">128</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>由于 <code>next()</code> 函数返回的是集合元素的非 <code>const</code> 引用, 因此我们可以不调用 <code>setValue()</code> 函数:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QMutableListIterator&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">i</span><span class="hljs-params">(list)</span></span>;<br>	<span class="hljs-keyword">while</span> (i.<span class="hljs-built_in">hasNext</span>()) &#123;<br>	i.<span class="hljs-built_in">next</span>() *= <span class="hljs-number">2</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>QMapIterator</code> 的使用也是类似的. 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QMap&lt;<span class="hljs-type">int</span>, QWidget *&gt; map;<br>QHash&lt;<span class="hljs-type">int</span>, QWidget *&gt; hash;<br><br><span class="hljs-function">QMapIterator&lt;<span class="hljs-type">int</span>, QWidget *&gt; <span class="hljs-title">i</span><span class="hljs-params">(map)</span></span>;<br><span class="hljs-keyword">while</span> (i.<span class="hljs-built_in">hasNext</span>()) &#123;<br>    i.<span class="hljs-built_in">next</span>();<br>    hash.<span class="hljs-built_in">insert</span>(i.<span class="hljs-built_in">key</span>(), i.<span class="hljs-built_in">value</span>());<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该程序可以将数据从 <code>QMap</code> 复制到 <code>QHash</code>.</li>
+</ul>
+<h3 id="STL-风格的迭代器">STL 风格的迭代器</h3>
+<p>STL 风格的迭代器从 Qt 2.0 就开始提供. 这种迭代器能够兼容 Qt 和 STL 的通用算法, 并且为速度进行了优化. 同 Java 风格迭代器类似, Qt 也提供了两种 STL 风格的迭代器: 一种是只读访问, 一种是读写访问 (尽可能使用只读访问, 因为它们要比读写访问的迭代器快一些):</p>
+<table>
+<thead>
+<tr>
+<th>容器</th>
+<th>只读迭代器</th>
+<th>读写迭代器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>QList&lt;T&gt;</code>, <code>QQueue&lt;T&gt;</code></td>
+<td><code>QList&lt;T&gt;::const_iterator</code></td>
+<td><code>QList&lt;T&gt;::iterator</code></td>
+</tr>
+<tr>
+<td><code>QLinkedList&lt;T&gt;</code></td>
+<td><code>QLinkedList&lt;T&gt;::const_iterator</code></td>
+<td><code>QLinkedList&lt;T&gt;::iterator</code></td>
+</tr>
+<tr>
+<td><code>QVector&lt;T&gt;</code>, <code>QStack&lt;T&gt;</code></td>
+<td><code>QVector&lt;T&gt;::const_iterator</code></td>
+<td><code>QVector&lt;T&gt;::iterator</code></td>
+</tr>
+<tr>
+<td><code>QSet&lt;T&gt;</code></td>
+<td><code>QSet&lt;T&gt;::const_iterator</code></td>
+<td><code>QSet&lt;T&gt;::iterator</code></td>
+</tr>
+<tr>
+<td><code>QMap&lt;Key, T&gt;</code>, <code>QMultiMap&lt;Key, T&gt;</code></td>
+<td><code>QMap&lt;Key, T&gt;::const_iterator</code></td>
+<td><code>QMap&lt;Key, T&gt;::iterator</code></td>
+</tr>
+<tr>
+<td><code>QHash&lt;Key, T&gt;</code>, <code>QMultiHash&lt;Key, T&gt;</code></td>
+<td><code>QHash&lt;Key, T&gt;::const_iterator</code></td>
+<td><code>QHash&lt;Key, T&gt;::iterator</code></td>
+</tr>
+</tbody>
+</table>
+<p>STL 风格的迭代器具有类似数组指针的行为. 例如, 我们可以使用 ++ 运算符让迭代器移动到下一个元素, 使用 * 运算符获取迭代器所指的元素.</p>
+<p>例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QList&lt;QString&gt; list;<br>list &lt;&lt; <span class="hljs-string">&quot;A&quot;</span> &lt;&lt; <span class="hljs-string">&quot;B&quot;</span> &lt;&lt; <span class="hljs-string">&quot;C&quot;</span> &lt;&lt; <span class="hljs-string">&quot;D&quot;</span>;<br><br>QList&lt;QString&gt;::iterator i;<br><span class="hljs-keyword">for</span> (i = list.<span class="hljs-built_in">begin</span>(); i != list.<span class="hljs-built_in">end</span>(); ++i) &#123;<br>    *i = (*i).<span class="hljs-built_in">toLower</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>不同于 Java 风格迭代器, STL 风格迭代器直接指向元素本身. 容器的 <code>begin()</code> 函数返回指向该容器第一个元素的迭代器; <code>end()</code> 函数返回指向该容器最后一个元素之后的元素的迭代器. <code>end()</code> 实际是一个非法位置, 永远不可达, 这是为跳出循环做的一个虚元素.</li>
+</ul>
+<p>下图是 STL 风格迭代器的示意图:<br>
+<img src="/img/Pictures/20240112204445.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>另外, 隐式数据共享对 STL 风格迭代器造成的影响是, 当一个容器正在被一个迭代器遍历的时候, 不能对这个容器进行拷贝. 如果你必须对其进行拷贝, 那么就需要小心. 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QVector&lt;<span class="hljs-type">int</span>&gt; a, b;<br>a.<span class="hljs-built_in">resize</span>(<span class="hljs-number">100000</span>); <span class="hljs-comment">// 使用 0 填充一个非常大的 vector</span><br><br>QVector&lt;<span class="hljs-type">int</span>&gt;::iterator i = a.<span class="hljs-built_in">begin</span>();<br><span class="hljs-comment">// 使用迭代器 i 的错误方式 (注意, 此时, a 上面已经有一个正在遍历的迭代器)</span><br>b = a;<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">    现在, 我们需要小心迭代器 i. 因为它指向了共享的数据.</span><br><span class="hljs-comment">    如果我们执行语句 *i = 4, 我们就会改变共享的数据实例 (两个 vector 此时指向同一内存, 因此都会被改变).</span><br><span class="hljs-comment">    这里的行为与 STL 容器不同, 因此这种问题仅出现在 Qt 中; 使用 STL 标准容器不存在这个问题.</span><br><span class="hljs-comment">*/</span><br><br>a[<span class="hljs-number">0</span>] = <span class="hljs-number">5</span>;<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">    现在, 容器 a 被修改了, 此时会为 a 单独分配一份新的内存, 然后再将 b 指向的内存中的数据拷贝过去.</span><br><span class="hljs-comment">    即使 i 就是从容器 a 处创建的迭代器, 但是它仍然指向原来的内存.</span><br><span class="hljs-comment">    因此此时: (*i) == 0.</span><br><span class="hljs-comment">*/</span><br><br>b.<span class="hljs-built_in">clear</span>(); <span class="hljs-comment">// 现在我们清空 b, 此时, 迭代器 i 已经不可用了.</span><br><br><span class="hljs-type">int</span> j = *i; <span class="hljs-comment">// 无定义行为!</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">    来自 b 的数据 (也就是 i 指向的那些数据) 已经被销毁了.</span><br><span class="hljs-comment">    这种行为在 STL 容器中是完全可行的 (在 STL 容器中, (*i) == 5), </span><br><span class="hljs-comment">    但是使用 QVector 则很有可能出现崩溃.</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
+<p>虽然这个例子只演示了 <code>QVector</code>, 但实际上, 这个问题适用于所有隐式数据共享的容器类.</p>
+<h3 id="foreach-关键字">foreach 关键字</h3>
+<p>如果我们仅仅想要遍历集合所有元素, 我们可以使用 Qt 的 <code>foreach</code> 关键字. 这个关键字是 Qt 特有的, 通过预处理器进行处理. C++ 11 也提供了自己的 <code>foreach</code> 关键字, 不过与此还是有<a target="_blank" rel="noopener" href="http://www.devbean.net/2012/06/cpp11-in-qt4/">区别</a>.</p>
+<p><code>foreach</code> 的语法是 <code>foreach (variable, container)</code>. 例如, 我们使用 <code>foreach</code> 对 <code>QLinkedList</code> 进行遍历:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QLinkedList&lt;QString&gt; list;<br>...<br>QString str;<br>foreach (str, list) &#123;<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; str;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>上述代码等价于:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QLinkedList&lt;QString&gt; list;<br>...<br><span class="hljs-function">QLinkedListIterator&lt;QString&gt; <span class="hljs-title">i</span><span class="hljs-params">(list)</span></span>;<br><span class="hljs-keyword">while</span> (i.<span class="hljs-built_in">hasNext</span>()) &#123;<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; i.<span class="hljs-built_in">next</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如果类型名中带有逗号, 比如 <code>QPair&lt;int, int&gt;</code>, 我们只能像上面一样, 先创建一个对象, 然后使用 <code>foreach</code> 关键字; 如果没有逗号, 则可以直接在 <code>foreach</code> 关键字中使用新的对象, 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QLinkedList&lt;QString&gt; list;<br>...<br>foreach (<span class="hljs-type">const</span> QString &amp;str, list) &#123;<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; str;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>Qt 会在 <code>foreach</code> 循环时自动拷贝容器. 这意味着, 如果在遍历时修改集合, 对于正在进行的遍历是没有影响的. 即使不修改容器, 拷贝也是会发生的. 但是由于存在隐式数据共享, 这种拷贝还是非常迅速的. 因为 <code>foreach</code> 创建了集合的拷贝, 使用集合的非 <code>const</code> 引用也不能实际修改原始集合, 所修改的只是这个拷贝.</p>
+<h2 id="隐式数据共享">隐式数据共享</h2>
+<p>Qt 中许多 C++ 类使用了隐式数据共享技术, 来最大化资源利用率和最小化拷贝时的资源消耗. 当作为参数传递时, 具有隐式数据共享的类既安全又高效. 在数据传递时, 实际上只是传递了数据的指针, 而只有在函数发生需要写入的情况时, 数据才会被拷贝 (此时才会为对应的对象分配内存).</p>
+<p>具有数据共享能力的类包含了一个指向共享数据块的指针. 这个数据块包含了数据本身以及数据的引用计数. 当共享对象创建出来时, 引用计数被设置为 1. 当新的对象引用到共享数据时, 引用计数增加; 当对象引用不再引用数据时, 引用计数减少. 当引用计数变为 0 时, 共享数据被删除.</p>
+<p>在我们操作共享数据时, 实际有两种拷贝对象的方法: 我们通常称其为深拷贝和浅拷贝. 深拷贝意味着要重新构造一个全新的对象; 浅拷贝则仅仅复制引用, 也就是上面所说的那个指向共享数据块的指针. 深拷贝对内存和 CPU 资源都是很昂贵的; 浅拷贝则非常快速, 因为它仅仅是设置一个新的指针, 然后将引用计数加 1. 具有隐式数据共享的对象, 其赋值运算符使用的是浅拷贝.</p>
+<p>另外, 从 Qt4 开始, 即使在多线程程序, 隐式数据共享也能正常工作.</p>
+<p>我们也可以使用 <code>QSharedData</code> 和 <code>QSharedDataPointer</code> 类实现自己的隐式数据共享类.</p>
+<p>另外需要注意的是: 对于<code>QList</code>或者<code>QVector</code>, 我们应该使用 <code>at()</code> 函数而不是 [] 操作符进行只读访问. 原因是 [] 操作符既可以是左值又可以是右值, 这让 Qt 容器很难判断到底是左值还是右值, 这意味着无法进行隐式数据共享; 而 <code>at()</code> 函数不能作左值, 因此可以进行隐式数据共享. 对于 <code>begin()</code>、<code>end()</code> 以及其他一些非 <code>const</code> 迭代器, 由于数据可能改变, 因此 Qt 会进行深复制. 为了避免这一点, 要尽可能使用 <code>const_iterator</code>、<code>constBegin()</code> 和 <code>constEnd()</code>.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>QT 学习之路 2（35）：文件: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/01/qt-study-road-2-file/">https://www.devbean.net/2013/01/qt-study-road-2-file/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>QT 学习之路 2（36）：二进制文件读写: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/01/qt-study-road-2-binary-file-io/">https://www.devbean.net/2013/01/qt-study-road-2-binary-file-io/</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>QT 学习之路 2（37）：文本文件读写: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/01/qt-study-road-2-text-file-io/">https://www.devbean.net/2013/01/qt-study-road-2-text-file-io/</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>QT 学习之路 2（38）：存储容器: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/01/qt-study-road-2-containers/">https://www.devbean.net/2013/01/qt-study-road-2-containers/</a>
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:5" class="footnote-text"><span>QT 学习之路 2（39）：遍历容器: <a target="_blank" rel="noopener" href="https://www.devbean.net/2013/01/qt-study-road-2-iterator/">https://www.devbean.net/2013/01/qt-study-road-2-iterator/</a>
+<a href="#fnref:5" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:6" class="footnote-text"><span>QT 学习之路 2（40）：隐式数据共享: <a target="_blank" rel="noopener" href="https://www.bookstack.cn/read/qt-study-road-2/8c3cf33a2df05e85.md">https://www.bookstack.cn/read/qt-study-road-2/8c3cf33a2df05e85.md</a>
+<a href="#fnref:6" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/" class="category-chain-item">QT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QT/" class="print-no-link">#QT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E4%BF%A1%E5%8F%B7%E6%A7%BD/" title="QT 信号槽">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QT 信号槽</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/" title="QT 网络通信">
+                        <span class="hidden-mobile">QT 网络通信</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

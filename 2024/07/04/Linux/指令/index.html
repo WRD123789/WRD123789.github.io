@@ -1,0 +1,1402 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="指令 基本指令 Linux 是以树的结构来管理文件系统的, 其中最顶层的目录 (树的根结点) 称为根目录, 用 ‘&#x2F;’ 表示. 用户的 home 目录是每个用户在系统上的个人工作区. 它通常包含用户的配置文件、文档、下载、桌面文件等. 每个用户都有自己独立的 home 目录, 这样用户的文件和设置就不会互相干扰, 路径一般为 “&#x2F;home&#x2F;username”. man 手册 该手册分为多卷, 各卷">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 指令">
+<meta property="og:url" content="http://example.com/2024/07/04/Linux/%E6%8C%87%E4%BB%A4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="指令 基本指令 Linux 是以树的结构来管理文件系统的, 其中最顶层的目录 (树的根结点) 称为根目录, 用 ‘&#x2F;’ 表示. 用户的 home 目录是每个用户在系统上的个人工作区. 它通常包含用户的配置文件、文档、下载、桌面文件等. 每个用户都有自己独立的 home 目录, 这样用户的文件和设置就不会互相干扰, 路径一般为 “&#x2F;home&#x2F;username”. man 手册 该手册分为多卷, 各卷">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20240626213700.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240629121459.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240629224744.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220923095204.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220923100401.png">
+<meta property="article:published_time" content="2024-07-04T12:07:52.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.564Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20240626213700.png">
+  
+  
+  
+  <title>Linux 指令 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Linux 指令"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:07" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          57 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Linux 指令</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>指令</h1>
+<h2 id="基本指令">基本指令</h2>
+<p>Linux 是以树的结构来管理文件系统的, 其中最顶层的目录 (树的根结点) 称为根目录, 用 ‘/’ 表示. 用户的 home 目录是每个用户在系统上的个人工作区. 它通常包含用户的配置文件、文档、下载、桌面文件等. 每个用户都有自己独立的 home 目录, 这样用户的文件和设置就不会互相干扰, 路径一般为 “/home/username”.</p>
+<h3 id="man-手册">man 手册</h3>
+<p>该手册分为多卷, 各卷内容如下:</p>
+<ol>
+<li>可执行程序或命令</li>
+<li>系统调用</li>
+<li>库调用</li>
+<li>特殊文件 (通常位于 “/dev”)</li>
+<li>文件格式和规范, 如 “/etc/passwd”</li>
+<li>游戏</li>
+<li>杂项</li>
+<li>系统管理命令 (通常只针对 root 用户)</li>
+<li>内核例程 (非标准)</li>
+</ol>
+<p>man 命令的格式如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">man [手册编号] [command]<br></code></pre></td></tr></table></figure>
+<p>进入帮助界面后, 我们可以按下面按键浏览帮助信息:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">d(down):     往下翻半页<br>u(up):       往上翻半页<br>f(forward):  往下翻一整页<br>b(backward): 往上翻一整页<br>q(quit):     退出<br></code></pre></td></tr></table></figure>
+<h3 id="后台处理">后台处理</h3>
+<p>后台处理是指将控制台窗口的指令放到后台运行. 如果以如下方式运行 zombie 可执行文件, 则该程序将在后台运行:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">./zombie &amp;<br></code></pre></td></tr></table></figure>
+<p>此时可以在同一个控制台窗口执行其他的命令.</p>
+<h3 id="关机">关机</h3>
+<p>可以使用 shutdown 命令关机</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">// 格式<br>shutdown [option]<br><br>// 一分钟后关机<br>shutdown<br>	<br>// 立刻关机<br>shutdown now<br></code></pre></td></tr></table></figure>
+<p>其中常用选项如下:</p>
+<ul>
+<li><code>-H</code>, <code>--halt</code>: 挂起</li>
+<li><code>-P</code>, <code>--poweroff</code>: 关机 (默认, 等待一分钟)</li>
+<li><code>-r</code>, <code>--reboot</code>: 重启 (等待一分钟)</li>
+<li><code>-c</code>: 取消</li>
+</ul>
+<h3 id="远程复制">远程复制</h3>
+<p>scp 命令用于上传和下载文件:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	scp [option] SRC DEST<br>		本地路径: 可以用绝对路径, 也可以用相对路径<br>		远程路径: 用户名@IP:路径<br><br>常用选项:<br>	-r<br>		递归复制整个目录<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">scp he@IP:~/text1 .</span><br>	将 he 用户 home 目录下的 text1 文件下载到当前工作目录<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">scp ./file he@IP:~</span><br>	将当前工作目录下的 file 文件上传到 he 用户的 home 目录下<br></code></pre></td></tr></table></figure>
+<h3 id="别名">别名</h3>
+<p>alias 可以用来给命令取别名:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	alias name=&#x27;cmd&#x27;<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">alias</span> ll=<span class="hljs-string">&#x27;ls -l&#x27;</span></span><br>	创建一个别名 ll, 它相当于 ls -l 命令<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">alias</span> grep=<span class="hljs-string">&#x27;grep --color=auto&#x27;</span></span><br>	如果你经常使用 grep 命令并希望它总是显示颜色, 可以创建一个别名 grep<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">alias</span></span><br>	查看当前 shell 中所有定义的别名<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">alias</span> ll</span><br>	使用 alias 命令加别名名称, 可以查看特定别名的定义<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">unalias</span> ll</span><br>	删除别名<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">unalias</span> -a</span><br>	删除所有别名<br></code></pre></td></tr></table></figure>
+<p>临时创建的别名在关闭终端或重新启动后会消失. 要使别名持久化, 可以将别名定义写入到用户的 shell 配置文件中.</p>
+<h2 id="vim">vim</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">vim [file-path]<br></code></pre></td></tr></table></figure>
+<p>vim 的设计理念是<strong>组合</strong>. 例如在 vim 中, “d” 表示删除, “j” 移动到下一行, 组合 “dj” 表示删除当前行和下一行; “^” 表示移动到行首, 所以组合 “d^” 表示删除到行首; “$” 表示移动到行尾, “d$” 表示删除到行尾. 另外, 我们还可以指定命令重复的次数: “dd” 表示删除光标所在行, “2dd” 或 “d2d” 表示连续删除两行, 效果和 “dj” 一致.</p>
+<p>Vim 是一种模式编辑器, 在不同模式下有不同的功能, 最常用的是: 普通 (命令) 模式、插入 (编辑) 模式和视觉模式. 这些模式之间可以相互转换, 如下图所示:</p>
+<p><img src="/img/Pictures/20240626213700.png" srcset="/img/loading.gif" lazyload alt=""><br>
+其中:</p>
+<ul>
+<li>i: 在光标前面插入</li>
+<li>I: 在行首插入</li>
+<li>a: 在光标后面插入</li>
+<li>A: 在行尾插入</li>
+<li>o: 在下面另起一行, 并在行首插入</li>
+<li>O: 在上面另起一行, 并在行首插入</li>
+<li>v: 进入行选模式</li>
+<li>[ctrl] + v: 进入竖选模式</li>
+</ul>
+<h3 id="普通模式">普通模式</h3>
+<p>普通模式又称命令模式, 用来执行各种命令. 而命令又可以分为长命令和短命令:</p>
+<ul>
+<li>长命令: 以 : 开头, 以 [Enter] 结尾的命令. 如, :wq[Enter]</li>
+<li>短命令: 如 a, o, i…</li>
+</ul>
+<h4 id="移动光标">移动光标</h4>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>h</td>
+<td>往左移动一个字符</td>
+</tr>
+<tr>
+<td>j</td>
+<td>往下移动一个字符</td>
+</tr>
+<tr>
+<td>k</td>
+<td>往上移动一个字符</td>
+</tr>
+<tr>
+<td>l</td>
+<td>往右移动一个字符</td>
+</tr>
+<tr>
+<td>[n]-</td>
+<td>往上移动 n 行</td>
+</tr>
+<tr>
+<td>[n]+</td>
+<td>往下移动 n 行</td>
+</tr>
+<tr>
+<td>:n 或 [n]G</td>
+<td>移动到第 n 行</td>
+</tr>
+<tr>
+<td>gg</td>
+<td>移动到文件的第一行</td>
+</tr>
+<tr>
+<td>G</td>
+<td>移动到文件的最后一行</td>
+</tr>
+<tr>
+<td>^</td>
+<td>移动到行首</td>
+</tr>
+<tr>
+<td>$</td>
+<td>移动到行尾</td>
+</tr>
+<tr>
+<td>w</td>
+<td>下一个单词的词首</td>
+</tr>
+<tr>
+<td>b</td>
+<td>上一个单词的词首</td>
+</tr>
+<tr>
+<td>t&lt;character&gt;</td>
+<td>当前行内, 向后查找, 将光标移动到 &lt;character&gt; 的前一个字符</td>
+</tr>
+<tr>
+<td>T&lt;character&gt;</td>
+<td>当前行内, 向前查找, 将光标移动到 &lt;character&gt; 的后一个字符</td>
+</tr>
+<tr>
+<td>f&lt;character&gt;</td>
+<td>当前行内, 向后查找，将光标移动到 &lt;character&gt;</td>
+</tr>
+<tr>
+<td>F&lt;character&gt;</td>
+<td>当前行内, 向前查找，将光标移动到 &lt;character&gt;</td>
+</tr>
+</tbody>
+</table>
+<h4 id="删除文本">删除文本</h4>
+<p>vim 中的删除类似 Windows 中的剪切, 会将删除的文本复制到 vim 的 “剪切板” 中.</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>删除一个字符</td>
+</tr>
+<tr>
+<td>dw</td>
+<td>删除一个单词</td>
+</tr>
+<tr>
+<td>[n]dw 或 d[n]w</td>
+<td>删除 n 个单词</td>
+</tr>
+<tr>
+<td>dd</td>
+<td>删除一行</td>
+</tr>
+<tr>
+<td>[n]dd 或 d[n]d</td>
+<td>删除 n 行</td>
+</tr>
+<tr>
+<td>:[m],[n]d</td>
+<td>删除[m,n]行</td>
+</tr>
+<tr>
+<td>d^</td>
+<td>删除到行首</td>
+</tr>
+<tr>
+<td>d$</td>
+<td>删除到行尾</td>
+</tr>
+<tr>
+<td>dt&lt;character&gt;</td>
+<td>删除到 &lt;character&gt;</td>
+</tr>
+</tbody>
+</table>
+<h4 id="粘贴-撤销和恢复">粘贴, 撤销和恢复</h4>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>p 或 P</td>
+<td>粘贴</td>
+</tr>
+<tr>
+<td>u</td>
+<td>撤销</td>
+</tr>
+<tr>
+<td>[ctrl] + r</td>
+<td>恢复</td>
+</tr>
+</tbody>
+</table>
+<h4 id="复制文本">复制文本</h4>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>yy</td>
+<td>复制一行</td>
+</tr>
+<tr>
+<td>[n]yy 或 y[n]y</td>
+<td>复制 n 行</td>
+</tr>
+<tr>
+<td>:[m],[n]y</td>
+<td>复制[m,n]行</td>
+</tr>
+<tr>
+<td>yw</td>
+<td>复制一个单词</td>
+</tr>
+<tr>
+<td>[n]yw 或 y[n]w</td>
+<td>复制 n 个单词</td>
+</tr>
+<tr>
+<td>yt&lt;character&gt;</td>
+<td>复制到 &lt;character&gt;</td>
+</tr>
+</tbody>
+</table>
+<h4 id="修改文本">修改文本</h4>
+<p>在 vim 中修改操作其实是删除操作和进入编辑模式的组合</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cc 或 S</td>
+<td>删除当前行, 并进入编辑模式</td>
+</tr>
+<tr>
+<td>[n]cc 或 [n]S</td>
+<td>删除 n 行, 并进入编辑模式</td>
+</tr>
+<tr>
+<td>cw</td>
+<td>删除一个单词, 并进入编辑模式</td>
+</tr>
+<tr>
+<td>[n]cw 或 c[n]w</td>
+<td>删除 n 个单词, 并进入编辑模式</td>
+</tr>
+<tr>
+<td>c^</td>
+<td>删除到行首, 并进入编辑模式</td>
+</tr>
+<tr>
+<td>c$</td>
+<td>删除到行尾, 并进入编辑模式</td>
+</tr>
+<tr>
+<td>ct&lt;character&gt;</td>
+<td>删除到 &lt;character&gt;, 并进入编辑模式</td>
+</tr>
+<tr>
+<td>c[n]G</td>
+<td>删除到第 n 行, 并进入编辑模式</td>
+</tr>
+<tr>
+<td>cG</td>
+<td>删除到文件末尾, 并进入编辑模式</td>
+</tr>
+</tbody>
+</table>
+<h4 id="查找">查找</h4>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/&lt;pattern&gt;</td>
+<td>从光标所在位置向后查找匹配 &lt;pattern&gt; 的内容 (如果没找到, 会从顶部向下搜索), 其中 &lt;pattern&gt; 为正则表达式</td>
+</tr>
+<tr>
+<td>?&lt;pattern&gt;</td>
+<td>从光标所在位置向前查找匹配 &lt;pattern&gt; 的内容 (如果没找到, 会从底部向上搜索), 其中 &lt;pattern&gt; 为正则表达式</td>
+</tr>
+<tr>
+<td>n</td>
+<td>移动到下一个匹配项</td>
+</tr>
+<tr>
+<td>N</td>
+<td>移动到上一个匹配项</td>
+</tr>
+</tbody>
+</table>
+<h4 id="替换文本">替换文本</h4>
+<p>格式为:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">:s/&lt;pattern&gt;/&lt;substitute&gt;/&lt;option&gt;<br></code></pre></td></tr></table></figure>
+<p>常用形式如下:</p>
+<ol>
+<li>只替换光标所在行的第一个匹配项: <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">:s/&lt;pattern&gt;/&lt;substitute&gt;<br></code></pre></td></tr></table></figure>
+</li>
+<li>替换光标所在行的所有 (global) 匹配项 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">:s/&lt;pattern&gt;/&lt;substitute&gt;/g<br></code></pre></td></tr></table></figure>
+</li>
+<li>替换 [m, n] 行的所有匹配项 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">:[m,n]s/&lt;pattern&gt;/&lt;substitute&gt;/g<br></code></pre></td></tr></table></figure>
+</li>
+<li>替换全文的所有匹配项 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">:%s/&lt;pattern&gt;/&lt;substitute&gt;/g<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="视图模式">视图模式</h3>
+<p>视图模式是用来选择内容的. 选择内容之后, 我们就可以对其进行复制或删除了. 有两种模式进入视图模式:</p>
+<ul>
+<li>v: 行选模式</li>
+<li>[ctrl] + v: 竖选模式</li>
+</ul>
+<p>常见用法 (批量注释):</p>
+<ol>
+<li>[ctrl] + v 进入竖选模式</li>
+<li>通过 j / k 选择范围</li>
+<li>输入 I</li>
+<li>输入 //</li>
+<li>按下 [Esc]</li>
+</ol>
+<p>另外, 每次启动 vim 时, 都会读取并执行 “~/.vimrc” 中的命令 (rc 指的是 “running command”).</p>
+<h3 id="文件操作">文件操作</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:w</td>
+<td>将 buffer 里面的内容写入文件, 即保存</td>
+</tr>
+<tr>
+<td>:q</td>
+<td>退出</td>
+</tr>
+<tr>
+<td>:q!</td>
+<td>强制退出 (不保存)</td>
+</tr>
+<tr>
+<td>:wq</td>
+<td>保存后退出</td>
+</tr>
+</tbody>
+</table>
+<h3 id="多窗口">多窗口</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:split (:sp) [filename]</td>
+<td>将当前窗口水平分割为两个窗口, 未指定 filename 时, 在新窗口中显示当前正在编辑的文件</td>
+</tr>
+<tr>
+<td>:new [filename]</td>
+<td>将当前窗口水平分割为两个窗口, 未指定 filename 时, 在新窗口中打开一个空的缓冲区</td>
+</tr>
+<tr>
+<td>:vsplit (:vsp) [filename]</td>
+<td>将当前窗口垂直分割为两个窗口, 未指定 filename 时, 在新窗口中显示当前正在编辑的文件</td>
+</tr>
+<tr>
+<td>:vnew [filename]</td>
+<td>将当前窗口垂直分割为两个窗口, 未指定 filename 时, 在新窗口中打开一个空的缓冲区</td>
+</tr>
+<tr>
+<td>[ctrl] + ww</td>
+<td>切换窗口</td>
+</tr>
+<tr>
+<td>:wall</td>
+<td>保存所有修改过的窗口</td>
+</tr>
+<tr>
+<td>:qall</td>
+<td>退出所有窗口</td>
+</tr>
+<tr>
+<td>:only</td>
+<td>保留当前窗口, 关闭所有其它窗口</td>
+</tr>
+</tbody>
+</table>
+<h2 id="用户子系统">用户子系统</h2>
+<p>Linux 用户可以分为: 超级用户 (root) 和普通用户. 超级用户又被称为: 根用户和特权用户. 普通用户又被划分为管理用户和其它用户. 其中管理用户是我们俗称的 sudoers, 他们可以临时提升权限 (使用 sudo 命令), 默认创建的用户即是 sudoers.</p>
+<h3 id="查看所有用户">查看所有用户</h3>
+<p>Linux系统下的所有用户, 在 passwd 配置文件中都有一条相关记录:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">parallels@ubuntu-linux-22-04-02-desktop:~/Desktop$ sudo cat /etc/passwd<br>[sudo] parallels 的密码： <br>root:x:0:0:root:/root:/bin/bash<br>daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin<br>...<br></code></pre></td></tr></table></figure>
+<p>每一行对应一条记录, 每条记录有多个字段, 字段之间以 “:” 分割. 我们可以在 5 号手册中查看, 这些字段分别表示:</p>
+<ul>
+<li>登录名</li>
+<li>可选的加密后的密码</li>
+<li>数字用户 ID</li>
+<li>数字组 ID</li>
+<li>用户名和注释字段</li>
+<li>用户主目录</li>
+<li>可选的用户命令解释器</li>
+</ul>
+<h3 id="添加用户">添加用户</h3>
+<p>可以使用 useradd 命令来添加用户, 格式如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	useradd [option] username<br><br>常用选项:<br>	-m, --create-home<br>		如果不存在, 则创建用户主目录<br>	-s, --shell SHELL<br>		用户的登录 shell 名<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">sudo useradd test1</span><br>	这样创建的用户不会自动创建用户的 home 目录, 默认的 shell 为 sh<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">sudo useradd -m -s /bin/bash test2</span><br>	这样创建的用户会自动创建用户的 home 目录, 并可以指定使用哪个 shell<br></code></pre></td></tr></table></figure>
+<h3 id="删除用户">删除用户</h3>
+<p>可以使用 userdel 命令来删除用户, 格式如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	userdel [option] username<br><br>常用选项:<br>	-r, --remove<br>		删除用户的同时，删除用户的 home 目录及其内容<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">sudo userdel test0</span><br>	这样删除用户, 不会删除用户的 home 目录<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">sudo userdel -r test0</span><br>	这样会删除用户的 home 目录及其中的内容<br></code></pre></td></tr></table></figure>
+<h3 id="设置用户密码">设置用户密码</h3>
+<p>可以使用 passwd 命令来给用户设置密码:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>passwd [option] [username]<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">sudo passwd root</span><br></code></pre></td></tr></table></figure>
+<h3 id="切换用户">切换用户</h3>
+<p>可以使用 su 命令切换到下一个用户, 格式如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>su [option] [username]<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">su</span><br>	切换到 root 用户<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">su test0</span><br>	切换到 test0 用户<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">exit</span></span><br>	退出用户切换<br></code></pre></td></tr></table></figure>
+<p>使用 su 命令依次切换到多个用户时, 这些用户是使用<strong>栈</strong>结构来管理的. 执行 su 命令相当于将用户压入栈顶, 执行 exit 命令相当于将用户弹出栈顶.</p>
+<h2 id="文件子系统">文件子系统</h2>
+<p>在 Linux 中, 我们会将功能相似的文件放到同一个目录下进行管理, 常见目录的功能如下表:</p>
+<table>
+<thead>
+<tr>
+<th>目录名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/bin (binary)</td>
+<td>存放可执行程序或脚本文件</td>
+</tr>
+<tr>
+<td>/sys (system)</td>
+<td>存放和系统相关的文件</td>
+</tr>
+<tr>
+<td>/dev (device)</td>
+<td>存放设备文件</td>
+</tr>
+<tr>
+<td>/etc</td>
+<td>一般用来存放配置文件和启动脚本</td>
+</tr>
+<tr>
+<td>/lib (library)</td>
+<td>存放系统库文件</td>
+</tr>
+<tr>
+<td>/var (variable)</td>
+<td>存放变化很快的文件, 比如日志文件</td>
+</tr>
+<tr>
+<td>/proc (process)</td>
+<td>存放进程相关的数据</td>
+</tr>
+<tr>
+<td>/root</td>
+<td>root 用户的 home 目录</td>
+</tr>
+<tr>
+<td>/home/{username}</td>
+<td>普通用户的 home 目录</td>
+</tr>
+</tbody>
+</table>
+<h3 id="查看当前工作目录">查看当前工作目录</h3>
+<p>pwd (print working directory) 命令可以查看当前工作目录:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">pwd</span></span><br></code></pre></td></tr></table></figure>
+<h3 id="改变当前工作目录">改变当前工作目录</h3>
+<p>cd (change directory) 命令可以改变工作目录:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd [option] [ditectory]<br></code></pre></td></tr></table></figure>
+<p>其中 “.” 表示当前位置, “…” 表示当前位置的上一级目录.</p>
+<h3 id="创建目录">创建目录</h3>
+<p>可以用 mkdir 命令来创建目录:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	mkdir [option] directory<br><br>常用选项:<br>	-p, --parents<br>		如果父目录不存在, 则创建父目录<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">mkdir</span> dir1 dir2 dir3</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">mkdir</span> -p a/b/c</span><br></code></pre></td></tr></table></figure>
+<h3 id="删除空目录">删除空目录</h3>
+<p>rmdir 用来删除空目录:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	rmdir [option] directory<br><br>常用选项:<br>	-p, --parents<br>		递归删除空目录<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">rmdir</span> dir1 dir2 dir3</span><br></code></pre></td></tr></table></figure>
+<h3 id="通配符">通配符</h3>
+<p>通配符, 可以用于匹配单个或多个字符:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">*: 匹配任意多个字符 (包括 0 个)<br>?: 匹配任意一个字符<br>集合: <br>	[characters] 匹配集合内任意一个字符<br>	[!characters] 匹配集合外任意一个字符<br>	如: [abc], [!abc], [0-9], [0-9A-Za-z]<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">rmdir</span> <span class="hljs-built_in">dir</span>*</span><br></code></pre></td></tr></table></figure>
+<h3 id="查看目录内容">查看目录内容</h3>
+<p>ls (list) 命令可以查看目录内容:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	ls [option] [FILE]<br><br>常用选项:<br>	-a, --all<br>		显示所有的内容, 包括以 . 开头的文件和目录<br>	-i, --inode<br>		显示文件的 inode 编号 (inode 是物理文件的标识)<br>	-l<br>		以长格式的形式显示目录中的内容<br>	-h, --human-readable<br>		和 -l 选项一起使用, 以人类可读的方式显示文件的大小<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">ls</span> -a <span class="hljs-built_in">dir</span></span> <br>	查看 dir 中的所有内容, 包括以 . 开头的文件和目录<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">ls</span> -ilh <span class="hljs-built_in">dir</span></span><br>	显示 inode 编号, 显示详细信息, 并以人类可读的方式显示文件大小<br></code></pre></td></tr></table></figure>
+<p>下面是目录项的详细信息:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">parallels@ubuntu-linux-22-04-02-desktop:~/snap$ ls -l<br>总计 4<br>drwxr-xr-x 5 parallels parallels 4096  6月 26 21:53 firefox<br></code></pre></td></tr></table></figure>
+<p>其中:</p>
+<ul>
+<li>第一列的第一个字母表示文件的类型. 普通文件的类型表示如下:  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">d (directory): 目录<br>c (character): 字符设备文件 (鼠标, 键盘, 显示器...)<br>b (block): 块设备文件 (磁盘...)<br>l (symbolic link): 符号链接<br>s (socket): 套接字<br>p (named pipe): 有名管道<br></code></pre></td></tr></table></figure>
+</li>
+<li>第一列后面的 9 个字符 (3 个为一组) 表示权限. 依次表示拥有者、拥有组和其他用户的读 ®、写 (w)、执行 (x) 权限, 没有相关权限时显示 “-”.</li>
+<li>第 2 列表示硬链接数.</li>
+<li>第 3 列表示拥有者.</li>
+<li>第 4 列表示拥有组.</li>
+<li>第 5 列表示文件所占空间的大小.</li>
+<li>第 6 列表示最近修改时间.</li>
+<li>第 7 列是文件名.</li>
+</ul>
+<h3 id="以树状结构显示目录内容">以树状结构显示目录内容</h3>
+<p>tree 命令可以以树状结构显示目录内容:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	tree [option] [directory]<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">tree <span class="hljs-built_in">dir</span></span><br></code></pre></td></tr></table></figure>
+<h3 id="复制文件或目录">复制文件或目录</h3>
+<p>cp (copy) 命令可以用来复制文件和目录:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	cp [option] SOURCE DEST<br><br>常用选项:<br>	-n, --no-clobber<br>		如果文件已存在, 则不覆盖 (默认会覆盖已有文件)<br>	-i, --interactive<br>		如果文件存在, 则给用户提示信息 (由用户决定是否覆盖已有文件)<br>	-R, -r, --recursive<br>		递归复制<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">cp</span> text1 text2</span><br>	将 text1 文件复制到 text2 文件中, 如果 text2 已存在, 则覆盖它<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">cp</span> -n text1 text2 text3 <span class="hljs-built_in">dir</span></span><br>	将 text1, text2, text3 文件复制到目录 dir 中, 如果存在重复的文件, 则不覆盖<br></code></pre></td></tr></table></figure>
+<h3 id="移动文件或目录">移动文件或目录</h3>
+<p>mv (move) 命令可以用来移动文件和目录, 我们也可以用 mv 命令对文件和目录重命名:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	mv [option] SOURCE DEST<br><br>常用选项:<br>	-n, --no-clobber<br>		如果文件已存在, 则不覆盖 (默认会覆盖已有文件)<br>	-i, --interactive<br>		如果文件存在, 则给用户提示信息 (由用户决定是否覆盖已有文件)<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">mv</span> text1 text2</span><br>	将 text1 重命名为 text2, 如果 text2 存在, 则会覆盖<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">mv</span> text1 text2 text3 <span class="hljs-built_in">dir</span></span><br>	将 text1, text2, text3 文件移动到目录 dir 中, 如果文件存在, 则会覆盖<br></code></pre></td></tr></table></figure>
+<h3 id="删除文件和目录">删除文件和目录</h3>
+<p>rm (remove) 命令可以删除文件和目录:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	rm [option] FILE<br><br>常用选项:<br>	-f, --force<br>		忽略不存在的文件，不提示<br>	-i<br>		在每次删除前, 都提示用户是否删除<br>	-r, -R, --recursive<br>		递归删除<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">rm</span> -rf <span class="hljs-built_in">dir</span></span><br>	递归删除目录 dir, 不给出任何提示<br></code></pre></td></tr></table></figure>
+<h3 id="创建文件">创建文件</h3>
+<p>在 Linux 下创建文件的方式有多种, 最常用的是以下三种方式:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">echo</span> TEXT &gt; FILE</span><br>	创建文件 FILE, 并将 TEXT 写入文件中<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">touch</span> FILE</span><br>	创建空文件 FILE<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">vim FILE</span><br>	通过 vim 编辑文件<br></code></pre></td></tr></table></figure>
+<h3 id="查找文件">查找文件</h3>
+<p>使用 <strong>which 命令可以查找可执行程序的路径</strong>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	which [-a] cmd<br><br>选项:<br>	-a<br>		显示所有匹配的路径<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">which</span> bash <span class="hljs-built_in">ls</span></span><br>	查看 bash 和 ls 的路径<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">which</span> -a vim</span><br>	查看 vim 的所有路径 (可能安装了多个版本)<br></code></pre></td></tr></table></figure>
+<p>which 是根据 PATH 环境变量中的路径依次查找的, 然后显示第一个匹配项, 或者显示所有匹配项.</p>
+<p>可以使用 <strong>env 命令查看环境变量</strong>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">...<br>PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin<br></code></pre></td></tr></table></figure>
+<p>find 命令可以在一个目录中<strong>递归地中查找符合指定条件的文件</strong>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	find [start-point] [condition] <br>		省略 start-point 时, 默认起始目录为当前工作目录<br><br>常用选项:<br>	-name pattern<br>		查找文件名符合 pattern 的文件<br>	-type c<br>		查找类型为 c 的文件:<br>			d (directory): 目录<br>			c (character): 字符设备文件 (鼠标, 键盘, 显示器...)<br>			b (block): 块设备文件 (磁盘...)<br>			l (symbolic link): 符号链接<br>			s (socket): 套接字<br>			p (named pipe): 有名管道<br>	-size [SIZE]<br>		SIZE 包含单位:<br>			b: 块, 512 字节<br>			c: 字节<br>			w: 字, 两个字节<br>			k: 千字节, 1024 字节<br>			M: 兆字节, 1024 * 1024 字节<br>			G: 吉字节, 1024 * 1024 * 1024 字节<br>		可以在前面包含 + / - 符号:<br>			n: 表示正好等于 n 个单位的文件大小<br>			+n: 表示大于 n 个单位的文件大小<br>			-n: 表示小于 n 个单位的文件大小<br>	-empty<br>		查找空文件或目录<br>	-user username, -uid uid<br>		根据用户名和用户 id 查找<br>	-group groupname, -gid gid<br>		根据组名和组 id 查找<br>	-perm mode<br>		根据权限查找<br>	-amin n, -atime n, -cmin n, -ctime n, -mmin n, -mtime n<br>		根据时间查找, 其中:<br>			a (access): 文件访问的时间<br>			c (change): 文件属性发生改变的时间<br>			m (modify): 文件内容发生改变的时间<br>			min: 以分钟为单位<br>			time: 以天为单位<br>	-a, -o, !<br>		组合查找, -a (and), -o (or), !(not) 分别表示与、或、非<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">find /usr/include -name <span class="hljs-string">&quot;stdio.h&quot;</span></span> <br>	在 /usr/include 目录中查找 stdio.h 文件<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">find /dev -<span class="hljs-built_in">type</span> b</span><br>	在 /dev 目录中查找所有的块设备文件<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">find . -size +5M</span> <br>	在当前目录中查找所有大于 5M 的文件<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">find dir1 dir2 dir3 -empty</span> <br>	在 dir1, dir2, dir3 目录中查找所有空的文件和目录<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">find . -user he</span> <br>	在当前目录中查找所有 he 用户拥有的文件<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">find . -gid 0</span><br>	在当前目录中查找所有组 id 为 0 的文件<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">find . -perm 664</span><br>	在当前目录中查找所有权限为 664 (rw-rw-r--) 的文件<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">find . -mtime 1</span><br>	在当前目录中查找所有在 [1, 2) 前内容发生修改的文件<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">find . -mtime +2</span><br>	在当前目录中查找所有在 [3, ) 前内容发生修改的文件<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">find /dev -<span class="hljs-built_in">type</span> c -a ! -name <span class="hljs-string">&quot;tty*&quot;</span></span><br>	在 /dev 目录中查找所有不以 tty 开头的字符设备文件<br></code></pre></td></tr></table></figure>
+<h3 id="查看文件内容">查看文件内容</h3>
+<ol>
+<li>使用 cat 命令查看文件: <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	cat [option] [file]...<br><br>常用选项:<br>	-n, --number<br>		对每一行编号<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">cat</span> /etc/passwd</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">cat</span> -n /etc/passwd</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>使用 head 命令查看文件的前几行 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	head [option] [file]<br><br>常用选项:<br>	-n, --lines=[-]NUM<br>		显示前 NUM 行; 若在 NUM 前面添加 - 号, 则显示除了后 NUM 行的所有行 (默认情况下显示前 10 行)<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">head</span> text1</span><br>	显示 text1 的前 10 行<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">head</span> -n 5 text1</span><br>	显示 text1 的前 5 行<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">head</span> -n -5 text1</span><br>	显示除了最后 5 行的所有行<br></code></pre></td></tr></table></figure>
+</li>
+<li>使用 tail 命令查看文件的最后几行 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	tail [option] [file]<br><br>常用选项:<br>	-n, --lines=[+]NUM<br>		显示后 NUM 行; 若在 NUM 前面添加 + 号, 则从第 NUM 开始显示 (默认情况下显示前 10 行)<br>	-F<br>		当文件内容发生变化时, 会同步跟进. 一般用于查看日志文件<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">tail</span> text1</span><br>	显示 text1 的后 10 行<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">tail</span> -n 5 text1</span><br>	显示 text1 的后 5 行<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">tail</span> -n +5 text1</span><br>	从第 5 行开始显示 text1<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">tail</span> -F text1.log</span><br>	显示 text1.log 的后 10 行, 在 text1.log 文件的内容发生改变时会同步跟进<br></code></pre></td></tr></table></figure>
+</li>
+<li>使用 less (more) 单页浏览文件 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	more [option] file<br><br>进入浏览界面后:<br>f (forward)     往后翻一页<br>b (backward)    往前翻一页<br>:n (next)       查看下一个文件<br>:p (previous)   查看上一个文件<br>q (quit)        退出浏览界面<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="比较两个文件">比较两个文件</h3>
+<p>可以使用 diff 比较两个文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">diff [file1-path] [file2-path]<br></code></pre></td></tr></table></figure>
+<p>产生的形式如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs shell">[file1-start], [file1-end][c  / a / d][file2-start], [file2-end]<br>&lt; [file1-content]<br>&lt; [file1-content]<br>...<br><br>---<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">&gt; </span><span class="language-bash">[file2-content]</span><br><span class="hljs-meta prompt_">&gt; </span><span class="language-bash">[file2-content]</span><br>...<br><br>[file1-start], [file1-end][c  / a / d][file2-start], [file2-end]<br>&lt; [file1-content]<br>&lt; [file1-content]<br>...<br><br>---<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">&gt; </span><span class="language-bash">[file2-content]</span><br><span class="hljs-meta prompt_">&gt; </span><span class="language-bash">[file2-content]</span><br>...<br><br></code></pre></td></tr></table></figure>
+<p>其中 c 表示改变, a 表示添加, d 表示删除, 字母两边表示前后两个比较文件的对应行.</p>
+<p>&lt; 后面跟的是左边文件, 即第一个文件对应行的内容; &gt; 后面跟的是右边文件, 即第二个文件对应行的内容.</p>
+<p>例如:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">/home# </span><span class="language-bash">diff --color a.txt b.txt</span><br>1,3c1,2<br>&lt; Hello World<br>&lt; ABCDEFG<br>&lt; hello<br><br>---<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">&gt; </span><span class="language-bash">hello WORLD</span><br><span class="hljs-meta prompt_">&gt; </span><span class="language-bash">abcDEF</span><br><br>5d3<br>&lt; 1111<br><br>6a5<br><span class="hljs-meta prompt_">&gt; </span><span class="language-bash">aaaa</span><br></code></pre></td></tr></table></figure>
+<p>1, 3 表示 a.txt 文件的 1-3 行, 1, 2 表示 b.txt 文件的 1-2 行, 即 a.txt 的 1-3 行变化为 b.txt 的 1-2 行.</p>
+<p>&lt; 后面表示 a.txt 1-3 行的内容, &gt; 后面表示 b.txt 1-2 行的内容.</p>
+<p>5d3 表示 a.txt 第 5 行到 b.txt 第 3 行的位置被删除了.</p>
+<p>6a5 表示 a.txt 第 6 行的位置增加的内容为 b.txt 第 5 行的内容.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">diff --color [file1-path] [file2-path]<br></code></pre></td></tr></table></figure>
+<p>彩色显示模式.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">diff -y [file1-path] [file2-path]<br></code></pre></td></tr></table></figure>
+<p>以两列的形式展示差异.</p>
+<h3 id="重定向">重定向</h3>
+<p>cat, head, tail 等命令经常和重定向一起使用, 比如: tail -n 20 text1 &gt; a.txt. 重定向的示意图如下:<br>
+<img src="/img/Pictures/20240629121459.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<table>
+<thead>
+<tr>
+<th>标准流</th>
+<th>重定向符号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stdin</td>
+<td>&lt;</td>
+</tr>
+<tr>
+<td>stdout</td>
+<td>&gt; (覆盖) 或 &gt;&gt; (追加)</td>
+</tr>
+<tr>
+<td>stderr</td>
+<td>2&gt; (覆盖) 或 2&gt;&gt; (追加)</td>
+</tr>
+</tbody>
+</table>
+<p>另外, “&gt;&amp;” 是一个重定向操作符, 用于将标准输出和标准错误同时重定向到同一个文件或目标.</p>
+<p>示例:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">sort</span> &lt; unsorted_file.txt</span><br>	将 unsorted_file.txt 文件的内容作为输入传递给 sort 命令<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">cat</span> <span class="hljs-built_in">users</span> file1 &gt;&amp; text</span><br>	等价于 `cat users file1 &gt; text 2&gt;&amp;1`, 将 users 和 file1 文件的内容合并, 并将结果和任何可能的错误信息一并重定向到 text 文件<br></code></pre></td></tr></table></figure>
+<h3 id="搜索文件内容">搜索文件内容</h3>
+<p>grep (globally search for a regular expression) 命令用于搜索文件内容, 该命令会按正则表达式去搜索文件:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	grep [option] pattern [file]<br><br>常用选项:<br>	-E, --extended-regexp<br>		使用扩展的正则表达式<br>	-i, --ignore-case<br>		忽略大小写<br>	-v, --invert-match<br>		显示不匹配正则表达式的行<br>	-n, --line-number<br>		显示行号<br>	-c, --count<br>		不显示匹配的行, 显示匹配行的个数<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">grep -nE <span class="hljs-string">&quot;file&quot;</span> file.txt</span><br>	显示 file.txt 文件中包含 &quot;file&quot; 的所有行, 并显示行号<br></code></pre></td></tr></table></figure>
+<h3 id="正则表达式">正则表达式</h3>
+<p>正则表达式语法规则:</p>
+<ol>
+<li>基本单位主要包含: 字符、转义字符、“.” (匹配任意一个字符)、集合 (如, [abc])、(expr).</li>
+<li>操作对象是基本单位, 主要包含两个基本操作:
+<ul>
+<li>连接: “ab”, “[abc]x”, “.txt”</li>
+<li>重复:
+<ul>
+<li>+: 重复至少一次</li>
+<li>?: 重复零次或一次</li>
+<li>*: 重复任意次数</li>
+<li>{m}: 重复 m 次</li>
+<li>{m, n}: 重复 m 到 n 次</li>
+<li>{n, }: 重复至少 n 次</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>指定基本单位出现的位置:
+<ul>
+<li>^: 行首</li>
+<li>$: 行尾</li>
+<li>\&lt;: 词首</li>
+<li>\&gt;: 词尾</li>
+</ul>
+</li>
+</ol>
+<h3 id="命令的组合">命令的组合</h3>
+<p>命令可以以以下三种方式组合:</p>
+<ol>
+<li>先执行 cmd1, 再执行 cmd2 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">cmd1 ; cmd2<br></code></pre></td></tr></table></figure>
+</li>
+<li>将上一个命令的输出作为下一个命令的输入 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">cmd1 | cmd2<br></code></pre></td></tr></table></figure>
+</li>
+<li>使用 xargs. xargs 可以将标准输入中的每一行转换为命令的参数 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">cmd1 | xargs cmd2<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">cat</span> files.txt | xargs <span class="hljs-built_in">rm</span></span><br>	如果 files.txt 包含文件列表 (每行包含一个文件名), 则该命令会删除 files.txt 中列出的所有文件<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="改变文件权限">改变文件权限</h3>
+<p>目录本质就是一个文件. 这个文件的内容是一系列目录项, 在逻辑上, 目录项之间以链表的方式链接:<br>
+<img src="/img/Pictures/20240629224744.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>目录与普通文件的权限有所不同:</p>
+<ul>
+<li>普通文件:
+<ul>
+<li>r: 可读</li>
+<li>w: 可写</li>
+<li>x: 可执行</li>
+</ul>
+</li>
+<li>目录
+<ul>
+<li>r: 可读 (ls)</li>
+<li>w: 可写 (可以在目录中添加和删除文件)</li>
+<li>x: 可执行 (cd, 读写权限依赖于 x 权限)</li>
+</ul>
+</li>
+</ul>
+<p>chmod 命令可以改变文件和目录的权限:</p>
+<ol>
+<li>文字设定法: <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	chmod [ugoa] [+=-] [rwx] file/dir<br>其中:<br>	u: user<br>	g: group<br>	o: other<br>	a: all<br>	+: 添加权限<br>	-: 删除权限<br>	=: 将权限设置为<br></code></pre></td></tr></table></figure>
+</li>
+<li>数字设定法 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	chmod mode file/dir<br>其中:<br>	mode: 3 位八进制数字<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>示例如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">chmod</span> o+w text1</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">chmod</span> u=rwx,g=rx,o=r text1</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">chmod</span> 664 text1</span><br></code></pre></td></tr></table></figure>
+<h3 id="文件创建掩码">文件创建掩码</h3>
+<p>文件和目录在创建的时候都有一个默认的权限, 该权限是由文件创建掩码 umask 决定的.</p>
+<p>可以使用 umask 命令查看当前的文件创建掩码:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">umask</span></span><br>0002<br>	当前的文件创建掩码为 0002<br><br>创建文件和目录后, 查看它们的权限:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">touch</span> text</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">mkdir</span> <span class="hljs-built_in">dir</span></span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">ls</span> -l</span><br>总计 4<br>drwxrwxr-x 2 parallels parallels 4096  6月 30 14:59 dir<br>-rw-rw-r-- 1 parallels parallels    0  6月 30 14:58 text<br></code></pre></td></tr></table></figure>
+<p>可见, 当文件创建掩码为 0002 时, 目录的默认权限为 775, 文件的默认权限为 664.</p>
+<p>如果将文件创建掩码设置为 0023, 再创建目录和文件, 并查看它们的权限:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">umask</span> 0023</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">touch</span> text1</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">mkdir</span> dir1</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">ls</span> -l</span><br>总计 4<br>drwxr-xr-- 2 parallels parallels 4096  6月 30 15:01 dir1<br>-rw-r--r-- 1 parallels parallels    0  6月 30 15:01 text1<br></code></pre></td></tr></table></figure>
+<p>此时, 目录的默认权限为754, 文件的默认权限为 644.</p>
+<h3 id="链接">链接</h3>
+<p>可以使用 ln 命令来创建硬链接和符号链接 (软链接).</p>
+<p><strong>创建硬链接</strong>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">ln</span> text1 h_link</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">ls</span> -li</span><br>总计 0<br>3408589 -rw-r--r-- 2 parallels parallels 0  6月 30 15:01 h_link<br>3408589 -rw-r--r-- 2 parallels parallels 0  6月 30 15:01 text1<br></code></pre></td></tr></table></figure>
+<p>可见 h_link 和 text1 指向同一个文件 (通过 inode 判断), 并且硬链接数从 1 增加到 2. 删 除 text1 或 h_link 只会减少硬链接数, 当硬链接数为 0 的时候, 才会真正删除磁盘上的文件.</p>
+<p><strong>创建软链接</strong>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">ln</span> -s text s_link</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">ls</span> -li</span><br>总计 0<br>3407941 lrwxrwxrwx 1 parallels parallels 4  6月 30 15:10 s_link -&gt; text<br>3407901 -rw-r--r-- 1 parallels parallels 0  6月 30 15:09 text<br></code></pre></td></tr></table></figure>
+<p>可见 text 和 s_link 是指向不同文件的, text 的硬链接数不会发生改变. 删除 text 会导致符号链接 s_link 悬空.</p>
+<h2 id="压缩-解压缩">压缩/解压缩</h2>
+<h3 id="压缩文件">压缩文件</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">zip [zip-file-path] [zipped-file1-path] [zipped-file2-path] ...<br></code></pre></td></tr></table></figure>
+<p>将多个指定路径的文件压缩到指定路径中.</p>
+<h3 id="分卷压缩">分卷压缩</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">zip -s [n k] [zip-file-path] [zipped-file1-path] [zipped-file2-path] ...<br></code></pre></td></tr></table></figure>
+<p>将所有文件整合后根据指定的分卷大小进行拆分.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">zip [zip-file-path] [zipped-file1-path] -s [n k]<br></code></pre></td></tr></table></figure>
+<p>将指定大文件按指定分卷大小进行拆分.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">zip [zip-file-path] --out [new-zip-file-path] -s [n k]<br></code></pre></td></tr></table></figure>
+<p>将指定 zip 文件按指定分卷大小重新分卷.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">zip [options] [zip-file-path] [zipped-file1-path] [zipped-file2-path] ...<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-r</td>
+<td>递归遍历目录, 不用 -r 只会压缩指定目录, 而用 -r 后还会压缩指定目录内的所有文件和文件夹.</td>
+</tr>
+<tr>
+<td>-q</td>
+<td>不显示压缩命令的执行过程</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>删除压缩包中指定文件</td>
+</tr>
+</tbody>
+</table>
+<h3 id="解压缩文件">解压缩文件</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">unzip [file-path]<br></code></pre></td></tr></table></figure>
+<p>解压缩指定路径的文件到<strong>当前路径</strong>.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">unzip [file-path] -d [new-file-path]<br></code></pre></td></tr></table></figure>
+<p>解压缩指定路径的文件到新的路径.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">unzip -v [file-path]<br></code></pre></td></tr></table></figure>
+<p>查看压缩包内容</p>
+<h3 id="gzip-压缩">gzip 压缩</h3>
+<p>gzip 压缩是单独将每个文件压缩而不是将所有文件整合起来压缩.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">gzip [options] [file1-path] [file2-path] ...<br></code></pre></td></tr></table></figure>
+<p><img src="/img/Pictures/20220923095204.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">gzip -rv [directory-path]<br></code></pre></td></tr></table></figure>
+<p>对指定目录下的所有文件进行递归 gzip 压缩.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">gzip -d [file1-path] [file2-path] ...<br></code></pre></td></tr></table></figure>
+<p>对指定文件进行解压缩.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">gzip -rd [directory-path]<br></code></pre></td></tr></table></figure>
+<p>对指定目录下的所有文件进行递归 gzip 解压缩.</p>
+<h3 id="归档">归档</h3>
+<p>我们可以用 tar 命令打包和压缩文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">tar [options] [file1-path] [file2-path] ...<br></code></pre></td></tr></table></figure>
+<p><img src="/img/Pictures/20220923100401.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>示例如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">tar -cvf myarchive.tar mydir/</span><br>	将目录 mydir 打包成 myarchive.tar<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">tar -czvf myarchive.tar.gz mydir/</span><br>	将目录 mydir 打包并压缩成 myarchive.tar.gz<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">tar -xvf myarchive.tar</span><br>	解压 myarchive.tar 到当前目录<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">tar -cvf myarchive.tar file1 file2</span><br>	将多个文件 file1 和 file2 打包成 myarchive.tar<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">tar -tvf myarchive.tar</span><br>	列出归档文件中的内容<br></code></pre></td></tr></table></figure>
+<h2 id="shell-常用快捷键">shell 常用快捷键</h2>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tab</td>
+<td>命令补齐</td>
+</tr>
+<tr>
+<td>Ctrl + A</td>
+<td>将光标移动到最前面</td>
+</tr>
+<tr>
+<td>Ctrl + E</td>
+<td>将光标移动到最后面</td>
+</tr>
+<tr>
+<td>Ctrl + R</td>
+<td>搜索以前的命令</td>
+</tr>
+<tr>
+<td>方向键 ↑/↓</td>
+<td>查看上一条 / 下一条命令</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Linux 基本文件管理: <a target="_blank" rel="noopener" href="https://next.idev365.com/linux/">https://next.idev365.com/linux/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>王道 C++: <a target="_blank" rel="noopener" href="http://home.cskaoyan.com/#/c++/0">http://home.cskaoyan.com/#/c++/0</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/Linux/" class="category-chain-item">Linux</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/Linux/%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BE/" title="编译工具链">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">编译工具链</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/Java/%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="Java 字符串">
+                        <span class="hidden-mobile">Java 字符串</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

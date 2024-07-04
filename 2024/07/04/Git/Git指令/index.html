@@ -1,0 +1,920 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Git 指令   创建存储库  1git init 把当前文件夹变成一个 Git 可以管理的仓库, 这个目录里面的所有文件都可以被 Git 管理, 每个文件的修改&#x2F;删除, Git 都能跟踪, 以便任何时刻都可以追踪历史, 或者在将来某个时刻还可以将文件”还原”, 此操作会产生一个隐藏的 .git 文件夹, 这个文件夹是 Git 用来跟踪管理版本的, 尽量不要修改:    跟踪指定文件  1git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git 指令">
+<meta property="og:url" content="http://example.com/2024/07/04/Git/Git%E6%8C%87%E4%BB%A4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Git 指令   创建存储库  1git init 把当前文件夹变成一个 Git 可以管理的仓库, 这个目录里面的所有文件都可以被 Git 管理, 每个文件的修改&#x2F;删除, Git 都能跟踪, 以便任何时刻都可以追踪历史, 或者在将来某个时刻还可以将文件”还原”, 此操作会产生一个隐藏的 .git 文件夹, 这个文件夹是 Git 用来跟踪管理版本的, 尽量不要修改:    跟踪指定文件  1git">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20220725204056.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220725210102.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220725211202.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220725211918.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220725212054.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220725212719.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220725212956.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220802123911.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220802123950.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220802124028.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220802153600.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220802153753.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220725221349.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220726155422.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220731111716.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220731111755.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220731112114.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220731112145.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220731112338.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220731112419.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220731112505.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220731113337.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220727145014.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220727145035.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220729185015.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220729185106.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220730135547.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220730135622.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220730173201.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220730173233.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220730202150.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220730202236.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220801121006.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220801121203.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220801121249.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220801121311.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220801194727.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220801194753.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220801213234.png">
+<meta property="article:published_time" content="2024-07-04T11:47:55.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.505Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20220725204056.png">
+  
+  
+  
+  <title>Git 指令 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Git 指令"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 19:47" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Git 指令</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>Git 指令</h1>
+<ol>
+<li>
+<p>创建存储库</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git init<br></code></pre></td></tr></table></figure>
+<p>把当前文件夹变成一个 Git 可以管理的仓库, 这个目录里面的所有文件都可以被 Git 管理, 每个文件的修改/删除, Git 都能跟踪, 以便任何时刻都可以追踪历史, 或者在将来某个时刻还可以将文件”还原”, 此操作会产生一个隐藏的 .git 文件夹, 这个文件夹是 Git 用来跟踪管理版本的, <strong>尽量不要修改</strong>:</p>
+<p><img src="/img/Pictures/20220725204056.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>跟踪指定文件</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git add [file-name]<br></code></pre></td></tr></table></figure>
+<p>将当前文件夹内的改变存放到暂存区 (Staging Area).</p>
+<ul>
+<li>将文件 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>∼</mo><msub><mi>A</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">A_1 \sim A_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∼</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 加入暂存区.  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git add A1 A2 ... An<br></code></pre></td></tr></table></figure>
+</li>
+<li>将所有改变的文件加入暂存区.  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs git">git add *<br>git add --all<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="/img/Pictures/20220725210102.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>git add 告诉 Git 需要跟踪哪些文件, 一个文件一旦被跟踪, 后面该文件的任何变化都会被捕捉到.</p>
+<p>注意: <strong>即使一个文件已经被跟踪, 但是如果该文件发生新的变化, 仍然要使用 git add 将其加入暂存区, 因为每次提交都会清除暂存区, 只有暂存区的文件才能被提交.</strong></p>
+</li>
+<li>
+<p>提交</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git commit -m &quot;description&quot;<br></code></pre></td></tr></table></figure>
+<p>将暂存区中的所有文件作为一个块提交, 其中还包含了独一无二的编号 (哈希值), 提交信息的用户, 提交表述和提交时间, 并<strong>清除暂存区的数据</strong>:</p>
+<p><img src="/img/Pictures/20220725211202.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><strong>新的提交是 HEAD 的直接子节点，同时当前分支的指针也会被更新以指向它.</strong></p>
+<ul>
+<li>
+<p>如果当前是第一次提交: 产生一个 master 和 HEAD 指针指向当前提交的版本.</p>
+<p>一般情况下master 指针总是指向 master 分支的最新提交, 当然也可以用命令移动 master 指针, 但是只有 HEAD 指针指向 master 指针时才能在 master 分支上添加新的提交, HEAD 指针通常情况下指向分支名</p>
+<p><img src="/img/Pictures/20220725211918.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此处 HEAD 指针其实是指向 master 指针.</p>
+</li>
+<li>
+<p>如果当前提交不是第一次提交:</p>
+<ol>
+<li>
+<p>克隆最近的提交 (猜测是因为 Git 只存储每次文件的变化, 所以需要比较上一次提交和此次的区别):</p>
+<p><img src="/img/Pictures/20220725212054.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>用暂存区的数据修改新的提交, 并清除暂存区的数据:</p>
+<p><img src="/img/Pictures/20220725212719.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>移动 master 和 HEAD 指针 :</p>
+<p><img src="/img/Pictures/20220725212956.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>其中 commit0 为 commit1 的父节点.</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p>移动 HEAD 指针</p>
+<p>git checkout ID : 通过<strong>移动 HEAD 指针</strong>转移到指定编号 (哈希值) 的提交, 并修改文件夹中的文件使其匹配当前提交, 即 <strong>HEAD 指针控制文件夹中文件的状态 (版本)</strong>.</p>
+<p>ID 本质上是哈希值, 且此处不一定要输入完整的哈希值, 只要提供能够唯一标识提交记录的前几个字符即可.</p>
+<p>git checkout 不会改变提交历史记录.</p>
+<p>注意: <strong>checkout 会对所有因为回滚而改变的文件自动调用 git add</strong></p>
+<p>但某个提交有多个父提交时, 可以通过使用操作符 ^&lt;num&gt;  来选择移动到哪个父提交上, 如果后面不指定数字, 则默认移动到第一个父提交上 (第一个父提交一般指与当前提交在同一分支的父提交).</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220802123911.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>调用命令 git checkout main^ 如下:</p>
+<p><img src="/img/Pictures/20220802123950.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>而调用命令 git checkout main^2 则如下:</p>
+<p><img src="/img/Pictures/20220802124028.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>操作符 “^” 和 相对引用可以链式结合, 即可以连续使用.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220802153600.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>使用命令 git checkout HEAD~^2~2 后如下所示:</p>
+<p><img src="/img/Pictures/20220802153753.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>查看库状态</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git status<br></code></pre></td></tr></table></figure>
+<p>检查当前库中每个文件的状态, 即未跟踪, 未修改,已修改和暂存这四个状态.</p>
+</li>
+<li>
+<p>查看库日志</p>
+<p><strong>查看所有提交过的版本信息</strong></p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git log<br></code></pre></td></tr></table></figure>
+<p>获得当前库的日志, 即所有的提交信息.</p>
+<p><img src="/img/Pictures/20220725221349.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><strong>记录从上到下按时间从近到远排列</strong>.</p>
+<p>–pretty=oneline 参数可以折叠记录, 只保留记录编号和提交说明.</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git log --pretty=oneline<br></code></pre></td></tr></table></figure>
+<p><strong>查看所有的提交过的版本信息 (即使被删除也能够查看)</strong></p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git reflog<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查看提交内容</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git show [commit-name]<br></code></pre></td></tr></table></figure>
+<p>查看对应 ID  的提交的内容:</p>
+<p><img src="/img/Pictures/20220726155422.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>修改提交</p>
+<p>git commit --amend: 修改最新的提交, 这个<strong>新的提交将取代原来旧的提交, 实际上旧的提交仍然存在</strong>.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220731111716.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>使用git commit --amend 后如下:</p>
+<p><img src="/img/Pictures/20220731111755.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>创建分支</p>
+<p><strong>在当前分支之外创建一个分支</strong> (以当前 HEAD 指针所指向的提交为起点):</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git branch [new-branch-name]<br></code></pre></td></tr></table></figure>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220731112114.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>执行完 git branch bugFix 后如下:</p>
+<p><img src="/img/Pictures/20220731112145.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><strong>在指定提交处创建分支</strong>:</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git branch [new-branch-name] [commit-ID]<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>创建并进入分支</p>
+<p>创建一个新的分支并使 HEAD 指针指向该新分支(相当于 branch + checkout):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git checkout -b [new-branch-name] [start-commit-name]<br></code></pre></td></tr></table></figure>
+<p>其中 [start-commit-name] 可以省略, 默认在 HEAD 所指向的提交处创建分支.<br>
+例如:</p>
+<p><img src="/img/Pictures/20220731112338.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>执行完 git checkout -b bugFix 后如下:</p>
+<p><img src="/img/Pictures/20220731112419.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>删除分支</p>
+<p>删除指定的分支:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git branch -d [branch-to-delete]<br></code></pre></td></tr></table></figure>
+<p><strong>不能删除主分支或者 HEAD 当前指向的分支.</strong></p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220731112505.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此时无法删除分支 bugFix, 因为 HEAD 指针指向 bugFix 指针, 而 main 分支是主分支, 所以也无法删除.</p>
+<p>执行完</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs git">git checkout main<br>git branch -d bugFix<br></code></pre></td></tr></table></figure>
+<p>如下:</p>
+<p><img src="/img/Pictures/20220731113337.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>同时, <strong>该删除指令不是真正意义上的删除, 只是删除了指定分支的指针, 而提交没有删除.</strong></p>
+</li>
+<li>
+<p>返回当前所在分支</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git branch -v<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>合并</p>
+<ul>
+<li>merge:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git merge [merged-branch-name]<br></code></pre></td></tr></table></figure>
+<p><strong>注意: 这里的 merge 后面跟的分支的名字是被合并的分支的名字, 即将 [merged-branch-name] 合并到 HEAD 所指向的分支上, 并移动 HEAD 指针指向新的提交</strong></p>
+<p>例如: 将 fixing-ai-heuristics 分支合并到 master 分支上:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs git">git checkout master<br>git merge fixing-ai-heuristics<br></code></pre></td></tr></table></figure>
+<p>合并前:<br>
+<img src="/img/Pictures/20220727145014.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>合并后:<br>
+<img src="/img/Pictures/20220727145035.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此时产生一个新提交 C6, 这个新的提交将两个分支连在一起, 即它有两个父提交, 其中主分支 (master 分支) 上的提交称为它的第一父提交, 副分支 (fixing-ai-heuristics) 上的提交被称为第二父提交, 合并使主分支包含两条分支上的所有提交 (注意: <strong>因为是将副分支合并到主分支, 所以主分支的指针指向新的提交, 而副分支的指针保持不变</strong>)</p>
+<ul>
+<li>线性合并:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git rebase [merge-branch-name] [merged-branch-name]<br></code></pre></td></tr></table></figure>
+<p>注意: 其中 [merged-branch-name] 可以省略, 默认将 HEAD 指针所指向的分支合并到 [merge-branch-name] 中, <strong>[merged-branch-name] 会指向合并后的分支的末尾, 且 HEAD 指针会指向 [merged-branch-name].</strong></p>
+<p>和 merge 合并不同, rebase 是提取一系列的提交记录, 将它们复制到要合并到的分支的末尾, rebase 可以创建更线性的提交历史, 使代码库的提交历史更加清晰.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220729185015.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>使用 git rebase main 后如下:</p>
+<p><img src="/img/Pictures/20220729185106.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>注意到被合并的分支的提交记录依然存在, 且 bugFix 分支的指针发生了改变.</p>
+<p>对比 merge 和 rebase:</p>
+<ul>
+<li>rebase 使你的提交树变得很干净, 即所有的提交都在一条线上.</li>
+<li>rebase 修改了树的提交历史, 而 merge 可以保留树的提交历史.</li>
+</ul>
+</li>
+<li>
+<p>移动分支</p>
+<p>移动分支, 改变指定分支名所指向的提交</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git branch -f [branch-name] [commit-ID]<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>撤销提交</p>
+<ul>
+<li>reset</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git reset [commit-ID]<br></code></pre></td></tr></table></figure>
+<p>将提交记录回退到 ID 所对应的提交.</p>
+<p>注意: <strong>只有 HEAD 指向分支名而不是提交的时候才能用 reset, 且回退的记录并没有被删除.</strong></p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220730135547.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>执行 git reset HEAD~1 后如下:</p>
+<p><img src="/img/Pictures/20220730135622.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>revert</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git revert [commit-ID]<br></code></pre></td></tr></table></figure>
+<p>会在 HEAD 指针所指向的提交后面增加一个新的提交, 该新的提交的内容与指定 ID 的提交的<strong>父节点</strong>的内容相等.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220730173201.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>使用 git revert HEAD 命令后:</p>
+<p><img src="/img/Pictures/20220730173233.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>其中 C2’ 的内容与 C1 的内容一致.</p>
+</li>
+<li>
+<p>复制提交</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git cherry-pick &lt;提交号&gt;...<br></code></pre></td></tr></table></figure>
+<p>将指定的一系列提交复制到 HEAD 指针所指向的提交的后面.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220730202150.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>执行完 git cherry-pick c2 c4 后如下:</p>
+<p><img src="/img/Pictures/20220730202236.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>调整记录</p>
+<p>如果你想要从一系列记录中找到你想要的记录, 且你不清楚你想要的提交记录的哈希值, 可以使用交互式 rebase.</p>
+<p>交互式 rebase 使用带参数 --interactive 的 rebase 命令, 也可以简写成 -i, 即:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git rebase -i/--interactive [start-commit]<br></code></pre></td></tr></table></figure>
+<p>该命令首先会打开一个 UI 界面, 列出从 start-commit 到 HEAD 指针之间的所有提交 (不包含 start-commit), 然后你可以做三件事:</p>
+<ul>
+<li>调整提交记录的顺序.</li>
+<li>删除不想要的提交记录 (通过切换 pick 的状态来完成, 关闭意味着你不想要该提交记录).</li>
+<li>合并提交 (允许你将多个提交记录合并成一个提交记录)<br>
+确认后, 会在 start-commit 处生成一条新的分支, 并将调整后的提交记录复制过去, 然后将 HEAD 指针移到该分支的末端.</li>
+</ul>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220801121006.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>调用命令 git rebase -i HEAD~3</p>
+<p>跳出一个 UI (图中所示只是一个模拟器, 实际的会与该图有所偏差):</p>
+<p><img src="/img/Pictures/20220801121203.png" srcset="/img/loading.gif" lazyload alt=""><br>
+<img src="/img/Pictures/20220801121249.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>调整顺序并切换 pick 状态后确认:</p>
+<p><img src="/img/Pictures/20220801121311.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>标签</p>
+<p>标签可以永久的指向某一个特定的提交记录, 它不会随着新的提交而移动, 也不能在某个标签上修改提交.</p>
+<p>给一个提交设置标签:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git tag [tag-name] [commit-name]<br></code></pre></td></tr></table></figure>
+<p>如果没有指定提交, 即没有指定 commit-name, 则默认给 HEAD 指针指向的提交设置标签.<br>
+例如:</p>
+<p><img src="/img/Pictures/20220801194727.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>执行 git tag v1 c1后:</p>
+<p><img src="/img/Pictures/20220801194753.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>查找最近标签</p>
+<p>描述离指定位置最近的标签:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git describe [ref]<br></code></pre></td></tr></table></figure>
+<p>其中 ref 是提交记录, 如果没有指定, 则默认 HEAD 所指向的提交记录.</p>
+<p>输出结果:</p>
+<ul>
+<li>ref 有标签: 只输出 ref 的标签的名称.</li>
+<li>ref 没有标签: 输出 &lt;tag&gt;_&lt;numCommits&gt;_ g&lt;hash&gt;, 其中 tag 是离 ref 最近的标签, numCommits 是 ref 和 tag 所在的提交记录之间相差多少个提交记录, hash 是你所给定的 ref 所表示的提交记录哈希值的前几位.</li>
+</ul>
+<p><img src="/img/Pictures/20220801213234.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>查看文件修改</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git diff [file-name]<br></code></pre></td></tr></table></figure>
+<p>该命令只能查看文本文件的变化, 例如 txt 文件, 网页, 所有程序的代码等, 而图片, 视频等二进制文件的改变, 只能跟踪文件大小的变化,没办法跟踪文件内容的变化.</p>
+</li>
+</ol>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Learn Git Branching: <a target="_blank" rel="noopener" href="https://learngitbranching.js.org/">https://learngitbranching.js.org/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/Git/" class="category-chain-item">Git</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Git/" class="print-no-link">#Git</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/Java/%E5%8C%85/" title="Java 包">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java 包</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/Git/Git%E4%BB%8B%E7%BB%8D/" title="Git 介绍">
+                        <span class="hidden-mobile">Git 介绍</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

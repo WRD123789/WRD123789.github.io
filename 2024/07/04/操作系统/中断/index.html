@@ -1,0 +1,825 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="中断 中断硬件 中断发生时, 操作系统需要保存当前的工作, 处理中断, 处理完成之后再恢复之前的工作, 这和系统调用、Page Fault 的机制相同. RISC-V 中有很多与中断相关的寄存器:  SIE 寄存器: 这个寄存器中有一位 (E) 专门针对外部设备的中断; 有一位 (S) 专门针对软件中断; 有一位 (T) 专门针对定时器中断. SSTATUS 寄存器: 这个寄存器有一位 (SIE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中断">
+<meta property="og:url" content="http://example.com/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E4%B8%AD%E6%96%AD/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="中断 中断硬件 中断发生时, 操作系统需要保存当前的工作, 处理中断, 处理完成之后再恢复之前的工作, 这和系统调用、Page Fault 的机制相同. RISC-V 中有很多与中断相关的寄存器:  SIE 寄存器: 这个寄存器中有一位 (E) 专门针对外部设备的中断; 有一位 (S) 专门针对软件中断; 有一位 (T) 专门针对定时器中断. SSTATUS 寄存器: 这个寄存器有一位 (SIE">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20230331184424.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230331184646.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230331184911.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230402211749.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230402212017.png">
+<meta property="article:published_time" content="2024-07-04T05:07:41.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="MIT 6.S081">
+<meta property="article:tag" content="操作系统">
+<meta property="article:tag" content="Xv6">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20230331184424.png">
+  
+  
+  
+  <title>中断 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="中断"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 13:07" pubdate>
+          2024年7月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">中断</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>中断</h1>
+<h2 id="中断硬件">中断硬件</h2>
+<p>中断发生时, 操作系统需要保存当前的工作, 处理中断, 处理完成之后再恢复之前的工作, 这和系统调用、Page Fault 的机制相同.</p>
+<p>RISC-V 中有很多与中断相关的寄存器:</p>
+<ul>
+<li>SIE 寄存器: 这个寄存器中有一位 (E) 专门针对外部设备的中断; 有一位 (S) 专门针对软件中断; 有一位 (T) 专门针对定时器中断.</li>
+<li>SSTATUS 寄存器: 这个寄存器有一位 (SIE 位) 来打开或关闭中断.
+<ul>
+<li>每个 CPU 核都有独立的 SIE 和 SSTATUS 寄存器, 除了可以通过 SIE 寄存器来单独控制特定的中断, 还可以用 SSTATUS 寄存器的 SIE 位来控制所有的中断.</li>
+</ul>
+</li>
+<li>SIP 寄存器: 用来表示当前存在哪些可以被处理的中断, 每个中断对应一位, 如果某一位为 1, 表示对应的中断待处理.</li>
+<li>…</li>
+</ul>
+<p>但是中断和系统调用又有些地方不一样, 中断和系统调用主要的区别如下:</p>
+<ul>
+<li>异步. 当硬件生成中断时, Interrupt Handler 与当前运行的进程在 CPU 上没有任何关联, 而系统调用通常发生在运行进程的上下文中.</li>
+<li>并行. 对于中断来说, CPU 和生成中断的设备是并行运行.
+<ul>
+<li>例如网卡自己独立的处理来自网络的 packet, 然后在某个时间点产生中断, 但是同时, CPU 也在运行.</li>
+</ul>
+</li>
+<li>程序设备: 主要关注外部设备, 例如网卡、UART, 而这些设备需要被编程. 每个设备都有一个编程手册, 就像 RISC-V 有一个包含了指令和寄存器的手册一样. 设备的编程手册包含了它有什么样的寄存器, 它能执行什么样的操作, 在读写控制寄存器的时候, 设备会如何响应.</li>
+</ul>
+<p>外部设备的中断主要来自主板上的设备. 下图是一个 SiFive 主板:</p>
+<p><img src="/img/Pictures/20230331184424.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>大量的设备 (以太网卡、MicroUSB、MicroSD等) 连接在或者可以连接到这个主板上.</li>
+<li>主板上的各个线路将外设和 CPU 连接在一起.</li>
+</ul>
+<p>下面是有关 SiFive 处理器的文档, 图中的右侧是各种各样的设备. 类似于读写内存, 通过向相应的设备地址执行 load/store 指令, 就可以完成对相应设备的编程.</p>
+<p><img src="/img/Pictures/20230331184646.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>
+<p>所有的设备都连接到处理器上, 处理器是通过 Platform Level Interrupt Control (PLIC) 处理设备中断. PLIC 会管理来自于外设的中断. 如果我们再进一步深入的查看 PLIC 的结构图:</p>
+<p><img src="/img/Pictures/20230331184911.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>从左上角可以看出, 我们有 53 个不同的来自于设备的中断. 这些中断到达 PLIC 之后, PLIC 会路由这些中断. 图的右边是 CPU 的核, PLIC 会将中断路由到某一个 CPU 的核. 如果所有的 CPU 核都正在处理中断, PLIC 会保留中断直到有一个 CPU 核可以用来处理中断. 所以 PLIC 需要保存一些内部数据来跟踪中断的状态.</li>
+<li>在 Xv6 中 (在其他操作系统中不一定, 这取决于你如何对 PLIC 进行编程), 当某一外设触发中断时, 所有的 CPU 核都能收到中断, 但只有一个 CPU 核会要求接收中断.</li>
+<li>具体流程是:
+<ol>
+<li>PLIC 通知当前有一个待处理的中断.</li>
+<li>其中一个 CPU 核会要求接收中断, 这样 PLIC 就不会把中断发给其他的 CPU 核处理.</li>
+<li>CPU 核处理完中断之后, CPU 会通知 PLIC.</li>
+<li>PLIC 将不再保存中断的信息.</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Xv6-中断设置">Xv6 中断设置</h2>
+<p>在 start (kernel/start.c) 中:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// entry.S jumps here in machine mode on stack0.</span><br><span class="hljs-type">void</span><br><span class="hljs-title function_">start</span><span class="hljs-params">()</span><br>&#123;<br>  <span class="hljs-comment">// set M Previous Privilege mode to Supervisor, for mret.</span><br>  <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> x = r_mstatus();<br>  x &amp;= ~MSTATUS_MPP_MASK;<br>  x |= MSTATUS_MPP_S;<br>  w_mstatus(x);<br><br>  <span class="hljs-comment">// set M Exception Program Counter to main, for mret.</span><br>  <span class="hljs-comment">// requires gcc -mcmodel=medany</span><br>  w_mepc((uint64)main);<br><br>  <span class="hljs-comment">// disable paging for now.</span><br>  w_satp(<span class="hljs-number">0</span>);<br><br>  <span class="hljs-comment">// delegate all interrupts and exceptions to supervisor mode.</span><br>  w_medeleg(<span class="hljs-number">0xffff</span>);<br>  w_mideleg(<span class="hljs-number">0xffff</span>);<br>  w_sie(r_sie() | SIE_SEIE | SIE_STIE | SIE_SSIE);<br><br>  <span class="hljs-comment">// ask for clock interrupts.</span><br>  timerinit();<br><br>  <span class="hljs-comment">// keep each CPU&#x27;s hartid in its tp register, for cpuid().</span><br>  <span class="hljs-type">int</span> id = r_mhartid();<br>  w_tp(id);<br><br>  <span class="hljs-comment">// switch to supervisor mode and jump to main().</span><br>  <span class="hljs-keyword">asm</span> <span class="hljs-title function_">volatile</span><span class="hljs-params">(<span class="hljs-string">&quot;mret&quot;</span>)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>在该函数中完成以下工作:
+<ul>
+<li>将所有的中断都设置在内核模式.</li>
+<li>设置 SIE 寄存器来接收外设中断、软件中断和定时器中断.</li>
+<li>初始化定时器.</li>
+</ul>
+</li>
+</ul>
+<p>在 main (kernel/main.c) 中:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// start() jumps here in supervisor mode on all CPUs.</span><br><span class="hljs-type">void</span><br><span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>  <span class="hljs-keyword">if</span>(cpuid() == <span class="hljs-number">0</span>)&#123;<br>    consoleinit();<br>    printfinit();<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;xv6 kernel is booting\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br>    kinit();         <span class="hljs-comment">// physical page allocator</span><br>    kvminit();       <span class="hljs-comment">// create kernel page table</span><br>    kvminithart();   <span class="hljs-comment">// turn on paging</span><br>    procinit();      <span class="hljs-comment">// process table</span><br>    trapinit();      <span class="hljs-comment">// trap vectors</span><br>    trapinithart();  <span class="hljs-comment">// install kernel trap vector</span><br>    plicinit();      <span class="hljs-comment">// set up interrupt controller</span><br>    plicinithart();  <span class="hljs-comment">// ask PLIC for device interrupts</span><br>    binit();         <span class="hljs-comment">// buffer cache</span><br>    iinit();         <span class="hljs-comment">// inode cache</span><br>    fileinit();      <span class="hljs-comment">// file table</span><br>    virtio_disk_init(); <span class="hljs-comment">// emulated hard disk</span><br>    userinit();      <span class="hljs-comment">// first user process</span><br>    __sync_synchronize();<br>    started = <span class="hljs-number">1</span>;<br>  &#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-keyword">while</span>(started == <span class="hljs-number">0</span>)<br>      ;<br>    __sync_synchronize();<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hart %d starting\n&quot;</span>, cpuid());<br>    kvminithart();    <span class="hljs-comment">// turn on paging</span><br>    trapinithart();   <span class="hljs-comment">// install kernel trap vector</span><br>    plicinithart();   <span class="hljs-comment">// ask PLIC for device interrupts</span><br>  &#125;<br><br>  scheduler();        <br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>首先会进行控制台的初始化, 调用 consoleinit(kernel/console.c) 来完成, consoleinit 调用 uartinit (kernel/uart.c) 来初始化 UART:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span><br><span class="hljs-title function_">uartinit</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>  <span class="hljs-comment">// disable interrupts.</span><br>  WriteReg(IER, <span class="hljs-number">0x00</span>);<br><br>  <span class="hljs-comment">// special mode to set baud rate.</span><br>  WriteReg(LCR, LCR_BAUD_LATCH);<br><br>  <span class="hljs-comment">// LSB for baud rate of 38.4K.</span><br>  WriteReg(<span class="hljs-number">0</span>, <span class="hljs-number">0x03</span>);<br><br>  <span class="hljs-comment">// MSB for baud rate of 38.4K.</span><br>  WriteReg(<span class="hljs-number">1</span>, <span class="hljs-number">0x00</span>);<br><br>  <span class="hljs-comment">// leave set-baud mode,</span><br>  <span class="hljs-comment">// and set word length to 8 bits, no parity.</span><br>  WriteReg(LCR, LCR_EIGHT_BITS);<br><br>  <span class="hljs-comment">// reset and enable FIFOs.</span><br>  WriteReg(FCR, FCR_FIFO_ENABLE | FCR_FIFO_CLEAR);<br><br>  <span class="hljs-comment">// enable transmit and receive interrupts.</span><br>  WriteReg(IER, IER_TX_ENABLE | IER_RX_ENABLE);<br><br>  initlock(&amp;uart_tx_lock, <span class="hljs-string">&quot;uart&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该函数的主要工作是:
+<ul>
+<li>写入相关的控制寄存器.</li>
+<li>配置好传输的波特率 (串口线的传输速率).</li>
+<li>重置 FIFO 缓冲区.</li>
+<li>开启接收中断和发送完成中断.</li>
+</ul>
+</li>
+<li>当 UART 接收到一个字节的输入时, 就会产生接收中断; 当 UART 完成一个字节的发送时, 就会产生发送完成中断.</li>
+</ul>
+</li>
+<li>然后是 PLIC 的初始化:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">//</span><br><span class="hljs-comment">// the riscv Platform Level Interrupt Controller (PLIC).</span><br><span class="hljs-comment">//</span><br><br><span class="hljs-type">void</span><br><span class="hljs-title function_">plicinit</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>  <span class="hljs-comment">// set desired IRQ priorities non-zero (otherwise disabled).</span><br>  *(uint32*)(PLIC + UART0_IRQ*<span class="hljs-number">4</span>) = <span class="hljs-number">1</span>;<br>  *(uint32*)(PLIC + VIRTIO0_IRQ*<span class="hljs-number">4</span>) = <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>PLIC 未初始化, 中断就无法被 CPU 感知到.</li>
+<li>PLIC 与外设一样, 也占用了一个 I/O 地址 (0xC000_0000).</li>
+<li>两行代码实际上是设置了 PLIC 会接收哪些中断, 进而将中断路由到 CPU.
+<ul>
+<li>第一行设置了 PLIC 接收来自 UART 的中断.</li>
+<li>第二行设置了 PLIC 接收来自 I/O 磁盘的中断.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>然后对每个 CPU 核调用 plicinithart:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span><br><span class="hljs-title function_">plicinithart</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>  <span class="hljs-type">int</span> hart = cpuid();<br>  <span class="hljs-comment">// set uart&#x27;s enable bit for this hart&#x27;s S-mode.</span><br>  *(uint32*)PLIC_SENABLE(hart)= (<span class="hljs-number">1</span> &lt;&lt; UART0_IRQ) | (<span class="hljs-number">1</span> &lt;&lt; VIRTIO0_IRQ);<br><br>  <span class="hljs-comment">// set this hart&#x27;s S-mode priority threshold to 0.</span><br>  *(uint32*)PLIC_SPRIORITY(hart) = <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>每个核调用该函数来表示想要接收哪些外设中断.</li>
+<li>由于我们忽略中断的优先级, 所以将优先级设置为 0.</li>
+</ul>
+</li>
+<li>到目前为止, 我们有了生成中断的外部设备, 我们有了 PLIC 可以传递中断到单个 CPU, 但是 CPU 还没设置好接收中断, 因为我们还没设置好 SSTATUS 寄存器, 所以在 main 函数的最后调用 scheduler 函数:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// Per-CPU process scheduler.</span><br><span class="hljs-comment">// Each CPU calls scheduler() after setting itself up.</span><br><span class="hljs-comment">// Scheduler never returns.  It loops, doing:</span><br><span class="hljs-comment">//  - choose a process to run.</span><br><span class="hljs-comment">//  - swtch to start running that process.</span><br><span class="hljs-comment">//  - eventually that process transfers control</span><br><span class="hljs-comment">//    via swtch back to the scheduler.</span><br><span class="hljs-type">void</span><br><span class="hljs-title function_">scheduler</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">proc</span> *<span class="hljs-title">p</span>;</span><br>  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">cpu</span> *<span class="hljs-title">c</span> =</span> mycpu();<br>  c-&gt;proc = <span class="hljs-number">0</span>;<br>  <span class="hljs-keyword">for</span>(;;)&#123;<br>    <span class="hljs-comment">// Avoid deadlock by ensuring that devices can interrupt.</span><br>    intr_on();<br>    <span class="hljs-type">int</span> nproc = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(p = proc; p &lt; &amp;proc[NPROC]; p++) &#123;<br>      acquire(&amp;p-&gt;lock);<br>      <span class="hljs-keyword">if</span>(p-&gt;state != UNUSED) &#123;<br>        nproc++;<br>      &#125;<br>      <span class="hljs-keyword">if</span>(p-&gt;state == RUNNABLE) &#123;<br>        <span class="hljs-comment">// Switch to chosen process.  It is the process&#x27;s job</span><br>        <span class="hljs-comment">// to release its lock and then reacquire it</span><br>        <span class="hljs-comment">// before jumping back to us.</span><br>        p-&gt;state = RUNNING;<br>        c-&gt;proc = p;<br>        swtch(&amp;c-&gt;context, &amp;p-&gt;context);<br><br>        <span class="hljs-comment">// Process is done running for now.</span><br>        <span class="hljs-comment">// It should have changed its p-&gt;state before coming back.</span><br>        c-&gt;proc = <span class="hljs-number">0</span>;<br>      &#125;<br>      release(&amp;p-&gt;lock);<br>    &#125;<br>    <span class="hljs-keyword">if</span>(nproc &lt;= <span class="hljs-number">2</span>) &#123;   <span class="hljs-comment">// only init and sh exist</span><br>      intr_on();<br>      <span class="hljs-keyword">asm</span> <span class="hljs-title function_">volatile</span><span class="hljs-params">(<span class="hljs-string">&quot;wfi&quot;</span>)</span>;<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该函数主要是运行进程, 但是在运行进程之前, 会执行 intr_on 函数来使 CPU 能接收中断:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// enable device interrupts</span><br><span class="hljs-type">static</span> <span class="hljs-keyword">inline</span> <span class="hljs-type">void</span><br><span class="hljs-title function_">intr_on</span><span class="hljs-params">()</span><br>&#123;<br>  w_sstatus(r_sstatus() | SSTATUS_SIE);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该函数设置 SSTATUS 寄存器, 打开中断标志位.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>现在中断已经被完成打开了.</li>
+</ul>
+<h2 id="计时器中断">计时器中断</h2>
+<p>Xv6 使用了计时器中断,    维护计时器的运行,    并且能因此引入基于时间片的进程切换机制. 计时器中断产生时,   首先在机器模式下产生一个软件中断,   提醒内核及时处理计时器到时这一事件; 在后续内核进行user trap 或 kernel trap 的过程中,   如果中断开放,   就能够注意到这一软件中断,   从而执行时间片到期时的相应逻辑事件  (如调度)  .</p>
+<ul>
+<li>计时器中断在<strong>机器模式</strong>下处理,   而不是内核模式. 在 RISC-V 的机器模式下执行时,   页表将被禁用,   而且有专门的一套寄存器  (机器模式下的寄存器以 m 开头命名,   内核模式下的以 s 开头) .计时器中断要在机器模式下执行的因为是:
+<ul>
+<li>在机器模式下, 中断处理程序可以访问所有的物理内存, 包括操作系统的内核地址空间, 从而可以更好地管理系统资源, 并进行更加高效的进程调度和管理.</li>
+<li>在机器模式下, 中断处理程序也可以直接操作硬件设备, 例如计时器和时钟设备等, 从而更加灵活地实现系统的定时、延时等功能.</li>
+<li>在机器模式下, 中断处理程序可以使用一些特殊的机器模式相关寄存器, 例如 sstatus、scause、sepc 等, 这些寄存器能够提供更多的中断信息和调试信息, 方便开发人员进行系统调试和错误处理.</li>
+</ul>
+</li>
+</ul>
+<p>计时器中断来自于硬件的计时器芯片,   每个CPU都有一片,   xv6负责周期性地对这些计时器芯片重新编程,   以重置并开始新一轮计时.</p>
+<p>当 Xv6 刚启动、还处于机器模式时,   就进行了计时器的初始化  (kernel/start.c) :</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// set up to receive timer interrupts in machine mode,  </span><br><span class="hljs-comment">// which arrive at timervec in kernelvec.S,  </span><br><span class="hljs-comment">// which turns them into software interrupts for</span><br><span class="hljs-comment">// devintr ()  in trap.c.</span><br><span class="hljs-type">void</span><br><span class="hljs-title function_">timerinit</span> <span class="hljs-params">()</span> <br>&#123;<br>  <span class="hljs-comment">// each CPU has a separate source of timer interrupts.</span><br>  <span class="hljs-type">int</span> id = r_mhartid () ;<br><br>  <span class="hljs-comment">// ask the CLINT for a timer interrupt.</span><br>  <span class="hljs-type">int</span> interval = <span class="hljs-number">1000000</span>; <span class="hljs-comment">// cycles; about 1/10th second in qemu.</span><br>  * (uint64*) CLINT_MTIMECMP (id)  = * (uint64*) CLINT_MTIME + interval;<br><br>  <span class="hljs-comment">// prepare information in scratch[] for timervec.</span><br>  <span class="hljs-comment">// scratch[0..3] : space for timervec to save registers.</span><br>  <span class="hljs-comment">// scratch[4] : address of CLINT MTIMECMP register.</span><br>  <span class="hljs-comment">// scratch[5] : desired interval  (in cycles)  between timer interrupts.</span><br>  uint64 *scratch = &amp;mscratch0[<span class="hljs-number">32</span> * id];<br>  scratch[<span class="hljs-number">4</span>] = CLINT_MTIMECMP (id) ;<br>  scratch[<span class="hljs-number">5</span>] = interval;<br>  w_mscratch ( (uint64) scratch) ;<br><br>  <span class="hljs-comment">// set the machine-mode trap handler.</span><br>  w_mtvec ( (uint64) timervec) ;<br><br>  <span class="hljs-comment">// enable machine-mode interrupts.</span><br>  w_mstatus (r_mstatus ()  | MSTATUS_MIE) ;<br><br>  <span class="hljs-comment">// enable machine-mode timer interrupts.</span><br>  w_mie (r_mie ()  | MIE_MTIE) ;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该计时器初始化函数的主要工作有:
+<ul>
+<li>对 CLINT 进行编程,   使其在一定时延后产生中断.</li>
+<li>设置类似 Trapframe 的容器 scratch,   用于在机器模式下保存寄存器和 CLINT 的地址.</li>
+<li>设置 mtvec,   使得机器模式的 Trap 能够跳转到 timervec,   并且开放计时器中断.</li>
+</ul>
+</li>
+</ul>
+<p>计时器中断可以在任何时刻发生,  不管是在执行用户或内核代码. 即使内核正在临界区中执行,  也不应该关闭计时器中断.</p>
+<p>时间片到期时,  Xv6 会陷入机器模式,  跳转到我们预先在寄存器 mtvec 中设置好的计时器中断处理程序 timervec 中:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs arm-asm">timervec:<br>        # start.c has set up the memory that mscratch points to:<br>        # scratch[0, 8, 16] : register save area.<br>        # scratch[32] : address of CLINT&#x27;s MTIMECMP register.<br>        # scratch[40] : desired interval between interrupts.<br>        <br>        csrrw a0,  mscratch,  a0<br>        sd a1,  0(a0)<br>        sd a2,  8(a0)<br>        sd a3,  16(a0)<br><br>        # schedule the next timer interrupt<br>        # by adding interval to mtimecmp.<br>        ld a1,  32(a0) # CLINT_MTIMECMP(hart)<br>        ld a2,  40(a0) # interval<br>        ld a3,  0(a1)<br>        add a3,  a3,  a2<br>        sd a3,  0(a1)<br><br>        # raise a supervisor software interrupt.<br>	li a1,  2<br>        csrw sip,  a1<br><br>        ld a3,  16(a0)<br>        ld a2,  8(a0)<br>        ld a1,  0(a0)<br>        csrrw a0,  mscratch,  a0<br><br>        mret<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该汇编函数的主要工作如下:
+<ul>
+<li>保存一些在 Xv6 启动阶段就设置好的机器模式相关的寄存器到 scratch 中.</li>
+<li>设置 CLINT 以便产生下一次计时器中断.</li>
+<li>让 CPU 发出软件中断.</li>
+<li>恢复寄存器并返回.</li>
+</ul>
+</li>
+</ul>
+<p>通过发出软件中断,  CPU 将处理计时器中断的任务交付给了内核,  现在内核可以按照与普通中断相同的 Trap 机制来处理该中断,  显然内核也可以屏蔽该软件中断 (例如当执行类似 acquire 的原子操作时,  要关闭中断) . 处理该软件中断的流程在 devintr 中.</p>
+<h2 id="中断相关的并发">中断相关的并发</h2>
+<p>中断相关的并发包含以下几个方面:</p>
+<ul>
+<li>设备与 CPU 是并行运行的, 这里的并行称为<strong>生产者-消费者模式</strong>.
+<ul>
+<li>例如: 当 UART 向控制台发送字符时, CPU 会返回继续执行 Shell, 此时设备和 CPU 是并行运行的.</li>
+</ul>
+</li>
+<li>驱动的 bottom half 和 top half 部分是并行运行的.
+<ul>
+<li>例如: Shell 会在传输完提示符 “$” 之后再调用 write 系统调用传输空格字符, 代码会走到 UART 驱动的 top half 部分 (注: uartputc函数), 将空格写入到寄存器中; 但是同时在另一个 CPU 核中, 可能正好收到来自于 UART 的中断 (之前发送完 “$” 会触发发送完成中断), 进而执行 UART 驱动的 bottom half 部分, 查看相同的缓冲区.</li>
+</ul>
+</li>
+</ul>
+<p>我们主要关注生产者-消费者模式, 这是驱动中的非常常见的现象:</p>
+<ul>
+<li>
+<p>首先在驱动中会有一个缓冲区, 在该例中, 缓冲区的大小为 32 字节, 并且有两个指针, 分别是读指针和写指针</p>
+<p><img src="/img/Pictures/20230402211749.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>如果两个指针相等, 那么缓冲区是空的.</li>
+</ul>
+</li>
+<li>
+<p>此时用户进程 (例如 Shell) 调用 uartputc 函数, 则会将字符, 例如提示符 ‘$’ 写入到写指针的位置, 并使写指针往后移动一个单位</p>
+<p><img src="/img/Pictures/20230402212017.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>这就是生产者对缓冲区的操作.</li>
+</ul>
+</li>
+<li>
+<p>生产者可以一直写入数据, 直到写指针 + 1 等于读指针时, 此时缓冲区已经满了. 当缓冲区满的时候, 生产者必须停止运行.</p>
+<ul>
+<li>在 uartputc 函数中, 当缓冲区满的时候, 会调用 sleep 让出 CPU.</li>
+</ul>
+</li>
+<li>
+<p>中断处理程序, 也就是 uartintr 函数, 在这种情况下是消费者, 每当有一个中断, 并且读指针落后于写指针, uartintr 函数就会从读指针中读取一个字符再通过 UART 设备发送, 并且将读指针加 1.</p>
+<ul>
+<li>当读指针追上写指针, 也就是两个指针相等时, 缓冲区为空, 此时不用做任何操作.</li>
+</ul>
+</li>
+</ul>
+<h2 id="中断的演进">中断的演进</h2>
+<p>当 Unix 刚被开发出来的时候, Interrupt 处理还是很快的. 这使得硬件可以很简单, 当外设有数据需要处理时, 硬件可以中断 CPU 的执行, 并让 CPU 处理硬件的数据.</p>
+<p>现在, 中断相对处理器来说变慢了. 由于从中断发生到真正的处理中断处理中断数据之间需要很多步骤, 当一个设备在高速的产生中断时, 处理器很难跟上.</p>
+<ul>
+<li>例如: 你有一个千兆网卡, 这个网卡收到了大量的小包, 网卡每秒可以生成 1.5Mpps, 这意味着每一个微秒, CPU 都需要处理一个中断, 这就超过了 CPU 的处理能力.</li>
+</ul>
+<p>这里的解决方法时使用 Polling: 除了依赖于中断, CPU 可以一直读取外设的控制寄存器来检查是否有数据.</p>
+<ul>
+<li>例如: 对于 UART 来说, 我们可以一直读取 RHR 寄存器来检查是否有数据.</li>
+</ul>
+<p>CPU 不停地轮询设备, 直到设备拥有数据, 这减少了处理中断的开销, 但是 CPU 在不停地轮询外设的控制寄存器时并不能运行任何程序.</p>
+<p>所以对于一个慢设备, 不应当采用 Polling 而应当采用中断; 对于一个快设备, 应当采用 Polling 而不应当采用中断.</p>
+<p>对于一些精心设计的驱动, 它们会在 Polling 和中断之间动态切换.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>MIT 6.S081 Operating System Engineering: <a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.S081/2020/schedule.html">https://pdos.csail.mit.edu/6.S081/2020/schedule.html</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>xv6: a simple, Unix-like teaching operating system: <a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.S081/2020/xv6/book-riscv-rev1.pdf">https://pdos.csail.mit.edu/6.S081/2020/xv6/book-riscv-rev1.pdf</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>Chapter 5: Interrupts and Device Drivers: <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/352432393">https://zhuanlan.zhihu.com/p/352432393</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/MIT-6-S081/" class="print-no-link">#MIT 6.S081</a>
+      
+        <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="print-no-link">#操作系统</a>
+      
+        <a href="/tags/Xv6/" class="print-no-link">#Xv6</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Trap/" title="Trap">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Trap</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E9%A1%B5%E8%A1%A8/" title="页表">
+                        <span class="hidden-mobile">页表</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

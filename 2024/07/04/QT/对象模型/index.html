@@ -1,0 +1,635 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="对象模型 标准 C++ 对象模型在运行时效率方面卓有成效, 但是在某些特定问题域下的静态特性就显得捉襟见肘. GUI 界面需要同时具有运行时的效率以及更高级别的灵活性. 为了解决这一问题, Qt “扩展” 了标准 C++. 所谓 “扩展”, 实际是在使用标准 C++ 编译器编译 Qt 源程序之前, Qt 先使用一个叫做 moc (Meta Object Compiler, 元对象编译器) 的工具,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QT 对象模型">
+<meta property="og:url" content="http://example.com/2024/07/04/QT/%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="对象模型 标准 C++ 对象模型在运行时效率方面卓有成效, 但是在某些特定问题域下的静态特性就显得捉襟见肘. GUI 界面需要同时具有运行时的效率以及更高级别的灵活性. 为了解决这一问题, Qt “扩展” 了标准 C++. 所谓 “扩展”, 实际是在使用标准 C++ 编译器编译 Qt 源程序之前, Qt 先使用一个叫做 moc (Meta Object Compiler, 元对象编译器) 的工具,">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-04T12:18:09.000Z">
+<meta property="article:modified_time" content="2024-07-04T12:18:39.586Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="QT">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>QT 对象模型 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QT 对象模型"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:18" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">QT 对象模型</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>对象模型</h1>
+<p>标准 C++ 对象模型在运行时效率方面卓有成效, 但是在某些特定问题域下的静态特性就显得捉襟见肘. GUI 界面需要同时具有运行时的效率以及更高级别的灵活性. 为了解决这一问题, Qt “扩展” 了标准 C++. 所谓 “扩展”, 实际是在使用标准 C++ 编译器编译 Qt 源程序之前, Qt 先使用一个叫做 <strong>moc (Meta Object Compiler, 元对象编译器)</strong> 的工具, 先对 Qt 源代码进行一次预处理 (这个预处理与标准 C++ 的预处理有所不同. <strong>Qt 的 moc 预处理发生在标准 C++ 预处理器工作之前</strong>, 并且 Qt 的 moc 预处理不是递归的), 生成标准 C++ 源代码, 然后再使用标准 C++ 编译器进行编译. 正是因为 moc 的预处理, 即使信号函数没有编写实现代码, 最终也能通过标准 C++ 的编译.</p>
+<p>Qt 使用 moc, 为标准 C++ 增加了一些特性:</p>
+<ul>
+<li>信号槽机制, 用于解决对象之间的通讯.</li>
+<li>可查询, 并且可设计的对象属性.</li>
+<li>强大的事件机制以及事件过滤器.</li>
+<li>基于上下文的字符串翻译机制 (国际化), 也就是 <code>tr()</code> 函数.</li>
+<li>复杂的定时器实现, 用于在事件驱动的 GUI 中嵌入能够精确控制的任务集成.</li>
+<li>层次化的可查询的对象树, 提供一种自然的方式管理对象关系.</li>
+<li>智能指针 (QPointer), 在对象析构之后自动设为 0, 防止产生野指针.</li>
+<li>能够跨越库边界的动态转换机制.</li>
+</ul>
+<p><strong>通过继承 <code>QObject</code> 类, 我们可以很方便地获得这些特性</strong>. 当然, 这些特性都是由 moc 帮助我们实现的. moc 其实实现的是一个叫做<strong>元对象系统 (meta-object system)</strong> 的机制. 正如上面所说, 这是一个标准 C++ 的扩展, 使得标准 C++ 更适合于进行 GUI 编程. <code>QObject</code> 是以对象树的形式组织起来的. 当你创建一个 <code>QObject</code> 对象时, 会看到 <code>QObject</code> 的构造函数接收一个 <code>QObject</code> 指针作为参数, 这个参数就是 parent, 也就是父对象指针. 这相当于, 在创建 <code>QObject</code> 对象时, 可以提供一个其父对象, 我们创建的这个 <code>QObject</code> 对象会自动添加到其父对象的 <code>children()</code> 列表. 当父对象析构的时候, 这个列表中的所有对象也会被析构. (<strong>这里的父对象并不是继承意义上的父类</strong>) 这种机制在 GUI 程序设计中相当有用. 例如, 一个按钮有一个 <code>QShortcut</code> (快捷键) 对象作为其子对象. 当我们删除按钮的时候, 这个快捷键理应被删除.</p>
+<p><code>QWidget</code> 是能够在屏幕上显示的一切组件的父类. <code>QWidget</code> 继承自 <code>QObject</code>, 因此也继承了这种对象树关系.</p>
+<p>当然, 我们也可以自己删除子对象, 它们会自动从其父对象列表中删除. 例如: 当我们删除了一个工具栏时, 其所在的主窗口会自动将该工具栏从其子对象列表中删除, 并且自动调整屏幕显示.</p>
+<p>Qt 引入对象树的概念, 在一定程度上解决了内存问题. 当一个 <code>QObject</code> 对象在堆上创建的时候, Qt 会同时为其创建一个对象树. 不过, 对象树中对象的顺序是没有定义的. 这意味着, 销毁这些对象的顺序也是未定义的. Qt 保证的是: 任何对象树中的 <code>QObject</code> 对象 delete 的时候, 如果这个对象有 parent, 则自动将其从 parent 的 <code>children()</code> 列表中删除; 如果有孩子, 则自动 delete 每一个孩子. Qt 保证没有 <code>QObject</code> 会被 delete 两次, 这是由析构顺序决定的.</p>
+<p>如果 <code>QObject</code> 在栈上创建, Qt 保持同样的行为. 正常情况下, 不会产生问题. 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp">&#123;<br>    QWidget window;<br>    <span class="hljs-function">QPushButton <span class="hljs-title">quit</span><span class="hljs-params">(<span class="hljs-string">&quot;Quit&quot;</span>, &amp;window)</span></span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>作为父组件的 window 和作为子组件的 quit 都是 <code>QObject</code> 的子类 (事实上, 它们都是 <code>QWidget</code> 的子类, 而 <code>QWidget</code> 是 <code>QObject</code> 的子类). 因此, 这段代码是正确的, quit 的析构函数不会被调用两次, <strong>因为标准 C++ 要求, 局部对象的析构顺序应该按照其创建顺序的相反过程</strong>. 因此, 这段代码在超出作用域时, 会先调用 quit 的析构函数, 将其从父对象 window 的子对象列表中删除, 然后才会再调用 window 的析构函数.</p>
+<p>但是, 如果使用下面的代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp">&#123;<br>    <span class="hljs-function">QPushButton <span class="hljs-title">quit</span><span class="hljs-params">(<span class="hljs-string">&quot;Quit&quot;</span>)</span></span>;<br>    QWidget window;<br><br>    quit.<span class="hljs-built_in">setParent</span>(&amp;window);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在上面的代码中, 作为父对象的 window 会首先被析构, 因为它是最后一个创建的对象. 在析构过程中, 它会调用子对象列表中每一个对象的析构函数, 因此 quit 此时就被析构了. 然后 quit 也会被析构, 此时是第二次调用 quit 的析构函数, 因此程序会发生崩溃.</p>
+<p>可见, Qt 的对象树机制虽然帮助我们在一定程度上解决了内存问题, 但是也引入了一些值得注意的事情. 所以, 在 Qt 中, 尽量在构造的时候就指定 parent 对象, 并且大胆在堆上创建对象.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Qt 学习之路 2（10）：对象模型: <a target="_blank" rel="noopener" href="https://www.devbean.net/2012/09/qt-study-road-2-objects-model/">https://www.devbean.net/2012/09/qt-study-road-2-objects-model/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/" class="category-chain-item">QT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QT/" class="print-no-link">#QT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="QT 多线程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QT 多线程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E5%8A%A8%E4%BD%9C/" title="QT 动作">
+                        <span class="hidden-mobile">QT 动作</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

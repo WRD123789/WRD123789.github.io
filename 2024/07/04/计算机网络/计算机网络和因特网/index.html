@@ -1,0 +1,847 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="计算机网络和因特网 因特网 可以从两方面来描述因特网:  因特网的具体构成, 即构成因特网的基本硬件和软件组件 (组成角度). 将其视为为分布式应用提供服务的联网基本设施 (功能角度).  具体构成描述 因特网是一个世界范围的计算机网络, 即它是一个互联了遍及全世界数十亿计算设备的网络. 传统设备 (如桌面 PC、Linux 工作站和服务器)和非传统设备 (如智能手机、平板电脑、电视等) 都被称为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络和因特网">
+<meta property="og:url" content="http://example.com/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%92%8C%E5%9B%A0%E7%89%B9%E7%BD%91/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="计算机网络和因特网 因特网 可以从两方面来描述因特网:  因特网的具体构成, 即构成因特网的基本硬件和软件组件 (组成角度). 将其视为为分布式应用提供服务的联网基本设施 (功能角度).  具体构成描述 因特网是一个世界范围的计算机网络, 即它是一个互联了遍及全世界数十亿计算设备的网络. 传统设备 (如桌面 PC、Linux 工作站和服务器)和非传统设备 (如智能手机、平板电脑、电视等) 都被称为">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20230810202103.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230811162337.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230813140424.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230814194144.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230815163044.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230816143959.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230816171423.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230823203820.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230823203847.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230911201515.png">
+<meta property="article:published_time" content="2024-07-04T05:19:46.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.564Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20230810202103.png">
+  
+  
+  
+  <title>计算机网络和因特网 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="计算机网络和因特网"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 13:19" pubdate>
+          2024年7月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          47 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">计算机网络和因特网</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>计算机网络和因特网</h1>
+<h2 id="因特网">因特网</h2>
+<p>可以从两方面来描述因特网:</p>
+<ol>
+<li>因特网的具体构成, 即构成因特网的基本硬件和软件组件 (组成角度).</li>
+<li>将其视为为分布式应用提供服务的联网基本设施 (功能角度).</li>
+</ol>
+<h3 id="具体构成描述">具体构成描述</h3>
+<p>因特网是一个世界范围的计算机网络, 即它是一个互联了遍及全世界数十亿计算设备的网络.</p>
+<p>传统设备 (如桌面 PC、Linux 工作站和服务器)和非传统设备 (如智能手机、平板电脑、电视等) 都被称为<strong>主机 (host)</strong> 或<strong>端系统 (end system)</strong>.</p>
+<p>端系统通过<strong>通信链路 (communication link)</strong> 和<strong>分组交换机 (packet switch)</strong> 连接在一起.</p>
+<ul>
+<li>通信链路由不同类型的物理媒介 (如同轴电缆、铜线、光纤等) 组成, 不同的链路能够以不同的速率传输数据.</li>
+<li>当一台端系统要向另一台端系统发送数据时, 发送端系统将数据分段, 并为每段加上首部字节. 由此形成的信息包称为<strong>分组</strong>. 这些分组通过网络发送到目的端系统, 在那里被装配成原始数据.</li>
+<li>分组交换机从它的一条入通信链路接收到达的分组, 并从它的一条出通信链路转发该分组. 两种最著名的分组交换机是<strong>路由器 (router)</strong> 和<strong>链路层交换机 (link-layer switch)</strong>. 链路层交换机通常用于接入网中, 而路由器通常用于网络核心中. ^8c266b</li>
+<li>从发送端系统到接收端系统, 一个分组所经历的一系列通信链路和分组交换机称为通过该网络的<strong>路径 (path/route)</strong>.</li>
+</ul>
+<p>端系统通过<strong>因特网服务提供商 (Internet Service Provider, ISP)</strong> 接入因特网.</p>
+<ul>
+<li>ISP 包括本地电缆或电话公司那样的住宅区 ISP、公司 ISP、大学 ISP, 机场、旅馆等公共场所提供 WiFi 接入的 ISP, 以及为智能手机等设备提供移动接入的蜂窝数据 ISP.</li>
+</ul>
+<p>每个 ISP 自身就是一个由多台分组交换机和多段通信链路组成的网络.</p>
+<p>因特网就是将端系统彼此互联, 因此为端系统提供接入的 ISP 必须互联.</p>
+<p><img src="/img/Pictures/20230810202103.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>较低层的 ISP 通过国家的、国际的较高层 ISP 互联起来, 较高层 ISP 是由通过高速光纤链路互联的高速路由器组成的. 无论是较高层还是较低层 ISP 网络, 它们每个都是独立管理的, 运行着 IP 协议, 遵从一定的命名和地址规则.</p>
+<p>端系统、分组交换机和其他因特网部件都要运行一系列<strong>协议 (protocol)</strong>, 这些协议控制因特网中信息的接收和发送. 其中 <strong>TCP (Transmission Control Protocol, 传输控制协议)</strong> 和 <strong>IP (Internet Protocol, 网际协议)</strong> 是因特网中最为重要的两个协议. IP 协议定义了在路由器和端系统之间发送和接收的分组格式. 因特网的主要协议统称为 <strong>TCP/IP</strong>.</p>
+<h3 id="服务描述">服务描述</h3>
+<p>我们也可以从为应用程序提供服务的基础设施的角度来描述因特网.</p>
+<p>涉及多个相互交互数据的端系统的应用程序称为<strong>分布式应用程序 (distributed application)</strong>.</p>
+<ul>
+<li>如电子邮件、即时讯息、多人游戏和视频会议等.</li>
+</ul>
+<p>与因特网相连的端系统提供了一个<strong>套接字接口 (socket interface)</strong>, 该接口规定了运行在一个端系统上的程序请求因特网基础设施向另一个端系统上的特定目的地程序交付数据的方式. 因特网套接字接口是一套发送程序必须遵循的规则集合, 因此因特网能够将数据交付给目的地.</p>
+<p>因特网向应用程序提供了多种服务, 当你研发一种因特网应用程序时, 也必须为你的应用程序选择其中的一种因特网服务.</p>
+<h3 id="协议">协议</h3>
+<p><strong>协议 (protocol)</strong> 定义了在两个或多个通信实体之间交换的报文的格式和顺序, 以及发送报文和接收报文时所采取的动作.</p>
+<p>因特网广泛地使用了协议, 不同的协议用于完成不同的通信任务.</p>
+<ul>
+<li>例如, 当你向一个 Web 服务器发出请求 (即你在 Web 浏览器中键入一个 Web 网页的 URL) 时, 首先你的计算机将向该 Web 服务器发送一条连接请求报文, 并等待回答. 该 Web 服务器如果能接收到连接请求报文, 将返回一条连接响应报文. 得知能正常请求该 Web 网页后, 你的计算机则在一条 GET 报文中发送要从这台 Web 服务器上取回的网页的名字. 最后, Web 服务器向计算机返回该 Web 网页.<br>
+<img src="/img/Pictures/20230811162337.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+<h2 id="网络边缘">网络边缘</h2>
+<p>通常把与因特网相连的计算机和其他设备称为<strong>端系统</strong>, 因为它们位于互联网的边缘.</p>
+<p>端系统有时候也称为<strong>主机</strong>, 因为它们容纳应用程序. 而主机又被划分为两类: <strong>客户 (client)</strong> 和<strong>服务器 (server)</strong>.</p>
+<ul>
+<li>客户通常是桌面 PC、移动 PC 和智能手机等.</li>
+<li>服务器通常是更加强大的机器, 用于存储和发布 Web 页面、流视频、中断电子邮件等. 大部分提供搜索结果、电子邮件、Web 页面和视频的服务器都属于大型<strong>数据中心 (data center)</strong>, 即数据中心是由大量服务器组成的.</li>
+</ul>
+<h3 id="接入网">接入网</h3>
+<p><strong>接入网</strong>是指将端系统物理连接到其<strong>边缘路由器</strong>的网络, 负责将用户设备的数据传输到核心网络或从核心网络传送数据到用户设备.</p>
+<ul>
+<li>边缘路由器是端系统到任何其他远程端系统的路径上的第一台路由器.</li>
+</ul>
+<p>以下是几种类型的接入链路:</p>
+<h4 id="家庭接入-DSL、电缆、FTTH、拨号和卫星">家庭接入: DSL、电缆、FTTH、拨号和卫星</h4>
+<h5 id="DSL-因特网接入">DSL 因特网接入</h5>
+<p>数字用户线 (Digital Subscriber Line) 是宽带住宅接入的最流行类型之一. 住宅通常从提供本地电话接入的本地电话公司处获得 DSL 因特网接入, 此时, 用户的本地电话公司也是它的 ISP.</p>
+<p>如图所示:</p>
+<p><img src="/img/Pictures/20230813140424.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>每个用户的 DSL 调制解调器使用现有的电话线与位于电话公司的本地中心局 (CO) 中的数字用户线接入复用器 (DSLAM) 交换数据.</li>
+<li>在得到用户设备传递的数据信号后, 家庭端的 DSL 调制解调器将其转换为高频音 (模拟信号) 并通过电话线传递给本地中心局.</li>
+<li>最终来自许多家庭的模拟信号在 DSLAM处被重新转换为数字信号.</li>
+</ul>
+<p>此时家庭电话线同时承载了数据和传统的电话信号, 它们用不同的频率进行编码:</p>
+<ul>
+<li>高速下行信道 (<strong>下行指的是数据从网络传输到用户设备</strong>), 位于 50kHz 到 1MHz 频段.</li>
+<li>中速上行信道 (<strong>上行指的是数据从用户设备传输到网络</strong>), 位于 4kHz 到 50kHz 频段.</li>
+<li>普通的双向电话信道, 位于 0 到 4kHz 频段.</li>
+</ul>
+<p>这种方式使得单根 DSL 线路看起来就像有 3 根单独的线路一样, 此时一个电话呼叫和一个因特网连接能够同时共享一条 DSL 链路.</p>
+<p>在 DSL 因特网接入中, 多个用户可以共享同一根电话线, 但是 DSL 通过频分复用等技术将不同用户的数据信号分隔在不同的频段上, 这意味着在 DSL 中, 每个用户的调制解调器接收到的数据信号是特定于他们的设备和频段的, 与其他用户的数据信号是分隔的.</p>
+<p>在家庭一端, 分配器能把到达家庭的数据信号和电话信号分隔开, 并将数据信号转发给 DSL 调制解调器; 在电话公司一端, 本地中心局中的 DSLAM 把数据信号和电话信号分隔开, 并将数据送往因特网.</p>
+<p>DSL 宽带住宅接入在传输过程中分为高速下行信道和中速上行信道, 这种设计考虑了用户在使用互联网时的典型需求和数据流量分布的特点, 原因如下:</p>
+<ol>
+<li>数据流量不对称: 在大多数互联网应用中, 用户通常需要更大的下载带宽, 用于浏览网页、观看视频、下载文件等. 因此, 高速下行信道可以提供更高的带宽, 以满足用户在这些活动中的需求. 相比之下, 上传带宽需求通常较低, 例如上传文件、发送电子邮件等, 因此可以使用中速上行信道满足.</li>
+<li>提供更好的用户体验: 分配不同的带宽给下行和上行信道可以在高峰时段维持更好的服务质量. 在高峰时段, 许多用户可能在同时进行下载等活动, 因此提供高速下行信道可以确保他们获得稳定和高速的连接. 而上传带宽通常不会因为用户活动而受到太大影响.</li>
+<li>DSL 技术特点: DSL 技术的下行和上行传输性能可能不同. 在某些情况下, 下行信号可能能够在电话线上传输更远, 而上行信号可能受到一些限制. 通过分配更高的带宽给下行信道, 可以更好地利用这些特点, 提供更远的覆盖范围.</li>
+<li>成本和资源分配: 在典型的家庭和个人用户中, 下载活动通常更为频繁和密集, 因此在资源分配上倾向于满足这种需求.</li>
+</ol>
+<h5 id="电缆因特网接入">电缆因特网接入</h5>
+<p>电缆因特网接入利用有线电视公司现有的有线电视基础设施. 住宅从提供有线电视的公司获得电缆因特网接入.</p>
+<p>如图所示:</p>
+<p><img src="/img/Pictures/20230814194144.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>光缆将电缆头端连接到地区枢纽, 从这里使用的同轴电缆到达各个家庭.</li>
+<li>电缆因特网接入需要特殊的调制解调器, 这种调制解调器称为电缆调制解调器. 它作为外部设备, 通过一个以太网端口连接家庭 PC.</li>
+<li>在电缆头端, 电缆调制解调器端接系统 (Cable Modem Termination System, CMTS) 将来自许多家庭的模拟信号转换为数字信号.</li>
+<li>电缆调制解调器将网络划分为下行和上行两个信道, 如同 DSL, 下行信道分配的传输速率通常比上行信道的高.</li>
+</ul>
+<p>电缆因特网接入的一个重要特征是<strong>共享广播媒体</strong>. 在电缆因特网接入中, 每个用户的电缆调制解调器会收到相同的广播传输. 这是因为电缆网络的架构类似于共享广播媒体, 其中数据被广播到所有连接到电缆的用户. 尽管每个用户的设备可以识别并提取属于自己的数据, 但实际上, 所有用户在同一时间收到的数据是相同的.</p>
+<h5 id="光纤到户">光纤到户</h5>
+<p>一种提供更高速率的新兴技术是光纤到户 (Fiber To The Home, FTTH). 光纤到户是指从本地中心局直接到家庭提供一条光线路径.</p>
+<p>从本地中心局到家庭有几种光纤分布方案:</p>
+<ul>
+<li>最简单的光纤分布网络称为直接光纤, 即从本地中心局到每个用户设置一条光纤.</li>
+<li>更一般的方案是: 从本地中心局出来的每根光纤由多个家庭共享, 直到接近这些家庭的位置, 该光纤才分成每户一根. 这种分布方案有两种光纤分布体系结构:
+<ul>
+<li>主动光纤网络 (Active Optical Network, AON).</li>
+<li>被动光纤网络 (Passive Optical Network, PON). 使用 PON 分布体系结构的光纤到户如图所示:<br>
+<img src="/img/Pictures/20230815163044.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>每个家庭拥有一个光纤网络端接器 (Optical Network Terminator, ONT), 它由专门的光纤连接到邻近的光纤分配器 (Optical splitter). 该分配器把一些家庭集结到一根共享光纤, 最后连接到中心局的光纤线路端接器 (Optical Line Terminator, OLT).</li>
+<li>OLT 提供光信号和电信号之间的转换, 经过本地电话公司路由器与因特网相连接.</li>
+<li>在家庭中, 用户将一台家用路由器与 ONT 相连, 并经过这台家庭路由器接入因特网.</li>
+<li>在 PON 体系结构中, 所有从 OLT 发送到分配器的分组在分配器处被复制, 并发送给所有的家庭, 即每个家庭的 ONT 接收到的数据是相同的. 当然, ONT 会使用一些技术来确保数据只被特定家庭或用户设备解码并使用, 以保护用户的隐私和数据安全.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="拨号">拨号</h5>
+<p>使用传统电话线的拨号接入与 DSL 基于相同的模式: 家庭的调制解调器经过电话线连接到 ISP 的调制解调器. 与 DSL 和其他宽带接入网相比, 拨号接入的速度比较慢.</p>
+<h5 id="卫星">卫星</h5>
+<p>在无法提供 DSL、电缆和光纤到户的地方, 能够使用卫星链路将住宅与因特网相连.</p>
+<h4 id="企业-和家庭-接入-以太网和-WiFi">企业 (和家庭) 接入: 以太网和 WiFi</h4>
+<h5 id="局域网">局域网</h5>
+<p><strong>局域网 (Local Area Network, LAN)</strong> 是指在相对较小的地理范围内, 连接多台计算机、设备和资源的网络.</p>
+<p>在公司和大学校园中, 使用局域网将端系统连接到边缘路由器.</p>
+<h5 id="以太网">以太网</h5>
+<p><strong>以太网 (Ethernet)</strong> 是一种有线局域网技术. 用于在有限的范围内连接设备.</p>
+<p>如图所示:</p>
+<p><img src="/img/Pictures/20230816143959.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>以太网用户使用双绞铜线与一台以太网交换机相连, 以太网交换机再与更大的因特网相连.</li>
+</ul>
+<h5 id="WiFi">WiFi</h5>
+<p><strong>WiFi</strong> 是一种基于 IEEE 802.11 技术的无线局域网技术, 它允许设备通过无线信号在有限的范围内进行通信和连接.</p>
+<p><strong>无线接入点 (Access Point, AP)</strong> 是一种设备, 它通过无线局域网技术 (如 WiFi) 创建一个无线网络来允许多台无线设备连接到局域网. 无线接入点作为一个中继站, 将无线设备的数据传输转发到有线网络 (如以太网) 中. 无线接入点通常与有线网络连接, 使得无线设备可以通过无线网络连接到互联网或局域网.</p>
+<p>尽管以太网和 WiFi 接入网络最初部署在企业中, 但它们现在也是家庭网络的常见组件. 许多家庭将宽带住宅接入 (即 DSL 因特网接入和电缆因特网接入) 与这些廉价的无线局域网技术相结合, 以创建强大的家庭网络.</p>
+<p>下图是一个典型的家庭网络:</p>
+<p><img src="/img/Pictures/20230816171423.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>这个家庭网络组成如下:</p>
+<ul>
+<li>一台笔记本 (无线 PC)、多台联网家用电器以及一台有线 PC.</li>
+<li>家庭路由器 (不同于网络核心中的路由器, 现在的家庭路由器通常集成了无线接入点的功能), 它用来和家庭中的无线 PC 和其他无线设备进行通信.</li>
+<li>边缘路由器, 用于将家庭路由器和其他有线设备连接到互联网.</li>
+</ul>
+<h4 id="广域无线接入-3G-、LET-4G-和-5G">广域无线接入: 3G 、LET 4G 和 5G</h4>
+<p>iPhone 和 Android 设备采用与蜂窝电话相同的无线基础设施, 通过蜂窝网络提供商操作的基站来发送/接收分组.</p>
+<p>4G 代表第四代移动通信技术, 是一种高速移动网络技术, 用于提供更快的数据传输速度和更稳定的连接, 以满足日益增长的移动通信需求. 4G 技术主要基于 LTE (Long-Term Evolution) 技术标准, 它在数据传输速率、延迟和网络容量方面显著提升了性能.</p>
+<h2 id="物理媒介">物理媒介</h2>
+<p>在计算机网络中, 每个比特从一个端系统出发, 经过一系列 “发射器 - 接收器” (路由器) 对, 到达另一个端系统. 对于每个 “发射器 - 接收器” 对, 通过一种<strong>物理媒介 (physical medium)</strong> 来传输电磁波或光脉冲来发送比特.</p>
+<p>物理媒介可以具有多种形状和形式, 并且对于沿途的每一个 “发射器 - 接收器” 对而言不必具有相同的类型.</p>
+<p>物理媒介分为两种类型:</p>
+<ol>
+<li><strong>导引型媒体 (guided media)</strong>: 电波沿着固体媒介前行.
+<ul>
+<li>如: 光缆、双绞铜线或同轴电缆.</li>
+</ul>
+</li>
+<li><strong>非导引型媒体 (unguided media)</strong>: 电波在空气或外层空间中传播.
+<ul>
+<li>如: 无线局域网、数字卫星频道.</li>
+</ul>
+</li>
+</ol>
+<p>物理链路的实际成本与其他网络成本相比相对较小.</p>
+<h3 id="双绞铜线">双绞铜线</h3>
+<p>最便宜且最常用的导引型传输媒介是双绞铜线, 它一直用于电话网.</p>
+<p>双绞铜线由两根绝缘的铜线组成, 两者以规则的螺旋状排列着. 通常一根电缆由许多双绞线捆扎在一起形成. 其中<strong>无屏蔽双绞线 (Unshielded Twisted Pair, UTP)</strong> 常用在建筑内的计算机网络 (局域网) 中.</p>
+<p><img src="/img/Pictures/20230823203820.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>现在, 双绞线已经成为高速局域网联网的主导性解决方案.</p>
+<p>双绞线也经常用于住宅因特网接入. 如数字用户线技术通过双绞线使住宅用户能够接入因特网.</p>
+<h3 id="同轴电缆">同轴电缆</h3>
+<p>与双绞线类似, 同轴电缆由两个铜导体组成, 但是这两个导体是同心的而不是并行的.</p>
+<p><img src="/img/Pictures/20230823203847.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>借助这种结构以及特殊的绝缘体和保护层, 同轴电缆能够达到较高的数据传输速率.</p>
+<p>同轴电缆能被用作导引型<strong>共享媒体</strong>. 当多个端系统直接与同轴电缆相连时, 每个端系统都能接收到由其他端系统发送的内容.</p>
+<p>同轴电缆也经常用于住宅因特网接入. 如电缆因特网接入通过同轴电缆使住宅用户能够接入因特网.</p>
+<h3 id="光纤">光纤</h3>
+<p>光纤是一种细而柔软的、能够导引光脉冲的媒体, 每个脉冲表示一个比特.</p>
+<p>光纤能够支持极高的比特速率而不受电磁干扰, 光纤信号衰减极低且不易被窃听, 这些特征使<strong>光纤成为长途导引型传输媒介</strong>.</p>
+<p>光纤常被用于长途电话网络, 也被广泛用于因特网的主干. 由于光设备 (如发射器、接收器和交换机) 的成本高, 所以在短途运输中不使用光纤 (如局域网、家庭接入网).</p>
+<h3 id="陆地无线电信道">陆地无线电信道</h3>
+<p>无线电信道承载电磁频谱中的信号. 它<strong>不需要安装物理线路</strong>, 并具有<strong>穿透墙壁</strong>、<strong>提供与移动用户的连接</strong>以及<strong>长距离承载信号</strong>的能力. 这一特性极大地依赖于传播环境和信号传输的距离.</p>
+<p>陆地无线电信道主要分为三类:</p>
+<ol>
+<li>运行在很短的距离 (如 1 米或 2米).
+<ul>
+<li>如: 无线头戴式耳机、无线键盘.</li>
+</ul>
+</li>
+<li>运行在局域, 通常跨越数十到几百米的距离.
+<ul>
+<li>如: 无线局域网技术使用的局域无线电信道.</li>
+</ul>
+</li>
+<li>运行在广域, 通常跨越数万米的距离.
+<ul>
+<li>如: 蜂窝接入技术使用的广域无线电信道.</li>
+</ul>
+</li>
+</ol>
+<h3 id="卫星无线电信道">卫星无线电信道</h3>
+<p>一颗通信卫星通常连接两个或多个地面微波发射器/接收器 (也称为地面站). 卫星在特定的频率上接收地面站发送的信号, 然后通过一个叫做 “中继器” 的设备来重新生成信号, 最后以另一个频率将信号再次发送出去.</p>
+<p>通信中常使用两种卫星: 同步卫星和近地轨道卫星.</p>
+<p>卫星链路通常用于那些无法使用 DSL 或电缆因特网接入的区域.</p>
+<h2 id="网络核心">网络核心</h2>
+<h3 id="分组交换">分组交换</h3>
+<p>在各种网络应用中, 端系统彼此交换<strong>报文</strong>.</p>
+<ul>
+<li>报文可以执行控制功能, 也可以包含数据.</li>
+</ul>
+<p>为了从端系统向目的端系统发送一个报文, 源将较长的报文划分为较小的数据块, 称之为<strong>分组</strong>. 在源和目的地之间, 每个分组都通过通信链路和分组交换机传送.</p>
+<p>分组以等于该链路最大传输速率的速度通过通信链路. 因此, 如果某源端系统或分组交换机通过一条链路发送一个 L 比特的分组, 假设链路的传输速率为 R 比特/秒, 则传输该分组所需的时间为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mi>L</mi><mi>R</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{L}{R}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2173em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8723em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.00773em;">R</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">L</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>.</p>
+<h4 id="存储转发传输">存储转发传输</h4>
+<p>多数分组交换机在链路的输入端使用<strong>存储转发传输</strong>机制. 存储转发传输是指<strong>在交换机能够开始向输出链路传输该分组的第一个比特之前, 必须接收到整个分组</strong>.</p>
+<p>当两个端系统经过一台路由器连接构成的简单网络, 如下所示:</p>
+<p><img src="/img/Pictures/20230911201515.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>假设忽略传播时延, 从源开始发送分组到目的地接收完整的分组所经过的时间的计算过程如下所示:</p>
+<ul>
+<li>源在时刻 0 开始发送分组, 在时刻 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mi>L</mi><mi>R</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{L}{R}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2173em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8723em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.00773em;">R</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">L</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> 秒, 路由器刚好接收到完整分组, 开始向目的地发送分组; 在时刻 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mn>2</mn><mi>L</mi></mrow><mi>R</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{2L}{R}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2173em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8723em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.00773em;">R</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight">L</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> 秒, 路由器已经完整发送分组, 而目的地已经完整接收分组. 所以总时延为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mn>2</mn><mi>L</mi></mrow><mi>R</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{2L}{R}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2173em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8723em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.00773em;">R</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight">L</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>.</li>
+</ul>
+<p>由上述例子可推测一般情况: 通过由 N 条速率均为 R 的链路组成的路径 (此时, 在源和目的地之间有 N - 1 台路由器), 从源到目的地发送一个分组的时延为:</p>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mtext>端到端</mtext></msub><mtext> </mtext><mo>=</mo><mtext> </mtext><mi>N</mi><mo>⋅</mo><mfrac><mi>L</mi><mi>R</mi></mfrac></mrow><annotation encoding="application/x-tex">d_{端到端} \ = \ N \cdot \frac{L}{R}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord cjk_fallback mtight">端到端</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace"> </span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.2173em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8723em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.00773em;">R</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">L</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></li>
+</ul>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>计算机网络: 自顶向下方法 - James, F.Kurose, Keith, W.Ross
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="category-chain-item">计算机网络</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="print-no-link">#计算机网络</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%99%A8-%E6%B1%87%E7%BC%96%E5%99%A8-%E9%93%BE%E6%8E%A5%E5%99%A8%E5%92%8C%E5%8A%A0%E8%BD%BD%E5%99%A8/" title="编译器, 汇编器, 链接器和加载器">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">编译器, 汇编器, 链接器和加载器</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Trap/" title="Trap">
+                        <span class="hidden-mobile">Trap</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

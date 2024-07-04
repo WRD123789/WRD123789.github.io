@@ -1,0 +1,802 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="深入探究文件 I&#x2F;O 原子操作和竞争条件 所有系统调用都是以原子操作的方式执行的, 即内核保证了一个系统调用中的所有步骤一次性执行完成, 期间不会被其他进程或线程中断. 原子性能够规避竞争状态. 竞争状态在操作系统中通常发生在多个线程或进程同时访问和操作同一个共享资源时, 如果没有进行适当的锁定或同步操作, 可能会导致结果的不确定性. 以独占方式创建一个文件 当同时指定 O_EXCL 和 O_CR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入探究文件 I&#x2F;O">
+<meta property="og:url" content="http://example.com/2024/07/04/Linux/Linux-UNIX%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6%E6%96%87%E4%BB%B6IO/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="深入探究文件 I&#x2F;O 原子操作和竞争条件 所有系统调用都是以原子操作的方式执行的, 即内核保证了一个系统调用中的所有步骤一次性执行完成, 期间不会被其他进程或线程中断. 原子性能够规避竞争状态. 竞争状态在操作系统中通常发生在多个线程或进程同时访问和操作同一个共享资源时, 如果没有进行适当的锁定或同步操作, 可能会导致结果的不确定性. 以独占方式创建一个文件 当同时指定 O_EXCL 和 O_CR">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20240606085358.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240606101017.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240607083250.png">
+<meta property="article:published_time" content="2024-07-04T12:11:21.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.564Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Linux&#x2F;UNIX 系统编程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20240606085358.png">
+  
+  
+  
+  <title>深入探究文件 I/O - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="深入探究文件 I/O"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:11" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          51 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">深入探究文件 I/O</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>深入探究文件 I/O</h1>
+<h2 id="原子操作和竞争条件">原子操作和竞争条件</h2>
+<p><strong>所有系统调用都是以原子操作的方式执行的</strong>, 即内核保证了一个系统调用中的所有步骤一次性执行完成, 期间不会被其他进程或线程中断.</p>
+<p>原子性能够规避<strong>竞争状态</strong>. 竞争状态在操作系统中通常发生在多个线程或进程同时访问和操作同一个共享资源时, 如果没有进行适当的锁定或同步操作, 可能会导致结果的不确定性.</p>
+<h3 id="以独占方式创建一个文件">以独占方式创建一个文件</h3>
+<p>当同时指定 <code>O_EXCL</code> 和 <code>O_CREAT</code> 作为 <code>open()</code> 的标志位时, 如果要打开的文件已经存在, 则 <code>open()</code> 将返回一个错误. 这提供了一种机制, 来保证进程是被打开文件的创建者. 其中对文件是否存在的检查和创建文件属于同一原子操作.</p>
+<p>如果不使用 <code>O_EXCL</code>, 则会导致竞争状态, 例如:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c">fd = open(argv[<span class="hljs-number">1</span>], O_WRONLY);    <span class="hljs-comment">/* Open 1: check if file exists */</span><br><span class="hljs-keyword">if</span> (fd != <span class="hljs-number">-1</span>) &#123;            <span class="hljs-comment">/* Open succeeded */</span><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;[PID %ld] File \&quot;%s\&quot; already exists\n&quot;</span>,<br>			(<span class="hljs-type">long</span>) getpid(), argv[<span class="hljs-number">1</span>]);<br>	close(fd);<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>	<span class="hljs-keyword">if</span> (errno != ENOENT) &#123;       <span class="hljs-comment">/* Failed for excepted reason */</span><br>		errExit(<span class="hljs-string">&quot;open&quot;</span>);<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>		<span class="hljs-comment">/* WINDOW FOR FAILURE */</span><br>		fd = open(argv[<span class="hljs-number">1</span>], O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);<br>		<span class="hljs-keyword">if</span> (fd == <span class="hljs-number">-1</span>)<br>			errExit(<span class="hljs-string">&quot;open&quot;</span>);<br><br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;[PID %ld] Created file \&quot;%s\&quot; exclusively\n&quot;</span>,<br>				(<span class="hljs-type">long</span>) getpid(), argv[<span class="hljs-number">1</span>]);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>该代码在多线程/进程环境下可能存在以下问题: 第一次调用 <code>open()</code> 时, 希望打开的文件还不存在, 第二次调用 <code>open()</code> 时, 其他进程已经创建了该文件. 此时, 进程 A 将得出错误的结论: 目标文件是由自己创建的. 因为无论目标文件存在与否, 进程 A 对 <code>open()</code> 的第二次调用都会成功. 整个过程如下图所示:<br>
+<img src="/img/Pictures/20240606085358.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>对于这段代码, 操作的结果将依赖于对两个进程的调度顺序, 这意味着出现了竞争状态.</p>
+<h3 id="向文件尾部追加数据">向文件尾部追加数据</h3>
+<p>想要在文件尾部追加数据, 可能会这样写:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (lseek(fd, <span class="hljs-number">0</span>, SEEK_END) == <span class="hljs-number">-1</span>)<br>	errExit(<span class="hljs-string">&quot;lseek&quot;</span>);<br><span class="hljs-keyword">if</span> (write(fd, buf, len) != len)<br>	fatal(<span class="hljs-string">&quot;Practial/failed write&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>在多线程/进程环境中, 这段代码的问题和上面一样: 如果第一个进程执行完 <code>lseek()</code>、还未执行 <code>write()</code> 时, 被执行相同代码的第二个进程所中断, 那么这两个进程会在写入数据前, 将文件偏移量置于相同位置, 当第一个进程再次被调度时, 会覆盖第二个进程已写入的数据. 此时再次出现了竞争状态, 因为执行的结果依赖于内核对两个进程的调度顺序.</p>
+<p>想要保证文件偏移量的移动和数据写操作以原子操作的方式执行, 可以在打开文件时加入 <code>O_APPEND</code> 标志.</p>
+<h2 id="文件控制操作-fcntl">文件控制操作: fcntl()</h2>
+<p><code>fcntl()</code> 系统调用对一个打开的文件描述符执行一系列控制操作:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">fcntl</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">int</span> cmd, ...)</span>;<br></code></pre></td></tr></table></figure>
+<p>其中 <code>cmd</code> 参数用于指定操作, 第三个参数用省略号表示, 意味着可以将其设置为不同的类型或者省略, 内核会依据 cmd 参数的值来确定该参数的数据类型.</p>
+<h2 id="打开文件的状态标志">打开文件的状态标志</h2>
+<p><code>fcntl()</code> 的用途之一是<strong>针对一个打开的文件, 获取或修改其访问模式和状态标志</strong>. 要获取这些设置, 应该<strong>将 <code>fcntl()</code> 的 <code>cmd</code> 参数设置为 <code>F_GETFL</code></strong>:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> flags, accessMode;<br><br>flags = fcntl(fd, F_GETFL);<br><span class="hljs-keyword">if</span> (flags == <span class="hljs-number">-1</span>)<br>	errExit(<span class="hljs-string">&quot;fcntl&quot;</span>);<br><br><span class="hljs-comment">// 检查文件是否以同步写方式打开</span><br><span class="hljs-keyword">if</span> (flags &amp; O_SYNC)<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;writes are synchronized\n&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>判定文件的访问模式有一点复杂, 这是因为 <code>O_RDONLY(0)</code>、<code>O_WRONLY(1)</code> 和 <code>O_RDWR(2)</code> 这 3 个常量并不与打开文件状态标志中的单个比特位对应. 因此, <strong>要判定访问模式, 需使用掩码 <code>O_ACCMODE</code> 与 <code>flags</code> 相与</strong>, 将结果与 3 个常量对比:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c">accessMode = flags &amp; O_ACCMODE;<br><span class="hljs-keyword">if</span> (accessMode == O_WRONLY || accessMode == O_RDWR)<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;file is writable\n&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p><strong>可以使用 <code>fcntl()</code> 的 <code>F_SETFL</code> 命令来修改打开文件的某些状态标志. 允许更改的标志有 <code>O_APPEND</code>、<code>O_NONBLOCK</code>、<code>O_NOATIME</code>、<code>O_ASYNC</code> 和 <code>O_DIRECT</code></strong>. 系统将忽略对其他标志的修改操作. 一般在如下场景使用该调用:</p>
+<ul>
+<li>文件不是由调用程序打开的, 所以程序无法通过 <code>open()</code> 调用来控制文件的状态标志.</li>
+<li>文件描述符的获取是通过 <code>open()</code> 之外的系统调用.</li>
+</ul>
+<p>为了修改打开文件的状态标志, 可以使用 <code>fcntl()</code> 的 <code>F_GETFL</code> 命令来获取当前标志的副本, 然后修改需要变更的比特位, 最后再调用 <code>fcntl()</code> 函数的 <code>F_SETFL</code> 命令来更新此状态标志. 例如, 想要添加 <code>O_ADDEND</code> 标志, 可以使用以下代码:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> flags;<br><br>flags = fcntl(fd, F_GETFL);<br><span class="hljs-keyword">if</span> (flags == <span class="hljs-number">-1</span>)<br>	errExit(<span class="hljs-string">&quot;fcntl&quot;</span>);<br>flags |= O_ADDEND;<br><span class="hljs-keyword">if</span> (fcntl(fd, F_SETFL, flags) == <span class="hljs-number">-1</span>)<br>	errExit(<span class="hljs-string">&quot;fcntl&quot;</span>);<br></code></pre></td></tr></table></figure>
+<h2 id="文件描述符和打开文件之间的关系">文件描述符和打开文件之间的关系</h2>
+<p>想要了解文件描述符和打开文件之间的具体关系, 需要查看由内核维护的 3 个数据结构:</p>
+<ul>
+<li>进程级的文件描述符表.</li>
+<li>系统级的打开文件表.</li>
+<li>文件系统的 i-node 表.</li>
+</ul>
+<p>针对每个进程, 内核都为其维护了打开文件的文件描述符表. 该表的每一条目都记录了单个文件描述符的相关信息, 如下所示:</p>
+<ul>
+<li>控制文件描述符操作的一组标志 (如 <code>close-on-exec</code> 标志).</li>
+<li>对打开文件句柄的引用.</li>
+</ul>
+<p>内核对所有打开的文件维护有一个系统级的描述表格 (也称作<strong>打开文件表</strong>), 并将表中各条目称为<strong>打开文件句柄</strong>. 一个打开文件句柄存储了与一个打开文件相关的全部信息, 如下所示:</p>
+<ul>
+<li>当前文件偏移量.</li>
+<li>打开文件时所使用的状态标志.</li>
+<li>文件访问模式.</li>
+<li>与信号驱动 I/O 相关的设置.</li>
+<li>对该文件 i-node 对象的引用.</li>
+</ul>
+<p>每个文件系统都会为驻留其上的所有文件建立一个 i-node 表, 一个文件的 i-node 信息如下:</p>
+<ul>
+<li>文件类型和访问权限.</li>
+<li>一个指针, 指向该文件所持有的锁的列表.</li>
+<li>文件的各种属性, 包括文件大小以及与不同类型操作相关的时间戳.</li>
+</ul>
+<p>磁盘上的 i-node 记录了文件的固有属性, 例如: 文件类型、访问权限和时间戳. 访问一个文件时, 会在内存中为 i-node 创建一个副本, 其中记录了引用该 i-node 的打开文件句柄数量以及该 i-node 所在设备的主、从设备号, 还包括一些打开文件时与文件相关的临时属性, 如: 文件锁.</p>
+<p>下图展示了文件描述符、打开的文件句柄以及 i-node 之间的关系:<br>
+<img src="/img/Pictures/20240606101017.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>在进程 A 中, 文件描述符 1 和 20 都指向同一个打开的文件句柄 (标号为 23). 这可能是通过调用 <code>dup()</code>、<code>dup2()</code> 或 <code>fcntl()</code> 形成的.  此时它们将共享同一文件偏移量.</li>
+<li>进程 A 的文件描述符 2 和进程 B 的文件描述符 2 都指向同一个打开的文件句柄 (标号为 73). 这种情形可能在调用 <code>fork()</code> 后或者当某进程通过 UNIX 域套接字将一个打开的文件描述符传递给另一进程时出现.</li>
+<li>进程 A 的描述符 0 和进程 B 的描述符 3 分别指向不同的打开文件句柄, 但这些句柄指向 i-node 表中的相同条目 (1976), 这可能是因为两个进程对同一个文件发起了 <code>open()</code> 调用</li>
+</ul>
+<h2 id="复制文件描述符">复制文件描述符</h2>
+<p>Bourne shell 的 I/O 重定向语法 <code>2&gt;&amp;1</code>, 意在通知 shell 把标准错误 (文件描述符 2) 重定向到标准输出 (文件描述符 1). 下面的指令能够把标准输出和标准错误写入 result.log 文件中:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">./myscript &gt; result.log 2&gt;&amp;1<br></code></pre></td></tr></table></figure>
+<p>shell 通过将文件描述符 1 复制给文件描述符 2 实现了标准错误的重定向, 此时文件描述符 2 与文件描述符 1 指向同一个打开文件句柄. 可以通过调用 <code>dup()</code>和 <code>dup2()</code> 来实现此功能.</p>
+<p><strong><code>dup()</code> 调用复制一个打开的文件描述符 <code>oldfd</code>, 并返回一个新描述符, 二者都指向同一个打开的文件句柄</strong>. 系统会保证新描述符一定是编号最小的未用文件描述符:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">dup</span><span class="hljs-params">(<span class="hljs-type">int</span> oldfd)</span>;<br></code></pre></td></tr></table></figure>
+<p><strong>如果想要获取指定的文件描述符, 可以使用 <code>dup2()</code></strong>:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">dup2</span><span class="hljs-params">(<span class="hljs-type">int</span> oldfd, <span class="hljs-type">int</span> newfd)</span>;<br></code></pre></td></tr></table></figure>
+<p><code>dup2()</code> 系统调用会为 <code>oldfd</code> 参数所指定的文件描述符创建副本, 其编号由 <code>newfd</code> 参数指定. 如果 <code>newfd</code> 参数指定的文件描述符已经打开, 那么 <code>dup2()</code> 首先会将其关闭. (<code>dup2()</code> 调用会忽略 <code>newfd</code> 关闭期间出现的任何错误. 因此, 更安全的做法是: 在调用 <code>dup2()</code> 之前, 先判断 <code>newfd</code> 是否已经打开, 若打开则应显式调用 <code>close()</code> 将其关闭.</p>
+<p>如果 <code>oldfd</code> 并非有效的文件描述符, 那么 <code>dup2()</code> 调用将失败并返回错误 <code>EBADF</code>; 如果 <code>oldfd</code> 有效, 且与 <code>newfd</code> 值相等, 那么 <code>dup2()</code> 将直接返回结果.</p>
+<p><code>fcntl()</code> 的 <code>F_DUPFD</code> 操作是复制文件描述符的另一接口:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">newfd = fcntl(old, F_DUPFD, startfd);<br></code></pre></td></tr></table></figure>
+<p><strong>该调用为 <code>oldfd</code> 创建一个副本, 且将使用大于等于 <code>startfd</code> 的最小未用值作为描述符编号</strong>. 需要注意的是, <code>dup2()</code> 和 <code>fcntl()</code> 二者返回的 <code>errno</code> 错误码存在一些差别.</p>
+<p><strong><code>dup3()</code> 系统调用完成的工作与 <code>dup2()</code> 相同, 只是新增了一个附加参数 <code>flags</code>, 这是一个可以修改系统调用行为的位掩码</strong>:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> _GNU_SOURCE</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">dup3</span><span class="hljs-params">(<span class="hljs-type">int</span> oldfd, <span class="hljs-type">int</span> newfd, <span class="hljs-type">int</span> flags)</span>;<br></code></pre></td></tr></table></figure>
+<p>目前, <code>dup3()</code> 只支持一个标志 <code>O_CLOEXEC</code>, 这将促使内核为新文件描述符设置 <code>close-on-exec</code> 标志.</p>
+<p><strong>Linux 从 2.6.24 开始支持 <code>fcntl()</code> 用于复制文件描述符的附加命令: <code>F_DUPFD_CLOEXEC</code></strong>.  该标志不仅实现了与 <code>F_DUPFD</code> 相同的功能, 还为新文件描述符设置 <code>close-on-exec</code> 标志.</p>
+<h2 id="在文件特定偏移量处的-I-O">在文件特定偏移量处的 I/O</h2>
+<p>系统调用 <code>pread()</code> 和 <code>pwrite()</code> 完成与 <code>read()</code> 和 <code>write()</code> 相类似的工作, 只是它们<strong>会在 <code>offset</code> 参数所指定的位置</strong>进行文件 I/O 操作, 并且它们<strong>不会改变文件的当前偏移量</strong>:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">pread</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">void</span> *buf, <span class="hljs-type">size_t</span> count, <span class="hljs-type">off_t</span> offset)</span>;<br><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">pwrite</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">const</span> <span class="hljs-type">void</span> *buf, <span class="hljs-type">size_t</span> count, <span class="hljs-type">off_t</span> offset)</span>;<br></code></pre></td></tr></table></figure>
+<p><code>pread()</code> 调用相当于将如下调用纳入原子操作:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">off_t</span> orig;<br><br>orig = lseek(fd, <span class="hljs-number">0</span>, SEEK_CUR);<br>lseek(fd, offset, SEEK_SET);<br>s = read(fd, buf, len);<br>lseek(fd, orig, SEEK_SET);<br></code></pre></td></tr></table></figure>
+<p>该系统调用在多线程环境下有着重要的作用. 同一进程下的所有线程共享同一文件描述符表, 这意味着每个已打开文件的文件偏移量被所有线程所共享. 当调用 <code>pread()</code> 或 <code>pwrite()</code> 时, 多个线程可以同时对同一文件描述符执行 I/O 操作, 而不会影响其他线程或受到其他线程影响.</p>
+<h2 id="分散输入和集中输出">分散输入和集中输出</h2>
+<p><code>readv()</code> 和 <code>writev()</code> 系统调用分别实现了分散输入和集中输出的功能:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/uio.h&gt;</span></span><br><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">readv</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> iovec *iov, <span class="hljs-type">int</span> iovcnt)</span>;<br><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">writev</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> iovec *iov, <span class="hljs-type">int</span> iovcnt)</span>;<br></code></pre></td></tr></table></figure>
+<p><strong>这些系统调用并非只对单个缓冲区进行读写操作, 而是一次即可传输多个缓冲区的数据</strong> (这两个系统调用都会改变文件的当前偏移量). 数组 <code>iov</code> 定义了一组用来传输数据的缓冲区. 整型数 <code>iovcnt</code> 则指定了 <code>iov</code> 的成员个数. <code>iov</code> 中的每个成员的数据结构如下所示:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">iovec</span> &#123;</span><br>	<span class="hljs-type">void</span> *iov_base;    <span class="hljs-comment">/* Start address of buffer */</span><br>	<span class="hljs-type">size_t</span> iov_len;    <span class="hljs-comment">/* Number of bytes to transfer to/from buffer */</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>SUSv3 标准<strong>允许系统实现限制 <code>iov</code> 中的成员个数</strong>, 可以通过定义文件 <code>&lt;limits.h&gt;</code> 中 <code>IOV_MAX</code> 来通告这一限制, 程序也可以在系统运行时调用 <code>sysconf(_SC_IOV_MAX)</code> 来获取这一限额. SUSv3 要求该限额不得少于 16, Linux 则将 <code>IOV_MAX</code> 的值定义为 1024.</p>
+<p>不过, glibc 对 <code>readv()</code> 和 <code>writev()</code> 系统调用的封装函数做了额外工作. 如果系统调用因 <code>iovcnt</code> 参数值过大而失败, 封装函数将临时分配一块缓冲区, 用于容纳 <code>iov</code> 参数所有的成员. 如下图所示:</p>
+<p><img src="/img/Pictures/20240607083250.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="分散输入">分散输入</h3>
+<p><code>readv()</code> 系统调用实现了分散输入的功能: 从文件描述符 <code>fd</code> 所指代的文件中读取后, 将其散置于 <code>iov</code> 指定的缓冲区中. 这一散置动作从 <code>iov[0]</code> 开始, 依次填满每个缓冲区.</p>
+<p>原子性是 <code>readv()</code> 的重要属性, 这能保证在多线程环境下, <code>readv()</code> 从文件中读取的数据是连续的.</p>
+<p>调用 <code>readv()</code> 成功将返回读取的字节数, 若文件结束将返回 0. 调用者必须对返回值进行检查, 以验证读取的字节数是否满足要求. 若数据不足以填充所有缓冲区, 则只会占用部分缓冲区.</p>
+<p>下面是 <code>readv()</code> 的使用示例:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/uio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;tlpi_hdr.h&quot;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> STR_SIZE 100</span><br><br><span class="hljs-type">int</span><br><span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	<span class="hljs-type">int</span> fd;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">iovec</span> <span class="hljs-title">iov</span>[3];</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">stat</span> <span class="hljs-title">myStruct</span>;</span>    <span class="hljs-comment">/* First buffer */</span><br>	<span class="hljs-type">int</span> x;                   <span class="hljs-comment">/* Second buffer */</span><br>	<span class="hljs-type">char</span> str[STR_SIZE];      <span class="hljs-comment">/* Third buffer */</span><br>	<span class="hljs-type">ssize_t</span> numRead, totRequired;<br><br>	<span class="hljs-keyword">if</span> (argc != <span class="hljs-number">2</span> || <span class="hljs-built_in">strcmp</span>(argv[<span class="hljs-number">1</span>], <span class="hljs-string">&quot;--help&quot;</span>) == <span class="hljs-number">0</span>)<br>		usageErr(<span class="hljs-string">&quot;%s file\n&quot;</span>, argv[<span class="hljs-number">0</span>]);<br><br>	fd = open(argv[<span class="hljs-number">1</span>], O_RDONLY);<br>	<span class="hljs-keyword">if</span> (fd == <span class="hljs-number">-1</span>)<br>		errExit(<span class="hljs-string">&quot;open&quot;</span>);<br><br>	totRequired = <span class="hljs-number">0</span>;<br><br>	iov[<span class="hljs-number">0</span>].iov_base = &amp;myStruct;<br>	iov[<span class="hljs-number">0</span>].iov_len = <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> stat);<br>	totRequired += iov[<span class="hljs-number">0</span>].iov_len;<br><br>	iov[<span class="hljs-number">1</span>].iov_base = &amp;x;<br>	iov[<span class="hljs-number">1</span>].iov_len = <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>);<br>	totRequired += iov[<span class="hljs-number">1</span>].iov_len;<br><br>	iov[<span class="hljs-number">2</span>].iov_base = str;<br>	iov[<span class="hljs-number">2</span>].iov_len = <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">char</span>) * STR_SIZE;<br>	totRequired += iov[<span class="hljs-number">2</span>].iov_len;<br><br>	numRead = readv(fd, iov, <span class="hljs-number">3</span>);<br><br>	<span class="hljs-keyword">if</span> (numRead == <span class="hljs-number">-1</span>)<br>		errExit(<span class="hljs-string">&quot;readv&quot;</span>);<br><br>	<span class="hljs-keyword">if</span> (numRead &lt; totRequired)<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Read fewer bytes than requested\n&quot;</span>);<br><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;total bytes requested: %ld; bytes read: %ld\n&quot;</span>, <br>			(<span class="hljs-type">long</span>) totRequired, (<span class="hljs-type">long</span>) numRead);<br>	<span class="hljs-built_in">exit</span>(EXIT_SUCCESS);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="集中输出">集中输出</h3>
+<p><code>writev()</code> 系统调用实现了集中输出: 将 <code>iov</code> 所指定的所有缓冲区中的数据拼接起来, 然后以连续的字节序列写入文件描述符 <code>fd</code> 指代的文件中.</p>
+<p>同样, <code>writev()</code> 也是原子的, 即在多线程环境下, <code>writev()</code> 能保证一次性将所有数据从用户内存传输到 <code>fd</code> 指代的文件中.</p>
+<p>如同 <code>write()</code> 调用, <code>writev()</code> 调用也可能存在部分写的问题. 因此, 必须检查 <code>writev()</code> 调用的返回值, 来确定写入的字节数是否与要求相符.</p>
+<h3 id="在指定的文件偏移量处执行分散输入-集中输出">在指定的文件偏移量处执行分散输入/集中输出</h3>
+<p>Linux 2.6.30 版本新增了两个系统调用: <code>preadv()</code>、<code>pwritev()</code>, 将分散输入/集中输出和于指定文件偏移量处的 I/O 二者集于一身. 它们并非标准的系统调用, 但获得了现代 BSD 的支持:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> _BSD_SOURCE</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/uio.h&gt;</span></span><br><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">preadv</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> iovec *iov, <span class="hljs-type">int</span> iovcnt, <span class="hljs-type">off_t</span> offset)</span>;<br><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">pwritev</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> iovec *iov, <span class="hljs-type">int</span> iovcnt, <span class="hljs-type">off_t</span> offset)</span>;<br></code></pre></td></tr></table></figure>
+<p><code>preadv()</code> 和 <code>pwritev()</code> 系统调用所执行的任务与 <code>readv()</code> 和 <code>writev()</code> 相同, 但执行 I/O 的位置将由 <code>offset</code> 参数指定, 且不会改变文件的当前偏移量.</p>
+<h2 id="截断文件">截断文件</h2>
+<p><strong><code>truncate()</code> 和 <code>ftruncate()</code> 系统调用能够将文件大小设置为 <code>length</code> 参数指定的值</strong>:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">truncate</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *pathname, <span class="hljs-type">off_t</span> length)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">ftruncate</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">off_t</span> length)</span>;<br></code></pre></td></tr></table></figure>
+<p>若文件当前长度大于参数 <code>length</code>, 调用将丢弃超出部分; 若小于参数 <code>length</code>, 调用将在文件尾部添加一系列空字节或是一个文件空洞.</p>
+<p>两个系统调用之间的差别在于如何指定操作文件: <code>truncate()</code> 以路径名字符串来指定文件, 并要求可访问该文件, 且对文件拥有写权限. 若文件名为符号链接, 那么调用将对其进行解引用. 而调用 <code>ftruncate()</code> 之前, 需以可写方式打开操作文件, 获取其文件描述符以指代该文件. <strong>这两个系统调用都不会修改文件偏移量</strong>.</p>
+<h2 id="非阻塞-I-O">非阻塞 I/O</h2>
+<p>在打开文件时指定 <code>O_NONBLOCK</code> 标志后, 即使 <code>open()</code> 调用未能打开文件, 也不会陷入阻塞, 而是立即返回错误, 这有助于提供程序的效率和性能.</p>
+<p>管道、FIFO、套接字、设备 (比如终端、伪终端) 都支持非阻塞模式, 由于无法通过 <code>open()</code> 来获取管道和套接字的文件描述符, 因此, 一般使用 <code>fcntl()</code> 的 <code>F_SETFL</code> 命令来设置它们的非阻塞标志.</p>
+<p>另外, 在没有强制文件锁的情况下, <strong>内核缓冲区保证了普通文件 I/O 时不会陷入阻塞</strong>, 因此打开普通文件时一般会忽略 <code>O_NONBLOCK</code> 标志.</p>
+<h2 id="大文件-I-O">大文件 I/O</h2>
+<p>通常将存放文件偏移量的数据类型 <code>off_t</code> 实现为一个有符号的长整型. 在 32 位体系架构中, 这将限制文件的大小为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>31</mn></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^{31} - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">31</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> (即 2GB). 但是, 磁盘驱动器的容量早已超出这一限制, 因此 32 位 UNIX 实现有处理超过 2GB 大小文件的需求. 为此, UNIX 厂商联盟在大型文件峰会 (Large File Summit, LFS) 上就此进行了协商, 并针对必需的大文件访问功能, 形成了对 SUSv2 规范的扩展.</p>
+<p>应用程序可使用如下两种方式之一来获得 LFS 功能:</p>
+<ul>
+<li>使用支持大文件操作的备选 API. 该 API 由 LFS 设计, 意在作为 SUS 规范的 “过渡型扩展”. 这一方法现已过时.</li>
+<li>在编译应用程序时, 将宏 <code>_FILE_OFFSET_BITS</code> 的值定义为 64. 这一方法更为可取, 因为符合 SUS 规范的应用程序无需修改任何源码即可获得 LFS 功能.</li>
+</ul>
+<h3 id="过渡型-LFS-API">过渡型 LFS API</h3>
+<p>要使用过渡型的 LFS API, 必须<strong>在编译程序时定义 <code>_LARGEFILE64_SOURCE</code> 功能测试宏</strong>, 该定义可以通过命令行指定, 也可以定义于源文件中包含所有头文件之前的位置. 该 API 所属函数具有处理 64 位文件大小和文件偏移量的能力. 这些函数与其 32 位版本命名相同, 只是在尾部添加了 64 方便区分. 其中包括: <code>fopen64()</code>、<code>open64()</code>、<code>lseek64()</code>、<code>truncate64()</code>、<code>stat64()</code>、 <code>mmap64()</code> 和 <code>setrlimit64()</code>.</p>
+<p>例如:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c">fd = open64(name, O_CREAT | O_RDWR, mode);<br><span class="hljs-keyword">if</span> (fd == <span class="hljs-number">-1</span>)<br>	errExit(<span class="hljs-string">&quot;open&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>调用 <code>open64()</code>, 相当于在调用 <code>open()</code> 时指定 <code>O_LARGEFILE</code> 标志. 若调用 <code>open()</code> 时未指定此标志, 且想要打开的文件大于 2GB, 那么调用将返回错误.</p>
+<p>除去上述函数, 过渡型 LFS API 还增加了一些新的数据类型:</p>
+<ul>
+<li><code>struct stat64</code>: 类似于 <code>stat</code> 结构, 支持大文件尺寸.</li>
+<li><code>off64_t</code>: 64 位类型, 用于表示文件偏移量.</li>
+</ul>
+<p>下面是一个处理大型文件的例子:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> _LARGEFILE64_SOURCE</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;tlpi_hdr.h&quot;</span></span><br><br><span class="hljs-type">int</span><br><span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	<span class="hljs-type">int</span> fd;<br>	<span class="hljs-type">off64_t</span> off;<br>	<span class="hljs-keyword">if</span> (argc != <span class="hljs-number">3</span> || <span class="hljs-built_in">strcmp</span>(argv[<span class="hljs-number">1</span>], <span class="hljs-string">&quot;--help&quot;</span>) == <span class="hljs-number">0</span>)<br>		usageErr(<span class="hljs-string">&quot;%s pathname offset\n&quot;</span>, argv[<span class="hljs-number">0</span>]);<br>		<br>	fd = open64(argv[<span class="hljs-number">1</span>], O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);<br>	<br>	<span class="hljs-keyword">if</span> (fd == <span class="hljs-number">-1</span>)<br>		errExit(<span class="hljs-string">&quot;open64&quot;</span>);<br>		<br>	off = atoll(argv[<span class="hljs-number">2</span>]);<br>	<span class="hljs-keyword">if</span> (lseek64(fd, off, SEEK_SET) == <span class="hljs-number">-1</span>)<br>		errExit(<span class="hljs-string">&quot;lseek64&quot;</span>);<br>		<br>	<span class="hljs-keyword">if</span> (write(fd, <span class="hljs-string">&quot;test&quot;</span>, <span class="hljs-number">4</span>) == <span class="hljs-number">-1</span>)<br>		errExit(<span class="hljs-string">&quot;write&quot;</span>);<br>	<span class="hljs-built_in">exit</span>(EXIT_SUCCESS);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="FILE-OFFSET-BITS-宏">_FILE_OFFSET_BITS 宏</h3>
+<p>要获取 LFS 功能, 更好的做法是: 在编译程序时, 将宏 <code>_FILE_OFFSET_BITS</code> 的值定义为 64. 可以利用 C 语言编译器的命令行选项:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">cc -D_FILE_OFFSET_BITS=64 prog.c</span><br></code></pre></td></tr></table></figure>
+<p>或者在 C 语言的源文件中, 在包含所有头文件之前添加如下宏定义:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">define _FILE_OFFSET_BITS <span class="hljs-number">64</span><br></code></pre></td></tr></table></figure>
+<p><strong>所有相关的 32 位函数和数据类型将自动转换为 64 位版本</strong>. 例如, 会将 <code>open()</code> 转换为 <code>open64()</code>, 数据类型 <code>off_t</code> 的长度也将转为 64 位. 虽然这种做法比使用过渡型 LFS API 更简单, 但是这种做法<strong>要求程序的代码严格符合规范</strong> (例如, 声明放置文件偏移量的变量, 应该使用 <code>off_t</code> 而不是 <code>int</code> 或 <code>long</code>).</p>
+<h2 id="dev-fd-目录">/dev/fd 目录</h2>
+<p>对于每个进程, 内核都提供有一个特殊的虚拟目录 <code>/dev/fd</code>. 该目录中包含 “/dev/fd/n” 形式的文件名, 其中 n 是与进程中打开文件描述符相对应的编号.</p>
+<p><strong>打开 “/dev/fd” 目录中的一个文件等同于复制相应的文件描述符</strong>, 所以下列两行代码是等价的:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">fd = open(<span class="hljs-string">&quot;/dev/fd/1&quot;</span>, O_WRONLY);<br>fd = dup(<span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure>
+<p>在为 <code>open()</code> 调用设置 <code>flag</code> 参数时, 需要注意将其设置为与原描述符相同的访问模式. 这一场景下, 在 <code>flag</code> 标志的设置中引入其他标志, 诸如 <code>O_CREAT</code>, 是毫无意义的 (会被忽略).</p>
+<ul>
+<li>“/dev/fd” 实际上是一个符号链接, 链接到 Linux 所专有的 “/proc/self/fd” 目录 (包含当前进程所有打开文件的文件描述符). 后者又是 Linux 特有的 “/proc/PID/fd” 目录族的特例之一, 此目录族中的每一目录都包含了指向对应进程 (PID) 所打开的所有文件的符号链接.</li>
+</ul>
+<p>“/dev/fd” 目录中的文件一般在 shell 中使用. 许多用户级 shell 命令将文件名作为参数, 有时需要将命令输出至管道, 并将某个参数替换为标准输入或标准输出. 出于这一目的, 有些命令提供了一个解决方法, 使用 “-” 符号作为命令的参数之一, 用以表示标准输入或输出. 例如:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">ls</span> | diff - oldfilelist</span><br></code></pre></td></tr></table></figure>
+<p>但是这样做存在问题. 该方法要求每个程序都对 “-” 符号做专门处理, 但是许多程序并未实现这样的功能, 这些命令只能处理文件, 不支持将标准输入或输出作为参数. 其次, 有些程序还将单个 “-” 符解释为表征命令行选项结束的分隔符.</p>
+<p>使用 “/dev/fd” 目录, 则可以把标准输入、标准输出和标准错误作为文件名参数传递给任何需要它们的程序:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">ls</span> | diff /dev/fd/0 oldfilelist</span><br></code></pre></td></tr></table></figure>
+<p>此外, 系统还提供了 3 个符号链接: “/dev/stdin”、“/dev/stdout” 和 “/dev/stderr”, 分别链接到 “/dev/fd/0”、“/dev/fd/1” 和 “/dev/fd/2”.</p>
+<h2 id="创建临时文件">创建临时文件</h2>
+<p><strong>基于调用者提供的模板, <code>mkstemp()</code> 函数生成一个唯一文件名并打开该文件</strong>, 返回一个可 用于 I/O 调用的文件描述符:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">mkstemp</span><span class="hljs-params">(<span class="hljs-type">char</span> *template)</span>;<br></code></pre></td></tr></table></figure>
+<p>模板参数采用路径名形式, 其中<strong>最后 6 个字符必须为 XXXXXX</strong>. 这 6 个字符将被替换, 以保证文件名的唯一性, 且修改后的字符串将通过 <code>template</code> 参数传回. 因为会对传入的 <code>template</code> 参数进行修改, 所以必须将其<strong>指定为字符数组</strong>, 而非字符串常量.</p>
+<p>文件拥有者对 <code>mkstemp()</code> 函数建立的文件拥有读写权限 (其他用户则没有任何操作权限), 且打开文件时会使用 <code>O_EXCL</code> 标志, 以保证调用者以独占方式访问文件.</p>
+<p>通常, 打开临时文件不久, 程序就会<strong>使用 <code>unlink</code> 系统调用将其删除</strong>, 例如:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> fd;<br><span class="hljs-type">char</span> template[] = <span class="hljs-string">&quot;/tmp/somestringXXXXX&quot;</span>;<br><br>fd = mkstemp(template);<br><span class="hljs-keyword">if</span> (fd == <span class="hljs-number">-1</span>)<br>	errExit(<span class="hljs-string">&quot;mkstemp&quot;</span>);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Generated filename was: %s\n&quot;</span>, template);<br>unlink(template);      <span class="hljs-comment">/* Name disappears immediately, but the file</span><br><span class="hljs-comment">						   is removed only after close() */</span><br><br><span class="hljs-comment">/* Use file I/0 system calls - read(), write(), and so on */</span><br><span class="hljs-keyword">if</span> (close(fd) == <span class="hljs-number">-1</span>)<br>	errExit(<span class="hljs-string">&quot;close&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>虽然使用 <code>tmpnam()</code>、<code>tempnam()</code> 和 <code>mktemp()</code> 函数也能生成唯一的文件名, 但是这会<strong>导致应用程序出现安全漏洞</strong>, 所以应该避免使用这些函数.</p>
+<p><strong><code>tmpfile()</code> 函数会创建一个名称唯一的临时文件, 并以读写方式将其打开</strong> (打开该文件时使用了 <code>O_EXCL</code> 标志, 因为另一个进程有极小概率已经创建了同名文件):</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br>FILE *<span class="hljs-title function_">tmpfile</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br></code></pre></td></tr></table></figure>
+<p><code>tmpfile()</code> 函数执行成功, 将返回一个文件流供 stdio 库函数使用. 文件流关闭后将自动删除临时文件. 为达到这一目的, <code>tmpfile()</code> 函数会在打开文件后, 立即调用 <code>unlink()</code>来删除该文件名. 因为此时文件仍然处于打开状态, 所以内核不会立刻删除该文件的内容, 直到进程显式地关闭该文件 (主动调用 close) 或进程终止时 (内核关闭该进程所有打开的文件), 该文件的内容才会被删除.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Linux/UNIX 系统编程手册
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/Linux/" class="category-chain-item">Linux</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/Linux/Linux-UNIX%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/" class="category-chain-item">Linux-UNIX系统编程</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
+      
+        <a href="/tags/Linux-UNIX-%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/" class="print-no-link">#Linux/UNIX 系统编程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/Linux/Linux-UNIX%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5/" title="系统编程概念">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">系统编程概念</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/Linux/%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BE/" title="编译工具链">
+                        <span class="hidden-mobile">编译工具链</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

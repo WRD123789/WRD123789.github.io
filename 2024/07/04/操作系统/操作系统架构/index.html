@@ -1,0 +1,961 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="操作系统架构 抽象系统资源 为了实现强隔离,  最好禁止应用程序直接访问敏感的硬件资源, 而是将资源抽象为服务.  Unix 应用程序只能通过文件系统的 open、read、write 和 close 系统调用与存储交互, 而不是直接读写磁盘. 文件系统对磁盘提供了非常方便的抽象. 你可以对文件命名, 读写文件等等. 之后, 操作系统会决定如何将文件与磁盘中的块对应, 确保一个磁盘块只出现在一个文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统架构">
+<meta property="og:url" content="http://example.com/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="操作系统架构 抽象系统资源 为了实现强隔离,  最好禁止应用程序直接访问敏感的硬件资源, 而是将资源抽象为服务.  Unix 应用程序只能通过文件系统的 open、read、write 和 close 系统调用与存储交互, 而不是直接读写磁盘. 文件系统对磁盘提供了非常方便的抽象. 你可以对文件命名, 读写文件等等. 之后, 操作系统会决定如何将文件与磁盘中的块对应, 确保一个磁盘块只出现在一个文">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20221210140329.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221210165238.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221210184245.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221210201816.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221210215517.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221210220605.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221211104306.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221211105139.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230311135617.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230302142639.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230302221205.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230303094458.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230303094819.png">
+<meta property="article:published_time" content="2024-07-04T02:49:43.000Z">
+<meta property="article:modified_time" content="2024-07-04T10:39:27.319Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="MIT 6.S081">
+<meta property="article:tag" content="操作系统">
+<meta property="article:tag" content="Xv6">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20221210140329.png">
+  
+  
+  
+  <title>操作系统架构 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="操作系统架构"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 10:49" pubdate>
+          2024年7月4日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          47 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">操作系统架构</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>操作系统架构</h1>
+<h2 id="抽象系统资源">抽象系统资源</h2>
+<p>为了实现强隔离,  最好禁止应用程序直接访问敏感的硬件资源, 而是将资源抽象为服务.</p>
+<ul>
+<li>Unix 应用程序只能通过文件系统的 open、read、write 和 close 系统调用与存储交互, 而不是直接读写磁盘. 文件系统对磁盘提供了非常方便的抽象. 你可以对文件命名, 读写文件等等. 之后, 操作系统会决定如何将文件与磁盘中的块对应, 确保一个磁盘块只出现在一个文件中, 并且确保用户 A 不能操作用户 B 的文件. 通过文件系统的抽象, 可以实现不同用户之间和同一个用户的不同进程之间的文件强隔离.</li>
+<li>Unix 对 CPU 进行抽象, 在进程之间透明地切换硬件处理器, 根据需要保存和恢复寄存器状态, 这样操作系统才能在多个应用程序之间复用一个或者多个 CPU. 这种透明性允许操作系统共享处理器, 即使有些应用程序处于无限循环中.</li>
+<li>Unix 使用 exec 对内存进行抽象, 进程使用 exec 来构建它们的内存映像, 而不是直接与物理内存交互. 这允许操作系统决定将一个进程放在内存中的哪里; 如果内存很紧张, 操作系统甚至可以将一个进程的一些数据存储在磁盘上. exec 还为用户提供了存储可执行程序映像的文件系统的便利.</li>
+<li>Unix 进程之间的许多交互形式都是通过文件描述符实现的. 文件描述符不仅抽象了许多细节 (例如: 管道或文件中的数据存储在哪里), 而且还以简化交互的方式进行了定义(例如: 如果流水线中的一个应用程序失败了, 内核会为流水线中的下一个进程生成文件结束信号 (EOF)).</li>
+</ul>
+<h2 id="防御性">防御性</h2>
+<p>操作系统需要确保所有的组件能够工作, 所以它需要做好准备来抵御来自应用程序的攻击. 应用程序也不应该能够打破对它的隔离, 一旦攻击者打破对应用程序的隔离, 进而控制内核, 就会控制所有硬件资源.</p>
+<p>所以需要在应用程序和操作系统之间提供强隔离性, 强隔离需要应用程序和操作系统之间的硬边界, 如果应用程序出错, 我们不希望操作系统失败或其他应用程序失败, 相反, 操作系统应该能够清理失败的应用程序, 并继续运行其他应用程序, 要实现强隔离, 操作系统必须保证应用程序不能修改 (甚至读取) 操作系统的数据结构和指令, 以及应用程序不能访问其他进程的内存, 这需要硬件来实现. CPU 为强隔离提供硬件支持, 硬件支持包括两个部分:</p>
+<ul>
+<li>用户/内核/机器模式 (user/kernel/machine mode).
+<ul>
+<li>内核模式 (kernel mode/supervisor mode)
+<ul>
+<li>在内核模式下, CPU 被允许执行特权指令, 特殊权限指令主要是那些直接操控硬件的指令和设置保护的指令.</li>
+<li>例如，启用和禁用中断、读取和写入保存页表地址的寄存器等.</li>
+<li>在处理器上有各种各样的状态, 操作系统会使用这些状态, 但是只能通过特殊权限指令来变更这些状态.</li>
+<li>处于内核模式下的软件可以执行特权指令, 在被称为<strong>内核空间</strong>的地方运行.</li>
+<li>在内核空间 (或内核模式) 中运行的软件被称为内核.</li>
+<li>处理器中有一个标志位, 当它为 1 时, 表示处于用户模式; 当它为 0 时, 表示处于内核模式. 当处理器解析指令时, 如果该指令是特殊权限指令且标志位为 1, 则处理器会拒绝执行该指令. 该标志位必须通过特殊权限指令进行更改.</li>
+</ul>
+</li>
+<li>用户模式 (user mode)
+<ul>
+<li>在用户模式下, CPU 只能执行普通权限的指令.</li>
+<li>例如, 将两个寄存器相加的指令 add、跳转指令 jal 等.</li>
+<li>应用程序只能执行用户模式的指令, 并在被称为<strong>用户空间</strong>的地方运行.</li>
+<li>如果用户模式下的应用程序试图执行特权指令, 那么 CPU不会执行该指令, 而是切换到内核模式, 以便内核模式代码可以终止应用程序.</li>
+</ul>
+</li>
+<li>机器模式 (machine mode)
+<ul>
+<li>在机器模式下执行的指令具有完全特权, CPU 在机器模式下启动.</li>
+<li>机器模式主要用于配置计算机.</li>
+<li>xv6 在机器模式下执行很少的几行代码, 然后更改为管理模式.</li>
+</ul>
+</li>
+<li>想要调用内核函数的应用程序 必须过渡到内核. CPU 提供一个特殊的指令, 将 CPU 从用户模式切换到内核模式, 并在内核指定的入口点进入内核 (RISC-V 为此提供 ecall 指令). 一旦CPU 切换到内核模式, 内核就可以验证系统调用的参数, 决定是否允许应用程序执行请求的操作, 然后拒绝它或执行它. 由内核控制转换到内核模式的入口点是很重要的, 如果应用程序可以决定内核入口点,  那么恶意应用程序就可以在跳过参数验证的地方进入内核.</li>
+</ul>
+</li>
+<li>虚拟内存 (Virtual Memory).
+<ul>
+<li>处理器包含页表, 页表将虚拟内存地址映射到物理内存地址.</li>
+<li>每个进程都有自己独立的页表, 这样每个进程只能访问出现在自己页表中的物理内存. 操作系统会设置页表, 使得每个进程都有不重合的物理内存, 这样一个进程就不能访问其他进程的物理内存.</li>
+<li>页表定义了对于内存的视图, 而每个用户进程都有自己对于内存的独立视图.</li>
+</ul>
+</li>
+</ul>
+<p>所有的处理器, 如果需要运行能够支持多个应用程序的操作系统, 就需要同时支持用户/内核/机器模式和虚拟内存.</p>
+<h2 id="模式切换">模式切换</h2>
+<p>我们可以认为用户/内核模式是分隔用户空间和内核空间的边界, 用户空间运行的程序运行在用户模式, 内核空间的程序运行在内核模式, 操作系统位于内核空间.</p>
+<p><img src="/img/Pictures/20221210140329.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>在 RISC-V 中, 通过 ecall 指令让应用程序将控制权转移给内核. ecall 接收一个数字参数, 当一个用户程序想要将程序执行的控制权交给内核时, 它只需要执行 ecall 指令, 并传入一个数字, 这个数字决定应用程序想要调用的系统调用.</p>
+<p>例如:</p>
+<p>当 Shell 应用程序在用户空间执行 fork 时, 它不是直接调用操作系统中对应的函数, 而是调用 ecall 指令, 并将 fork 对应的数字作为参数传给 ecall, 之后通过 ecall 跳转到内核中.</p>
+<h2 id="内核组织">内核组织</h2>
+<p>内核负责实现具体的系统调用并检查参数以确保不会被一些坏的参数所欺骗, 所以内核有时候也被称为可被信任的计算空间 (Trusted Computing Base, TCB).</p>
+<p>根据操作系统的哪些部分应该以内核模式运行可以将操作系统的设计分为两类</p>
+<ul>
+<li>宏内核
+<ul>
+<li>整个操作系统都驻留在内核中, 即所有系统调用的实现都以内核模式运行.</li>
+<li>在这个组织中, 整个操作系统以完全的硬件特权运行.</li>
+<li>这个组织比较方便, 操作系统的设计者不需要考虑操作系统的哪一部分不需要完全的硬件特权.</li>
+<li>因为操作系统的各个部分都在内核空间中, 他们可以更紧密地集成在一起, 所以操作系统的不同部分更容易合作, 拥有更好的性能.</li>
+<li>操作系统的不同部分之间的接口很复杂, 对于操作系统的设计者而言, 更容易犯错误. 因为任何操作系统中的错误都会导致内核错误, 从而影响整个计算机的工作, 随着在内核中的操作系统的规模的增加, 出现错误的概率也会增大.</li>
+</ul>
+</li>
+<li>微内核
+<ul>
+<li>为了降低内核出错的风险, 操作系统设计者可以最大限度地减少在内核模式下运行的操作系统的代码量, 并在用户模式下执行大部分操作系统.</li>
+<li>微内核设计中, 可以将文件系统作为用户级进程运行. <strong>作为用户级进程运行的操作系统服务被称为服务器</strong>. 为了允许应用程序与文件服务器交互, 内核提供了允许从一个用户态进程向另一个用户态进程发送消息的进程间通信机制 (IPC 系统).
+<ul>
+<li>例如, 如果像 Shell 这样的应用程序想要读取或写入文件, 它会向文件服务器发送消息并等待响应.</li>
+<li><img src="/img/Pictures/20221210165238.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+</li>
+<li>由于两个用户进程通过内核上的 IPC 系统进行交互, 所以应用程序与部分操作系统服务的交互需要完成两次用户空间 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⇐</mo><mo>⇒</mo></mrow><annotation encoding="application/x-tex">\Leftarrow \Rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">⇐⇒</span></span></span></span> 内核空间的跳转; 而对于宏内核, 应用程序与部分操作系统服务的交互只需要用户空间 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⇐</mo><mo>⇒</mo></mrow><annotation encoding="application/x-tex">\Leftarrow \Rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">⇐⇒</span></span></span></span> 内核空间的跳转, 所以微内核的性能更差.</li>
+<li>在一个类似宏内核的紧耦合系统中, 各个组合部分可以很容易的共享页缓存; 而在微内核中, 各个部分之间很好地分隔开了, 这种共享更难实现, 所以微内核难以得到高性能.</li>
+<li>由于客户/服务器 (Client/Server) 模式, 具有非常多的优点, 故在单机微内核操作系统中几乎无一例外地都采用客户/服务器模式, 将操作系统中最基本的部分放入内核中, 而把操作系统的绝大部分功能都放在微内核外面的一组服务器(进程)中.</li>
+</ul>
+</li>
+</ul>
+<h2 id="进程">进程</h2>
+<p>操作系统中的隔离单位是一个进程, 进程抽象防止一个进程破坏或监视另一个进程的内存、CPU、文件描述符等. 它还防止一个进程破坏内核本身，这样一个进程就不能破坏内核的隔离机制.</p>
+<p>内核用来实现进程的机制包括用户/管理模式标志、地址空间和线程的时间切片.</p>
+<p>为了帮助加强隔离, 进程抽象给程序一种错觉, 即让它认为自己独占 CPU 且拥有自己的地址空间.</p>
+<p>xv6 使用页表 (由硬件实现) 为每个进程提供自己的地址空间. RISC-V 页表将虚拟地址 (RISC-V 指令操控的地址) 映射到物理地址 (内存地址).</p>
+<p>xv6 为每个进程维护一个单独的页表, 该页表定义了该进程的地址空间, 该地址空间以虚拟内存地址 0 开始, 首先是指令, 然后是全局变量, 然后是用户栈, 然后是堆, 在地址空间的顶部, xv6 为 trampoline (用于在用户和内核之间切换) 和映射进程切换到内核的 trapframe 分别保留了一个页面.</p>
+<p><img src="/img/Pictures/20221210184245.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>有许多因素限制了进程地址空间的最大范围: RISC-V 的指针由 64 位宽, 硬件在页表中查找虚拟地址时只使用低 39 位, 而 xv6 只使用这 39 位中的 38 位, 所以最大虚拟内存地址 (MAXVA) 为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>38</mn></msup><mo>−</mo><mn>1</mn><mo>=</mo><mn>0</mn><mi>x</mi><mn>3</mn><mi>f</mi><mi>f</mi><mi>f</mi><mi>f</mi><mi>f</mi><mi>f</mi><mi>f</mi><mi>f</mi><mi>f</mi></mrow><annotation encoding="application/x-tex">2^{38} - 1 = 0x3fffffffff</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">38</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">0</span><span class="mord mathnormal">x</span><span class="mord">3</span><span class="mord mathnormal" style="margin-right:0.10764em;">fffffffff</span></span></span></span>.</p>
+<p>xv6 内核为每个进程维护许多状态片段, 并将它们聚集到一个 proc 结构体中. 一个进程最重要的内核状态片段是它的页表、内核栈区和运行状态.</p>
+<p>每个进程都有一个执行线程 (简称线程) 来执行进程的指令. 一个线程可以挂起并且稍后再恢复. 为了透明地在进程之间切换, 内核挂起当前运行的线程, 并恢复另一个进程的线程.</p>
+<p>线程的大部分状态（本地变量、函数调用返回地址）存储在线程的栈区上. 每个进程有两个栈区: 一个用户栈区和一个内核栈区.</p>
+<p>当进程执行用户指令时, 只有它的用户栈在使用, 它的内核栈是空的; 当进程进入内核 (由于系统调用或中断) 时, 内核代码在进程的内核堆栈上执行. 当一个进程在内核中时, 它的用户堆栈仍然包含保存的数据, 只是不处于活动状态.</p>
+<p>进程的线程在主动使用它的用户栈和内核栈之间交替. 内核栈是独立的 (受用户代码的保护), 因此即使一个进程破坏了它的用户栈, 内核依然可以正常运行.</p>
+<p>一个进程可以通过执行 RISC-V 的 ecall 指令进行系统调用, 该指令提升硬件特权级别, 并将程序计数器 (PC) 更改为内核定义的入口点, 入口点的代码切换内核栈, 执行实现系统调用的内核指令, 当系统调用完成时, 内核切换回用户栈, 并通过调用 sret 指令返回用户空间, 该指令降低了硬件特权级别, 并在系统调用指令刚结束时恢复执行用户指令.</p>
+<p>进程的线程可以在内核中 “阻塞” 等待 I/O, 并在 I/O 完成后恢复到中断的位置.</p>
+<p>进程状态有: 已分配、就绪态、运行态、阻塞态 (等待 I/O 中) 和退出.</p>
+<h2 id="内核编译">内核编译</h2>
+<p>xv6 代码主要由三部分组成</p>
+<ul>
+<li>kernel
+<ul>
+<li>里面包含基本所有的内核文件. 因为 xv6 是一个宏内核结构, 所以所有的文件都会被编译成一个 kernel 的二进制文件, 然后这个二进制文件会被运行在内核模式中.</li>
+<li><img src="/img/Pictures/20221210201816.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+</li>
+<li>user
+<ul>
+<li>包含运行在用户模式的所有程序.</li>
+</ul>
+</li>
+<li>mkfs
+<ul>
+<li>它会创建一个空的文件镜像, 我们会将这个镜像存储在磁盘上, 这样我们就可以直接使用一个空的文件系统.</li>
+</ul>
+</li>
+</ul>
+<h3 id="编译过程">编译过程</h3>
+<ul>
+<li>
+<p>Makefile 会读取所有的 C 文件, 通过 gcc 编译器, 生成以 .s 为后缀的 RISC-V 汇编语言文件, 之后通过汇编解释器生成以 .o 为后缀的二进制目标文件, 然后系统加载器会将所有的 .o 文件链接起来, 生成内核文件.</p>
+<p><img src="/img/Pictures/20221210215517.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>Makefile 还会创建 kernel.asm 文件, 其中包含内核的完整汇编语言代码.</p>
+</li>
+<li>
+<p>在 QEMU (一个用 C 语言来模拟仿真 RISC-V 处理器的程序) 上运行 xv6.</p>
+  <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">make qemu</span><br></code></pre></td></tr></table></figure>
+<p><img src="/img/Pictures/20221210220605.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>-kernel: 传递的是内核文件 (kernel 目录下的 kernel 文件), 这是将要在 QEMU 中运行的程序文件.</li>
+<li>-m: 传递的是 RISC-V 虚拟机将要使用的内存数.</li>
+<li>-smp: 传递的是虚拟机可以使用的 CPU 核数.</li>
+<li>-drive: 传递的是虚拟机使用的磁盘驱动, 这里传入的是fs.img 文件.</li>
+</ul>
+</li>
+</ul>
+<h3 id="QEMU">QEMU</h3>
+<p>QEMU 是一个 C 程序, 但它表现的就像一个真正的 RISC-V 主板一样.</p>
+<p><img src="/img/Pictures/20221211104306.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>在 RISC-V 主板上可以启动一个 xv6, xv6 的结构图如下:</p>
+<p><img src="/img/Pictures/20221211105139.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>4 个核: U54 Core 1-4</li>
+<li>L2 Cache: Banked L2</li>
+<li>连接 DRAM 的连接器: DDR Controller</li>
+<li>各种连接外部设备的方式</li>
+<li>连接时钟的接口: Clock Generation</li>
+</ul>
+<p>通过 QEMU 模拟的计算机主板, 和上述 RISC-V 主板非常相似. 对于 CPU 中的每个核, QEMU 都会运行这样一个循环:</p>
+<ul>
+<li>读取 4 字节或 8 字节的 RISC-V 指令.</li>
+<li>解析 RISC-V 指令.</li>
+<li>在软件中执行相应的指令.</li>
+</ul>
+<p>为了完成工作, QEMU 需要维护寄存器的状态, 所以会有以 C 语言声明的类似于 x0, x1 的寄存器.</p>
+<p>当 QEMU 在仿真 4 个 CPU 核时, 它是并行的模拟这 4 个核.</p>
+<h3 id="内核启动过程">内核启动过程</h3>
+<p><img src="/img/Pictures/20230311135617.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>当 RISC-V 计算机上电时, 它会初始化自己并运行一个存储在只读内存 (启动扇区) 中的引导加载程序 (bootblock, 因为启动扇区的空间比较小, 不足以存储内核代码, 所以需要一个引导加载程序来帮助加载内核代码). 引导加载程序将 xv6 内核加载到内存中, 然后在机器模式下, 中央处理器从 _entry 开始运行 xv6, xv6 启动时页式硬件 (Paging Hardware) 处于禁用模式: 虚拟地址将直接映射到物理地址.</p>
+<ul>
+<li>其中引导加载程序会将 xv6 内核加载到物理地址为 0x80000000 的内存中, 而不是 0x0 的位置, 因为地址范围 0x0 : 0x80000000 包含 I/O 设备.</li>
+</ul>
+<p>_entry 的指令设置了一个栈区, 这样 xv6 就可以运行 C 代码. xv6 在 kernel/start.c 文件中为初始栈 stack0 声明空间. 由于 RISC-V 上的栈是向下扩展的, 所以_entry 的代码将栈顶地址 stack0 + 4096 加载到栈顶指针寄存器 sp 中. 当内核拥有栈区后, _entry 便调用 start 函数 (kernel/start.c).</p>
+<p>函数 start 执行一些仅在机器模式下允许的配置，然后切换到内核模式. start 函数执行以下操作:</p>
+<ul>
+<li>在机器态特权寄存器 mstatus 中将先前的运行模式切换为内核模式.</li>
+<li>将 main 函数的地址写入寄存器 mepc 中, 即将返回地址设为 main.</li>
+<li>将 0 写入页表寄存器 satp 中, 即在内核模式下禁用虚拟地址转换.</li>
+<li>对时钟芯片进行编程以产生计时器中断.</li>
+<li>将所有的中断和异常委托给内核模式.</li>
+<li>通过调用 mret 返回到内核模式, 这将导致程序计数器的值更改为 main (kernel/main.c) 函数的地址.
+<ul>
+<li>mret 最常用于从内核模式切换到机器模式的调用中返回, 由于 start 函数将先前运行模式设置为内核模式, 且将返回地址设置为 main, 因此 mret 将返回到 main 函数, 并以内核模式运行.</li>
+</ul>
+</li>
+</ul>
+<p>在 main 函数 (kernel/main.c) 初始化几个设备和子系统后, 便通过调用 userinit (kernel/proc.c) 创建第一个进程 (进行该进程的初始化工作, 但并不运行), 创建第一个进程后, 进入 scheduler 函数, 该函数为进程调度器, 调度第一个进程, 第一个进程执行一个用 RISC-V 程序集写的小型程序 initcode.S (uer/initcode.S), 它通过调用 exec 系统调用重新进入内核. 此时 exec 用 /init 程序替代当前进程的内存和寄存器, 所以 initcode.S 程序只是用来启动 init 程序. init (user/init.c) 将创建一个新的控制台设备文件, 然后以文件描述符 0、1 和 2 打开它, 然后它在控制台上通过 fork + exec 来启动一个 Shell 程序, 这样系统的启动了.</p>
+<p>其中 init 是第一个进程 (0 号进程), 它被存放到磁盘上, 它是所有进程的祖先; Shell 是第二个进程 (1 号进程).</p>
+<table>
+<thead>
+<tr>
+<th>程序</th>
+<th>位置</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>initcode</td>
+<td>内存代码段</td>
+<td>调用 exec 启动 init 程序</td>
+</tr>
+<tr>
+<td>init</td>
+<td>磁盘</td>
+<td>启动 Shell, 回收僵尸进程</td>
+</tr>
+<tr>
+<td>Shell</td>
+<td>磁盘</td>
+<td>用户操作</td>
+</tr>
+</tbody>
+</table>
+<h3 id="GDB-调试-xv6">GDB 调试 xv6</h3>
+<p>gdb 调试 xv6 的流程如下:</p>
+<ol>
+<li>
+<p>在第一个终端中输入:</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gdb">make CPUS=1 qemu-gdb<br></code></pre></td></tr></table></figure>
+<p>CPUS=1 表示 QEMU 只模拟一个 CPU, 方便调试</p>
+<p><img src="/img/Pictures/20230302142639.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>得到调试端口 tcp::26000.</p>
+</li>
+<li>
+<p>在第二个终端中输入:</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gdb">riscv64-unknown-elf-gdb kernel/kernel<br></code></pre></td></tr></table></figure>
+<p><img src="/img/Pictures/20230302221205.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>在第二个终端中输入:</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gdb">target remote localhost:26000<br></code></pre></td></tr></table></figure>
+<p>从 gdb 中连接上述端口.</p>
+<p><img src="/img/Pictures/20230303094458.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>在第二个终端中输入:</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gdb">file kernel/kernel<br></code></pre></td></tr></table></figure>
+<p>加载 kernel 的符号表 (用于断点).</p>
+<p><img src="/img/Pictures/20230303094819.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ol>
+<p>其他 gdb 调试指令:</p>
+<ul>
+<li>在函数 x 处断点  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-keyword">b</span> x<br></code></pre></td></tr></table></figure>
+</li>
+<li>在地址 x 处断点  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-keyword">b</span> *x<br></code></pre></td></tr></table></figure>
+</li>
+<li>在文件 x 的 y 行处断点  <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-keyword">b</span> x:y<br></code></pre></td></tr></table></figure>
+</li>
+<li>在文件 x 的 y 行处断点, 当满足一定条件时才触发断点  <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-selector-tag">b</span> <span class="hljs-selector-tag">x</span>:<span class="hljs-selector-tag">y</span> <span class="hljs-selector-tag">if</span> <span class="hljs-selector-attr">[condition]</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>删除断点 a, b, c  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">d <span class="hljs-selector-tag">a</span> <span class="hljs-selector-tag">b</span> c<br></code></pre></td></tr></table></figure>
+</li>
+<li>继续运行直到下一个断点处  <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">c</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>针对汇编, 执行单条汇编指令 (会进入函数内部)  <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">si</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>针对汇编, 执行单条汇编指令 (不会进入函数内部)  <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">ni</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>针对源代码, 执行单条代码 (会进入函数内部)  <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">s</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>针对源代码, 执行单条代码 (不会进入函数内部)  <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">n</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>打印变量 x 的值  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">p</span> x<br></code></pre></td></tr></table></figure>
+</li>
+<li>打印寄存器 reg 的值  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">p</span> <span class="hljs-variable">$reg</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>以十六进制的形式打印寄存器 reg 的值  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">p /x <span class="hljs-variable">$reg</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>查看断点  <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-built_in">info</span> b<br></code></pre></td></tr></table></figure>
+</li>
+<li>删除断点  <figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver"><span class="hljs-built_in">delete</span> [<span class="hljs-built_in">breakpoint</span> <span class="hljs-built_in">num</span>]<br></code></pre></td></tr></table></figure>
+</li>
+<li>查看调用栈  <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">bt</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>查看寄存器  <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-built_in">info</span> reg<br></code></pre></td></tr></table></figure>
+</li>
+<li>在 TUI 窗口查看汇编指令  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">layout <span class="hljs-keyword">asm</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>在 TUI 窗口查看所有寄存器信息  <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">layout reg</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>在 TUI 窗口同时查看汇编指令和源代码  <figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arcade">layout <span class="hljs-built_in">split</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>在 TUI 窗口查看源代码  <figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mel"><span class="hljs-keyword">layout</span> <span class="hljs-keyword">source</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>查看栈帧  <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-built_in">info</span> frame<br></code></pre></td></tr></table></figure>
+</li>
+<li>查看指定函数的栈帧  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">frame</span> [frame num]<br><span class="hljs-literal">info</span> frame<br></code></pre></td></tr></table></figure>
+</li>
+<li>查看内存内容  <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">x</span>/nuf<span class="hljs-meta"> [addr]</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li>n 表示要显示的内存单元的个数</li>
+<li>u 表示一个地址单元的长度
+<ul>
+<li>b 表示单字节</li>
+<li>h 表示双字节</li>
+<li>w 表示四字节</li>
+<li>g 表示八字节</li>
+</ul>
+</li>
+<li>f 表示显示方式
+<ul>
+<li>x 按十六进制格式显示</li>
+<li>d 按十进制格式显示</li>
+<li>u 按十进制无符号整型格式显示</li>
+<li>o 按八进制格式显示</li>
+<li>t 按二进制格式显示</li>
+<li>a 按十六进制格式显示</li>
+<li>i 按指令地址格式显示</li>
+<li>c 按字符格式显示</li>
+<li>f 按浮点数格式显示</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>查看页表 (QEMU)
+<ul>
+<li>在 QEMU 界面输入 Ctrl a + c, 可以进入 QEMU Console.</li>
+<li>输入 info mem, QEMU 会打印出完整的页表</li>
+</ul>
+</li>
+</ul>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>MIT 6.S081 Operating System Engineering: <a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.S081/2020/schedule.html">https://pdos.csail.mit.edu/6.S081/2020/schedule.html</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>xv6: a simple, Unix-like teaching operating system: <a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.S081/2020/xv6/book-riscv-rev1.pdf">https://pdos.csail.mit.edu/6.S081/2020/xv6/book-riscv-rev1.pdf</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>优雅的调试—在vscode上完美调试xv6（完结）: <a target="_blank" rel="noopener" href="https://sanbuphy.github.io/p/%E4%BC%98%E9%9B%85%E7%9A%84%E8%B0%83%E8%AF%95%E5%9C%A8vscode%E4%B8%8A%E5%AE%8C%E7%BE%8E%E8%B0%83%E8%AF%95xv6%E5%AE%8C%E7%BB%93/">https://sanbuphy.github.io/p/优雅的调试在vscode上完美调试xv6完结/</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>GDB调试命令整理（以RISC-V为例）: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/DF11G/p/16553404.html">https://www.cnblogs.com/DF11G/p/16553404.html</a>
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/MIT-6-S081/" class="print-no-link">#MIT 6.S081</a>
+      
+        <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="print-no-link">#操作系统</a>
+      
+        <a href="/tags/Xv6/" class="print-no-link">#Xv6</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BB%8B%E7%BB%8D/" title="操作系统介绍">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">操作系统介绍</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/03/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%B9%B6%E5%8F%91/" title="并发">
+                        <span class="hidden-mobile">并发</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

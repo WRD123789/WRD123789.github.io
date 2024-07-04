@@ -1,0 +1,756 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="代码审查 代码审查是指对软件开发过程中所编写的代码进行系统性的检查和评估, 以便识别和纠正潜在的问题或错误. 通过代码审查, 团队可以发现代码中的缺陷、漏洞、不一致性以及其他可能影响软件质量和性能的问题. 这有助于提高代码质量、减少缺陷和故障, 并且有助于团队成员之间相互学习和知识共享. 风格标准 大多数公司和大型项目都有编程风格标准, 其中 Google Java Style 被广泛使用. 不要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码审查">
+<meta property="og:url" content="http://example.com/2024/07/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="代码审查 代码审查是指对软件开发过程中所编写的代码进行系统性的检查和评估, 以便识别和纠正潜在的问题或错误. 通过代码审查, 团队可以发现代码中的缺陷、漏洞、不一致性以及其他可能影响软件质量和性能的问题. 这有助于提高代码质量、减少缺陷和故障, 并且有助于团队成员之间相互学习和知识共享. 风格标准 大多数公司和大型项目都有编程风格标准, 其中 Google Java Style 被广泛使用. 不要">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-04T09:23:22.000Z">
+<meta property="article:modified_time" content="2024-07-04T09:23:59.208Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="MIT 6.031">
+<meta property="article:tag" content="软件工程">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>代码审查 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="代码审查"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 17:23" pubdate>
+          2024年7月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">代码审查</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>代码审查</h1>
+<p><strong>代码审查</strong>是指对软件开发过程中所编写的代码进行系统性的检查和评估, 以便识别和纠正潜在的问题或错误. 通过代码审查, 团队可以发现代码中的缺陷、漏洞、不一致性以及其他可能影响软件质量和性能的问题. 这有助于提高代码质量、减少缺陷和故障, 并且有助于团队成员之间相互学习和知识共享.</p>
+<p><strong>风格标准</strong></p>
+<p>大多数公司和大型项目都有编程风格标准, 其中 <a target="_blank" rel="noopener" href="http://google.github.io/styleguide/javaguide.html">Google Java Style</a> 被广泛使用.</p>
+<p><strong>不要重复代码</strong></p>
+<p>重复的代码是对安全的威胁. 如果两个地方有相同或相似的代码, 那么基本的风险是两个副本都存在 Bug, 并且一些维护人员在修复了一个地方的 Bug 后, 可能会遗漏另一个地方的 Bug.</p>
+<p><strong>在需要的地方注释</strong></p>
+<p>好的注释使得代码更容易理解, 更安全地避免 Bug, 并且更容易进行修改.</p>
+<ul>
+<li>一种重要的注释是规范, 它出现在方法或类之上, 记录方法或类的行为.
+<ul>
+<li>在 Java 中, 这通常作为 Javadoc 注释编写, 它以 /** 开头, 并包含 @-语法.
+<ul>
+<li>例如:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Compute the hailstone sequence.</span><br><span class="hljs-comment"> * See http://en.wikipedia.org/wiki/Collatz_conjecture#Statement_of_the_problem</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> n starting number of sequence; requires n &gt; 0.</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> the hailstone sequence starting at n and ending with 1.</span><br><span class="hljs-comment"> *         For example, hailstone(3)=[3,10,5,16,8,4,2,1].</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> List&lt;Integer&gt; <span class="hljs-title function_">hailstoneSequence</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> &#123;<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>另一个重要的注释是指定从其他地方复制或改编的代码片段的出处或来源.
+<ul>
+<li>例如:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// read a web page into a string</span><br><span class="hljs-comment">// see http://stackoverflow.com/questions/4328711/read-url-to-string-in-few-lines-of-java-code</span><br><span class="hljs-type">String</span> <span class="hljs-variable">mitHomepage</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Scanner</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-string">&quot;http://www.mit.edu&quot;</span>).openStream(), <span class="hljs-string">&quot;UTF-8&quot;</span>).useDelimiter(<span class="hljs-string">&quot;\\A&quot;</span>).next();<br></code></pre></td></tr></table></figure>
+</li>
+<li>记录来源的一个原因是为了避免侵犯版权. 从其他来源复制的代码可能是专有的, 或由其他类型的开放源码许可证涵盖, 这些许可证的限制性更强.</li>
+<li>另一个原因是代码可能过时.</li>
+</ul>
+</li>
+<li>应当注释晦涩难懂的代码, 简单的代码无需添加注释.</li>
+</ul>
+<p><strong>快速失败</strong></p>
+<p>快速失败意味着代码应该尽快发现它的 Bug. 越早发现问题, 就越容易修复. 静态检查比动态检查更快失败, 而动态检查比产生错误的答案更快失败.</p>
+<ul>
+<li>例如:
+<ul>
+<li>对于函数 dayOfYear  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">dayOfYear</span><span class="hljs-params">(<span class="hljs-type">int</span> month, <span class="hljs-type">int</span> dayOfMonth, <span class="hljs-type">int</span> year)</span> &#123;<br>    <span class="hljs-keyword">if</span> (month == <span class="hljs-number">2</span>) &#123;<br>        dayOfMonth += <span class="hljs-number">31</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (month == <span class="hljs-number">3</span>) &#123;<br>        dayOfMonth += <span class="hljs-number">59</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (month == <span class="hljs-number">4</span>) &#123;<br>        dayOfMonth += <span class="hljs-number">90</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (month == <span class="hljs-number">5</span>) &#123;<br>        dayOfMonth += <span class="hljs-number">31</span> + <span class="hljs-number">28</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (month == <span class="hljs-number">6</span>) &#123;<br>        dayOfMonth += <span class="hljs-number">31</span> + <span class="hljs-number">28</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span> + <span class="hljs-number">31</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (month == <span class="hljs-number">7</span>) &#123;<br>        dayOfMonth += <span class="hljs-number">31</span> + <span class="hljs-number">28</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (month == <span class="hljs-number">8</span>) &#123;<br>        dayOfMonth += <span class="hljs-number">31</span> + <span class="hljs-number">28</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span> + <span class="hljs-number">31</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (month == <span class="hljs-number">9</span>) &#123;<br>        dayOfMonth += <span class="hljs-number">31</span> + <span class="hljs-number">28</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span> + <span class="hljs-number">31</span> + <span class="hljs-number">31</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (month == <span class="hljs-number">10</span>) &#123;<br>        dayOfMonth += <span class="hljs-number">31</span> + <span class="hljs-number">28</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span> + <span class="hljs-number">31</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (month == <span class="hljs-number">11</span>) &#123;<br>        dayOfMonth += <span class="hljs-number">31</span> + <span class="hljs-number">28</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span> + <span class="hljs-number">31</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span> + <span class="hljs-number">31</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (month == <span class="hljs-number">12</span>) &#123;<br>        dayOfMonth += <span class="hljs-number">31</span> + <span class="hljs-number">28</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span> + <span class="hljs-number">31</span> + <span class="hljs-number">31</span> + <span class="hljs-number">30</span> + <span class="hljs-number">31</span> + <span class="hljs-number">31</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> dayOfMonth;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>当函数的调用者对参数做出了错误的假设, 例如对换了 month 和 dayOfMonth, 只会产生错误的答案, 而不会被静态检查和动态检查捕捉到.</li>
+<li>如果修改函数的设计, 则可以加速失败, 当函数调用者对参数做出错误的假设使, 错误更容易被静态检查或动态检查捕捉到. 例如对上述 dayOfYear 进行以下修改可以加速失败:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// Fails faster-static error</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">dayOfYear</span><span class="hljs-params">(String month, <span class="hljs-type">int</span> dayOfMonth, <span class="hljs-type">int</span> year)</span> &#123;<br>    ...<br>&#125;<br><br><span class="hljs-comment">// Fails faster-dynamic error</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">dayOfYear</span><span class="hljs-params">(<span class="hljs-type">int</span> month, <span class="hljs-type">int</span> dayOfMonth, <span class="hljs-type">int</span> year)</span> &#123;<br>    <span class="hljs-keyword">if</span> (month &lt; <span class="hljs-number">1</span> || month &gt; <span class="hljs-number">12</span>) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalArgumentException</span>();<br>    &#125;<br>    ...<br>&#125;<br><br><span class="hljs-comment">// Fails faster-static error</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> <span class="hljs-title class_">Month</span> &#123; JANUARY, FEBRUARY, MARCH, ..., DECEMBER &#125;;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">dayOfYear</span><span class="hljs-params">(Month month, <span class="hljs-type">int</span> dayOfMonth, <span class="hljs-type">int</span> year)</span> &#123;<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>避免 magic numbers</strong></p>
+<p>Magic number 通常指的是一些特殊的常数值, 它们通常没有明显的解释或注释, 但它们在程序中可能扮演者重要的角色, 由于它们通常缺乏可读性和可维护性, 所以可能导致代码中的错误和混淆.</p>
+<p>虽然使用注释可以解释它们, 但更好的方法是使用常量或枚举, 因为:</p>
+<ul>
+<li>
+<p>名字比数字可读性更好.</p>
+<ul>
+<li>例如: 在 dayOfYear 函数中, 用 FEBRUARY, …, DECEMBER 比用 2, …, 12 更清楚.</li>
+</ul>
+</li>
+<li>
+<p>修改一个常量更方便. 使用命名常量, 如果需要修改值, 只需要修改一处, 而不是在多个地方重复修改.</p>
+<ul>
+<li>例如:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i += <span class="hljs-number">1</span>) &#123;<br>	<span class="hljs-keyword">if</span> (i % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>) &#123;<br>		num += <span class="hljs-number">7</span>;<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>		num -= <span class="hljs-number">7</span>;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>上述代码中如果要修改 num 加减的数需要同时修改两处, 如果以常量命名, 想要修改 num 加减的数时只需要修改一处即可.  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">modifyed</span> <span class="hljs-operator">=</span> <span class="hljs-number">7</span>;<br><span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i += <span class="hljs-number">1</span>) &#123;<br>	<span class="hljs-keyword">if</span> (i % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>) &#123;<br>		num += modifyed;<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>		num -= modifyed;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>有些常数可能依赖于其他常数.</p>
+<ul>
+<li>例如: 绘制一个规则的五边形:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; ++i) &#123;<br>    turtle.forward(<span class="hljs-number">36</span>);<br>    turtle.turn(<span class="hljs-number">72</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>上述代码中的 72 其实是 360 / 5 的结果, 上述代码直接硬编码 72 到代码中, 使得 360 和 5 之间的关系不可知. 合适的编写方式应该如下:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">final</span> <span class="hljs-type">double</span> <span class="hljs-variable">oneRevolution</span> <span class="hljs-operator">=</span> <span class="hljs-number">360.0</span>;<br><span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">numSides</span> <span class="hljs-operator">=</span> <span class="hljs-number">5</span>;<br><span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">sideLength</span> <span class="hljs-operator">=</span> <span class="hljs-number">36</span>;<br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; numSides; ++i) &#123;<br>    turtle.forward(sideLength);<br>    turtle.turn(oneRevolution / numSides);<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>每个变量都有用途</strong></p>
+<p>不要重用参数和变量, 如果一个曾经意味着一件事情的变量突然在几行之后开始意味着不同的事情, 那么会影响代码的可读性.</p>
+<p>特别是方法参数, 它通常不应该被修改 (方法的其他部分可能想知道方法的原始参数), 对于方法参数尽量使用 final 来定义:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">dayOfYear</span><span class="hljs-params">(<span class="hljs-keyword">final</span> <span class="hljs-type">int</span> month, <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> dayOfMonth, <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> year)</span> &#123;<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>使用好的变量名</strong></p>
+<p>好的方法名和变量名都很长且是自描述的, 通常可以通过使用好的名称来描述方法和变量使代码本身更易读来避免注释.</p>
+<ul>
+<li>例如: 你可以重写  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span> <span class="hljs-variable">tmp</span> <span class="hljs-operator">=</span> <span class="hljs-number">86400</span>;  <span class="hljs-comment">// tmp is the number of seconds in a day (don&#x27;t do this!)</span><br></code></pre></td></tr></table></figure>
+为:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">secondsPerDay</span> <span class="hljs-operator">=</span> <span class="hljs-number">86400</span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>在 Python 和 Java 中, 类通常以大写字母开头, 变量名和方法名以小写字母开头.</li>
+<li>但是这两种语言在如何将多词短语呈现为方法或变量名称上有所不同
+<ul>
+<li>Python 使用下划线分隔短语中的单词.
+<ul>
+<li>例如: snake_case.</li>
+</ul>
+</li>
+<li>Java 将第一个单词后面的单词的首字母大写.
+<ul>
+<li>例如: startsWith、getFirstName.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Java 使用大写字母来区分全局常量 (public static final) 与变量和局部常量.
+<ul>
+<li>对于全局常量, 使用全部大写
+<ul>
+<li>例如:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Example</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">INSTANCE_MAX_VALUE</span> <span class="hljs-operator">=</span> <span class="hljs-number">100</span>;<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>对于局部常量和变量, 使用驼峰命名法
+<ul>
+<li>例如:  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">exampleMethod</span><span class="hljs-params">()</span> &#123; <br>	<span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">maxCount</span> <span class="hljs-operator">=</span> <span class="hljs-number">100</span>;<br>	<span class="hljs-type">int</span> <span class="hljs-variable">maxNumber</span> <span class="hljs-operator">=</span> <span class="hljs-number">5</span>;<br>	...<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>方法名通常使动词短语, 例如 getDate 或 isUpperCase, 而变量名和类名通常是名词短语. 应当选择简短的单词, 但是避免使用缩写.
+<ul>
+<li>例如: message 不应当写成 msg, word 不应当写成 wd.</li>
+</ul>
+</li>
+<li>完全避免使用单字符变量名, 除非它们很容易按照约定理解.
+<ul>
+<li>例如: x 和 y 对于坐标系有意义; i 和 j 在 for 循环中作为整数变量.</li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@rabinovichsagi/effectively-naming-software-thingies-fcea9d78a699">Effectively Naming Software Thingies</a> 有一些好的命名建议.</li>
+</ul>
+<p><strong>使用空格</strong></p>
+<p>不应当使用制表符进行缩进 (指的是不应当插入制表符, 在按制表符时, 可以将编译器设置为插入空格字符), 而应当使用空格字符, 因为不同的工具对制表符的处理不同, 有时将它们扩展为 4 个空格, 有时扩展为 2 个空格, 有时扩展为 8 个空格.</p>
+<p><strong>不使用全局变量</strong></p>
+<p>应当避免使用全局变量, 全局变量的值在程序中的任何位置都可以访问和改变, <a target="_blank" rel="noopener" href="http://c2.com/cgi/wiki?GlobalVariablesAreBad">Global Variables Are Bad</a> 有一个全局变量的危险清单.</p>
+<ul>
+<li>在 Java 中, 全局变量通常被声明为 public static.</li>
+<li>相比于全局变量, 全局常量可以在程序的任何位置被读取, 它的值不能改变, 所以不会有风险, 更有用且常用.</li>
+</ul>
+<p><strong>方法应该返回结果, 而不是打印它们</strong></p>
+<p>一般来说, 只有程序的最高级别部分应该与控制台或用户进行交互; 较低级别的部分应该将其输入作为参数, 并将其输出作为结果返回.</p>
+<p><strong>避免特殊情况处理代码</strong></p>
+<p>编写更广泛的、一般情况下的代码是值得的, 它对所处理的值的假设较少, 使得代码更容易理解. 在不必要的情况下添加特殊情况处理代码只会增加代码的复杂性.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>MIT 6.031 Software Construction: <a target="_blank" rel="noopener" href="https://web.mit.edu/6.031/www/sp21/">https://web.mit.edu/6.031/www/sp21/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" class="category-chain-item">软件工程</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/MIT-6-031/" class="print-no-link">#MIT 6.031</a>
+      
+        <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" class="print-no-link">#软件工程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%A7%84%E8%8C%83/" title="规范">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">规范</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E6%B5%8B%E8%AF%95/" title="测试">
+                        <span class="hidden-mobile">测试</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

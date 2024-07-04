@@ -1,0 +1,1056 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="处理器 状态 每个指令在执行期间读取并更新的状态:  寄存器 (x0 ... x31x_0 \ ... \ x_{31}x0​ ... x31​)  寄存器文件 Reg 保存 32 个寄存器: Reg[0] … Reg[31] 指令中 rs1 字段指定第一个读取的寄存器. 指令中 rs2 字段指定第二个读取的寄存器. 指令中 rd 字段指定写入的寄存器 (目的寄存器). x0x_0x0​ 寄存器永">
+<meta property="og:type" content="article">
+<meta property="og:title" content="处理器">
+<meta property="og:url" content="http://example.com/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%A4%84%E7%90%86%E5%99%A8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="处理器 状态 每个指令在执行期间读取并更新的状态:  寄存器 (x0 ... x31x_0 \ ... \ x_{31}x0​ ... x31​)  寄存器文件 Reg 保存 32 个寄存器: Reg[0] … Reg[31] 指令中 rs1 字段指定第一个读取的寄存器. 指令中 rs2 字段指定第二个读取的寄存器. 指令中 rd 字段指定写入的寄存器 (目的寄存器). x0x_0x0​ 寄存器永">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20221104200528.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221104200701.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221105200545.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221105095129.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221105200717.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221105200743.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221105130816.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221105200841.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221105201004.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221105194749.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221105194830.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221105204453.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221105204539.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221105220529.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221105220926.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221105222039.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221106102740.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221106102748.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221106102827.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221106105847.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221106123213.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221106135639.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221106141235.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221106142645.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221106142705.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221106154434.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221106154854.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221106154515.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221106154742.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221108153041.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221108154338.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221108155315.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221108162418.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221108162617.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221108163106.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221108184846.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221108185724.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221108192103.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221108192736.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221108190803.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221108201035.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221108201337.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221108204005.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221108220548.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221108221644.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221116163106.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221116163205.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221116163447.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221116163604.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221116163903.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221116164033.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221116164449.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221116164609.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221119151920.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221120161403.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221120190201.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221120201234.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221120201415.png">
+<meta property="article:published_time" content="2024-07-04T05:29:28.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.508Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="计算机组成原理">
+<meta property="article:tag" content="CS61C">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20221104200528.png">
+  
+  
+  
+  <title>处理器 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="处理器"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 13:29" pubdate>
+          2024年7月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          35 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">处理器</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>处理器</h1>
+<h2 id="状态">状态</h2>
+<p>每个指令在执行期间读取并更新的状态:</p>
+<ul>
+<li>寄存器 (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub><mtext> </mtext><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mtext> </mtext><msub><mi>x</mi><mn>31</mn></msub></mrow><annotation encoding="application/x-tex">x_0 \ ... \ x_{31}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace"> </span><span class="mord">...</span><span class="mspace"> </span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">31</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>)
+<ul>
+<li>寄存器文件 Reg 保存 32 个寄存器: Reg[0] … Reg[31]</li>
+<li>指令中 rs1 字段指定第一个读取的寄存器.</li>
+<li>指令中 rs2 字段指定第二个读取的寄存器.</li>
+<li>指令中 rd 字段指定写入的寄存器 (目的寄存器).</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">x_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 寄存器永远为 0 (即写入 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">x_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 寄存器的操作可以忽略).</li>
+</ul>
+</li>
+<li>程序计数器 (PC):
+<ul>
+<li>保存当前指令的地址.</li>
+</ul>
+</li>
+<li>内存
+<ul>
+<li>将指令和数据保存在一个 32 位字节寻址的内存空间中.</li>
+<li>暂时将指令和数据分别存储.</li>
+<li>指令从指令内存中读取 (假设指令内存是只读的).</li>
+<li>加载/存储指令访问数据内存.</li>
+</ul>
+</li>
+</ul>
+<h2 id="单周期处理器">单周期处理器</h2>
+<p>数字系统中, <strong>各个子系统通过数据总线连接形成的数据传送路径称为数据通路</strong>.</p>
+<p>假设在时钟信号的每个周期内, 处理器执行一条指令且</p>
+<ul>
+<li>当前状态的输出为组合逻辑块的输入, 组合逻辑块的输出在下一个时钟信号的上升沿到达前稳定下来.</li>
+<li>当时钟信号的上升沿到达时, 用组合逻辑块的输出更新所有状态.</li>
+<li>为了简化指令/数据存储器, 存储器是异步读取 (不进行计时, 输入地址立刻输出值), 但同步写入 (计时, 需要等到时钟信号的上升沿才捕捉输入信号).</li>
+</ul>
+<p><img src="/img/Pictures/20221104200528.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>例如:</p>
+<ul>
+<li>
+<p>add 操作时序图</p>
+<p><img src="/img/Pictures/20221104200701.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>给 ALU 增加一个输入可以支持所有 R 型指令 (只需要改变 ALUSel), 其数据通路如下:</p>
+<p><img src="/img/Pictures/20221105200545.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>增加一个立即数生成器和复用器可以支持 I 型指令 (同样通过改变 ALUSel), 其数据通路如下:</p>
+<p><img src="/img/Pictures/20221105095129.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>为了支持加载操作, 即从内存中读取值, 需要在 ALU 后面增加一个数据存储器和一个复用器来判断输出来自 ALU 还是数据存储器, 其数据通路如下:</p>
+<p><img src="/img/Pictures/20221105200717.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>为了支持存储操作, 需要给数据存储器增加一个写入数据的地址, 并用控制器的 MemRW 控制信号来判断是否写入, 其数据通路如下:</p>
+<p><img src="/img/Pictures/20221105200743.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>立即数生成器</p>
+<p><img src="/img/Pictures/20221105130816.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>为了支持分支操作, 需要额外增加一个分支比较器, 将寄存器 rs1 和寄存器 rs2 中内容的比较结果发送给控制器, 控制器根据分支比较器的输出设置 PCSel, PCSel 决定 PC 是否需要跳转到指定标签处, 其数据通路如下:</p>
+<p><img src="/img/Pictures/20221105200841.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>分支比较器</p>
+<p><img src="/img/Pictures/20221105201004.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>为了支持 jalr 操作, 其他不需要多少改变, 但是需要将 PC + 4 写入寄存器中, 其数据通路如下:</p>
+<p><img src="/img/Pictures/20221105194749.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>支持 jal 操作, 不需要改变, 只是数据通路和之前的不同, 其数据通路如下:</p>
+<p><img src="/img/Pictures/20221105194830.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ul>
+<h2 id="逻辑控制单元">逻辑控制单元</h2>
+<p>处理器由逻辑控制单元和数据通路组成, <strong>逻辑控制单元从数据通路中获取信号, 并返回信号给数据通路</strong>.</p>
+<p><img src="/img/Pictures/20221105204453.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>逻辑控制单元只是一个组合逻辑块, 所以可以抽象出真值表:</p>
+<p><img src="/img/Pictures/20221105204539.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221105220529.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>在上述编码表中, 只有蓝色框中的 9 位能够用来编码指令的类型, 其他位无关紧要, 所以只需要根据上表中蓝色框中的 9 位就能够编码指令类型, 再加上分支比较器提供的 2 位, 所以输入为 9 + 2 = 11 位.</p>
+<p>设计模型如下:</p>
+<p><img src="/img/Pictures/20221105220926.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><strong>实现一、</strong></p>
+<p>根据真值表写逻辑方程, 用代数的方法来处理, 来简化它得到一个较好的逻辑控制单元实现.</p>
+<p>现在可以使用逻辑合成工具将真值表转换为门网络.</p>
+<p><strong>实现二、</strong></p>
+<p>用只读存储器 (ROM), 直接将指令和与之对应的所有控制位的设置存储在只读存储器中, 然后就可以在只读存储器中进行表搜索. 该实现方法方便修复错误, 也能够轻松添加新的指令.</p>
+<p><img src="/img/Pictures/20221105222039.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="指令时序">指令时序</h2>
+<p><img src="/img/Pictures/20221106102740.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>假设每一阶段所需的时间如下:</p>
+<p><img src="/img/Pictures/20221106102748.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>则可以根据上面的时间表, 计算每个指令所需的时间:</p>
+<p><img src="/img/Pictures/20221106102827.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>由于所有指令使用同一个时钟信号, 为了保证所有指令都能在一个时钟信号的周期内完成, 所以选择所有指令中时间最长的作为时钟信号的周期, 即上图中的 lw 的时间.</p>
+<h2 id="性能">性能</h2>
+<p>性能为执行特定程序所花费的时间</p>
+<p>它可以分为三部分:</p>
+<p><img src="/img/Pictures/20221106105847.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>
+<p>每个程序的指令数</p>
+<p><img src="/img/Pictures/20221106123213.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>和任务难度有关, 难的任务程序更复杂, 指令数也就更多.</li>
+<li>和使用的算法有关,  (例如 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>N</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span>).</li>
+<li>和编程语言有关 (C 语言转成机器代码相对简洁, Java 语言转成机器代码相对多).</li>
+<li>和编译器有关, 有些编译器能够优化代码, 而有些编译器不能.</li>
+<li>和指令集架构有关, 有些指令集架构拥有复杂的指令, 则能够生成较少的指令数.</li>
+</ul>
+</li>
+<li>
+<p>每个指令的时钟周期</p>
+<p><img src="/img/Pictures/20221106135639.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>和指令集架构有关, CSIC 指令集架构中一条指令可能有好几个周期, 而 RISC 中大多数指令都能在一个周期内完成.</li>
+<li>和处理器的实现方式有关, 例如之前所设计的单周期数据通路中每个指令的时钟周期为 1.</li>
+</ul>
+</li>
+<li>
+<p>每个周期所需的时间</p>
+<p><img src="/img/Pictures/20221106141235.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>和处理器微架构有关 (确定通过逻辑门的关键路径).</li>
+<li>和工艺技术有关</li>
+<li>和供电电压有关, 较低的电压会降低晶体管速度, 但能提高能效.</li>
+</ul>
+</li>
+</ul>
+<p><strong>特定程序所需的能量</strong>为</p>
+<p><img src="/img/Pictures/20221106142645.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>则</p>
+<p><img src="/img/Pictures/20221106142705.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>C 为电路中实现数据通路和控制器所需的总电容, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>d</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{dd}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">dd</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 为控制电压.</p>
+<p>所以如果想要提供能源效率, 可以减小电容 (更简单的电路或更先进的集成电路技术) , 也可以减小控制电压.</p>
+<h2 id="CPU-流水线">CPU 流水线</h2>
+<p>采取流水线的形式来执行指令, 确保指令执行过程中的每个流程都有任务.</p>
+<p>假设指令执行中的每个流程所需的时间如下:</p>
+<p><img src="/img/Pictures/20221106154434.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>以流水线的形式执行指令, 其中每个时钟信号的周期执行一个流程:</p>
+<p><img src="/img/Pictures/20221106154854.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221106154515.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>则该数据通路中关键路径的时间为 1000 ps, 虽然大于原来的 800 ps, 但是执行所有指令所需的时间却大幅度减小:</p>
+<p><img src="/img/Pictures/20221106154742.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>对于单周期处理器, 可以进行以下划分:</p>
+<p><img src="/img/Pictures/20221108153041.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>为了使数据通路的每个阶段能够单独的工作, 所以使用寄存器来分隔数据通路中的每个阶段.</p>
+<p><img src="/img/Pictures/20221108154338.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>每次都需将指令中后面需要用到的数据沿流水线传输, 后面不需要的数据直接舍弃.</p>
+<p><img src="/img/Pictures/20221108155315.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>流水线不一定要划分为 5 个阶段, 可以更多或更少, 划分越多, 则同时能够处理的指令也就越多, 此时的时钟信号的频率就越高, 但是随之而来每个指令的周期越来越大, 其时钟信号的频率的增长有极限, 受到技术和能耗的限制.</p>
+<h3 id="流水线形式风险">流水线形式风险</h3>
+<ol>
+<li>
+<p>结构风险</p>
+<p>当两个或更多的指令同时对某一物理资源进行访问, 即资源使用冲突会导致结构风险.</p>
+<p>例如:</p>
+<ul>
+<li>
+<p>两条指令同时使用 ALU.</p>
+</li>
+<li>
+<p>两个指令同时访问主存储器中的指令和数据</p>
+<p><img src="/img/Pictures/20221108162418.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>两个指令同时读写寄存器堆</p>
+<p><img src="/img/Pictures/20221108162617.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ul>
+<p>解决方案:</p>
+<ul>
+<li>
+<p>先执行的指令先使用物理资源, 后执行的指令后使用物理资源, 由于后面的指令需要等待前面的指令使用完后才能继续进行, 所以会影响性能.</p>
+</li>
+<li>
+<p>对于每个物理资源, 准备多个器件 (例如: 准备 2 个 ALU), 这样会提高成本, 但能解决结构风险.</p>
+</li>
+<li>
+<p>对于寄存器, 有两个写端口和一个读端口, 使得可以同时对寄存器文件进行读写.</p>
+</li>
+<li>
+<p>使用独立的指令缓存和数据缓存 (相对来说比较快), 使得可以同时访问主存储器中的指令和数据</p>
+<p><img src="/img/Pictures/20221108163106.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>RISC-V 指令集架构在设计上尽量避免了结构风险 (例如: 每条指令最多一次数据访问、每条指令的操作数有限).</p>
+</li>
+</ul>
+</li>
+<li>
+<p>数据风险</p>
+<p>某一个指令依赖于前面未执行完的指令时, 可能会发生数据风险.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20221108184846.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>指令 sw t0, 4(t3) 中的 t0 依赖于指令 add t0, t1, t2 中的 t0, 但是在流水线通路中两者同时访问寄存器文件, 难以判断 sw t0, 4(t3) 中 t0 的值.</p>
+<p>可以在发生数据风险时, 先写后读来解决上述问题.</p>
+<p>但是如下情况以上述方法难以解决:</p>
+<p><img src="/img/Pictures/20221108185724.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>指令 sub t2, s0, t0 和指令 or t6, s0, t3 中的 s0 用的仍然是旧的 s0, 所以 sub t2, s0, t0 和 or t6, s0, t3 得到的是错误的答案.</p>
+<p>解决方案:</p>
+<ul>
+<li>
+<p>前递, 由于指令 add s0, t0, t1 中 s0 的值在 ALU 之后就确定, 而后面依赖于 add 的指令还未使用 s0, 所以可以在 add s0, t0, t1 计算完 s0 的值后更新其他依赖于 add 指令且需要更新的指令中的 s0:</p>
+<p><img src="/img/Pictures/20221108192103.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>实现:</p>
+<ul>
+<li>
+<p>将当前指令的目的字段和新指令的源字段进行比较</p>
+</li>
+<li>
+<p>在数据通路中增加前递路径</p>
+<p><img src="/img/Pictures/20221108192736.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ul>
+</li>
+<li>
+<p>暂停, 如果下一条指令依赖于当前指令, 可以暂停后面的指令 (通过在当前指令后面塞空指令, 即什么都不做)或优先执行其他不依赖于当前指令的指令:</p>
+<p><img src="/img/Pictures/20221108190803.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>暂停会影响性能, 良好的编译器可以通过重新调整指令的顺序来避免暂停.</p>
+</li>
+</ul>
+<p>有些时候必须要暂停 (如果不通过编译器对指令顺序进行调整), 例如:</p>
+<p><img src="/img/Pictures/20221108201035.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>lw $2, 20($1) 后面的指令 and $4, $2, $5 中的 $2 依赖于 lw 指令, 但是 lw 指令中的 $2 只有在读取数据存储器之后才能得到结果, 但同时 and 指令需要 $2, 此时只能通过暂停一周期或者将一条不依赖于 lw 的指令放到 and 指令之前才能解决问题.</p>
+<p><img src="/img/Pictures/20221108201337.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>称加载指令之后的插槽为加载延迟插槽. 如果当前指令使用加载指令的结果, 则硬件将暂停一个周期, 即在加载延迟插槽中插入空指令或不依赖加载指令的指令, 插入空指令会影响性能, 当然也可以通过编译器的重新调整来避免暂停.</p>
+</li>
+<li>
+<p>控制风险<br>
+当执行分支和跳转指令时, 会遇到控制风险.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20221108204005.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>分支指令在 ALU 处判断是否需要跳转, 而此时下面的指令已经开始执行.</p>
+<p>解决方案:</p>
+<ul>
+<li>
+<p>如果不需要跳转, 则继续执行后面的分支; 如果需要跳转, 就将目的指令之前的指令转换为空指令 (因为在分支和跳转指令决定是否跳转时, 后续指令还未开始修改寄存器, 此时可以将这些文件的目的寄存器替换为 x0, 便相当于将这些指令转换为空指令).</p>
+<p><img src="/img/Pictures/20221108220548.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>为了提高性能, 可以使用&quot;分支预测&quot;来猜测分支将跳到哪个位置, 如果预测不正确, 则刷新流水线.</p>
+<p><img src="/img/Pictures/20221108221644.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="分支预测">分支预测</h2>
+<p>由于分支和跳转是 PC 相关的, 所以如果在获取指令后决定是否跳转并为 PC 计算新的位置, 就能够减少指令执行期间的暂停.</p>
+<p>方案:</p>
+<ul>
+<li>由于分支具有时间局部性:
+<ul>
+<li>循环: for (int x = 0; x &lt; n; …), 跳转的次数远大于不跳转的次数, 所以可以在每次遇到分支时假设一定跳转.</li>
+<li>错误: if (error) …, 由于程序中有些错误发生的概率较小, 所以可以在每次遇到分支时假设不跳转.</li>
+</ul>
+</li>
+<li>采用一个具有 N 行的直接映射的内存 A
+<ul>
+<li>当获取的指令是一个分支指令时, 检查该指令地址的低 10 位是否在A 中被设置过, 如果被设置过, 则将下一个程序计数器设置为程序计数器加上分支偏移量.
+<ul>
+<li>如果分支应该跳转但预测没跳转, 则停止未采用的指令.</li>
+<li>如果分支不应该跳转但预测跳转, 就停止预测的指令.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/img/Pictures/20221116163106.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>
+<p>如果在 5 级流水线式 CPU 的 IF 阶段预测:</p>
+<ul>
+<li>
+<p>正确预测分支: 不暂停.</p>
+<p><img src="/img/Pictures/20221116163205.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>错误预测分支: 暂停两次.</p>
+<ul>
+<li>
+<p>不应当采取分支而采取了:</p>
+<p><img src="/img/Pictures/20221116163447.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>应当采取分支而没采取分支:</p>
+<p><img src="/img/Pictures/20221116163604.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>如果在 5 级流水线式 CPU 的 ID 阶段预测:</p>
+<ul>
+<li>
+<p>正确预测采取分支: 暂停一次.</p>
+<p><img src="/img/Pictures/20221116163903.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>正确预测不采取分支: 不暂停.</p>
+<p><img src="/img/Pictures/20221116164033.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>应当采取分支, 而没采取: 暂停两次.</p>
+<p><img src="/img/Pictures/20221116164449.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>不应当采取分支, 而采取了: 暂停一次.</p>
+<p><img src="/img/Pictures/20221116164609.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="多核处理器">多核处理器</h2>
+<p><img src="/img/Pictures/20221119151920.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>对称多处理器 (SMP):</p>
+<p><img src="/img/Pictures/20221120161403.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>每一个处理器都有自己的 PC 和执行一个独立的指令流 (MIMD).</li>
+<li>不同的处理器可以访问相同的内存地址, 即所有处理器/核心通过共享单个物理地址空间来共享数据.</li>
+<li>为了避免结构风险, 每个核心必须使用单独的 L1 缓存, 而 L2 、L3 缓存是否共享根据芯片设计来决定.</li>
+<li>处理器通过内存中的共享变量进行协调和通信, 通过同步原语 (锁) 来协调共享数据的使用, 同步原语使得同一时间只有一个处理器访问数据.</li>
+</ul>
+<p><img src="/img/Pictures/20221120190201.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>广播写</p>
+<ul>
+<li>需要保持一致性, 一个处理器的写入必须反映在其他处理器在短时间后读取的内存中, 即如果处理器 A 在时间 T 内对内存地址 L 进行写操作, 所有其他处理器都将看到写操作 (通过互连网络).</li>
+<li>为了保持一致性, 每个处理器的缓存都可以发送和接收信息, 这便是广播写.
+<ul>
+<li>假设处理器 A 希望写入地址 L
+<ul>
+<li>首先进行写分配.</li>
+<li>在缓存上设置脏位.</li>
+<li>广播信息表示正在写入地址 L.</li>
+</ul>
+</li>
+<li>其他处理器接收信息.
+<ul>
+<li>如果某个处理器的缓存中拥有地址为 L 的数据, 则使对应地址 L 的缓存行无效.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>广播读</p>
+<ul>
+<li>如果某个处理器中缓存未命中, 会广播信息查看是否有处理器对该地址进行过写入 (设置过脏位).
+<ul>
+<li>如果没有处理器对该地址进行过写入操作, 则从存储层次的上一级加载数据到缓存中, 并返回给处理器.</li>
+<li>如果有处理器对该地址进行过写入操作 (设置过脏位), 则该处理器将数据写入内存, 并清除脏位.</li>
+<li>然后将新值发送给发出请求的处理器.</li>
+</ul>
+</li>
+</ul>
+<p>使用方式:</p>
+<ul>
+<li>不同处理器执行不同的指令流和数据 (例如, 在操作系统中运行多个程序).</li>
+<li>使用多个处理器处理单个程序.</li>
+</ul>
+<h2 id="MOESI-协议">MOESI 协议</h2>
+<p>多处理器的缓存已包含 Valid 和 Dirty 位, 现在增加一个 <strong>Shared 位来表示对当前缓存行进行写时是否需要通知 (通过互连网络) 其他处理器的缓存</strong>.</p>
+<p>此时缓存行拥有五种状态:</p>
+<ul>
+<li>Shared: 拥有最新的数据, 其他缓存可能拥有该数据的副本, Valid 位和 Shared 位设置为 1.</li>
+<li>Modified: 拥有最新的数据, 已写, 其他处理器的缓存拥有副本, 内存中的数据已过时, Valid 位和 Dirty 位设置为 1.</li>
+<li>Exclusive: 拥有最新的数据, 其他处理器的缓存没有副本, 内存中拥有最新的数据, Valid 位为 1.</li>
+<li>Owner: 拥有最新的数据, 其他处理器的缓存拥有副本, 已写, 内存中的数据已过时, Valid 位、Dirty 位和 Shared 位设置为 1.</li>
+<li>Invalid: 拥有的数据已过时, Valid 位设置为 0.</li>
+</ul>
+<p>各个状态之间的转换如下:</p>
+<p><img src="/img/Pictures/20221120201234.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>各个位所对应的状态如下:</p>
+<p><img src="/img/Pictures/20221120201415.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>CS61C Great Ideas in Computer Architecture: <a target="_blank" rel="noopener" href="https://inst.eecs.berkeley.edu/~cs61c/sp22/">https://inst.eecs.berkeley.edu/~cs61c/sp22/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="category-chain-item">计算机组成原理</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="print-no-link">#计算机组成原理</a>
+      
+        <a href="/tags/CS61C/" class="print-no-link">#CS61C</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BC%93%E5%AD%98/" title="缓存">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">缓存</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%B8%B8%E7%94%A8%E6%9C%AF%E8%AF%AD/" title="常用术语">
+                        <span class="hidden-mobile">常用术语</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

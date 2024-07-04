@@ -1,0 +1,879 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="缓存 存储层次 存储的层次结构如下所示:   局部性 时间局部性: 如果引用了一个内存地址, 那么它很快就会再次被引用, 即一个内存地址会被引用很多次. 空间局部性: 如果引用了一个存储地址, 则该地址附近的地址会快也会被引用. 局部性理论: 程序在任何时刻访问地址空间的一小部分 (空间局部性), 并重复访问该部分 (时间局部性). 指令读取阶段、堆栈访问和数据访问都符合时间局部性和空间局部性:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="缓存">
+<meta property="og:url" content="http://example.com/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BC%93%E5%AD%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="缓存 存储层次 存储的层次结构如下所示:   局部性 时间局部性: 如果引用了一个内存地址, 那么它很快就会再次被引用, 即一个内存地址会被引用很多次. 空间局部性: 如果引用了一个存储地址, 则该地址附近的地址会快也会被引用. 局部性理论: 程序在任何时刻访问地址空间的一小部分 (空间局部性), 并重复访问该部分 (时间局部性). 指令读取阶段、堆栈访问和数据访问都符合时间局部性和空间局部性:">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20221109110158.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221111194627.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221109130150.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221109133715.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221109134221.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221109134811.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221109135137.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221110143027.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221109210836.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221109210724.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221109210651.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221109212207.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221109222740.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221109223237.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221111110349.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221110142936.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221116144119.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221116144857.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221116150535.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221116150949.png">
+<meta property="article:published_time" content="2024-07-04T05:32:03.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.509Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="计算机组成原理">
+<meta property="article:tag" content="CS61C">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20221109110158.png">
+  
+  
+  
+  <title>缓存 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="缓存"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 13:32" pubdate>
+          2024年7月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">缓存</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>缓存</h1>
+<h2 id="存储层次">存储层次</h2>
+<p>存储的层次结构如下所示:</p>
+<p><img src="/img/Pictures/20221109110158.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221111194627.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="局部性">局部性</h2>
+<p><strong>时间局部性</strong>: 如果引用了一个内存地址, 那么它很快就会再次被引用, 即一个内存地址会被引用很多次.</p>
+<p><strong>空间局部性</strong>: 如果引用了一个存储地址, 则该地址附近的地址会快也会被引用.</p>
+<p><strong>局部性理论</strong>: 程序在任何时刻访问地址空间的一小部分 (空间局部性), 并重复访问该部分 (时间局部性).</p>
+<p>指令读取阶段、堆栈访问和数据访问都符合时间局部性和空间局部性:</p>
+<p><img src="/img/Pictures/20221109130150.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>而链表、树、对象等不具有局部性, 它们通常会指向不相邻的地址, 便没有空间局部性; 当不跟踪某个指针时, 便没有时间局部性.</p>
+<h2 id="定义">定义</h2>
+<p>缓存便是根据局部性理论设计的, 缓存是一种小而快的内存, 用来提高访问大且慢的内存的性能.</p>
+<p>缓存在处理器和内存之间:</p>
+<p><img src="/img/Pictures/20221109133715.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>当处理器需要访问某个地址的数据时, 先在缓存中查找该数据的副本, 如果能找到该数据的副本 (也称为命中), 则直接将缓存中的数据返回给处理器, 否则从内存中读取数据到缓存中 (称为未命中), 再将数据从缓存中返回给处理器.</p>
+<p>在缓存未命中时, 将内存地址作为缓存块的标签:</p>
+<p><img src="/img/Pictures/20221109134221.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>
+<p>对于 16 字节的缓存 (包含 4 字节的块)</p>
+<p><img src="/img/Pictures/20221109134811.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>需要字对齐, 所以缓存中所有字的二进制地址总是以 00 结尾, 为了节省硬件, 即不需要将 32 位字节的地址的最后两位存储在缓存标签中.</p>
+</li>
+<li>
+<p>对于 32 字节的缓存 (包含 8 字节的块)</p>
+<p><img src="/img/Pictures/20221109135137.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>其中块必须成对对齐, 所以左边的数据的二进制地址总以 000 结尾, 右边的数据的二进制地址总以 100 结尾, 此时缓存的标签只需要存储 29 位.</p>
+</li>
+</ul>
+<h3 id="全关联映射">全关联映射</h3>
+<p>从内存中加载的数据块直接存储在缓存块中, 也就是说每个数据块在缓存中的位置不固定, 这样缓存命中的概率比较大, 但是如果要判断缓存是否命中, 则需要遍历缓存中的所有缓存行, 时间代价比较高.</p>
+<p><img src="/img/Pictures/20221110143027.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="直接映射">直接映射</h3>
+<p>由于全关联映射直接遍历缓存中的所有标签来判断是否命中性能较低.</p>
+<p>于是选择根据处理器地址字段来对缓存进行分组</p>
+<p>缓存控制器使用的处理器地址字段如下:</p>
+<p><img src="/img/Pictures/20221109210836.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>Block Offset:
+<ul>
+<li>缓存行中数据的偏移量, 即数据位于缓存行中的什么位置.</li>
+<li>偏移量的比特数 = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msubsup><mi>g</mi><mn>2</mn><mtext>缓存行大小</mtext></msubsup></mrow><annotation encoding="application/x-tex">log_2^{缓存行大小}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0894em;vertical-align:-0.2481em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-2.4519em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord cjk_fallback mtight">缓存行大小</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2481em;"><span></span></span></span></span></span></span></span></span></span>.</li>
+</ul>
+</li>
+<li>Set Index:
+<ul>
+<li>判断当前地址属于哪个集合.</li>
+<li>索引的比特数 = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msubsup><mi>g</mi><mn>2</mn><mtext>集合大小</mtext></msubsup></mrow><annotation encoding="application/x-tex">log_2^{集合大小}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0894em;vertical-align:-0.2481em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-2.4519em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord cjk_fallback mtight">集合大小</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2481em;"><span></span></span></span></span></span></span></span></span></span>.</li>
+</ul>
+</li>
+<li>Tag:
+<ul>
+<li>处理器地址的剩余部分.</li>
+<li>需要和数据一起存储在缓存中来判断给定数据是否在缓存中.</li>
+<li>标签的比特数 = 地址比特数 - 索引的比特数 - 偏移量的比特数.</li>
+</ul>
+</li>
+</ul>
+<p>缓存行由有效位 (Valid), 标签 (Tag) 和数据块组成.</p>
+<p><img src="/img/Pictures/20221109210724.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>有效位指示缓存行是否已加载有效数据, 标签判断处理器地址所对应的数据是否在当前缓存行中.</p>
+<p>直接映射中每个地址都只能映射到某一个缓存行中.</p>
+<p>当且仅当有效位为 1 且处理器地址的 Tag 字段等于缓存行的 Tag 字段, 缓存命中; 否则都是不命中.</p>
+<p>将缓存划分为多个集合, 每个集合保存一个缓存行的设计方式被称为&quot;直接映射&quot; (即图中 E = 1时).</p>
+<p><img src="/img/Pictures/20221109210651.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>例如:</p>
+<p>以中间两位为 Set Index, 后面两位为 Block Offset, 前面两位为 Tag:</p>
+<p><img src="/img/Pictures/20221109212207.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>写策略:</p>
+<ul>
+<li>
+<p>缓存命中</p>
+<p>直写缓存</p>
+<ul>
+<li><img src="/img/Pictures/20221109222740.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>将值同时写入缓存和内存中.</li>
+<li>当没有频繁的写入缓存的操作时使用直写策略.</li>
+<li>更简单的控制逻辑.</li>
+<li>可预测的时序简化了处理器控制逻辑.</li>
+<li>缓存和内存中的数据保持一致.</li>
+<li>频繁访问主存, 导致性能较差.</li>
+</ul>
+<p>写回缓存</p>
+<ul>
+<li><img src="/img/Pictures/20221109223237.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>仅写入缓存, 并在以后更新到内存中.</li>
+<li>只有当缓存行准备被替换时, 数据才会被写到内存中.</li>
+<li>缓存中的每个块都需要一个位来指示缓存中的数据是否被修改 (脏位)或没有被修改 (干净位). 如果它是干净的, 就无需写入内存中, 即缓存中的数据和内存中的数据保持一致.</li>
+<li>更复杂的控制逻辑.</li>
+<li>不可靠, 有时缓存中只有数据拷贝.</li>
+<li>性能更佳.</li>
+</ul>
+</li>
+<li>
+<p>缓存未命中</p>
+<ul>
+<li>不写分配: 直接写入主存, 不写入缓存, 通常和直写策略一起使用, 更适合写入的数据不需要立即使用时.</li>
+<li>写分配: 从内存中加载对应处理器地址的数据到缓存中, 然后更新缓存. 写分配可以和直写策略或写回策略同时使用, 但它通常和写回策略一起使用.</li>
+</ul>
+</li>
+</ul>
+<p>直接映射的缺陷:</p>
+<p>冲突未命中导致的乒乓效应 — 映射到同一缓存块的两个内存位置</p>
+<p>假设两个地址 0 和 4 映射到缓存中的同一个位置, 则交替访问地址 0 和 4时, 则每次都会发生缓存未命中:</p>
+<p><img src="/img/Pictures/20221111110349.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>每次缓存未命中都需要额外的时间来从存储层次较低级别的存储器中读取数据, 所以此时性能较低.</p>
+<h3 id="N-路集合关联映射">N 路集合关联映射</h3>
+<p>较高的关联度能够消除冲突未命中.</p>
+<p>对于固定大小的缓存和固定大小的缓存行大小, 关联度每增加一倍, 每个集合中的缓存行数增加一倍, 集合数减小一倍, 索引比特数减小一位.</p>
+<p>N 路集合关联映射缓存将缓存划分为多个集合, 每个集合包含 N 个缓存行. 每个内存地址仍然映射到一个特定的集合中, 但是它可以映射到集合中的 N 个缓存行中的任何一个.</p>
+<p>直接映射相当于单路集合关联映射.</p>
+<p><img src="/img/Pictures/20221110142936.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>N 路集合关联映射缓存虽然能够提高命中率, 但是需要 N 个比较器来判断指定地址是否在集合中, 需要一定的空间, 并会产生延迟.</p>
+<h2 id="驱逐策略">驱逐策略</h2>
+<p>当缓存未命中时, 驱逐策略如下:</p>
+<ul>
+<li>最近最少使用的 (LRU):
+<ul>
+<li>驱逐长时间未使用的缓存行 (时间局部性)</li>
+<li>必须跟踪每个缓存行相对于集合中其他缓存行的使用时间.</li>
+<li>对于 2 路集合关联映射, 找到每个缓存相对于集合中其他缓存行的使用时间相对容易, 需要增加一个额外的位来跟踪. 当关联度增加时, 复杂度将增加.</li>
+</ul>
+</li>
+<li>随机驱逐:
+<ul>
+<li>硬件随机选择一个缓存行并驱逐.</li>
+<li>比较容易实现, 结果不一定最优.</li>
+</ul>
+</li>
+<li>最近未使用:
+<ul>
+<li>用一个替换指针指向一个缓存行.</li>
+<li>如果替换指针指向的缓存行被访问, 则将替换指针移动到下一个缓存行上; 否则不移动.</li>
+<li>每次驱逐时驱逐替换指针所指向的缓存行.</li>
+</ul>
+</li>
+</ul>
+<h3 id="缓存未命中的来源">缓存未命中的来源</h3>
+<p>缓存未命中的来源主要如下:</p>
+<ul>
+<li>强制未命中:
+<ul>
+<li>当数据不在缓存中, 必须要从存储层次的低级别存储器中获取时, 便是强制未命中.</li>
+<li>当运行的指令足够多时, 强制未命中的影响便微不足道.</li>
+<li>给定一系列缓存未命中, 如果缓存无限时它仍然未命中, 则该缓存未命中为强制未命中.</li>
+</ul>
+</li>
+<li>容量未命中:
+<ul>
+<li>缓存不足以包含程序访问的所有块, 导致了容量未命中.</li>
+<li>给定一系列缓存未命中, 如果在缓存是无限的时候它能命中, 则该缓存未命中为容量未命中.</li>
+</ul>
+</li>
+<li>冲突未命中:
+<ul>
+<li>多个内存地址映射到同一个缓存集合中.</li>
+<li>给定一系列缓存未命中, 如果在相同大小的全关联映射缓存中命中, 则该缓存未命中为冲突未命中.</li>
+</ul>
+</li>
+<li>一致性未命中
+<ul>
+<li>但一个或多个处理器先将数据写入其他进程在读的内存位置时.</li>
+<li>第一次写会让所有拥有该地址的处理器的缓存的缓存行失效.</li>
+</ul>
+</li>
+</ul>
+<h2 id="性能">性能</h2>
+<p>由于内存平均访问时间 = 命中时间 + 未命中率 × 未命中惩罚, 根据公式, 自然要从三个方面来考虑</p>
+<ul>
+<li>减少缓存命中时间:
+<ul>
+<li>使用更小的缓存</li>
+</ul>
+</li>
+<li>减少缓存未命中率:
+<ul>
+<li>使用更大的缓存.</li>
+<li>使用更长的缓存行 (更好地利用空间局部性, 但会降低时间局部性的利用).</li>
+</ul>
+</li>
+<li>减少未命中惩罚:
+<ul>
+<li>使用存储层次.</li>
+</ul>
+</li>
+</ul>
+<p>影响缓存性能的维度有很多:</p>
+<ul>
+<li>缓存大小
+<ul>
+<li>缓存大小增加, 命中时间增加.</li>
+<li>缓存大小增加, 未命中率降低 (消除容量未命中, 也会减少冲突未命中), 从经验上来看, 缓存每增加 4 倍, 未命中率就下降 2 倍.</li>
+</ul>
+</li>
+<li>缓存行大小
+<ul>
+<li>当缓存行增大时, 开始由于空间局部性, 缓存未命中率会下降, 但是当缓存行大到一定程度时, 会导致冲突未命中, 未命中率会上升.</li>
+<li>当缓存行增大时, 由于一次传输的数据量大, 所以未命中惩罚会增加, 当大到一定程度时无影响.</li>
+</ul>
+</li>
+<li>缓存关联度
+<ul>
+<li>关联度增加, 缓存命中时间也会增加 (因为在每个集合中需要比较更多次, 且需要使用多路复用器, 产生额外的延迟), 从直接映射到 2 路集合关联映射的命中时间的增长幅度较大, 但继续增加关联度, 命中时间增长的幅度较小.</li>
+<li>关联度增加, 未命中率降低 (消除了冲突未命中), 关联度从 1 增加到 4 影响较大, 之后影响较小.</li>
+</ul>
+</li>
+<li>逐缓存驱逐策略</li>
+<li>缓存写策略</li>
+</ul>
+<p>程序的不同写法也会影响性能.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20221116144119.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>上述程序每次读取和写入数组的步幅为 256, 所以不存在空间上的局部性; 还会产生大量的容量未命中.</p>
+<p><img src="/img/Pictures/20221116144857.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>对上述程序进行调整后, 每次读取和写入数组的步幅为 1, 所以存在良好的空间局部性; array[256 * j] 也会重复访问, 所以具有良好的时间局部性.</p>
+<p>对于如下形式的程序:</p>
+<p><img src="/img/Pictures/20221116150535.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>如果 B 数组能完全放入缓存中
+<ul>
+<li>能避免容量未命中, 性能较好.</li>
+</ul>
+</li>
+<li>如果 B 数组不能完全放入缓存中
+<ul>
+<li>内部循环会发生容量未命中, 所以时间局部性较差.</li>
+<li>外部循环不受影响, 仍然具有良好的时间局部性.</li>
+</ul>
+</li>
+</ul>
+<p>所以通常将能完全放入缓存中的数组放在内部循环, 不能完全放入缓存中的数组放在外部循环.</p>
+<p>如果两个数组都不能完全放入缓存中, 则可以通过分块来解决:</p>
+<p><img src="/img/Pictures/20221116150949.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>这样对于数组 A 和数组 B 都具有良好的时间局部性.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>CS61C Great Ideas in Computer Architecture: <a target="_blank" rel="noopener" href="https://inst.eecs.berkeley.edu/~cs61c/sp22/">https://inst.eecs.berkeley.edu/~cs61c/sp22/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>Write Through and Write Back in Cache: <a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/write-through-and-write-back-in-cache/">https://www.geeksforgeeks.org/write-through-and-write-back-in-cache/</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="category-chain-item">计算机组成原理</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="print-no-link">#计算机组成原理</a>
+      
+        <a href="/tags/CS61C/" class="print-no-link">#CS61C</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" title="汇编语言">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">汇编语言</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%A4%84%E7%90%86%E5%99%A8/" title="处理器">
+                        <span class="hidden-mobile">处理器</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

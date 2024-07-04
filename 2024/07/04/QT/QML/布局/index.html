@@ -1,0 +1,708 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="布局 z-order 一个 QML 界面中, 可能会包含多个可视元素, 为了控制这些元素的显示顺序 (z-order), Item 元素提供了一个 z 属性, 当两个元素重叠时, 它能决定哪个元素在上面. 一般来说 z 属性较大的元素显示在上面, 如下图所示:  根据 z 属性的大小和父子关系, 基本上可以分为四种情况:  z 值相同的同级元素. 晚创建的元素在早创建的元素上面. z 值不同的同级">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QML 布局">
+<meta property="og:url" content="http://example.com/2024/07/04/QT/QML/%E5%B8%83%E5%B1%80/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="布局 z-order 一个 QML 界面中, 可能会包含多个可视元素, 为了控制这些元素的显示顺序 (z-order), Item 元素提供了一个 z 属性, 当两个元素重叠时, 它能决定哪个元素在上面. 一般来说 z 属性较大的元素显示在上面, 如下图所示:  根据 z 属性的大小和父子关系, 基本上可以分为四种情况:  z 值相同的同级元素. 晚创建的元素在早创建的元素上面. z 值不同的同级">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20240607131142.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240527140859.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240527143721.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240525141438.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240525141833.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240525142805.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240525144352.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240525145222.png">
+<meta property="article:published_time" content="2024-07-04T12:56:52.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="QT">
+<meta property="article:tag" content="QML">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20240607131142.png">
+  
+  
+  
+  <title>QML 布局 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QML 布局"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:56" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">QML 布局</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>布局</h1>
+<h2 id="z-order">z-order</h2>
+<p>一个 QML 界面中, 可能会包含多个可视元素, 为了控制这些元素的显示顺序 (z-order), <code>Item</code> 元素提供了一个 <code>z</code> 属性, 当两个元素重叠时, 它能决定哪个元素在上面.</p>
+<p>一般来说 <code>z</code> 属性较大的元素显示在上面, 如下图所示:<br>
+<img src="/img/Pictures/20240607131142.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>根据 <code>z</code> 属性的大小和父子关系, 基本上可以分为四种情况:</p>
+<ul>
+<li><code>z</code> 值相同的同级元素. 晚创建的元素在早创建的元素上面.</li>
+<li><code>z</code> 值不同的同级元素. <code>z</code> 值大的元素在上面.</li>
+<li><code>z</code> 值相同、父子关系. 子元素将在父元素上面.</li>
+<li><code>z</code> 值不同、父子关系. 只有子元素的 <code>z</code> 值小于 0 时才会位于下面, 其他情况子元素在父元素上面.</li>
+</ul>
+<h2 id="锚">锚</h2>
+<p>QML 提供了一种通过锚点布局元素的灵活方式. 锚点的概念是 <code>Item</code> 的基础, 适用于所有可视化 QML 元素. 锚点是相关性的表达, 你总是需要一个相关的元素来进行锚定.</p>
+<p>如下图所示:<br>
+<img src="/img/Pictures/20240527140859.png" srcset="/img/loading.gif" lazyload alt=""><br>
+一个元素有 6 条主要的锚定线 (<code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>, <code>horizontalCenter</code>, <code>verticalCenter</code>). 此外,  <code>Text</code> 元素中的文本还有 <code>baseline</code> 锚定线. 每条锚定线都有一个偏移量. 对于 <code>top</code>, <code>bottom</code>, <code>left</code>, 和 <code>right</code> 锚定线来说, 它们被称为<strong>边距</strong>. 对于 <code>horizontalCenter</code>, <code>verticalCenter</code> 和 <code>baseline</code> 来说, 它们被称为<strong>偏移量</strong>.</p>
+<p>相关示例如下所示:<br>
+<img src="/img/Pictures/20240527143721.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>(1) 代码如下:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">GreenSquare</span> &#123;<br>    <span class="hljs-title">BlueSquare</span> &#123;<br>        <span class="hljs-attribute">width</span>: <span class="hljs-number">12</span><br>        <span class="hljs-attribute">anchors.fill</span>: <span class="hljs-built_in">parent</span><br>        <span class="hljs-attribute">anchors.margins</span>: <span class="hljs-number">8</span><br>        <span class="hljs-attribute">text</span>: <span class="hljs-string">&#x27;(1)&#x27;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>(2) 代码如下:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">GreenSquare</span> &#123;<br>    <span class="hljs-title">BlueSquare</span> &#123;<br>        <span class="hljs-attribute">width</span>: <span class="hljs-number">48</span><br>        <span class="hljs-attribute">y</span>: <span class="hljs-number">8</span><br>        <span class="hljs-attribute">anchors.left</span>: <span class="hljs-built_in">parent</span>.left<br>        <span class="hljs-attribute">anchors.leftMargin</span>: <span class="hljs-number">8</span><br>        <span class="hljs-attribute">text</span>: <span class="hljs-string">&#x27;(2)&#x27;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>(3) 代码如下:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">GreenSquare</span> &#123;<br>    <span class="hljs-title">BlueSquare</span> &#123;<br>        <span class="hljs-attribute">width</span>: <span class="hljs-number">48</span><br>        <span class="hljs-attribute">y</span>: <span class="hljs-number">8</span><br>        <span class="hljs-attribute">anchors.left</span>: <span class="hljs-built_in">parent</span>.left<br>        <span class="hljs-attribute">anchors.leftMargin</span>: <span class="hljs-number">8</span><br>        <span class="hljs-attribute">text</span>: <span class="hljs-string">&#x27;(2)&#x27;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>(4) 代码如下:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">GreenSquare</span> &#123;<br>    <span class="hljs-title">BlueSquare</span> &#123;<br>        <span class="hljs-attribute">id:</span><span class="hljs-string"> blue1</span><br>        <span class="hljs-attribute">width</span>: <span class="hljs-number">48</span>; <span class="hljs-attribute">height</span>: <span class="hljs-number">24</span><br>        <span class="hljs-attribute">y</span>: <span class="hljs-number">8</span><br>        <span class="hljs-attribute">anchors.horizontalCenter</span>: <span class="hljs-built_in">parent</span>.horizontalCenter<br>    &#125;<br>    <span class="hljs-title">BlueSquare</span> &#123;<br>        <span class="hljs-attribute">id:</span><span class="hljs-string"> blue2</span><br>        <span class="hljs-attribute">width</span>: <span class="hljs-number">72</span>; <span class="hljs-attribute">height</span>: <span class="hljs-number">24</span><br>        <span class="hljs-attribute">anchors.top</span>: blue1.bottom<br>        <span class="hljs-attribute">anchors.topMargin</span>: <span class="hljs-number">4</span><br>        <span class="hljs-attribute">anchors.horizontalCenter</span>: blue1.horizontalCenter<br>        <span class="hljs-attribute">text</span>: <span class="hljs-string">&#x27;(4)&#x27;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>(5) 代码如下:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">GreenSquare</span> &#123;<br>    <span class="hljs-title">BlueSquare</span> &#123;<br>        <span class="hljs-attribute">width</span>: <span class="hljs-number">48</span><br>        <span class="hljs-attribute">anchors.centerIn</span>: <span class="hljs-built_in">parent</span><br>        <span class="hljs-attribute">text</span>: <span class="hljs-string">&#x27;(5)&#x27;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>(6) 代码如下:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">GreenSquare</span> &#123;<br>    <span class="hljs-title">BlueSquare</span> &#123;<br>        <span class="hljs-attribute">width</span>: <span class="hljs-number">48</span><br>        <span class="hljs-attribute">anchors.horizontalCenter</span>: <span class="hljs-built_in">parent</span>.horizontalCenter<br>        <span class="hljs-attribute">anchors.horizontalCenterOffset</span>: <span class="hljs-number">-12</span><br>        <span class="hljs-attribute">anchors.verticalCenter</span>: <span class="hljs-built_in">parent</span>.verticalCenter<br>        <span class="hljs-attribute">text</span>: <span class="hljs-string">&#x27;(6)&#x27;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>对上述图像进行拖动会发现: (1)、(5)、(6) 无法被拖动, (2)、(3)、(4) 可以垂直拖动, 即拖动会受到锚点的影响, 因为拖动本质上是改变 x, y 位置, 而锚点的优先级高于 x, y 属性的设置.</p>
+<h2 id="定位器">定位器</h2>
+<p>有许多 QML 元素用于定位元素. 这些元素被称为<strong>定位器</strong>, Qt Quick 模块定义了以下定位器: <code>Row</code>, <code>Column</code>, <code>Grid</code> 和 <code>Flow</code>.</p>
+<p>首先创建几个辅助组件, 这些组件是 48 × 48 像素的彩色方块, 其中红色方块的代码如下:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-comment">// RedSquare.qml</span><br><br><span class="hljs-keyword">import</span> QtQuick<br><br><span class="hljs-title">Rectangle</span> &#123;<br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">48</span><br>    <span class="hljs-attribute">height</span>: <span class="hljs-number">48</span><br>    <span class="hljs-attribute">color</span>: <span class="hljs-string">&quot;#ea7025&quot;</span><br>    <span class="hljs-attribute">border.color</span>: Qt.lighter(<span class="hljs-built_in">color</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>其中 <code>Qt.lighter(color)</code> 会根据填充颜色生成较浅的边框颜色.</li>
+</ul>
+<p><strong><code>Column</code> 元素能将所有子元素排成一列</strong>, 通过 <code>spacing</code> 属性设置每个子元素之间的距离. 如果 <code>Column</code> 的<strong>高度不足</strong>以容纳所有的子项, 那么<strong>超出的子项会被隐藏</strong>或者被截断.</p>
+<p>例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-comment">// ColumnExample.qml</span><br><br><span class="hljs-keyword">import</span> QtQuick<br><br><span class="hljs-title">DarkSquare</span> &#123;<br>    <span class="hljs-attribute">id:</span><span class="hljs-string"> root</span><br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">120</span><br>    <span class="hljs-attribute">height</span>: <span class="hljs-number">240</span><br><br>    <span class="hljs-title">Column</span> &#123;<br>        <span class="hljs-attribute">id:</span><span class="hljs-string"> column</span><br>        <span class="hljs-attribute">anchors.centerIn</span>: <span class="hljs-built_in">parent</span><br>        <span class="hljs-attribute">spacing</span>: <span class="hljs-number">8</span><br>        <span class="hljs-title">RedSquare</span> &#123; &#125;<br>        <span class="hljs-title">GreenSquare</span> &#123; <span class="hljs-attribute">width</span>: <span class="hljs-number">96</span> &#125;<br>        <span class="hljs-title">BlueSquare</span> &#123; &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/Pictures/20240525141438.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><strong><code>Row</code> 元素能够将所有子项排列成行</strong>, 通过 <code>layoutDirection</code> 属性决定从左到右排列或是从右到左排列. 同样通过<code>spacing</code> 属性设置每个子元素之间的距离. 如果 <code>Row</code> 的<strong>宽度不足</strong>以容纳所有的子项, 那么<strong>超出的子项会被隐藏</strong>或者被截断.</p>
+<p>例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-comment">// RowExample.qml</span><br><br><span class="hljs-keyword">import</span> QtQuick<br><br><span class="hljs-title">BrightSquare</span> &#123;<br>    <span class="hljs-attribute">id:</span><span class="hljs-string"> root</span><br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">400</span>; <span class="hljs-attribute">height</span>: <span class="hljs-number">120</span><br><br>    <span class="hljs-title">Row</span> &#123;<br>        <span class="hljs-attribute">id:</span><span class="hljs-string"> row</span><br>        <span class="hljs-attribute">anchors.centerIn</span>: <span class="hljs-built_in">parent</span><br>        <span class="hljs-attribute">spacing</span>: <span class="hljs-number">20</span><br>        <span class="hljs-title">BlueSquare</span> &#123; &#125;<br>        <span class="hljs-title">GreenSquare</span> &#123; &#125;<br>        <span class="hljs-title">RedSquare</span> &#123; &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/Pictures/20240525141833.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><strong><code>Grid</code> 元素能够将所有子元素排列到网格中</strong>. 通过设置 <code>rows</code> 和 <code>columns</code> 属性, 可以限制行或列的数量. 如果不设置这两个属性中的任何一个, 另一个将根据子元素的数量计算得出. 例如, 将行设置为 3 并添加 6 个子元素, 就会产生 2 列. <code>flow</code> 和 <code>layoutDirection</code> 属性用于控制元素添加到网格中的顺序, 而 <code>spacing</code> 属性则控制子元素之间的间隔.</p>
+<p>例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-comment">// GridExample.qml</span><br><br><span class="hljs-keyword">import</span> QtQuick<br><br><span class="hljs-title">BrightSquare</span> &#123;<br>    <span class="hljs-attribute">id:</span><span class="hljs-string"> root</span><br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">160</span><br>    <span class="hljs-attribute">height</span>: <span class="hljs-number">160</span><br><br>    <span class="hljs-title">Grid</span> &#123;<br>        <span class="hljs-attribute">id:</span><span class="hljs-string"> grid</span><br>        <span class="hljs-attribute">rows</span>: <span class="hljs-number">2</span><br>        <span class="hljs-attribute">columns</span>: <span class="hljs-number">2</span><br>        <span class="hljs-attribute">anchors.centerIn</span>: <span class="hljs-built_in">parent</span><br>        <span class="hljs-attribute">spacing</span>: <span class="hljs-number">8</span><br>        <span class="hljs-title">RedSquare</span> &#123; &#125;<br>        <span class="hljs-title">RedSquare</span> &#123; &#125;<br>        <span class="hljs-title">RedSquare</span> &#123; &#125;<br>        <span class="hljs-title">RedSquare</span> &#123; &#125;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/Pictures/20240525142805.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><strong><code>Flow</code> 元素可以将所有子元素按照预定的顺序排列在一个或多个行 (或列)</strong> 中, 通过 <code>flow</code> 和 <code>layoutDirection</code> 控制子元素的排列方向. <code>Flow</code> 元素默认的排列顺序是从左到右, 从上到下. 当 <code>Flow</code> 的<strong>宽度 (或高度) 不足</strong>以容纳所有子项时, 它会<strong>自动将子项移动到新的一行 (或列)</strong>.</p>
+<p>例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-comment">// FlowExample.qml</span><br><br><span class="hljs-keyword">import</span> QtQuick<br><br><span class="hljs-title">BrightSquare</span> &#123;<br>    <span class="hljs-attribute">id:</span><span class="hljs-string"> root</span><br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">160</span><br>    <span class="hljs-attribute">height</span>: <span class="hljs-number">160</span><br><br>    <span class="hljs-title">Flow</span> &#123;<br>        <span class="hljs-attribute">anchors.fill</span>: <span class="hljs-built_in">parent</span><br>        <span class="hljs-attribute">anchors.margins</span>: <span class="hljs-number">20</span><br>        <span class="hljs-attribute">spacing</span>: <span class="hljs-number">20</span><br>        <span class="hljs-title">RedSquare</span> &#123; &#125;<br>        <span class="hljs-title">BlueSquare</span> &#123; &#125;<br>        <span class="hljs-title">GreenSquare</span> &#123; &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/Pictures/20240525144352.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>定位器经常使用的元素是 <strong><code>Repeater</code>, 它可以用一个模型和一个代理来创建大量类似的元素</strong>. 它的主要属性如下:</p>
+<ul>
+<li><code>model</code>: 定义了要重复的元素的数量. 这可以是任何可用的模型, 例如一个整数、一个列表或一个自定义数据模型.</li>
+<li><code>delegate</code>: 定义了每个元素的具体内容. 这可以是任意的 QML 类型.</li>
+<li><code>count</code>: 返回 <code>Repeater</code> 创建的元素数量.</li>
+<li><code>index</code>: <code>Repeater</code> 的内置属性, 它表示当前循环的索引值. <strong>当你在 <code>delegate</code> 属性中创建一个元素时, 这个元素就能直接访问到 <code>index</code> 属性</strong>. 这是因为 <code>delegate</code> 属性的内容会在每次循环中被创建一次, 而在每次创建时, 当前的索引值都会被注入到 <code>delegate</code> 中.</li>
+</ul>
+<p>例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-comment">// RepeaterExample.qml</span><br><br><span class="hljs-keyword">import</span> QtQuick<br><br><span class="hljs-title">DarkSquare</span> &#123;<br>    <span class="hljs-attribute">id:</span><span class="hljs-string"> root</span><br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">252</span><br>    <span class="hljs-attribute">height</span>: <span class="hljs-number">252</span><br>    <span class="hljs-keyword">property</span><span class="hljs-string"> variant colorArray</span>: [<span class="hljs-string">&quot;#00bde3&quot;</span>, <span class="hljs-string">&quot;#67c111&quot;</span>, <span class="hljs-string">&quot;#ea7025&quot;</span>]<br><br>    <span class="hljs-title">Grid</span>&#123;<br>        <span class="hljs-attribute">anchors.fill</span>: <span class="hljs-built_in">parent</span><br>        <span class="hljs-attribute">anchors.margins</span>: <span class="hljs-number">8</span><br>        <span class="hljs-attribute">spacing</span>: <span class="hljs-number">4</span><br>        <span class="hljs-title">Repeater</span> &#123;<br>            <span class="hljs-attribute">model</span>: <span class="hljs-number">16</span><br>            <span class="hljs-attribute">delegate</span>: <span class="hljs-title">Rectangle</span> &#123;<br>                required <span class="hljs-keyword">property</span><span class="hljs-string"> int index</span><br>                <span class="hljs-keyword">property</span><span class="hljs-string"> int colorIndex</span>: <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random()*<span class="hljs-number">3</span>)<br><br>                <span class="hljs-attribute">width</span>: <span class="hljs-number">56</span>; <span class="hljs-attribute">height</span>: <span class="hljs-number">56</span><br>                <span class="hljs-attribute">color</span>: root.colorArray[colorIndex]<br>                <span class="hljs-attribute">border.color</span>: Qt.lighter(<span class="hljs-built_in">color</span>)<br><br>                <span class="hljs-title">Text</span> &#123;<br>                    <span class="hljs-attribute">anchors.centerIn</span>: <span class="hljs-built_in">parent</span><br>                    <span class="hljs-attribute">color</span>: <span class="hljs-string">&quot;#f0f0f0&quot;</span><br>                    <span class="hljs-attribute">text</span>: <span class="hljs-string">&quot;Cell &quot;</span> + <span class="hljs-built_in">parent</span>.index<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/Pictures/20240525145222.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="布局管理器">布局管理器</h2>
+<p>Qt Quick Layouts 模块提供了 <code>ColumnLayout</code>、<code>GridLayout</code>、<code>RowLayout</code> 等布局管理器来排列界面中的元素.</p>
+<p>相比定位器, 它可以对布局进一步细化 (如, 设置对齐方式、进行大小限制、设置间距等).</p>
+<p>例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">Rectangle</span> &#123;<br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">200</span><br>    <span class="hljs-attribute">height</span>: <span class="hljs-number">200</span><br>    <span class="hljs-attribute">color</span>: <span class="hljs-string">&quot;black&quot;</span><br><br>    <span class="hljs-title">GridLayout</span> &#123;<br>        <span class="hljs-attribute">rows</span>: <span class="hljs-number">2</span><br>        <span class="hljs-attribute">columns</span>: <span class="hljs-number">2</span><br>        <span class="hljs-attribute">rowSpacing</span>: <span class="hljs-number">0</span><br>        <span class="hljs-attribute">columnSpacing</span>: <span class="hljs-number">0</span><br><br>        <span class="hljs-title">Rectangle</span> &#123;<br>            <span class="hljs-attribute">Layout.topMargin</span>: <span class="hljs-number">50</span><br>            <span class="hljs-attribute">Layout.leftMargin</span>: <span class="hljs-number">50</span><br>            <span class="hljs-attribute">Layout.preferredWidth</span>: <span class="hljs-number">50</span><br>            <span class="hljs-attribute">Layout.preferredHeight</span>: <span class="hljs-number">50</span><br>            <span class="hljs-attribute">color</span>: <span class="hljs-string">&quot;green&quot;</span><br>        &#125;<br>        <span class="hljs-title">Item</span> &#123;<br>            <span class="hljs-attribute">Layout.preferredWidth</span>: <span class="hljs-number">50</span><br>            <span class="hljs-attribute">Layout.preferredHeight</span>: <span class="hljs-number">50</span><br>        &#125;<br>        <span class="hljs-title">Item</span> &#123;<br>            <span class="hljs-attribute">Layout.preferredWidth</span>: <span class="hljs-number">50</span><br>            <span class="hljs-attribute">Layout.preferredHeight</span>: <span class="hljs-number">50</span><br>        &#125;<br>        <span class="hljs-title">Rectangle</span> &#123;<br>            <span class="hljs-attribute">Layout.preferredWidth</span>: <span class="hljs-number">50</span><br>            <span class="hljs-attribute">Layout.preferredHeight</span>: <span class="hljs-number">50</span><br>            <span class="hljs-attribute">color</span>: <span class="hljs-string">&quot;yellow&quot;</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>QML 中的 z-order: <a target="_blank" rel="noopener" href="https://waleon.blog.csdn.net/article/details/129351643">https://waleon.blog.csdn.net/article/details/129351643</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>Qt QML Book - Layout Items: <a target="_blank" rel="noopener" href="https://www.qt.io/product/qt6/qml-book/ch04-qmlstart-layout">https://www.qt.io/product/qt6/qml-book/ch04-qmlstart-layout</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>Qt QML Book - Positioning Elements: <a target="_blank" rel="noopener" href="https://www.qt.io/product/qt6/qml-book/ch04-qmlstart-positioning">https://www.qt.io/product/qt6/qml-book/ch04-qmlstart-positioning</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>QML 中的 5 大布局: <a target="_blank" rel="noopener" href="https://waleon.blog.csdn.net/article/details/129222151">https://waleon.blog.csdn.net/article/details/129222151</a>
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/" class="category-chain-item">QT</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/QML/" class="category-chain-item">QML</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QT/" class="print-no-link">#QT</a>
+      
+        <a href="/tags/QML/" class="print-no-link">#QML</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/QML/%E5%B8%B8%E8%A7%81%E6%A8%A1%E5%BC%8F/" title="QML 常见模式">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QML 常见模式</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/QML/%E5%8F%98%E6%8D%A2/" title="QML 变换">
+                        <span class="hidden-mobile">QML 变换</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

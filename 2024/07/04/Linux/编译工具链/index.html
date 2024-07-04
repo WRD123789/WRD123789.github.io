@@ -1,0 +1,937 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="编译工具链 在 Linux 环境下, 我们一般使用编译工具链, 又称为软件开发工具包 (SDK, Software Development Kit). Linux 环境下常见的编译工具链有: gcc 和 lang, 我们使用的是 gcc. 编译 gcc 和 g++ 都是 GNU 编译器集合的一部分, 其中 gcc 主要用于编译 C 语言程序, 而 g++ 专门用于编译 C++ 程序. 下面是 gc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译工具链">
+<meta property="og:url" content="http://example.com/2024/07/04/Linux/%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BE/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="编译工具链 在 Linux 环境下, 我们一般使用编译工具链, 又称为软件开发工具包 (SDK, Software Development Kit). Linux 环境下常见的编译工具链有: gcc 和 lang, 我们使用的是 gcc. 编译 gcc 和 g++ 都是 GNU 编译器集合的一部分, 其中 gcc 主要用于编译 C 语言程序, 而 g++ 专门用于编译 C++ 程序. 下面是 gc">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20240630182209.png">
+<meta property="article:published_time" content="2024-07-04T12:09:29.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.564Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20240630182209.png">
+  
+  
+  
+  <title>编译工具链 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="编译工具链"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:09" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          35 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">编译工具链</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>编译工具链</h1>
+<p>在 Linux 环境下, 我们一般使用编译工具链, 又称为软件开发工具包 (SDK, Software Development Kit). Linux 环境下常见的编译工具链有: gcc 和 lang, 我们使用的是 gcc.</p>
+<h2 id="编译">编译</h2>
+<p>gcc 和 g++ 都是 GNU 编译器集合的一部分, 其中 gcc 主要用于编译 C 语言程序, 而 g++ 专门用于编译 C++ 程序. 下面是 gcc 的编译过程:</p>
+<ol>
+<li>预处理. 预处理阶段处理所有的预处理指令, 并生成一个扩展的源代码文件 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">gcc -E source.c -o source.i<br></code></pre></td></tr></table></figure>
+</li>
+<li>编译. 编译阶段将预处理后的源代码转换为汇编代码 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">gcc -S source.i -o source.s<br></code></pre></td></tr></table></figure>
+</li>
+<li>汇编. 汇编阶段将汇编代码转换为机器码, 生成目标文件 (通常以 <code>.o</code> 结尾) <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">gcc -c source.s -o source.o<br></code></pre></td></tr></table></figure>
+</li>
+<li>链接. 链接阶段将目标文件和所需的库文件链接在一起, 生成最终的可执行文件 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">gcc source.o -o executable<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>整个过程如下图所示:<br>
+<img src="/img/Pictures/20240630182209.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>日常使用中, 通常会简化上述步骤:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">gcc -c source.c<br>gcc source.o -o source<br></code></pre></td></tr></table></figure>
+<p>对于简单的代码文件, 也可以一步到位:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">gcc source.c -o source<br></code></pre></td></tr></table></figure>
+<h3 id="常用选项">常用选项</h3>
+<p>gcc 中常用的选项如下:</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-Wall</td>
+<td>生成所有警告信息</td>
+</tr>
+<tr>
+<td>-O0, -O1, -O2, -O3</td>
+<td>编译器的 4 个优化级别, -O0 表示不优化, -O1 是默认值, -O3 的优化级别最高</td>
+</tr>
+<tr>
+<td>-g</td>
+<td>使编译器在编译的时候产生调试相关的信息</td>
+</tr>
+<tr>
+<td>-Dmacro</td>
+<td>相当于在文件的开头加上 <code>#define macro</code></td>
+</tr>
+<tr>
+<td>-Dmacro=value</td>
+<td>相当于在文件的开头加上 <code>#define macro value</code></td>
+</tr>
+<tr>
+<td>-I&lt;directory&gt;</td>
+<td>将用户指定的目录添加到编译器的头文件搜索路径中, 来找到那些不在标准系统路径中的头文件. 搜索路径为: 当前目录 -&gt; 通过 -I 选项指定的目录 -&gt; 标准系统头文件目录 (xx/include)</td>
+</tr>
+</tbody>
+</table>
+<p>可以使用 <code>cpp -v</code> 命令查看系统的 include 目录.</p>
+<h3 id="条件编译">条件编译</h3>
+<p>条件编译是指在编译过程中根据特定条件选择性地编译代码的一部分, 主要涉及以下预处理指令:</p>
+<ol>
+<li><code>#if [#elif] [#else] #endif</code></li>
+<li><code>#ifdef [#elif] [#else] #endif</code></li>
+<li><code>#ifndef [#elif] [#else] #endif</code></li>
+</ol>
+<p>示例:</p>
+<ol>
+<li><code>#ifdef</code> 和 <code>#ifndef</code>. 这些指令用于检查某个宏是否已定义 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span> </span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> DEBUG </span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> <br>&#123; <br><span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> DEBUG </span><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Debug mode is ON\n&quot;</span>); <br><span class="hljs-meta">#<span class="hljs-keyword">endif</span> </span><br>	<br><span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> RELEASE </span><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Release mode is OFF\n&quot;</span>); <br><span class="hljs-meta">#<span class="hljs-keyword">endif</span> </span><br>	<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; <br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>#if</code> 和 <code>#elif</code>. 这些指令用于根据表达式的值进行条件判断 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> VERSION 2</span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br><span class="hljs-meta">#<span class="hljs-keyword">if</span> VERSION == 1</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Version 1\n&quot;</span>);<br><span class="hljs-meta">#<span class="hljs-keyword">elif</span> VERSION == 2</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Version 2\n&quot;</span>);<br><span class="hljs-meta">#<span class="hljs-keyword">else</span></span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Unknown version\n&quot;</span>);<br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>#else</code> 和 <code>#endif</code>. 这些指令与 <code>#if</code> 或 <code>#ifdef</code> 配合使用, 用于定义条件不满足时的代码块 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> FEATURE_ENABLED</span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br><span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> FEATURE_ENABLED</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Feature is enabled\n&quot;</span>);<br><span class="hljs-meta">#<span class="hljs-keyword">else</span></span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Feature is disabled\n&quot;</span>);<br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="调试">调试</h2>
+<p>调试需要在编译的时候, 加上一些调试相关的信息:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">gcc hello.c -o hello -g</span><br></code></pre></td></tr></table></figure>
+<p>可以使用以下两种方式启动调试:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	gdb executable_name<br>	gdb --args executable_name [arg]<br><br>示例:<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">gdb --args foo arg1 arg2 arg3</span><br>	在启动调试时设置参数<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">gdb foo</span><br>(gdb) set args arg1 arg2 arg3<br>	无参数启动调试, 启动后再通过 set 设置参数<br></code></pre></td></tr></table></figure>
+<h3 id="调试程序">调试程序</h3>
+<h4 id="查看源码">查看源码</h4>
+<p>可以使用 <code>list</code> / <code>l</code> 命令查看源码:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	list / l [文件名:][行号 | 函数名]<br><br>示例:<br>(gdb) list<br>	下翻源码<br>(gdb) list -<br>	上翻源码<br>(gdb) list 20<br>	查看 20 行附近的源代码<br>(gdb) list main<br>	查看 main 函数附近的源代码<br>(gdb) list scanner.c:20<br>	查看 scanner.c 文件第 20 行附近的源代码<br>(gdb) list scanner.c:scanToken<br>	查看 scanner.c 文件中 scanToken 函数附近的源代码<br></code></pre></td></tr></table></figure>
+<h4 id="设置断点">设置断点</h4>
+<p>可以使用 <code>break</code> / <code>b</code> 命令设置断点:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	break / b [文件名:][行号 | 函数名]<br><br>示例:<br>(gdb) break 20<br>	在第 20 行设置断点<br>(gdb) break main<br>	在 main 函数的开头设置断点<br>(gdb) break scanner.c:20<br>	在 scanner.c 文件的第 20 行设置断点<br></code></pre></td></tr></table></figure>
+<h4 id="查看断点">查看断点</h4>
+<p>可以使用 <code>info break</code> / <code>i b</code> 命令查看断点:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	info break <br>	i b<br><br>示例:<br>(gdb) info break<br>Num     Type           Disp Enb Address            What<br>1       breakpoint     keep y   0x000000000000075c in main at hello.c:5<br>2       breakpoint     keep y   0x000000000000076c in main at hello.c:7<br></code></pre></td></tr></table></figure>
+<p>其中 Num 是断点的编号, Enb (enable) 表示断点是否有效, What 表示断点在源代码中的位置.</p>
+<h4 id="删除断点">删除断点</h4>
+<p>可以使用 <code>delete</code> / <code>d</code> 命令删除断点:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	delete / d [n]<br>		删除所有断点或 n 号断点<br><br>示例:<br>(gdb) delete 2<br>	删除 2 号断点<br>(gdb) delete<br>	删除所有断点<br></code></pre></td></tr></table></figure>
+<h4 id="启动调试">启动调试</h4>
+<p>可以使用 <code>run</code> / <code>r</code> 命令启动调试:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">(gdb) run<br></code></pre></td></tr></table></figure>
+<h4 id="继续">继续</h4>
+<p><code>continue</code> / <code>c</code> 命令可以运行到逻辑上的下一个断点处:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">(gdb) c<br></code></pre></td></tr></table></figure>
+<h4 id="忽略断点">忽略断点</h4>
+<p>可以用 <code>ignore</code> 命令来指定忽略某个断点多少次, 一般用于循环调试:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	ignore N COUNT<br><br>示例:<br>(gdb) ignore 1 10<br>	忽略 1 号断点 10 次<br></code></pre></td></tr></table></figure>
+<h4 id="单步调试">单步调试</h4>
+<p><code>step</code> / <code>s</code> 命令用来进行单步调试, 当遇到函数调用时会进入函数:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">(gdb) step<br></code></pre></td></tr></table></figure>
+<h4 id="跳出函数">跳出函数</h4>
+<p>可以使用 <code>finish</code> 命令直接完成当前函数的执行, 并跳出该函数:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">(gdb) finish<br></code></pre></td></tr></table></figure>
+<h4 id="逐过程">逐过程</h4>
+<p><code>next</code> / <code>n</code> 命令表示逐过程, 遇到函数调用时, 它不会进入函数, 而是直接跳过函数的执行过程:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">(gdb) n<br></code></pre></td></tr></table></figure>
+<h4 id="监视">监视</h4>
+<p><code>print</code> / <code>p</code> 命令用于<strong>显示变量的值</strong>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	print / p EXP<br><br>示例:<br>(gdb) print PI*r*r<br>(gdb) print r=2.0<br></code></pre></td></tr></table></figure>
+<p><code>display</code> 命令用于在每次程序暂停时<strong>自动显示变量的值</strong>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	display EXP<br><br>示例:<br>(gdb) list<br>1	#include &lt;stdio.h&gt;<br>2<br>3	int main()<br>4	&#123;<br>5		int a = 0, b = 0, c = 0;<br>6<br>7		a += 1;<br>8		printf(&quot;a is %d\n&quot;, a);<br>9<br>10		b += 2;<br>(gdb) display a<br>1: a = 65535<br>(gdb) display b<br>2: b = 16<br>(gdb) display c<br>3: c = 0<br>(gdb) s<br>7		a += 1;<br>1: a = 0<br>2: b = 0<br>3: c = 0<br>(gdb) s<br>8		printf(&quot;a is %d\n&quot;, a);<br>1: a = 1<br>2: b = 0<br>3: c = 0<br></code></pre></td></tr></table></figure>
+<p>如果你<strong>不再需要自动显示某个变量的值</strong>, 可以使用 <code>undisplay</code> 命令来取消显示:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	undisplay N<br>		N 是 display 命令分配的编号<br><br>示例:<br>(gdb) undisplay 1<br>	取消编号为 1 的自动显示<br></code></pre></td></tr></table></figure>
+<p>想要<strong>显示当前作用域中所有局部变量的值</strong>, 可以使用:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">(gdb) info locals<br></code></pre></td></tr></table></figure>
+<p>想要<strong>显示当前函数的所有参数的值</strong>, 可以使用:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">(gdb) info args<br></code></pre></td></tr></table></figure>
+<p>想要<strong>设置变量的值</strong>, 可以使用:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">(gdb) set variable a = 10<br></code></pre></td></tr></table></figure>
+<h4 id="查看内存">查看内存</h4>
+<p>可以使用 <code>x</code> 命令查看内存:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><code class="hljs shell">格式:<br>	x/nfu ADDRESS<br>		n 是要显示的单元数 (可选)<br>		f 是显示格式 (可选)<br>		u 是每个单元的大小 (可选)<br>		ADDRESS 是要查看的内存地址或表达式<br><br>显示格式:<br>	x: 十六进制整数<br>	d: 十进制整数<br>	u: 无符号十进制整数<br>	o: 八进制整数<br>	t: 二进制整数<br>	f: 浮点数<br>	a: 地址<br>	i: 机器指令<br>	c: 字符<br>	s: 字符串<br><br>单元大小:<br>	b: 字节 (1 字节)<br>	h: 半字 (2 字节)<br>	w: 字 (4 字节)<br>	g: 巨字 (8 字节)<br><br>示例:<br>(gdb) list<br>5		int a = 42;<br>6		float b = 3.14;<br>7		char c = &#x27;A&#x27;;<br>8		int array[5] = &#123;1, 2, 3, 4, 5&#125;;<br>9<br>10		printf(&quot;Values: %d, %f, %c\n&quot;, a, b, c);<br>11		return 0;<br>12	&#125;<br>(gdb) print &amp;a<br><span class="hljs-meta prompt_">$</span><span class="language-bash">3 = (int *) 0xfffffffff178</span><br>(gdb) x/w 0xfffffffff178<br>0xfffffffff178:	42<br>(gdb) print &amp;b<br><span class="hljs-meta prompt_">$</span><span class="language-bash">4 = (<span class="hljs-built_in">float</span> *) 0xfffffffff17c</span><br>(gdb) x/f 0xfffffffff17c<br>0xfffffffff17c:	3.1400001<br>(gdb) print &amp;c<br><span class="hljs-meta prompt_">$</span><span class="language-bash">5 = 0xfffffffff177 <span class="hljs-string">&quot;A*&quot;</span></span><br>(gdb) x/c 0xfffffffff177<br>0xfffffffff177:	65 &#x27;A&#x27;<br>(gdb) print array<br><span class="hljs-meta prompt_">$</span><span class="language-bash">6 = &#123;1, 2, 3, 4, 5&#125;</span><br>(gdb) print &amp;array<br><span class="hljs-meta prompt_">$</span><span class="language-bash">7 = (int (*)[5]) 0xfffffffff180</span><br>(gdb) x/5wd 0xfffffffff180<br>0xfffffffff180:	1	2	3	4<br>0xfffffffff190:	5<br></code></pre></td></tr></table></figure>
+<p>也可以使用 <code>x</code> 来查看机器指令:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">(gdb) x/i $pc<br>=&gt; 0xaaaaaaaa08b0 &lt;main+92&gt;:	ldr	s0, [sp, #28]<br></code></pre></td></tr></table></figure>
+<h3 id="调试-Core-dump-文件">调试 Core dump 文件</h3>
+<p>Core dump (核心转储) 是指在程序崩溃时, 操作系统会将程序的内存状态写入一个文件, 该文件被称为 core dump, 默认名称是 core. 它包含了程序的堆栈、堆、寄存器和其他内存状态的信息. 通过分析 core dump 文件, 开发人员可以了解程序崩溃的原因和位置.</p>
+<p>在大多数 Linux 系统中, 默认情况下 core dump 是禁用的. 你可以使用以下命令<strong>启用 core dump</strong>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">ulimit</span> -a</span><br>real-time non-blocking time  (microseconds, -R) unlimited<br>core file size              (blocks, -c) 0<br>data seg size               (kbytes, -d) unlimited<br>...<br>	此时 core 文件的最大大小为 0, 表示 core dump 被禁用<br><br>ulimit -c unlimited<br>	将 core 文件的大小限制被设置为无限制, 表示启用 core dump<br></code></pre></td></tr></table></figure>
+<p><strong>配置系统生成 core dump 文件时的命名模式</strong>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">sudo vim /etc/sysctl.conf</span><br>添加: kernel.core_pattern = %e_core_%s_%t<br><span class="hljs-meta prompt_">	%</span><span class="language-bash">e: 程序名</span><br><span class="hljs-meta prompt_">	%</span><span class="language-bash">s: 信号编号</span><br><span class="hljs-meta prompt_">	%</span><span class="language-bash">t: core dump 生成的时间戳</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash">sudo sysctl -p</span><br>	使配置生效<br></code></pre></td></tr></table></figure>
+<p>下面使用 core dump 调试程序:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">cause_segfault</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> *p = <span class="hljs-literal">NULL</span>;<br>    *p = <span class="hljs-number">0</span>;  <span class="hljs-comment">// 这里会导致段错误</span><br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;This program will cause a segmentation fault.\n&quot;</span>);<br><br>    <span class="hljs-comment">// 生成段错误</span><br>    cause_segfault();<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">./test</span><br>This program will cause a segmentation fault.<br>段错误 (核心已转储)<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">ls</span></span><br>test  test.c  test_core_11_1719908724.108202<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">gdb <span class="hljs-built_in">test</span> test_core_11_1719908724.108202</span><br>...<br>[New LWP 108202]<br>[Thread debugging using libthread_db enabled]<br>Using host libthread_db library &quot;/lib/aarch64-linux-gnu/libthread_db.so.1&quot;.<br>Core was generated by `./test&#x27;.<br>Program terminated with signal SIGSEGV, Segmentation fault.<br><span class="hljs-meta prompt_">#</span><span class="language-bash">0  0x0000aaaae4520760 <span class="hljs-keyword">in</span> cause_segfault () at test.c:7</span><br>7	    *p = 0;  // 这里会导致段错误<br>(gdb) backtrace              # 查看栈调用情况<br><span class="hljs-meta prompt_">#</span><span class="language-bash">0  0x0000aaaae4520760 <span class="hljs-keyword">in</span> cause_segfault () at test.c:7</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">1  0x0000aaaae4520788 <span class="hljs-keyword">in</span> main () at test.c:14</span><br>(gdb) frame 1                # 查看 #1 栈帧<br><span class="hljs-meta prompt_">#</span><span class="language-bash">1  0x0000aaaae4520788 <span class="hljs-keyword">in</span> main () at test.c:14</span><br>14	    cause_segfault();<br>(gdb) info registers         # 查看寄存器的值<br>x0             0x0                 0<br>x1             0xffff854fd788      281472918345608<br>x2             0xfbad2a84          4222429828<br>x3             0xffff85550e60      281472918687328<br>x4             0xffffffff          4294967295<br>x5             0xfbad2a84          4222429828<br>x6             0x21a               538<br>x7             0x10                16<br>x8             0x40                64<br>x9             0x10                16<br>x10            0xffff85364860      281472916670560<br>x11            0x0                 0<br>x12            0x0                 0<br>x13            0x2                 2<br>x14            0x410               1040<br>x15            0x0                 0<br>x16            0x1                 1<br>x17            0xffff8552ed40      281472918547776<br>x18            0x0                 0<br>x19            0xffffcd733168      281474128621928<br>x20            0x1                 1<br>x21            0xaaaae4530d98      187650951810456<br>x22            0xffff85557040      281472918712384<br></code></pre></td></tr></table></figure>
+<h2 id="静态库和动态库">静态库和动态库</h2>
+<p>库有两种: 静态库和动态库. 在类 Unix 系统上, 静态库一般是以 .a 结尾, Windows 上一般是以 .lib 结尾; 在类 Unix 系统上, 动态库一般是以 .so 结尾, Windows 上一 般是以 .dll 结尾.</p>
+<h3 id="生成静态库">生成静态库</h3>
+<p>如果我们想要把下面的函数打包成一个静态库:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// algs.h</span><br><span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> __WD_ALGS_H</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> __WD_ALGS_H</span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">sub</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">mul</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">div</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span>;<br><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// add.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;algs.h&quot;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span><br>&#123;<br>	<span class="hljs-keyword">return</span> a + b;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// sub.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;algs.h&quot;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">sub</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span><br>&#123;<br>	<span class="hljs-keyword">return</span> a - b;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// mul.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;algs.h&quot;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">mul</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span><br>&#123;<br>	<span class="hljs-keyword">return</span> a * b;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// div.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;algs.h&quot;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">div</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span><br>&#123;<br>	<span class="hljs-keyword">return</span> a / b;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>过程如下:</p>
+<ol>
+<li>编译源文件为目标文件 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">gcc -c add.c sub.c mul.c div.c</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>使用 ar 工具将目标文件归档成静态库 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">ar crsv libalgs.a add.o sub.o mul.o div.o</span><br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>在下面的函数中使用生成的静态库:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;algs.h&quot;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;add(7, 3) = %d\n&quot;</span>, add(<span class="hljs-number">7</span>, <span class="hljs-number">3</span>));<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sub(7, 3) = %d\n&quot;</span>, sub(<span class="hljs-number">7</span>, <span class="hljs-number">3</span>));<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;mul(7, 3) = %d\n&quot;</span>, mul(<span class="hljs-number">7</span>, <span class="hljs-number">3</span>));<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;div(7, 3) = %d\n&quot;</span>, div(<span class="hljs-number">7</span>, <span class="hljs-number">3</span>));<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">gcc main.c -L. -lalgs -o main</span><br>	在编译时链接静态库, 其中 -L. 指定库所在的目录, -lalgs 指定库名 (省略 lib 和后缀 .a)<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">./main</span><br>add(7, 3) = 10<br>sub(7, 3) = 4<br>mul(7, 3) = 21<br>div(7, 3) = 2<br></code></pre></td></tr></table></figure>
+<h3 id="生成动态库">生成动态库</h3>
+<p>生成动态库的过程如下:</p>
+<ol>
+<li>使用 <code>-fPIC</code> 选项编译源文件 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">gcc -fPIC -c add.c sub.c mul.c div.c<br></code></pre></td></tr></table></figure>
+</li>
+<li>使用 <code>gcc</code> 将目标文件链接成动态库 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">gcc add.o sub.o mul.o div.o -shared -o libalgs.so<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>使用生成的动态库:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">sudo <span class="hljs-built_in">mv</span> libalgs.so /usr/lib</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash">gcc main.c -lalgs -o main</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash">./main</span><br>add(7, 3) = 10<br>sub(7, 3) = 4<br>mul(7, 3) = 21<br>div(7, 3) = 2<br></code></pre></td></tr></table></figure>
+<p>如果库不在标准库路径下 (如 <code>/usr/lib</code> 或 <code>/lib</code>), 需要设置 <code>LD_LIBRARY_PATH</code> 环境变量:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH<br></code></pre></td></tr></table></figure>
+<p>这样系统在运行时才可以找到动态库.</p>
+<h2 id="Makefile">Makefile</h2>
+<p><code>Makefile</code> 是一个配置文件, 用于指导 <code>make</code> 工具如何编译和链接程序. 它定义了一组规则, 每个规则指定了一个目标文件如何由依赖文件生成.</p>
+<p>并且, <code>Makefile</code> 采用的是 “<strong>增量编译</strong>”, 也就是说, 它只会编译那些修改过的、新增的源文件; 那些没修改过的源文件, 不会被重新编译.</p>
+<h3 id="规则">规则</h3>
+<p><code>Makefile</code> 的核心就是规则, 一个规则由三部分组成:</p>
+<ul>
+<li><strong>目标 (Target)</strong>: 要生成的文件或动作的名称, 通常是可执行文件、目标文件或其他文件.</li>
+<li><strong>依赖 (Dependencies)</strong>: 生成目标文件所需的源文件或其他目标文件.</li>
+<li><strong>命令 (Commands)</strong>: 为生成目标文件而执行的操作, 通常是编译或链接命令.</li>
+</ul>
+<p>基本结构如下:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">target: dependencies</span><br>    command<br></code></pre></td></tr></table></figure>
+<h3 id="make-执行过程">make 执行过程</h3>
+<p>当我们执行 <code>make</code> 指令时:</p>
+<ol>
+<li>如果没有指定文件名, <code>make</code> 会在当前目录下搜索 “Makefile” / “makefile” 文件; 也可以通过 <code>-f</code> / <code>--file</code> 指定文件.</li>
+<li>如果找到, <code>make</code> 会把 <code>Makefile</code> 文件中的第一个 target 作为要执行的 target.</li>
+<li>如果  target 文件不存在, 或 dependencies 中有个文件的修改时间晚于 target 文件, 则会执行对应的 command</li>
+<li>如果 dependencies 中的文件不存在, 那么 <code>make</code> 会去搜索以该文件为 target 的规则, 并通过该规则生成文件.</li>
+</ol>
+<h3 id="伪目标">伪目标</h3>
+<p>伪目标是 <code>Makefile</code> 中的一种特殊目标, 它不对应任何实际文件. 这种目标通常用于执行特定的命令或任务, 例如清理生成文件、编译特定模块等. 伪目标通过 <code>.PHONY</code> 关键字来声明. 伪目标的主要作用是避免与实际文件名称冲突, 并确保目标总是被执行.</p>
+<p>它的基本语法如下:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: target</span><br><span class="hljs-section">target:</span><br>    command<br></code></pre></td></tr></table></figure>
+<p>例如:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-comment"># 默认目标</span><br><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: all</span><br><span class="hljs-section">all: myprogram</span><br><br><span class="hljs-comment"># 链接目标文件生成可执行文件</span><br><span class="hljs-section">myprogram: main.o foo.o bar.o</span><br>    gcc -Wall -g -o myprogram main.o foo.o bar.o<br><br><span class="hljs-comment"># 编译源文件为目标文件</span><br><span class="hljs-section">main.o: main.c foo.h bar.h</span><br>    gcc -Wall -g -c main.c<br><br><span class="hljs-section">foo.o: foo.c foo.h</span><br>    gcc -Wall -g -c foo.c<br><br><span class="hljs-section">bar.o: bar.c bar.h</span><br>    gcc -Wall -g -c bar.c<br><br><span class="hljs-comment"># 清理生成的文件</span><br><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: clean</span><br><span class="hljs-section">clean:</span><br>    rm -f myprogram main.o foo.o bar.o<br><br><span class="hljs-comment"># 安装目标</span><br><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: install</span><br><span class="hljs-section">install: myprogram</span><br>    cp myprogram /usr/local/bin/<br><br><span class="hljs-comment"># 卸载目标</span><br><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: uninstall</span><br><span class="hljs-section">uninstall:</span><br>    rm -f /usr/local/bin/myprogram<br><br><span class="hljs-comment"># 重新编译目标</span><br><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: rebuild</span><br><span class="hljs-section">rebuild: clean all</span><br></code></pre></td></tr></table></figure>
+<p>其中 <code>all</code> 是默认目标, 依赖于 <code>myprogram</code>, 用来生成可执行文件, 在执行 <code>make</code> 没指定目标时, 它会被执行; <code>clean</code> / <code>install</code> / <code>uninstall</code> / <code>rebuild</code> 是伪目标, 如果需要执行, 需要显式执行:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">make clean</span><br></code></pre></td></tr></table></figure>
+<h3 id="变量">变量</h3>
+<p><code>Makefile</code> 允许使用变量来简化和管理构建过程中的参数, 类似于 C/C++ 中的宏.</p>
+<p>变量的名称可以包含字母、数字和下划线, 并且是大小写敏感的.</p>
+<p>变量在声明时需要赋初始值. 使用时, 需要给在变量名前加上 <code>$</code> 符号, 如果变量名包含多个字符, 我们需要使用小括号 <code>()</code> 或大括号 <code>&#123;&#125;</code>.</p>
+<h4 id="自定义变量">自定义变量</h4>
+<p>具体示例:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs makefile">Objs := main.o add.o sub.o mul.o div.o<br>Out := main<br><br><span class="hljs-variable">$(Out)</span> : <span class="hljs-variable">$(Objs)</span><br>	gcc <span class="hljs-variable">$(Objs)</span> -o <span class="hljs-variable">$(Out)</span><br><span class="hljs-section">main.o: main.c algs.h</span><br>	gcc -c main.c -Wall -g<br><span class="hljs-section">add.o: add.c algs.h</span><br>	gcc -c add.c -Wall -g<br><span class="hljs-section">sub.o: sub.c algs.h</span><br>	gcc -c sub.c -Wall -g<br><span class="hljs-section">mul.o: mul.c algs.h</span><br>	gcc -c mul.c -Wall -g<br><span class="hljs-section">div.o: div.c algs.h</span><br>	gcc -c div.c -Wall -g<br><br><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: clean rebuild</span><br><span class="hljs-section">clean:</span><br>    rm -f <span class="hljs-variable">$(Objs)</span> <span class="hljs-variable">$(Out)</span><br><br><span class="hljs-section">rebuild:</span><br>	clean <span class="hljs-variable">$(Out)</span><br></code></pre></td></tr></table></figure>
+<h4 id="预定义变量">预定义变量</h4>
+<p>预定义变量是 <code>make</code> 工具提供的一组内置变量. 这些变量可以简化编写 <code>Makefile</code> 的过程, 尤其是对常见的编译、链接和清理操作. 这些变量通常有默认值, 你可以在 <code>Makefile</code> 中覆盖它们.</p>
+<p>常见的预定义变量如下:</p>
+<table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>功能</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AR</td>
+<td>打包库文件</td>
+<td>ar</td>
+</tr>
+<tr>
+<td>AS</td>
+<td>汇编程序</td>
+<td>as</td>
+</tr>
+<tr>
+<td>CC</td>
+<td>C 编译器</td>
+<td>gcc</td>
+</tr>
+<tr>
+<td>CPP</td>
+<td>C 预编译器</td>
+<td>$(CC) -E</td>
+</tr>
+<tr>
+<td>CXX</td>
+<td>C++ 编译器</td>
+<td>g++</td>
+</tr>
+<tr>
+<td>RM</td>
+<td>删除</td>
+<td>rm -f</td>
+</tr>
+<tr>
+<td>ARFLAGS</td>
+<td>库选项</td>
+<td>空 (需要自己覆盖)</td>
+</tr>
+<tr>
+<td>ASFLAGS</td>
+<td>汇编选项</td>
+<td>空 (需要自己覆盖)</td>
+</tr>
+<tr>
+<td>CFLAGS</td>
+<td>C 编译器选项</td>
+<td>空 (需要自己覆盖)</td>
+</tr>
+<tr>
+<td>CPPFLAGS</td>
+<td>C 预编译器选项</td>
+<td>空 (需要自己覆盖)</td>
+</tr>
+<tr>
+<td>CXXFLAGS</td>
+<td>C++ 编译器选项</td>
+<td>空 (需要自己覆盖)</td>
+</tr>
+</tbody>
+</table>
+<p>此时可以将上面的 <code>Makefile</code> 写成:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs makefile">Objs := main.o add.o sub.o mul.o div.o<br>Out := main<br>CFLAGS := -Wall -g<br><br><span class="hljs-variable">$(Out)</span> : <span class="hljs-variable">$(Objs)</span><br>	<span class="hljs-variable">$(CC)</span> <span class="hljs-variable">$(Objs)</span> -o <span class="hljs-variable">$(Out)</span><br><span class="hljs-section">main.o: main.c algs.h</span><br>	<span class="hljs-variable">$(CC)</span> -c main.c <span class="hljs-variable">$(CFLAGS)</span><br><span class="hljs-section">add.o: add.c algs.h</span><br>	<span class="hljs-variable">$(CC)</span> -c add.c <span class="hljs-variable">$(CFLAGS)</span><br><span class="hljs-section">sub.o: sub.c algs.h</span><br>	<span class="hljs-variable">$(CC)</span> -c sub.c <span class="hljs-variable">$(CFLAGS)</span><br><span class="hljs-section">mul.o: mul.c algs.h</span><br>	<span class="hljs-variable">$(CC)</span> -c mul.c <span class="hljs-variable">$(CFLAGS)</span><br><span class="hljs-section">div.o: div.c algs.h</span><br>	<span class="hljs-variable">$(CC)</span> -c div.c <span class="hljs-variable">$(CFLAGS)</span><br><br><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: clean rebuild</span><br><span class="hljs-section">clean:</span><br>    <span class="hljs-variable">$(RM)</span> <span class="hljs-variable">$(Objs)</span> <span class="hljs-variable">$(Out)</span><br><br><span class="hljs-section">rebuild:</span><br>	clean <span class="hljs-variable">$(Out)</span><br></code></pre></td></tr></table></figure>
+<h4 id="特殊变量">特殊变量</h4>
+<p>特殊变量就是某些具有特殊含义的变量:</p>
+<table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$@</td>
+<td>目标</td>
+</tr>
+<tr>
+<td>$&lt;</td>
+<td>第一个依赖目标</td>
+</tr>
+<tr>
+<td>$^</td>
+<td>所有依赖目标</td>
+</tr>
+<tr>
+<td>$?</td>
+<td>所有修改日期晚于 target 的依赖文件</td>
+</tr>
+</tbody>
+</table>
+<p>此时可以将上面的 <code>Makefile</code> 文件写成:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs makefile">Objs := main.o add.o sub.o mul.o div.o<br>Out := main<br>CFLAGS := -Wall -g<br><br><span class="hljs-variable">$(Out)</span> : <span class="hljs-variable">$(Objs)</span><br>	<span class="hljs-variable">$(CC)</span> <span class="hljs-variable">$^</span> -o <span class="hljs-variable">$@</span><br><span class="hljs-section">main.o: main.c algs.h</span><br>	<span class="hljs-variable">$(CC)</span> -c <span class="hljs-variable">$&lt;</span> <span class="hljs-variable">$(CFLAGS)</span><br><span class="hljs-section">add.o: add.c algs.h</span><br>	<span class="hljs-variable">$(CC)</span> -c <span class="hljs-variable">$&lt;</span> <span class="hljs-variable">$(CFLAGS)</span><br><span class="hljs-section">sub.o: sub.c algs.h</span><br>	<span class="hljs-variable">$(CC)</span> -c <span class="hljs-variable">$&lt;</span> <span class="hljs-variable">$(CFLAGS)</span><br><span class="hljs-section">mul.o: mul.c algs.h</span><br>	<span class="hljs-variable">$(CC)</span> -c <span class="hljs-variable">$&lt;</span> <span class="hljs-variable">$(CFLAGS)</span><br><span class="hljs-section">div.o: div.c algs.h</span><br>	<span class="hljs-variable">$(CC)</span> -c <span class="hljs-variable">$&lt;</span> <span class="hljs-variable">$(CFLAGS)</span><br><br><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: clean rebuild</span><br><span class="hljs-section">clean:</span><br>    <span class="hljs-variable">$(RM)</span> <span class="hljs-variable">$(Objs)</span> <span class="hljs-variable">$(Out)</span><br><br><span class="hljs-section">rebuild:</span><br>	clean <span class="hljs-variable">$(Out)</span><br></code></pre></td></tr></table></figure>
+<h3 id="模式规则">模式规则</h3>
+<p>模式规则允许你定义一组通用的规则，这些规则可以应用于一系列具有相似模式的文件。这样，你可以避免为每个文件显式地编写规则，从而使 <code>Makefile</code> 更加简洁和可维护.</p>
+<p>基本语法如下:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">%.o: %.c</span><br>	<span class="hljs-variable">$(CC)</span> -c <span class="hljs-variable">$&lt;</span> -o <span class="hljs-variable">$@</span> <span class="hljs-variable">$(CFLAGS)</span><br></code></pre></td></tr></table></figure>
+<p>此时可以进一步简化上面的示例:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs makefile">Objs := main.o add.o sub.o mul.o div.o<br>Out := main<br>CFLAGS := -Wall -g<br><br><span class="hljs-variable">$(Out)</span> : <span class="hljs-variable">$(Objs)</span><br>	<span class="hljs-variable">$(CC)</span> <span class="hljs-variable">$^</span> -o <span class="hljs-variable">$@</span><br><span class="hljs-section">%.o: %.c</span><br>	<span class="hljs-variable">$(CC)</span> -c <span class="hljs-variable">$&lt;</span> <span class="hljs-variable">$(CFLAGS)</span><br><br><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: clean rebuild</span><br><span class="hljs-section">clean:</span><br>    <span class="hljs-variable">$(RM)</span> <span class="hljs-variable">$(Objs)</span> <span class="hljs-variable">$(Out)</span><br><br><span class="hljs-section">rebuild:</span><br>	clean <span class="hljs-variable">$(Out)</span><br></code></pre></td></tr></table></figure>
+<h3 id="内置函数">内置函数</h3>
+<p><code>Makefile</code> 也支持函数调用, 格式如下:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs makefile">$(&lt;function&gt; &lt;arguments&gt;)<br>或<br>$&#123;&lt;function&gt; &lt;arguments&gt;&#125;<br></code></pre></td></tr></table></figure>
+<p>其中参数之间以 “,” 相隔, 函数名和参数之间以空格相隔.</p>
+<p>下面是两个常用的内置函数:</p>
+<ul>
+<li>通配符函数  <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">格式:</span><br>	<span class="hljs-variable">$(<span class="hljs-built_in">wildcard</span> &lt;pattern&gt;)</span><br><span class="hljs-section">作用:</span><br>	查找所有符合 &lt;pattern&gt; 的文件<br><span class="hljs-section">返回值:</span><br>	返回所有符合 &lt;pattern&gt; 的文件, 文件名之间以空格分隔<br></code></pre></td></tr></table></figure>
+例如:  <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs makefile">Srcs := <span class="hljs-variable">$(<span class="hljs-built_in">wildcard</span> *.c)</span><br>	查找当前目录下, 所有以 `.c` 结尾的文件. 文件名以空格分隔, 并赋值给变量 Srcs<br></code></pre></td></tr></table></figure>
+</li>
+<li>模式替换函数  <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">格式:</span><br>	<span class="hljs-variable">$(<span class="hljs-built_in">patsubst</span> &lt;pattern&gt;,&lt;replacement&gt;,&lt;text&gt;)</span><br></code></pre></td></tr></table></figure>
+其中, <code>pattern</code> 是要匹配的模式, <code>replacement</code> 是用于替换模式的字符串, <code>text</code> 是要进行模式替换的字符串. 例如:  <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs makefile">SRC_DIR = src<br>BUILD_DIR = build<br>SOURCES = <span class="hljs-variable">$(<span class="hljs-built_in">wildcard</span> <span class="hljs-variable">$(SRC_DIR)</span>/*.c)</span><br>OBJECTS = <span class="hljs-variable">$(<span class="hljs-built_in">patsubst</span> <span class="hljs-variable">$(SRC_DIR)</span>/%.c,<span class="hljs-variable">$(BUILD_DIR)</span>/%.o,<span class="hljs-variable">$(SOURCES)</span>)</span><br><br><span class="hljs-section">all: <span class="hljs-variable">$(OBJECTS)</span></span><br><br><span class="hljs-variable">$(BUILD_DIR)</span>/%.o: <span class="hljs-variable">$(SRC_DIR)</span>/%.c<br>    gcc -c <span class="hljs-variable">$&lt;</span> -o <span class="hljs-variable">$@</span><br><br></code></pre></td></tr></table></figure>
+此示例中, <code>$(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SOURCES))</code> 将 <code>src</code> 目录中的源文件路径转换为 <code>build</code> 目录中的目标文件路径.</li>
+</ul>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>王道 C++: <a target="_blank" rel="noopener" href="http://home.cskaoyan.com/#/c++/0">http://home.cskaoyan.com/#/c++/0</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/Linux/" class="category-chain-item">Linux</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/Linux/Linux-UNIX%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6%E6%96%87%E4%BB%B6IO/" title="深入探究文件 I/O">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">深入探究文件 I/O</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/Linux/%E6%8C%87%E4%BB%A4/" title="Linux 指令">
+                        <span class="hidden-mobile">Linux 指令</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

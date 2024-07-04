@@ -1,0 +1,910 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="锁 由于我们有多个 CPU,   这些 CPU 各自独立地执行指令,   并且共用 RAM,   因此我们可以在多个 CPU 之间维护一些共享数据结构,   但这会导致一些问题.  例如: 在一个 CPU 读取数据时,   另一个 CPU 可能正在更新数据,   如果我们不加以干涉,   则会导致读取的数据错误.  访问共享资源的代码段,   我们称之为临界区,   而多个执行线程同时进入临界区并">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锁">
+<meta property="og:url" content="http://example.com/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E9%94%81/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="锁 由于我们有多个 CPU,   这些 CPU 各自独立地执行指令,   并且共用 RAM,   因此我们可以在多个 CPU 之间维护一些共享数据结构,   但这会导致一些问题.  例如: 在一个 CPU 读取数据时,   另一个 CPU 可能正在更新数据,   如果我们不加以干涉,   则会导致读取的数据错误.  访问共享资源的代码段,   我们称之为临界区,   而多个执行线程同时进入临界区并">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20230405204148.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230405204324.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230405222509.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230405223447.png">
+<meta property="article:published_time" content="2024-07-04T03:53:07.000Z">
+<meta property="article:modified_time" content="2024-07-04T10:39:38.136Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="MIT 6.S081">
+<meta property="article:tag" content="操作系统">
+<meta property="article:tag" content="Xv6">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20230405204148.png">
+  
+  
+  
+  <title>锁 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="锁"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 11:53" pubdate>
+          2024年7月4日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          78 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">锁</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>锁</h1>
+<p>由于我们有多个 CPU,   这些 CPU 各自独立地执行指令,   并且共用 RAM,   因此我们可以在多个 CPU 之间维护一些<strong>共享数据结构</strong>,   但这会导致一些问题.</p>
+<ul>
+<li>例如: 在一个 CPU 读取数据时,   另一个 CPU 可能正在更新数据,   如果我们不加以干涉,   则会导致读取的数据错误.</li>
+</ul>
+<p>访问共享资源的代码段,   我们称之为<strong>临界区</strong>,   而多个执行线程同时进入临界区并尝试更新共享资源的情况,  我们称之为<strong>竞争条件</strong>.</p>
+<p>即使是单 CPU,  也会在多个进程之间切换执行,  使这些进程的执行序列变得交错.</p>
+<ul>
+<li>例如: 当中断开放时,  如果某中断处理程序正在修改某些数据,  而进行到一半时又被新的中断介入,  该数据就会出现问题.</li>
+</ul>
+<p>因此,  共享数据结构在多 CPU 或单 CPU 的情况下,  都可能会出现问题.</p>
+<p>以上是我们需要考虑的并发问题,  它们通常由多个执行指令流交错而产生,  可进一步归结为以下原因:</p>
+<ul>
+<li>多处理器的并行执行</li>
+<li>线程切换</li>
+<li>中断</li>
+</ul>
+<p>内核之中总是遍布着各种共享数据结构,  我们希望有一种兼具并发性和正确性的抽象设计,  线程应该使用这种设计提供的<strong>互斥</strong>原语,  使得多个执行线程可以同时进入临界区,  避免产生竞争条件,  最终能够产生确定的输出. 为此设计者提供了很多<strong>并发控制技术 (也称为同步工具)</strong>.</p>
+<p>常用的同步工具有: 锁、条件变量、信号量等.</p>
+<p>这些同步工具保证了临界区中工作的<strong>原子性</strong>.</p>
+<p>其中<strong>锁</strong>是一种互斥原语,  一次只有一个 CPU 能够获得锁. 因此, 如果我们给一个临界区上锁, 那么一次只能有一个 CPU 在临界区中执行, 锁成功地保护了临界区中的共享数据结构. 尽管使用锁可以解决很多的并发问题, 但如果使用不当的话, 会影响性能表现, 因为锁本质上使并发操作变得<strong>串行化 (也称为序列化)</strong>, 当然也会有多个 CPU 争夺同一把锁的情况.</p>
+<p>总的来说, 锁的作用为:</p>
+<ul>
+<li>有助于避免更新的丢失.</li>
+<li>能够使多步操作变为原子性的操作.</li>
+<li>有助于维持一些规则或特性的不变性.</li>
+</ul>
+<h2 id="竞争条件与临界区">竞争条件与临界区</h2>
+<p>假设我们有一个有界缓冲区,   考虑一个生产者—消费者模型,   我们有一个生产者进程和一个消费者进程,   两个进程并发地对缓冲区进行读和写. 为了让这个模型顺利地工作,   我们添加了一个变量 count,   并且初始化为 0,   生产者和消费者工作后都会对 count 进行更新,   如下所示:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// Producer</span><br><span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>  <span class="hljs-comment">/* produce an item in next produced */</span><br>  <span class="hljs-keyword">while</span> (count == BUFFER SIZE)<br>    ; <span class="hljs-comment">/* do nothing */</span><br>  buffer[in] = next produced;<br>  in = (in + <span class="hljs-number">1</span>) % BUFFER SIZE;<br>  count++;<br>&#125;<br><br><span class="hljs-comment">// Consumer</span><br><span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>  <span class="hljs-keyword">while</span> (count == <span class="hljs-number">0</span>)<br>    ; <span class="hljs-comment">/* do nothing */</span><br>  next consumed = buffer[out];<br>  out = (out + <span class="hljs-number">1</span>) % BUFFER SIZE;<br>  count--;<br>  <span class="hljs-comment">/* consume the item in next consumed */</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>上述代码看起来没问题,   但是由于执行指令流的交错,   还是会产生并发问题. 问题在于 count-- 和 count++ 上,   这两个代码在机器指令上可能是这样执行的:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// register1是CPU1的寄存器,  而register2是CPU2的寄存器</span><br><span class="hljs-comment">// 尽管也可能是一样的寄存器,  但是对于同一寄存器每个CPU都会有自己的值</span><br>register1 = count<br>register1 = register1 + <span class="hljs-number">1</span><br>count = register1<br><br>register2 = count<br>register2 = register2 + <span class="hljs-number">1</span><br>count = register2<br></code></pre></td></tr></table></figure>
+<p>假设 count 为 5,   则对于以上机器指令,   一个可能的执行序列如下所示:</p>
+<p><img src="/img/Pictures/20230405204148.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>引发这样错误的原因,  是因为我们允许两个进程同时/并发地修改 count. 回忆我们的定义,  多个进程并发地修改某个共享数据结构,  并因此产生不确定的结果,  这就是<strong>竞争条件</strong>. 而这些进程并发地修改共享数据结构的代码段,  我们就称为<strong>临界区</strong>,  如下图所示:</p>
+<p><img src="/img/Pictures/20230405204324.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>要解决临界区问题,  其中一种方法就是使用同步工具里的<strong>互斥锁</strong>(简称为锁). 使用锁的解决方案应该要满足以下的要求:</p>
+<ul>
+<li><strong>互斥</strong>: 一次只能有一个进程进入临界区中,  并在其中执行.</li>
+<li><strong>进步</strong>: 如果当前没有进程在临界区中执行,  且有多个进程同时想要进入临界区,  应该有某种方式来决定谁先进入,  而且这种决定不能被无限推迟.</li>
+<li>有限等待/无饥饿: 进程从请求进入临界区开始,  直到被允许进入临界区的这段时间应该是有限的,  即每个竞争进程都应该有公平的机会抢到锁,  不能有竞争锁的进程处于饥饿 (一直无法获得锁).</li>
+</ul>
+<p>有两种用于处理操作系统临界问题的常用方法:</p>
+<ul>
+<li>抢占式内核: 允许在内核空间下运行的进程的 CPU 被抢占.</li>
+<li>非抢占式内核: 不允许进程的 CPU 被抢占,  进程会一直运行知道退出内核空间、阻塞或自愿放弃 CPU.</li>
+</ul>
+<p>非抢占式内核基本不会导致竞争条件, 因为任一时刻只有一个进程在内核空间下运行; 而抢占式内核则需要仔细设计, 以防止竞争条件出现, 尤其是对称多处理器体系结构. 但我们更倾向于使用抢占式内核, 因为这种内核响应更快, 进程不会在内核中运行任意长的时间, 还允许实时进程抢占在内核空间下运行的其它进程.</p>
+<h2 id="Peterson-算法">Peterson 算法</h2>
+<p><strong>Peterson 算法</strong>是一个基于软件的临界区问题的解决方案.</p>
+<p>该算法的主要思想是<strong>谦让</strong>, 一个线程总是试图把进入临界区的权利让给另一个线程. 假设当前线程首先更新 flag, 表示自己想要进入临界区, 但是我们会先把机会让给另一个线程, 希望对方优先进入临界区. 如果对方刚好也更新 flag, 则对方就能顺利进入临界区, 而当前进程就在原地等待; 如果对方没有更新 flag, 表示它不想进入临界区, 或者对方先谦让给我们, 那就轮到我们顺利地进入临界区.</p>
+<p>简单的代码实现如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> flag[<span class="hljs-number">2</span>];<br><span class="hljs-type">int</span> turn;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> &#123;<br>  flag[<span class="hljs-number">0</span>] = flag[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;  <span class="hljs-comment">// flag为1时表示该线程想要抓到锁</span><br>  turn = <span class="hljs-number">0</span>;               <span class="hljs-comment">// 一开始决定是0号进程的轮次</span><br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">lock</span><span class="hljs-params">()</span> &#123;<br>  flag[self] = <span class="hljs-number">1</span>;   <span class="hljs-comment">// self是线程的编号，flag设为1表示自己想抓到锁</span><br>  turn = <span class="hljs-number">1</span> - self;  <span class="hljs-comment">// 把轮次让给另一个线程</span><br>  <span class="hljs-comment">// 如果对方想要抓到锁，而且轮次也是对方的，那么自己就在临界区外等待</span><br>  <span class="hljs-keyword">while</span>((flag[<span class="hljs-number">1</span>-self] == <span class="hljs-number">1</span>) &amp;&amp; (turn == <span class="hljs-number">1</span> - self))<br>    ; <span class="hljs-comment">// 自旋等待</span><br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">unlock</span><span class="hljs-params">()</span> &#123;<br>  flag[self] = <span class="hljs-number">0</span>;  <span class="hljs-comment">// 表示自己现在释放了锁</span><br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>  init();<br><br>  <span class="hljs-keyword">do</span> &#123;<br>    lock();<br><br>    <span class="hljs-comment">// 临界区</span><br><br>    unlock();<br>  &#125; <span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>)<br><br>  <span class="hljs-keyword">return</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这个解决方案可以满足临界区问题的三个要求 (互斥、进步和无饥饿). 但是这个算法在现代计算机上可能会出问题. 因为为了提高性能, 处理器/编译器可能会重新排序没有依赖关系的操作, 对于多线程, 这可能导致不一致或不期望的结果.</p>
+<ul>
+<li>
+<p>例如: 原实现中变量更新顺序是 flag <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> turn, 由于更新 flag 和更新 turn 的操作之间不存在依赖关系, 处理器/编译器对操作进行了重新排序, 使得变量更新顺序为 turn <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> flag:</p>
+<p><img src="/img/Pictures/20230405222509.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ul>
+<p>该算法不局限于两个线程, 对于多个线程, 以两个线程为一组, 每组竞争同一个锁, 在上一轮获胜的线程会被重新分组, 并在新的一轮中竞争, 直到在所有轮次钟获胜, 最终会形成一棵树.</p>
+<ul>
+<li>
+<p>例如:</p>
+<p><img src="/img/Pictures/20230405223447.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ul>
+<p>但是这种方式会产生较大的延迟.</p>
+<h2 id="硬件支持">硬件支持</h2>
+<p>前面已经介绍了用软件的方式解决临界区问题, 但是基于软件的解决方案并不能保证在现代计算机体积结构上能够正确工作. 下面我们介绍一系列的硬件方法, 其中涉及到的硬件指令是<strong>原子</strong>的, 利用这些硬件支持, 我们能够实现出各种同步工具, 包括锁.</p>
+<h3 id="Test-and-Set">Test and Set</h3>
+<p>Test and Set 是一个特殊硬件指令, 其逻辑可以用 C 代码展示 (实际上该指令只是原子的, 这里只是方便展示其逻辑):</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">TestAndSet</span><span class="hljs-params">(<span class="hljs-type">int</span> *old_ptr, <span class="hljs-type">int</span> new)</span>&#123;<br>  <span class="hljs-type">int</span> old = *old_ptr;  <span class="hljs-comment">// 获取旧的值</span><br>  *old_ptr = new;      <span class="hljs-comment">// 存储新的值</span><br>  <span class="hljs-keyword">return</span> old;          <span class="hljs-comment">// 返回旧的值</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>该指令返回 old_ptr 指向的旧值 old, 同时更新其为新值 new, 利用这个特性, 我们可以按以下方式实现一个简单的锁.</p>
+<ul>
+<li>
+<p>如果当前线程不能获取该锁, 则它会在原地等待, 此时该线程还是占用 CPU, 这种锁称为<strong>自旋锁</strong>.</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">lock_t</span>&#123;</span><br>  <span class="hljs-type">int</span> flag;<br>&#125; <span class="hljs-type">lock_t</span>;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">(<span class="hljs-type">lock_t</span> *lock)</span>&#123;<br>  lock-&gt;flag = <span class="hljs-number">0</span>;  <span class="hljs-comment">// 0表示锁可用，1表示锁已被占用</span><br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">lock</span><span class="hljs-params">(<span class="hljs-type">lock_t</span> *lock)</span>&#123;<br>  <span class="hljs-keyword">while</span> (TestAndSet(&amp;lock-&gt;flag, <span class="hljs-number">1</span>) == <span class="hljs-number">1</span>)  <span class="hljs-comment">// 第一个执行TestAndSet的线程会得到旧值0而跳出循环</span><br>    ;  <span class="hljs-comment">// 不做任何事情，只是自旋地等待</span><br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">unlock</span><span class="hljs-params">(<span class="hljs-type">lock_t</span> *lock)</span>&#123;<br>  lock-&gt;flag = <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>  init(&amp;<span class="hljs-type">lock_t</span>);<br><br>  <span class="hljs-keyword">do</span>&#123;<br>    lock(&amp;<span class="hljs-type">lock_t</span>);<br><br>    <span class="hljs-comment">// 临界区</span><br><br>    unlock(&amp;<span class="hljs-type">lock_t</span>);<br>  &#125; <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>);<br><br>  <span class="hljs-keyword">return</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>该自旋锁方案满足互斥和进步, 但是不满足有限等待. 一个不严谨的改进方案如下:</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">lock_t</span>&#123;</span><br>  <span class="hljs-type">int</span> flag;<br>&#125; <span class="hljs-type">lock_t</span>;<br><br><span class="hljs-type">int</span> waiting[n];  <span class="hljs-comment">// waiting[i] = 1 时表示i号线程想要进入临界区</span><br> <br><span class="hljs-type">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">(<span class="hljs-type">lock_t</span> *lock)</span>&#123;<br>  lock-&gt;flag = <span class="hljs-number">0</span>;  <span class="hljs-comment">// 0表示锁可用，1表示锁已被占用</span><br>  <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>; i&lt;n; i++)<br>    waiting[i] = <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">lock</span><span class="hljs-params">(<span class="hljs-type">lock_t</span> *lock)</span>&#123;<br>  waiting[i] = <span class="hljs-number">1</span>;  <span class="hljs-comment">// i是当前线程的编号，表示i号线程想要进入临界区，因此先等待</span><br>  <span class="hljs-type">int</span> key = <span class="hljs-number">1</span>;<br>  <span class="hljs-keyword">while</span> (waiting[i] &amp;&amp; key)  <span class="hljs-comment">// 只有当waiting[i] = 0 或 key = 0 时i号线程才能进入临界区</span><br>    key = TestAndSet(&amp;lock-&gt;flag, <span class="hljs-number">1</span>);  <span class="hljs-comment">// 第一个执行TestAndSet的线程会使key变为0</span><br>  waiting[i] = <span class="hljs-number">0</span>;  <span class="hljs-comment">// 表示i号线程已经进入临界区，不用再自旋等待</span><br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">unlock</span><span class="hljs-params">(<span class="hljs-type">lock_t</span> *lock)</span>&#123;<br>  j = (i + <span class="hljs-number">1</span>) % n;  <span class="hljs-comment">// 尝试把机会让给下一个线程</span><br>  <span class="hljs-keyword">while</span> ((j != i) &amp;&amp; !waiting[j])<br>    j = (j + <span class="hljs-number">1</span>) % n;  <span class="hljs-comment">// 轮询一圈，按编号顺序搜索，找到需要进入临界区的下一个线程</span><br>  <span class="hljs-keyword">if</span> (j == i)<br>    lock-&gt;flag = <span class="hljs-number">0</span>;  <span class="hljs-comment">// 当前没有其它线程需要进入临界区，直接释放锁</span><br>  <span class="hljs-keyword">else</span><br>    waiting[j] = <span class="hljs-number">0</span>;  <span class="hljs-comment">// j号线程想要进入临界区，于是使其不再等待</span><br>                     <span class="hljs-comment">// waiting[j] = 0 表示j号线程可以进入</span><br>                     <span class="hljs-comment">// 而lock-&gt;flag = 1 仍成立，表示锁仍被持有，只是从i转移到j</span><br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>  init(&amp;<span class="hljs-type">lock_t</span>);<br><br>  <span class="hljs-keyword">do</span>&#123;<br>    lock(&amp;<span class="hljs-type">lock_t</span>);<br><br>    <span class="hljs-comment">// 临界区</span><br><br>    unlock(&amp;<span class="hljs-type">lock_t</span>);<br>  &#125; <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>);<br><br>  <span class="hljs-keyword">return</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该方案满足了临界区问题的三个要求, 现在希望进入临界区的线程最多只需要等待 n - 1 次.</li>
+</ul>
+</li>
+</ul>
+<h3 id="Compare-and-Swap">Compare and Swap</h3>
+<p>Compare and Swap 是一个特殊硬件指令, 它的逻辑如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">CompareAndSwap</span><span class="hljs-params">(<span class="hljs-type">int</span> *ptr, <span class="hljs-type">int</span> expected, <span class="hljs-type">int</span> new)</span>&#123;<br>  <span class="hljs-type">int</span> actual = *ptr;<br>  <span class="hljs-keyword">if</span>(actual == expected)<br>    *ptr = new;<br>  <span class="hljs-keyword">return</span> actual;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>该指令也很简单, 其思想就是检查 ptr 指向的值是否和 expected 相等. 如果相等, 则更新 ptr 的值为 new, 否则什么也不更新. 无论如何, 最终都会返回该内存地址的实际值 actual.</p>
+<p>和前面利用 Test and Set 指令实现互斥锁的思路一样, 我们只需要替换 lock 函数如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">lock</span><span class="hljs-params">(<span class="hljs-type">lock_t</span> *lock)</span>&#123;<br>  <span class="hljs-keyword">while</span>(CompareAndSwap(&amp;lock-&gt;flag, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>) == <span class="hljs-number">1</span>)<br>    ;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>和 Test and Set 一样, 也会存在有限等待的问题, 改进方法也是类似的, 只需要吧 Test and Set 的地方改为用 Compare and Swap 即可.</li>
+</ul>
+<h3 id="Fetch-and-Add">Fetch and Add</h3>
+<p>Fetch and Add 是一个特殊硬件指令, 它的逻辑如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">FetchAndAdd</span><span class="hljs-params">(<span class="hljs-type">int</span> *ptr)</span>&#123;<br>  <span class="hljs-type">int</span> old = *ptr;<br>  *ptr = old + <span class="hljs-number">1</span>;<br>  <span class="hljs-keyword">return</span> old;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>该指令让特定地址的值自增 1, 并返回旧值, 整个过程是原子的. 我们可以用 Fetch and Add 指令实现一个 Ticket 锁:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">lock_t</span>&#123;</span><br>  <span class="hljs-type">int</span> ticket; <span class="hljs-comment">// 票号</span><br>  <span class="hljs-type">int</span> turn;   <span class="hljs-comment">// 当前轮到的票号</span><br>&#125; <span class="hljs-type">lock_t</span>;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">lock_init</span><span class="hljs-params">(<span class="hljs-type">lock_t</span> *lock)</span>&#123;<br>  lock-&gt;ticket = <span class="hljs-number">0</span>;<br>  lock-&gt;turn = <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">lock</span><span class="hljs-params">(<span class="hljs-type">lock_t</span> *lock)</span>&#123;<br>  <span class="hljs-comment">// 获取一张票, 并使票号 + 1, 这样就不会有两个线程得到相同的票号</span><br>  <span class="hljs-type">int</span> myturn = FetchAndAdd(&amp;lock-&gt;ticket);<br>  <span class="hljs-keyword">while</span>(lock-&gt;turn != myturn)<br>    ; <span class="hljs-comment">// 判断是否轮到自己, 没轮到就自旋等待</span><br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">unlock</span><span class="hljs-params">(<span class="hljs-type">lock_t</span> *lock)</span>&#123;<br>  FetchAndAdd(&amp;lock-&gt;turn);<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>  lock_init(&amp;<span class="hljs-type">lock_t</span>);<br><br>  <span class="hljs-keyword">do</span>&#123;<br>    lock(&amp;<span class="hljs-type">lock_t</span>);<br><br>    <span class="hljs-comment">// 临界区</span><br><br>    unlock(&amp;<span class="hljs-type">lock_t</span>);<br>  &#125;<span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>);<br><br>  <span class="hljs-keyword">return</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>这个 Ticket 锁也满足临界区问题的三个要求.</li>
+</ul>
+<h3 id="Load-Linked-and-Store-Conditional">Load-Linked and Store-Conditional</h3>
+<p>在 MIPS 架构中, 提供了  Load-Linked 和 Store-Conditional 指令, 可以配合使用以实现并发结构. 这两条指令的逻辑, 用 C 代码和伪代码结合如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">LoadLinked</span><span class="hljs-params">(<span class="hljs-type">int</span> *ptr)</span> &#123;<br>  <span class="hljs-keyword">return</span> *ptr;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">StoreConditional</span><span class="hljs-params">(<span class="hljs-type">int</span> *ptr, <span class="hljs-type">int</span> value)</span> &#123;<br>  <span class="hljs-keyword">if</span> (在上一次加载 ptr 之后，期间没有对 ptr 的更新) &#123;<br>    *ptr = value;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;  <span class="hljs-comment">// 成功</span><br>  &#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;  <span class="hljs-comment">// 失败</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>Load-Linked 指令和普通的加载指令类似, 从内存中取出值存入一个寄存器中.</li>
+<li>Store-Conditional 比较特殊, 只有上一次加载的地址 ptr 在这期间都没有被更新时, 它才会返回 1 表示成功, 同时更新 ptr 中的值; 如果失败, 则不更新 ptr 中的值, 并返回 0.</li>
+</ul>
+<p>使用 Load-Linked 和 Store-Conditional 实现一个锁的方案如下所示:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">lock</span><span class="hljs-params">(<span class="hljs-type">lock_t</span> *lock)</span>&#123;<br>  <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)&#123;<br>    <span class="hljs-keyword">while</span>(LoadLinked(&amp;lock-&gt;flag) == <span class="hljs-number">1</span>)<br>      ;  <span class="hljs-comment">// 自旋等待</span><br>    <span class="hljs-keyword">if</span>(StoreConditional(&amp;lock-&gt;flag, <span class="hljs-number">1</span>) == <span class="hljs-number">1</span>)<br>      <span class="hljs-keyword">return</span>;  <span class="hljs-comment">// 如果成功把flag置1，则可以进入临界区</span><br>               <span class="hljs-comment">// 否则，反复尝试</span><br>  &#125;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">unlock</span><span class="hljs-params">(<span class="hljs-type">lock_t</span> *lock)</span>&#123;<br>  lock-&gt;flag = <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>一个线程会自旋等待 flag 被置为 0, 这表明锁不被任何人持有. 一旦如此, 线程就尝试通过 Store-Conditional 来获取锁. 如果成功, flag 会被更新为 1, 然后线程就可以进入临界区.
+<ul>
+<li>何时 Store-Conditional 会失败? 考虑以下情况: 一个线程调用 lock, 执行了 Load-Linked 并返回 0, 但在执行 Store-Conditional 之前, 发生了时钟中断, 另一个线程也调用了 lock, 同样执行了 Load-Linked 并返回 0, 但只有一个线程会成功更新 flag 为 1 并获得锁, 第二个线程执行 Store-Conditional 时会失败, 因为 flag 在上一次执行 Load-Linked 之后已经被更新过.</li>
+</ul>
+</li>
+</ul>
+<p>一种等价的、更简洁的 lock 实现如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">lock</span><span class="hljs-params">(<span class="hljs-type">lock_t</span> *lock)</span>&#123;<br>  <span class="hljs-keyword">while</span>(LoadLinked(&amp;lock-&gt;flag) || !StoreConditional(&amp;lock-&gt;flag, <span class="hljs-number">1</span>))<br>    ;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="内存屏障">内存屏障</h2>
+<p>计算机体系结构将确定它为应用程序提供什么样的内存保证,  这被称为内存模型. 一般来说,  内存模型可以分为两类:</p>
+<ul>
+<li>严格一致性/强一致性: 一个 CPU 对内存做了某些修改,  其他 CPU 马上就能看到这些修改.</li>
+<li>松散一致性/弱一致性: 一个 CPU 对内存做了某些修改,  但其他 CPU 并不能马上看到这些修改,  可能在稍后才能看到这些修改.</li>
+</ul>
+<p>由于内存模型的类型和 CPU 密切相关,  在一个共享 RAM 的多处理器系统中,  我们的内核不能对这些修改的可见性做任何假设. 为此,  计算机体系结构提供了一种指令,  它可以强制内存的更新对所有 CPU 可见,  这种指令就是<strong>内存屏障 (Memory Barriers)</strong>.</p>
+<p>当执行内存屏障指令时, 系统确保, 在内存屏障<strong>之前</strong>所有的 load 和 store , 都会在内存屏障<strong>之后</strong>的 load 或 store 执行前完成. 因此, 即使指令被重新排序, 内存屏障确保了, 位于它之前的存储操作已经在内存中完成, 因此在内存屏障之后, 这些存储操作对所有处理器是可见的.</p>
+<h2 id="原子变量">原子变量</h2>
+<p>对于之前的几种硬件指令, 例如 Test and Set、Compare and Swap 等, 它们并不能直接提供互斥机制, 我们是利用这些指令作为基本组件来构建同步工具的, 这些指令是原子的. 现在有另一种原子的硬件支持, 不过这是一种变量类型, 我们称之为<strong>原子变量</strong>.</p>
+<p>原子变量可以提供互斥机制, 保证在<strong>更新该变量时不会出现竞争条件</strong>.</p>
+<p>许多支持原子变量的操作系统都提供了特殊的原子变量数据类型, 以及访问和操作它们的函数. 这些函数经常用 Comapre and Swap 来实现.</p>
+<ul>
+<li>例如:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">increment</span><span class="hljs-params">(atomic <span class="hljs-type">int</span> *v)</span><br>&#123;<br>  <span class="hljs-type">int</span> temp;<br>  <span class="hljs-keyword">do</span> &#123;<br>    temp = *v;<br>  &#125;<br>  <span class="hljs-keyword">while</span> (temp != compare and swap(v, temp, temp+<span class="hljs-number">1</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>尽管原子变量提供原子性的更新, 从而避免了在更新变量时出现竞争条件, 但是却无法避免其他竞争条件的出现.</p>
+<ul>
+<li>例如: 对于生产者-消费者问题, 即使我们声明 count 为原子变量:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// count is an atomic variables </span><br>atomic <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>;<br><br><span class="hljs-comment">// Producer</span><br><span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>  <span class="hljs-comment">/* produce an item in next produced */</span><br>  <span class="hljs-keyword">while</span> (count == BUFFER SIZE)<br>    ; <span class="hljs-comment">/* do nothing */</span><br>  buffer[in] = next produced;<br>  in = (in + <span class="hljs-number">1</span>) % BUFFER SIZE;<br>  count++;<br>&#125;<br><br><span class="hljs-comment">// Consumer</span><br><span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>  <span class="hljs-keyword">while</span> (count == <span class="hljs-number">0</span>)<br>    ; <span class="hljs-comment">/* do nothing */</span><br>  next consumed = buffer[out];<br>  out = (out + <span class="hljs-number">1</span>) % BUFFER SIZE;<br>  count--;<br>  <span class="hljs-comment">/* consume the item in next consumed */</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>当共享缓冲区为空 (count 为 0)时, 假设有两个消费者进程不断循环等待 count &gt; 0, 当有一个生产者进程向缓冲区中写入内容时, count 更新为 1, 此时两个消费者进程都有机会跳出 while 循环, 并同时进入临界区中, 但此时临界区中只有一项内容可读, 便会发生错误.</li>
+</ul>
+</li>
+</ul>
+<h2 id="自旋锁">自旋锁</h2>
+<p>对于锁, 我们一般提供两个接口:</p>
+<ul>
+<li>一个是 acquire, 用于获取锁.</li>
+<li>一个是 release, 用于释放锁.</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c">acquire()&#123;<br>  <span class="hljs-keyword">while</span>(!available)<br>    ;  <span class="hljs-comment">// busy wait (i.e. spinning)</span><br>  available = <span class="hljs-literal">false</span>;<br>&#125;<br><br>release()&#123;<br>  available = <span class="hljs-literal">true</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>再来看看 Xv6 中自旋锁的实现 (kernel/spinlock.c):</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// Mutual exclusion lock.</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">spinlock</span> &#123;</span><br>  uint locked;       <span class="hljs-comment">// Is the lock held?</span><br><br>  <span class="hljs-comment">// For debugging:</span><br>  <span class="hljs-type">char</span> *name;        <span class="hljs-comment">// Name of lock.</span><br>  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">cpu</span> *<span class="hljs-title">cpu</span>;</span>   <span class="hljs-comment">// The cpu holding the lock.</span><br>&#125;;<br><br><span class="hljs-comment">// Acquire the lock.</span><br><span class="hljs-comment">// Loops (spins) until the lock is acquired.</span><br><span class="hljs-type">void</span><br><span class="hljs-title function_">acquire</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> spinlock *lk)</span><br>&#123;<br>  push_off(); <span class="hljs-comment">// disable interrupts to avoid deadlock.</span><br>  <span class="hljs-keyword">if</span>(holding(lk))<br>    panic(<span class="hljs-string">&quot;acquire&quot;</span>);<br><br>  <span class="hljs-comment">// On RISC-V, sync_lock_test_and_set turns into an atomic swap:</span><br>  <span class="hljs-comment">//   a5 = 1</span><br>  <span class="hljs-comment">//   s1 = &amp;lk-&gt;locked</span><br>  <span class="hljs-comment">//   amoswap.w.aq a5, a5, (s1)</span><br>  <span class="hljs-keyword">while</span>(__sync_lock_test_and_set(&amp;lk-&gt;locked, <span class="hljs-number">1</span>) != <span class="hljs-number">0</span>)<br>    ;<br><br>  <span class="hljs-comment">// 即 memory barrior</span><br>  <span class="hljs-comment">// it tells the compiler and CPU to not reorder loads or stores across the barrier</span><br>  __sync_synchronize();<br><br>  <span class="hljs-comment">// Record info about lock acquisition for holding() and debugging.</span><br>  lk-&gt;cpu = mycpu();<br>&#125;<br><br><span class="hljs-comment">// Release the lock.</span><br><span class="hljs-type">void</span><br><span class="hljs-title function_">release</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> spinlock *lk)</span><br>&#123;<br>  <span class="hljs-keyword">if</span>(!holding(lk))<br>    panic(<span class="hljs-string">&quot;release&quot;</span>);<br><br>  lk-&gt;cpu = <span class="hljs-number">0</span>;<br><br>  <span class="hljs-comment">// On RISC-V, this emits a fence instruction.</span><br>  __sync_synchronize();<br><br>  <span class="hljs-comment">// Release the lock, equivalent to lk-&gt;locked = 0.</span><br>  <span class="hljs-comment">// This code doesn&#x27;t use a C assignment, since the C standard</span><br>  <span class="hljs-comment">// implies that an assignment might be implemented with</span><br>  <span class="hljs-comment">// multiple store instructions.</span><br>  <span class="hljs-comment">// On RISC-V, sync_lock_release turns into an atomic swap:</span><br>  <span class="hljs-comment">//   s1 = &amp;lk-&gt;locked</span><br>  <span class="hljs-comment">//   amoswap.w zero, zero, (s1)</span><br>  __sync_lock_release(&amp;lk-&gt;locked);<br><br>  pop_off();<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>我们可以看到其中利用了 RISC-V 的 test_and_set 指令, 利用了 RISC-V 的内存屏障指令, 还结合了中断的控制, 实现了一个可用的自旋锁.</li>
+</ul>
+<p>自旋锁不满足有限等待的要求, 可能会导致某些线程饥饿, 且自旋锁主要的缺点是会<strong>忙等</strong>, 这种忙等会持续消耗 CPU 资源, 因为它要不断地旋转以等待锁可用.</p>
+<ul>
+<li>对于单 CPU 来说, 自旋锁的性能开销相当大, 假设一个线程持有锁并进入临界区, 然后因为时钟中断被抢占, 调度器因此运行其他线程, 而其他线程也可能竞争该锁, 由于被中断的线程还未释放锁, 所以这些竞争锁的线程在时钟中断到达前 (时间片到期前) 会不停地自旋等待锁可用, 从而浪费了大量 CPU 的周期.</li>
+<li>对于多 CPU 来说, 尤其是线程数大于 CPU 数时, 自旋锁的性能表现不错. 假设线程 A 在 CPU1 上, 线程 B 在 CPU2 上, 都在竞争同一个锁, A 占有锁时, B 会在 CPU2 上自旋, 由于临界区一般很短, 所以 B 很快就能获得锁. 因此自旋等待锁的线程不会浪费太多 CPU 周期.</li>
+</ul>
+<p>线程在等待锁时没有发生上下文切换 (上下文切换的开销可能很大), 因此如果临界区较短, 使用自旋锁时一个不错的方案.</p>
+<h2 id="锁和中断">锁和中断</h2>
+<p>最早的互斥解决方案是为单 CPU 系统开发设计的: 在进入临界区之前关闭中断, 可以保证 临界区内的代码原子地执行, 离开临界区后在重新开启中断.</p>
+<ul>
+<li>这个方法的优点是简答, 但是缺点很多:
+<ul>
+<li>开关中断的指令是特权指令, 这要求我们给予用户线程高特权级别, 这会带来很多问题.</li>
+<li>不适用于多处理器, 当多个线程运行在不同的 CPU 上时, 即使关闭中断也不能阻止多个线程访问同一个临界区.</li>
+<li>关闭中断可能会导致中断丢失.
+<ul>
+<li>例如: 磁盘设备完成了读取请求发出中断, 但由于关闭中断而错过了该中断.</li>
+</ul>
+</li>
+<li>开关中断指令执行较慢.</li>
+</ul>
+</li>
+</ul>
+<p>对于自旋锁, 当线程和中断处理程序要获取同一把自旋锁时, 会出现问题.</p>
+<ul>
+<li>例如: 在 Xv6 中, 时钟中断处理程序 clockintr 需要增加 ticks 值, 而一个内核线程也可能通过系统调用 sys_sleep 来访问 ticks 值, 因此, 我们为 ticks 维护了一把锁 tickslock, clockintr 和 sys_sleep 都需要获取该自旋锁来访问或修改 ticks 值. 假设一个内核线程调用 sys_sleep, 此时它持有 tickslock, 此时运行该内核线程的 CPU 收到时钟中断, 因此执行中断处理程序 clockintr, clockintr 首先需要获取 tickslock, 但是这把锁已经被内核线程持有, 所以 clockintr 会一直在原地自旋等待 tickslock 被释放. 而 tickslock 无法被内核线程释放, 该内核线程无法调用 yield, 该内核线程的状态仍然为 RUNNING, 所以该内核线程也无法被调度, 此时该 CPU 发生死锁.</li>
+</ul>
+<p>因此为了避免这种情况的发生, 我们应该做以下规定:</p>
+<ul>
+<li><strong>如果中断处理程序需要持有某一把自旋锁, 那么每个 CPU 在持有这把锁时应该保持中断关闭</strong>.</li>
+</ul>
+<h2 id="睡眠锁">睡眠锁</h2>
+<p>我们希望如果一个锁在长时间内都被其他进程持有时, 尝试获取该锁的其他进程不必占用大量的 CPU 周期, 而是以一种睡眠的方式主动放弃 CPU, 在稍后的某个时间再被重新唤醒执行. 这种锁会在 acquire 需要自旋等待时主动让出 CPU, 同时在持有这种锁时, 允许主动放弃 CPU 和开放中断.</p>
+<p>一个简单的方案如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span>&#123;<br>  flag = <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">lock</span><span class="hljs-params">()</span>&#123;<br>  <span class="hljs-keyword">while</span>(TestAndSet(&amp;flag, <span class="hljs-number">1</span>) == <span class="hljs-number">1</span>)<br>    yield();  <span class="hljs-comment">// 主动放弃CPU</span><br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">unlock</span><span class="hljs-params">()</span>&#123;<br>  flag = <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>我们假设内核提供 yield 原语, 进程可以调用它主动放弃 CPU.</li>
+<li>进程的运行状态可以按以下的 enum 体来定义:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">procstate</span> &#123;</span> UNUSED, SLEEPING, RUNNABLE, RUNNING, ZOMBIE &#125;;<br><span class="hljs-comment">// 其它可能的定义还有：</span><br><span class="hljs-comment">// new, running, waiting, ready, terminated</span><br><span class="hljs-comment">// running, ready, blocked</span><br><span class="hljs-comment">// ...</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li>yield 让进程的状态从 RUNNING 变为 RUNNABLE, 并让调度器寻找其他状态为 RUNNABLE 的进程.</li>
+<li>该方案不能明确地支持有限等待条件, 所以我们需要显示地增加某种机制: 使用队列来保存等待锁的进程  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 在这里，有两个lock，flag和guard</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">lock_t</span>&#123;</span><br>  <span class="hljs-type">int</span> flag;<br>  <span class="hljs-type">int</span> guard;<br>  <span class="hljs-type">queue_t</span> *q;<br>&#125; <span class="hljs-type">lock_t</span>;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">lock_init</span><span class="hljs-params">(<span class="hljs-type">lock_t</span> *m)</span>&#123;<br>  m-&gt;flag = <span class="hljs-number">0</span>;<br>  m-&gt;guard = <span class="hljs-number">0</span>;<br>  queue_init(m-&gt;q);<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">lock</span><span class="hljs-params">(<span class="hljs-type">lock_t</span> *m)</span>&#123;<br>  <span class="hljs-keyword">while</span>(TestAndSet(&amp;m-&gt;guard, <span class="hljs-number">1</span>) == <span class="hljs-number">1</span>)<br>    ;  <span class="hljs-comment">// 自旋地等待直到获取guard lock</span><br>  <span class="hljs-keyword">if</span>(m-&gt;flag == <span class="hljs-number">0</span>)&#123;<br>    m-&gt;flag = <span class="hljs-number">1</span>;   <span class="hljs-comment">// flag lock还没有被获取，因此成功获取</span><br>    m-&gt;guard = <span class="hljs-number">0</span>;  <span class="hljs-comment">// 释放guard lock</span><br>  &#125;<span class="hljs-keyword">else</span>&#123;<br>    queue_add(m-&gt;q, gettid());  <span class="hljs-comment">// flag lock已经被获取，该线程将进入队列中睡眠</span><br>    m-&gt;guard = <span class="hljs-number">0</span>;  <span class="hljs-comment">// 睡眠之前释放guard lock</span><br>    park();        <span class="hljs-comment">// 睡眠</span><br>  &#125;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">unlock</span><span class="hljs-params">(<span class="hljs-type">lock_t</span> *m)</span>&#123;<br>  <span class="hljs-keyword">while</span>(TestAndSet(&amp;m-&gt;guard, <span class="hljs-number">1</span>) == <span class="hljs-number">1</span>)<br>    ;  <span class="hljs-comment">// 自旋地等待直到获取guard lock</span><br>  <span class="hljs-keyword">if</span>(queue_empty(m-&gt;q))<br>    m-&gt;flag = <span class="hljs-number">0</span>;  <span class="hljs-comment">//没有人要获取flag lock，直接释放它</span><br>  <span class="hljs-keyword">else</span><br>    unpark(queue_remove(m-&gt;q));  <span class="hljs-comment">// 从队列里唤醒一个线程，把flag lock交给它</span><br>  m-&gt;guard = <span class="hljs-number">0</span>;  <span class="hljs-comment">// 结束之前释放guard lock</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>这里实际上使用两把锁, 一个自旋锁 guard lock (小锁), 另一个锁是真正的临界区锁 flag lock (大锁). 这个方法虽然没有完全避免自旋等待, 但是这个自旋等待的时间很有限, 因为 guard lock 不是保护临界区的, 只是保护 lock 和 unlock 之间的几行代码.</li>
+<li>但是这个方案还存在潜在的竞争条件: 假设 thread1 已经持有了 flag lock, 后续 thread2 尝试获取 flag lock 时就会陷入到 lock() 的 else 分支中, 将自己添加到队列之后, 但在调用 park() 之前被切换到 thread1 , thread1 执行 unlock 时, 由于队列不为空, 将会执行 unpark(thread2), 但 thread2 的 park() 并未执行, 此时可能返回 thread2 并未睡眠的消息, 然后 thread1 退出临界区, thread2 继续执行并 park() 自身, 进入睡眠. 但是 thread1 并没有将 flag lock 重置为 0, 因此后续尝试获取该锁的线程都将进入睡眠, 这种情况称为<strong>唤醒/等待竞争</strong>.
+<ul>
+<li>Solaris 增加了第三个系统调用 setpark 来解决这种情况, 一个线程通过调用 setpark 表明自己马上要 park, 此时如果刚好另一个线程被调度, 并且调用了 unpark, 那么后续的 park 调用就会直接返回.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Xv6 中睡眠锁的实现如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// Long-term locks for processes</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sleeplock</span> &#123;</span><br>  uint locked;       <span class="hljs-comment">// Is the lock held?</span><br>  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">spinlock</span> <span class="hljs-title">lk</span>;</span> <span class="hljs-comment">// spinlock protecting this sleep lock</span><br>  <br>  <span class="hljs-comment">// For debugging:</span><br>  <span class="hljs-type">char</span> *name;        <span class="hljs-comment">// Name of lock.</span><br>  <span class="hljs-type">int</span> pid;           <span class="hljs-comment">// Process holding lock</span><br>&#125;;<br><br><span class="hljs-type">void</span><br><span class="hljs-title function_">acquiresleep</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> sleeplock *lk)</span><br>&#123;<br>  <span class="hljs-comment">// 第一个进程先抓取小锁,将小锁的locked置1</span><br>  <span class="hljs-comment">// 这时大锁还未被上锁(lk-&gt;locked=0),跳过while继续执行</span><br>  <span class="hljs-comment">// 将大锁也抓取,将大锁的locked置1</span><br>  <span class="hljs-comment">// 最后释放小锁,这时大锁在第一个进程手中</span><br>  <span class="hljs-comment">// 后续的进程进来之后可以抓到小锁</span><br>  <span class="hljs-comment">// 但是因为大锁被抓,lk-&gt;locked=1,则进到while中</span><br>  <span class="hljs-comment">// 调用sleep(),释放小锁并且挂起进程在大锁上</span><br>  <span class="hljs-comment">// 只有调用releasesleep(),才会释放大锁,同时唤醒挂起在大锁上的进程</span><br>  acquire(&amp;lk-&gt;lk);<br>  <span class="hljs-keyword">while</span> (lk-&gt;locked) &#123;<br>    sleep(lk, &amp;lk-&gt;lk);<br>  &#125;<br>  lk-&gt;locked = <span class="hljs-number">1</span>;<br>  lk-&gt;pid = myproc()-&gt;pid;<br>  release(&amp;lk-&gt;lk);<br>&#125;<br><br><span class="hljs-type">void</span><br><span class="hljs-title function_">releasesleep</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> sleeplock *lk)</span><br>&#123;<br>  <span class="hljs-comment">// 要释放大锁的进程先获取小锁</span><br>  <span class="hljs-comment">// 将lk-&gt;lk-&gt;locked置0,同时调用wakeup()唤醒一个挂起在大锁上的进程</span><br>  <span class="hljs-comment">// 选中一个进程改变其状态为RUNNABLE之后,回来释放小锁</span><br>  <span class="hljs-comment">// 被唤醒的进程会从sleep()中sched()后的对应位置继续,获取小锁</span><br>  <span class="hljs-comment">// 然后,从上次acquiresleep()的while中继续,此时lk-&gt;locked=0,跳出while</span><br>  <span class="hljs-comment">// 然后将lk-&gt;locked置1,最后释放小锁,这样上次挂起的进程就抓到了大锁</span><br>  <span class="hljs-comment">// 这里注意,在sleep()中需要使用acquire()去抓取小锁</span><br>  <span class="hljs-comment">// 因为要保证该进程总能抓到这把锁,即使该进程要空转,这是为了防止死锁</span><br>  <span class="hljs-comment">// 这样唤醒进程发现小锁被抓走时,会在该处自旋,等到小锁被重新放出为止</span><br>  acquire(&amp;lk-&gt;lk);<br>  lk-&gt;locked = <span class="hljs-number">0</span>;<br>  lk-&gt;pid = <span class="hljs-number">0</span>;<br>  wakeup(lk);<br>  release(&amp;lk-&gt;lk);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>Xv6 中同样采用了自旋锁和睡眠所相结合的形式.</li>
+<li>由于 Xv6 的睡眠锁的实现允许中断开放, 所以中断处理程序不能使用睡眠锁, 否则会导致死锁.</li>
+</ul>
+<p>睡眠锁能够避免使用自旋锁时带来的大量 CPU 周期的浪费, 但是来回地切换进程会导致较高的上下文切换开销.</p>
+<p>所以<strong>在临界区较短时, 使用自旋锁比较合适; 而在临界区较长时, 使用睡眠锁更合适</strong>. 也可以将两种所结合起来, 称为<strong>二阶段锁</strong>, 第一阶段自旋一段时间 (自旋固定的次数), 希望可以获取锁, 但是如果没有获得锁, 则在第二阶段会睡眠, 直到锁可用.</p>
+<h2 id="锁的争夺">锁的争夺</h2>
+<p>利用互斥锁, 我们确实解决了大部分的并发问题, 现在我们的临界区总是能正确运行; 但是使用锁确实会使并发问题变得串行化, 一次只能有一个进程在临界区中运行, 从而影响性能. 我们因为使用了多 CPU 和多线程而产生并发问题, 而为了解决并发问题, 我们使用了锁, 这又使得多CPU 的性能优势衰减, 经常出现多个进程争夺锁的情况, 我们称这种现象为<strong>锁的争夺</strong>.</p>
+<p>内核设计中, 一个重要的部分就是如何避免锁的争夺.</p>
+<ul>
+<li>在 Xv6 中, 内核分配器的 free-list (保存空闲物理页的一个链表) 只用一把锁保护, 因此多个 CPU 想要分配和释放物理页需要争夺同一把锁. 我们可以为每个 CPU 都维护一个 free-list, 因此锁的数量从原来的一把增加到和 CPU 相等的数量, 这样 CPU 在大部分情况下不需要和其他 CPU 争夺锁, 只有在自己的 free-list 用完后才需要和其他 CPU 争夺锁. 这种方式可以大量减少锁的争夺. 同样, 对于只有一把锁的缓冲区, 我们可以用类似的思路, 将缓冲区的空间分配到多个哈希桶中, 每个哈希桶分配一把锁, 根据块号索引哈希桶, 从而减少缓冲区上锁的争夺.</li>
+</ul>
+<p>这表明在实际设计并发代码时, 我们可以先采用<strong>粗粒度</strong>的上锁方式 (只有一个线程可以同时访问受锁保护的共享资源, 例如只给内核分配器的 free-list 上一把锁), 先给临界区上一把大锁. 然后在保证并发正确的情况下采用<strong>细粒度</strong>的上锁方式 (即将共享资源分割成多个小的部分, 并给每个部分分配一个独立的锁, 以允许多个线程同时访问不同的资源部分, 例如给每个 CPU 都维护一个 free-list, 然后对每个 CPU 的 free-list 单独上锁). 采用何种粒度的上锁方式, 取决于你对性能和代码的复杂性的要求.</p>
+<h2 id="死锁">死锁</h2>
+<p>一般来说, 死锁的产生需要满足以下四个条件, 只要它们同时成立, 就会引起死锁:</p>
+<ul>
+<li><strong>互斥</strong>: 至少有一个资源处于非共享模式, 即进程对于需要的资源进行互斥的访问.</li>
+<li><strong>占有并且等待</strong>: 进程至少占有一个资源, 并等待其他资源, 而该资源被其他进程所占有.</li>
+<li><strong>非抢占</strong>: 进程获得的资源不能被抢占.</li>
+<li><strong>循环等待</strong>: 进程之间存在一个环路, 环路上每个进程都额外持有一个资源, 而这个资源是下一个进程要申请的.</li>
+</ul>
+<p>以上四个条件由任意一个不满足, 就不发生死锁.</p>
+<h3 id="预防死锁">预防死锁</h3>
+<p>预防死锁最好的方法就是破坏四个条件中的任意一个:</p>
+<ul>
+<li><strong>循环等待</strong>: 最直接的方法时提供一个全局的上锁顺序, 即<strong>全序</strong>. 更复杂的系统可能有很多个锁, 锁的全局就很难做到, 因此<strong>偏序</strong>也是一种有效的方法. 全序和偏序都依赖于细致的锁策略设计和实现.</li>
+<li><strong>占有且等待</strong>: 可以让每个进程在执行之前先申请并成功获得所需的所有资源. 此时我们可以先设置一把大锁, 进程要申请资源时先获取大锁, 成功持有大锁后, 再去获取所需资源的锁, 然后再释放大锁. 这个方法有不少缺点:
+<ul>
+<li>不适合封装,因为我们需要确切地知道要获取哪些锁, 并且提前获取这些锁.</li>
+<li>因为要提前获取所有的锁, 而不是在需要的时候获取锁, 这会降低并发性.</li>
+<li>会降低资源利用率, 因为需要资源被分配, 但是可能在很长一段时间内不被使用.</li>
+<li>可能会导致饥饿, 如果一个进程需要多个常用资源, 那么它可能会长久地等待, 因为它所需要的资源总是至少有一个被分配给其他进程.</li>
+</ul>
+</li>
+<li><strong>非抢占</strong>: 可以设计这样一种协议: 如果一个进程持有资源并申请另一个不能立即分配的资源, 并且即将进入等待状态, 那么它现在持有的资源可以被抢占. 在实现这种协议时, 我们可以引入一个新的接口 trylock.
+<ul>
+<li>trylock 会尝试获取某把互斥锁, 如果发现它被占有, 那么就返回, 稍后再尝试获取它.</li>
+<li>利用 trylock, 我们可以先获取一把互斥锁, 在获取第二把的时候使用 trylock, 如果 trylock 返回的结果是失败, 我们就释放持有的第一把互斥锁.</li>
+<li>但是这种设计存在缺陷: 假设有两把互斥锁 L1 和 L2, 一个线程 lock(L1) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> trylock(L2), 另一个线程 lock(L2) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> trylock (L1). 如果两个线程的第一步同时成功, 那么它们将分别持有 L1 和 L2, 这时候两个线程都尝试 trylock, 此时两者都会失败, 于是各自释放 L1 和 L2. 在下一次尝试中它们有可能又遇到相同的情况, 如此反复. 这种现象称为<strong>活锁</strong>. 解决方法是在 trylock 失败并且释放持有的第一把锁之后, 随机等待一段时间再重复整个动作, 这样就可以降低线程之间互相干扰的可能.</li>
+</ul>
+</li>
+<li><strong>互斥</strong>: 可以使用无等待的数据结构, 可以利用硬件指令来构造.
+<ul>
+<li>例如: 利用 CompareAndSwap 来实现原子地给某个变量增加特定的值、原子地在链表头部插入节点:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">AtomicIncrement</span><span class="hljs-params">(<span class="hljs-type">int</span> *value, <span class="hljs-type">int</span> amount)</span>&#123;<br>  <span class="hljs-keyword">do</span>&#123;<br>    <span class="hljs-type">int</span> old = *value;<br>  &#125;<span class="hljs-keyword">while</span>(CompareAndSwap(value, old, old + amount) == <span class="hljs-number">0</span>);<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">insert</span><span class="hljs-params">(<span class="hljs-type">int</span> value)</span>&#123;<br>  <span class="hljs-type">node_t</span> *n = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-type">node_t</span>));<br>  assert(n != <span class="hljs-literal">NULL</span>);<br>  n-&gt;value = value;<br>  <span class="hljs-keyword">do</span>&#123;<br>    n-&gt;next = head;<br>  &#125;<span class="hljs-keyword">while</span>(CompareAndSwap(&amp;head, n-&gt;next, n) == <span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="避免死锁">避免死锁</h3>
+<p>死锁预防的四种方法, 主要通过限制如何申请资源来预防死锁, 但可能造成设备使用率低和系统吞吐率低. <strong>死锁避免</strong>也是一种方法, 这种方法<strong>需要全局信息</strong>, 包括不同进程或线程在运行中对锁或资源的需求情况, 从而合理地调度并分配资源, 使得死锁不会发生.</p>
+<p>常用的死锁避免算法有: 安全状态算法、资源分配图算法、银行家算法等; 控制进程或线程的调度也是一种可能的方法.</p>
+<h3 id="死锁的检测和恢复">死锁的检测和恢复</h3>
+<p><strong>死锁检测</strong>一般通过构建资源分配图或等待图来进行, 检测图中是否存在循环, 就能判断死锁是否发生.</p>
+<p><strong>死锁恢复</strong>有几种方法. 例如: 简单地终止一个或多个进程来打破循环等待; 或者, 从一个或多个死锁进程处, 抢占一个或多个资源; 重启也不失为一种方法.</p>
+<p>很多数据库使用了死锁检测和恢复技术. 死锁检测器会定期运行, 构建资源分配图或等待图, 检查图内是否存在循环, 从而判断是否发生死锁. 若死锁发生, 系统可能需要重启, 如果更复杂的数据结构需要修复, 则需要人工介入.</p>
+<h3 id="死锁与上锁顺序">死锁与上锁顺序</h3>
+<p>死锁的出现可能与上锁顺序有关</p>
+<ul>
+<li>例如: 假设进程 1 获取锁的顺序是先 A 后 B, 进程 2 获取锁的顺序是先 B 后 A. 如果进程 1 获取 A 的同时进程 2 获取了 B, 则此时会发生死锁.</li>
+</ul>
+<p>想要避免这种死锁, 只需要规定一个<strong>全局</strong>的上锁顺序, 这意味着锁是每个函数规范的一部分: 调用者必须以一种规定的顺序调用函数, 以遵循获取锁的顺序.</p>
+<p>但是遵循一个全局的上锁顺序是十分困难的, 首先确定全局上锁顺序需要对程序进行仔细的分析和设计, 需要考虑多种情况和可能性, 比较繁琐和复杂. 其次, 全局上锁顺序可能会降低程序的并发性能, 因为所有的线程或进程都必须按照同样的顺序获取锁, 会造成一定的等待和延迟.</p>
+<ul>
+<li>例如, 如果一个模块 m1 中方法 g 调用了另一个模块 m2 中的方法 f, 那么 m1 中的方法 g 需要知道 m2 中的方法 f 使用了哪些锁. 因为如果 m2 使用了一些锁, 那么 m1 的方法 g 必须要整合 f 和 g 中的锁以形成一个全局的上锁顺序, 这意味着 m2 中的锁必须对 m1 可见, 这样却违背了代码抽象的原则, 所以这使得代码的模块化更加复杂.</li>
+</ul>
+<p>如果两组锁不可能在同一个操作中使用, 那么这两组锁的排序是完全独立的. 所以没有必要对所有的锁进行一个全局的排序, 但是所有的函数需要对共同使用的一些锁进行排序.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>MIT 6.S081 Operating System Engineering: <a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.S081/2020/schedule.html">https://pdos.csail.mit.edu/6.S081/2020/schedule.html</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>xv6: a simple, Unix-like teaching operating system: <a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.S081/2020/xv6/book-riscv-rev1.pdf">https://pdos.csail.mit.edu/6.S081/2020/xv6/book-riscv-rev1.pdf</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>Chapter 6: Locking: <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/352699414">https://zhuanlan.zhihu.com/p/352699414</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>Chapter 6.5: More Tools, Examples and Deadlocks: <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/353400345">https://zhuanlan.zhihu.com/p/353400345</a>
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/MIT-6-S081/" class="print-no-link">#MIT 6.S081</a>
+      
+        <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="print-no-link">#操作系统</a>
+      
+        <a href="/tags/Xv6/" class="print-no-link">#Xv6</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" title="文件系统">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">文件系统</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F/" title="设备驱动程序">
+                        <span class="hidden-mobile">设备驱动程序</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

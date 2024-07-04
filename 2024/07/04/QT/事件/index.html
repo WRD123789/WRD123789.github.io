@@ -1,0 +1,832 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="事件 我们使用的基于窗口的应用程序都是基于事件的, 在 QT 框架内部为我们提供了一系列的事件处理机制, 当窗口事件产生之后, 事件会经过: 事件派发 →\rightarrow→ 事件过滤 →\rightarrow→ 事件分发 →\rightarrow→ 事件处理这几个阶段. QT 窗口中对于产生的一系列事件都有默认的处理动作, 如果我们有特殊需求就需要在合适的阶段重写事件的处理动作. 事件是由系">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QT 事件">
+<meta property="og:url" content="http://example.com/2024/07/04/QT/%E4%BA%8B%E4%BB%B6/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="事件 我们使用的基于窗口的应用程序都是基于事件的, 在 QT 框架内部为我们提供了一系列的事件处理机制, 当窗口事件产生之后, 事件会经过: 事件派发 →\rightarrow→ 事件过滤 →\rightarrow→ 事件分发 →\rightarrow→ 事件处理这几个阶段. QT 窗口中对于产生的一系列事件都有默认的处理动作, 如果我们有特殊需求就需要在合适的阶段重写事件的处理动作. 事件是由系">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20231126160908.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231126160818.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231126160806.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231126160850.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231126163233.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231126163242.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231126163305.png">
+<meta property="article:published_time" content="2024-07-04T12:37:59.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="QT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20231126160908.png">
+  
+  
+  
+  <title>QT 事件 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QT 事件"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:37" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          61 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">QT 事件</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>事件</h1>
+<p>我们使用的基于窗口的应用程序都是基于事件的, 在 QT 框架内部为我们提供了一系列的事件处理机制, <strong>当窗口事件产生之后, 事件会经过: 事件派发 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> 事件过滤 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> 事件分发 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> 事件处理这几个阶段</strong>. QT 窗口中对于产生的一系列事件都有默认的处理动作, 如果我们有特殊需求就需要在合适的阶段重写事件的处理动作.</p>
+<p><strong>事件是由系统或者 QT 本身在不同的场景下发出的</strong>. 当用户按下 / 移动鼠标、敲下键盘, 或者窗口关闭 / 大小发生变化 / 隐藏都会发出一个相应的事件. 一些事件在对用户操作做出响应时发出, 如鼠标 / 键盘事件等; 另一些事件则是由系统自动发出, 如计时器事件.</p>
+<p>事件也就是我们通常说的 “事件驱动” 程序设计的基础概念. 事件的出现, 使得程序代码不会按照原始的线性顺序执行. 因为以线性顺序执行程序的方式不适合处理复杂的用户交互. 我们来想象一下用户交互的情景: 我们设计了一堆功能放在界面上, 用户点击了 “打开文件”, 于是开始执行打开文件的操作; 用户点击了 “保存文件”, 于是开始执行保存文件的操作. 我们不知道用户究竟想进行什么操作, 因此也就不能预测接下来将会调用哪一个函数. 如果我们设计了一个 “文件另存为” 的操作, 如果用户不点击, 这个操作将永远不会被执行. 这就是所谓的 “事件驱动”, 我们的程序的执行顺序不再是线性的, 而是由一个个事件驱动着程序继续执行. 没有事件, 程序将阻塞在那里, 不执行任何代码.</p>
+<p>每一个 QT 应用程序都对应一个唯一的 QApplication 应用程序对象, <strong>当调用该对象的 <code>exec</code> 函数时</strong>, 程序将进入事件循环来监听应用程序的事件, 此时 QT 框架内部的<strong>事件检测就开始了</strong>:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QApplication <span class="hljs-title">a</span><span class="hljs-params">(argc, argv)</span></span>;<br>    MainWindow* w = <span class="hljs-keyword">new</span> MainWindow;<br>    w.<span class="hljs-built_in">show</span>();<br>    <span class="hljs-keyword">return</span> a.<span class="hljs-built_in">exec</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>事件产生之后, 事件循环会从系统消息队列中读取消息并将其转换为 <code>QEvent</code> 对象, 然后将其分发给相应的 <code>QObject</code> 对象或其子对象, <strong>分发过程</strong>如下:</p>
+<ol>
+<li>当事件产生之后, QT 调用应用程序 (QApplication) 对象的 <code>notify</code> 函数将事件发送到指定窗口: <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-keyword">override</span> <span class="hljs-keyword">virtual</span>] <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QApplication::notify</span><span class="hljs-params">(QObject *receiver, QEvent *e)</span></span>;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>notify</code> 在派发事件时会优先选择最具体的控件来处理事件, 如果有一个子控件能够接收事件, 就不会再向上查找父控件; 如果选择的控件的事件处理函数忽略了该事件, 则 <code>notfiy</code> 会沿着控件的层次结构继续向上查找父控件来继续处理该鼠标事件.</li>
+</ul>
+</li>
+<li><strong>事件在发送过程中可以通过事件过滤器进行过滤</strong>, 默认不对任何产生的事件进行过滤: <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 需要先给窗口安装过滤器, 该事件才会触发</span><br>[<span class="hljs-keyword">virtual</span>] <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QObject::eventFilter</span><span class="hljs-params">(QObject *watched, QEvent *event)</span></span><br></code></pre></td></tr></table></figure>
+</li>
+<li>当事件发送到指定窗口之后, 窗口的事件分发器会对收到的事件进行分类: <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-keyword">override</span> <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">protected</span>] <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QWidget::event</span><span class="hljs-params">(QEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><strong>事件分发器会将分类之后的事件 (鼠标事件、键盘事件、绘图事件…) 分发给对应的事件处理器函数进行处理</strong>, 每个事件处理器函数都有默认的处理动作. 比如: <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 鼠标按下</span><br>[<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">protected</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::mousePressEvent</span><span class="hljs-params">(QMouseEvent *event)</span></span>;<br><span class="hljs-comment">// 鼠标释放</span><br>[<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">protected</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::mouseReleaseEvent</span><span class="hljs-params">(QMouseEvent *event)</span></span>;<br><span class="hljs-comment">// 鼠标移动</span><br>[<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">protected</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::mouseMoveEvent</span><span class="hljs-params">(QMouseEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="信号和事件的区别">信号和事件的区别</h2>
+<ul>
+<li>事件来源于系统消息的转换, 信号大多来源于对象中的事件处理函数.</li>
+<li>事件由具体的 <code>QObject</code> 对象进行处理, 信号由连接的槽函数进行处理.</li>
+<li>事件更底层, 它是封装系统消息形成的, 信号更偏上层一点.</li>
+<li>改写事件处理函数可能导致程序行为改变, 单独的信号不对程序行为造成影响.</li>
+<li>事件处理函数的 (如果有) 返回值是有意义的, 它表示事件是否已经被识别并处理, 并决定了是否传递给基类或父类做进一步处理; 而信号和槽是没有返回值的.</li>
+<li>事件是由系统或者 QT 应用程序自身产生的一种消息, 通常是由用户的操作或者底层的软硬件信息触发的. 所以<strong>事件是被动的</strong>, 需要被对象接收和处理; 信号是由 QT 对象自身发出的一种通知, 通常是在对象的状态发生变化或者执行某些操作时发出的. <strong>信号是主动的</strong>, 可以被其他对象连接和响应.</li>
+<li>事件是 QT 中最基础的通信机制, 信号是 QT 中特有的扩展机制.</li>
+<li>事件可以被过滤、转发、忽略、接受, 信号只能被连接、断开、发射、阻塞.</li>
+<li>事件是同步或异步的, 信号总是异步的.</li>
+<li>信号由具体的对象发出, 然后会马上交给由 <code>connect()</code> 函数连接的槽进行处理; 而对于事件, Qt 使用一个事件队列对所有发出的事件进行维护, 当新的事件产生时, 会被追加到事件队列的尾部. 前一个事件完成后, 取出后面的事件进行处理. 但是, 必要的时候, Qt 的事件也可以不进入事件队列, 而是直接处理. 信号一旦发出, 对应的槽函数一定会被执行.</li>
+</ul>
+<p>总的来说, 如果我们<strong>使用</strong>组件, 我们关心的是信号槽; 如果我们<strong>自定义</strong>组件, 我们关心的是事件. 因为我们可以通过事件来改变组件的默认操作.</p>
+<ul>
+<li>比如, 如果我们要自定义一个能够响应鼠标事件的 <code>EventLabel</code>, 我们就需要重写 <code>QLabel</code> 的鼠标事件, 做出我们希望的操作, 有可能还得在恰当的时候发出一个类似按钮的 <code>clicked()</code> 信号 (如果我们希望让这个 <code>EventLabel</code> 能够被其它组件使用) 或者其它的信号.</li>
+</ul>
+<h2 id="事件处理器函数">事件处理器函数</h2>
+<p>每个事件处理器函数都对应一个唯一的事件, 这为我们重新定义事件的处理动作提供了便利. QT 提供的这些事件处理器函数都是回调函数, 也就是说作为使用者我们只需要关心函数的处理过程, 关于函数的调用是不需要操心的, 当某个事件被触发, QT 框架会调用对应的事件处理器函数. 并且 <strong>QT 框架自带的信号大多是在相应的事件处理函数中被发出的</strong>.</p>
+<p><code>QWidget</code> 类是 QT 中所有窗口类的基类, 在这个类中定义了很多事件处理器函数, 它们都是受保护的虚函数. 我们可以在 QT 的任意一个窗口类中重写这些虚函数来重定义它们的行为.</p>
+<h3 id="鼠标事件">鼠标事件</h3>
+<ul>
+<li>鼠标按下事件: 当鼠标左键、鼠标右键、鼠标中键被按下, 该函数被自动调用, 通过参数可以得到当前按下的是哪个鼠标键  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">protected</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::mousePressEvent</span><span class="hljs-params">(QMouseEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>鼠标释放事件: 当鼠标左键、鼠标右键、鼠标中键被释放, 该函数被自动调用, 通过参数可以得到当前释放的是哪个鼠标键  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">protected</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::mouseReleaseEvent</span><span class="hljs-params">(QMouseEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>鼠标移动事件: 当鼠标移动 (也可以按住一个或多个鼠标键移动), 该函数被自动调用, 通过参数可以得到在移动过程中哪些鼠标键被按下了  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">protected</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::mouseMoveEvent</span><span class="hljs-params">(QMouseEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>鼠标双击事件: 当鼠标双击该函数被调用, 通过参数可以得到是通过哪个鼠标键进行了双击操作  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">protected</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::mouseDoubleClickEvent</span><span class="hljs-params">(QMouseEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>鼠标进入事件: 当鼠标进入窗口的一瞬间, 触发该事件, <strong>只在进入的瞬间触发一次该事件</strong>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">protected</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::enterEvent</span><span class="hljs-params">(QEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>鼠标离开事件: 当鼠标离开窗口的一瞬间, 触发该事件, <strong>只在离开的瞬间触发一次该事件</strong>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">protected</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::leaveEvent</span><span class="hljs-params">(QEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="键盘事件">键盘事件</h3>
+<ul>
+<li>键盘按下事件: 当键盘上的按键被按下了, 该函数被自动调用, 通过参数可以得知按下的是哪个键  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">protected</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::keyPressEvent</span><span class="hljs-params">(QKeyEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>键盘释放事件: 当键盘上的按键被释放了, 该函数被自动调用, 通过参数可以得知释放的是哪个键  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">protected</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::keyReleaseEvent</span><span class="hljs-params">(QKeyEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="窗口重绘事件">窗口重绘事件</h3>
+<p>当窗口需要刷新的时候, 该函数就会自动被调用. 窗口需要刷新的情景很多, 比如: 窗口大小发生变化、窗口显示等</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">protected</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::paintEvent</span><span class="hljs-params">(QPaintEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+<h3 id="窗口关闭事件">窗口关闭事件</h3>
+<p>当窗口标题栏的关闭按钮被按下并且<strong>在窗口关闭之前该函数被调用</strong>, 可以通过该函数控制窗口是否被关闭</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">protected</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::closeEvent</span><span class="hljs-params">(QCloseEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+<h3 id="重置窗口大小事件">重置窗口大小事件</h3>
+<p>当窗口的大小发生变化, 该函数被调用</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">protected</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::resizeEvent</span><span class="hljs-params">(QResizeEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+<h3 id="事件的接受和忽略">事件的接受和忽略</h3>
+<p>通过调用父类的同名函数, 我们可以把 Qt 的事件传递看成链状: 如果子类没有处理这个事件, 就会继续向其父类传递. Qt 的事件对象有两个函数: <code>accept()</code> 和 <code>ignore()</code>. 正如它们的名字一样, 前者用来告诉 Qt, 这个类的事件处理函数想要处理这个事件; 后者则告诉 Qt, 这个类的事件处理函数不想要处理这个事件. 在事件处理函数中, 可以使用 <code>isAccepted()</code> 来查询这个事件是不是已经被接收了. 具体来说: 如果一个事件处理函数调用了一个事件对象的 <code>accept()</code> 函数, 这个事件就不会被继续传播给其<strong>父组件</strong>; 如果它调用了事件的<code>ignore()</code>函数, Qt 会从其父组件中寻找另外的接受者.</p>
+<p>其中需要注意的是: <strong>事件的传播是在组件层次上面的, 而不是依靠类继承机制</strong>.</p>
+<p>事实上, 我们很少会使用 <code>accept()</code> 和 <code>ignore()</code> 函数, 如果希望忽略事件, 只要调用父类的相应函数即可. 因为我们无法确认父类中的这个处理函数有没有额外的操作, 因此在子类中直接忽略事件, Qt 就会将事件传递给它的父组件, 而该子类的父类的操作则会被忽略, 这可能有潜在的危险. 为了避免自己去调用 <code>accept()</code> 和 <code>ignore()</code> 函数, 而是尽量调用父类实现, Qt 做了特殊的设计: <strong>事件对象默认是 accept 的 (事件在传递给事件处理函数之前, 被假定为已接受), 而作为所有组件的父类 <code>QWidget</code> 的默认实现则是调用 <code>ignore()</code></strong>. 因此, 如果你自己实现事件处理函数, 不调用 <code>QWidget</code> 的默认实现, 你就等于是接受了事件; 如果你要忽略事件, 只需调用 <code>QWidget</code> 的默认实现. <code>QWidget</code> 的 <code>mousePressEvent()</code>函数的实现如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//!!! Qt5</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QWidget::mousePressEvent</span><span class="hljs-params">(QMouseEvent *event)</span></span><br><span class="hljs-function"></span>&#123;<br>    event-&gt;<span class="hljs-built_in">ignore</span>();<br>    <span class="hljs-keyword">if</span> ((<span class="hljs-built_in">windowType</span>() == Qt::Popup)) &#123;<br>        event-&gt;<span class="hljs-built_in">accept</span>();<br>        QWidget* w;<br>        <span class="hljs-keyword">while</span> ((w = QApplication::<span class="hljs-built_in">activePopupWidget</span>()) &amp;&amp; w != <span class="hljs-keyword">this</span>)&#123;<br>            w-&gt;<span class="hljs-built_in">close</span>();<br>            <span class="hljs-keyword">if</span> (QApplication::<span class="hljs-built_in">activePopupWidget</span>() == w)<br>                w-&gt;<span class="hljs-built_in">hide</span>(); <span class="hljs-comment">// hide at least</span><br>        &#125;<br>        <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">rect</span>().<span class="hljs-built_in">contains</span>(event-&gt;<span class="hljs-built_in">pos</span>()))&#123;<br>            <span class="hljs-built_in">close</span>();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>由于该函数的第一行调用了 <code>ignore()</code>, 如果子类都没有重写这个函数, 那么 Qt 会默认忽略这个事件, 继续寻找下一个事件接收者. 如果我们在子类的 <code>mousePressEvent()</code> 函数中直接调用了 <code>accept()</code> 或者 <code>ignore()</code>, 而没有调用父类的同名函数, <code>QWidget::mousePressEvent()</code> 函数中关于 <code>Popup</code> 判断的那段代码就不会被执行, 这可能导致问题.</p>
+<p>在一个特殊的情形下, 我们必须使用 <code>accept()</code> 和 <code>ignore()</code> 函数, 那就是窗口关闭的事件. 对于窗口关闭 <code>QCloseEvent</code> 事件, 调用 <code>accept()</code> 意味着 Qt 会停止事件的传播, 窗口关闭; 调用<code>ignore()</code> 则意味着事件继续传播, 即阻止窗口关闭.</p>
+<h3 id="重写事件处理器函数">重写事件处理器函数</h3>
+<p>由于事件处理器函数都是虚函数, 因此我们就可以添加一个标准窗口类的派生类, 这样不仅使子类继承了父类的属性, 还可以在这个子类中重写父类的虚函数.</p>
+<p>其中需要注意的是: <strong>当重写事件处理器函数时, 时刻注意是否需要通过调用父类的同名函数来确保原有实现仍能进行.</strong></p>
+<p>例如:</p>
+<p>头文件代码如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QMainWindow&gt;</span></span><br><br>QT_BEGIN_NAMESPACE<br><span class="hljs-keyword">namespace</span> Ui &#123; <span class="hljs-keyword">class</span> <span class="hljs-title class_">MainWindow</span>; &#125;<br>QT_END_NAMESPACE<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainWindow</span> : <span class="hljs-keyword">public</span> QMainWindow<br>&#123;<br>    Q_OBJECT<br><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">MainWindow</span>(QWidget *parent = <span class="hljs-literal">nullptr</span>);<br>    ~<span class="hljs-built_in">MainWindow</span>();<br><br><span class="hljs-keyword">protected</span>:<br>    <span class="hljs-comment">// 重写事件处理器函数</span><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">closeEvent</span><span class="hljs-params">(QCloseEvent* ev)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">resizeEvent</span><span class="hljs-params">(QResizeEvent* ev)</span></span>;<br><br><span class="hljs-keyword">private</span>:<br>    Ui::MainWindow *ui;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>源文件代码如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;mainwindow.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;ui_mainwindow.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QCloseEvent&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QMessageBox&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QResizeEvent&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QDebug&gt;</span></span><br><br>MainWindow::<span class="hljs-built_in">MainWindow</span>(QWidget *parent)<br>    : <span class="hljs-built_in">QMainWindow</span>(parent)<br>    , <span class="hljs-built_in">ui</span>(<span class="hljs-keyword">new</span> Ui::MainWindow)<br>&#123;<br>    ui-&gt;<span class="hljs-built_in">setupUi</span>(<span class="hljs-keyword">this</span>);<br>&#125;<br><br>MainWindow::~<span class="hljs-built_in">MainWindow</span>()<br>&#123;<br>    <span class="hljs-keyword">delete</span> ui;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::closeEvent</span><span class="hljs-params">(QCloseEvent *ev)</span></span><br><span class="hljs-function"></span>&#123;<br>    QMessageBox::Button btn = QMessageBox::<span class="hljs-built_in">question</span>(<span class="hljs-keyword">this</span>, <span class="hljs-string">&quot;关闭窗口&quot;</span>, <span class="hljs-string">&quot;您确定要关闭窗口吗?&quot;</span>);<br>    <span class="hljs-keyword">if</span>(btn == QMessageBox::Yes)<br>    &#123;<br>        <span class="hljs-comment">// 接收并处理这个事件</span><br>        ev-&gt;<span class="hljs-built_in">accept</span>();<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        <span class="hljs-comment">// 忽略这个事件</span><br>        ev-&gt;<span class="hljs-built_in">ignore</span>();<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MainWindow::resizeEvent</span><span class="hljs-params">(QResizeEvent *ev)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;oldSize: &quot;</span> &lt;&lt; ev-&gt;<span class="hljs-built_in">oldSize</span>()<br>             &lt;&lt; <span class="hljs-string">&quot;currentSize: &quot;</span> &lt;&lt; ev-&gt;<span class="hljs-built_in">size</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>上述程序执行结果如下:<br>
+<img src="/img/Pictures/20231126160908.png" srcset="/img/loading.gif" lazyload alt=""><br>
+<img src="/img/Pictures/20231126160818.png" srcset="/img/loading.gif" lazyload alt=""><br>
+<img src="/img/Pictures/20231126160806.png" srcset="/img/loading.gif" lazyload alt=""><br>
+<img src="/img/Pictures/20231126160850.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="示例">示例</h3>
+<p>基于 QT 提供的事件处理器函数, 自定义一个按钮, 按钮的要求如下:</p>
+<ol>
+<li>从视觉上看是一个不规则按钮 (按钮实际上都是矩形的).</li>
+<li>按钮上需要显示指定的背景图片.</li>
+<li>按钮在鼠标的不同操作阶段 (无操作、鼠标悬停、鼠标按下) 能够显示不同的背景图.</li>
+</ol>
+<h4 id="添加子类">添加子类</h4>
+<p>新添加的按钮类可以让它继承 <code>QPushButton</code>, 也可以让它继承其他的窗口类 (代价是当鼠标点击事件触发之后需要自己发射自定义信号), 这里让添加的子类从 <code>QWidget</code> 类派生.</p>
+<p><strong>自定义类的头文件</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> MYBUTTON_H</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MYBUTTON_H</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QWidget&gt;</span></span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyButton</span> : <span class="hljs-keyword">public</span> QWidget<br>&#123;<br>    Q_OBJECT<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">explicit</span> <span class="hljs-title">MyButton</span><span class="hljs-params">(QWidget *parent = <span class="hljs-literal">nullptr</span>)</span></span>;<br><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setImage</span><span class="hljs-params">(QString normal, QString hover, QString pressed)</span></span>;<br><br><span class="hljs-keyword">protected</span>:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">mousePressEvent</span><span class="hljs-params">(QMouseEvent* ev)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">mouseReleaseEvent</span><span class="hljs-params">(QMouseEvent* ev)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">enterEvent</span><span class="hljs-params">(QEvent* ev)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">leaveEvent</span><span class="hljs-params">(QEvent* ev)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">paintEvent</span><span class="hljs-params">(QPaintEvent* ev)</span></span>;<br><br>signals:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">clicked</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-keyword">private</span>:<br>    QPixmap m_normal;<br>    QPixmap m_press;<br>    QPixmap m_hover;<br>    QPixmap m_current;<br>&#125;;<br><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span> <span class="hljs-comment">// MYBUTTON_H</span></span><br></code></pre></td></tr></table></figure>
+<p><strong>自定义类源文件</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;mybutton.h&quot;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QPainter&gt;</span></span><br><br>MyButton::<span class="hljs-built_in">MyButton</span>(QWidget *parent) : <span class="hljs-built_in">QWidget</span>(parent)<br>&#123;<br><br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyButton::setImage</span><span class="hljs-params">(QString normal, QString hover, QString pressed)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// 加载图片</span><br>    m_normal.<span class="hljs-built_in">load</span>(normal);<br>    m_hover.<span class="hljs-built_in">load</span>(hover);<br>    m_press.<span class="hljs-built_in">load</span>(pressed);<br>    m_current = m_normal;<br>    <span class="hljs-comment">// 设置按钮和图片大小一致</span><br>    <span class="hljs-built_in">setFixedSize</span>(m_normal.<span class="hljs-built_in">size</span>());<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyButton::mousePressEvent</span><span class="hljs-params">(QMouseEvent *ev)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// 鼠标被按下, 发射这个自定义信号</span><br>    <span class="hljs-function">emit <span class="hljs-title">clicked</span><span class="hljs-params">()</span></span>;<br>    m_current = m_press;<br>    <span class="hljs-built_in">update</span>();<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyButton::mouseReleaseEvent</span><span class="hljs-params">(QMouseEvent *ev)</span></span><br><span class="hljs-function"></span>&#123;<br>    m_current = m_normal;<br>    <span class="hljs-built_in">update</span>();<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyButton::enterEvent</span><span class="hljs-params">(QEvent *ev)</span></span><br><span class="hljs-function"></span>&#123;<br>    m_current = m_hover;<br>    <span class="hljs-built_in">update</span>();<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyButton::leaveEvent</span><span class="hljs-params">(QEvent *ev)</span></span><br><span class="hljs-function"></span>&#123;<br>    m_current = m_normal;<br>    <span class="hljs-built_in">update</span>();<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyButton::paintEvent</span><span class="hljs-params">(QPaintEvent *ev)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QPainter <span class="hljs-title">p</span><span class="hljs-params">(<span class="hljs-keyword">this</span>)</span></span>;<br>    p.<span class="hljs-built_in">drawPixmap</span>(<span class="hljs-built_in">rect</span>(), m_current);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="使用自定义控件">使用自定义控件</h4>
+<p>由于 QT 的 ui 工具箱中提供的都是标准控件, 自定义的控件是不能直接拖拽到 ui 窗口中的, 这时我们需要先看一下自定义控件的基类类型: 上面自定义的 <code>MyButton</code> 的基类是 <code>QWidget</code> 类型, 因此需要往窗口中拖拽一个 <code>QWidget</code> 类型的标准控件, 然后在这个标准控件上鼠标右键:</p>
+<p><img src="/img/Pictures/20231126163233.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20231126163242.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>这样添加的控件类型就变成了自定义的子类类型:</p>
+<p><img src="/img/Pictures/20231126163305.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h4 id="设置图片">设置图片</h4>
+<p>在主窗口 (mainwindow.cpp) 中通过添加的按钮的对象, 调用子类的成员函数给其添加图片:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp">MainWindow::<span class="hljs-built_in">MainWindow</span>(QWidget *parent)<br>    : <span class="hljs-built_in">QMainWindow</span>(parent)<br>    , <span class="hljs-built_in">ui</span>(<span class="hljs-keyword">new</span> Ui::MainWindow)<br>&#123;<br>    ui-&gt;<span class="hljs-built_in">setupUi</span>(<span class="hljs-keyword">this</span>);<br><br>    <span class="hljs-comment">// 给自定义按钮设置图片</span><br>    ui-&gt;button-&gt;<span class="hljs-built_in">setImage</span>(<span class="hljs-string">&quot;:/ghost-1.png&quot;</span>, <span class="hljs-string">&quot;:/ghost-2.png&quot;</span>, <span class="hljs-string">&quot;:/ghost-3.png&quot;</span>);<br>    <span class="hljs-comment">// 处理自定义按钮的鼠标点击事件</span><br>    <span class="hljs-built_in">connect</span>(ui-&gt;button, &amp;MyButton::clicked, <span class="hljs-keyword">this</span>, [=]()<br>    &#123;<br>        QMessageBox::<span class="hljs-built_in">information</span>(<span class="hljs-keyword">this</span>, <span class="hljs-string">&quot;按钮&quot;</span>, <span class="hljs-string">&quot;按钮已点击&quot;</span>);<br>    &#125;);<br>&#125;<br><br>MainWindow::~<span class="hljs-built_in">MainWindow</span>()<br>&#123;<br>    <span class="hljs-keyword">delete</span> ui;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="事件分发器">事件分发器</h2>
+<p>当事件产生被发送到对应的窗口之后, 窗口并不会直接处理这个事件, 而是对这些事件进行细分, 然后根据事件的类型再次进行分发, 对应的事件处理器函数得到这个分发的事件之后就开始处理这个事件.</p>
+<p>关于窗口事件的分发, 对应一个事件分发器, 叫做 <code>event</code>:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-keyword">override</span> <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">protected</span>] <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QWidget::event</span><span class="hljs-params">(QEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>通过事件分发器的函数原型可以得知, 关于事件类型的判断是基于参数完成的, 这个参数是一个 <code>QEvent</code> 类型的对象, 这个类中常用的一些 API 函数:</p>
+<ul>
+<li>让窗口接受传递过来的事件, 事件不会向父窗口传递  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QEvent::accept</span><span class="hljs-params">()</span></span>;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>只有在事件处理函数中调用才有效, 在事件分发器中调用是无效的</strong>.</li>
+</ul>
+</li>
+<li>让窗口忽略传递过来的事件, 事件被传递给父窗口  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QEvent::ignore</span><span class="hljs-params">()</span></span>;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>只有在事件处理函数中调用才有效, 在事件分发器中调用是无效的</strong>.</li>
+</ul>
+</li>
+<li>判断 / 设置传递过来的事件是否被接受  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QEvent::isAccepted</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * setAccepted(true) == accept()</span><br><span class="hljs-comment"> * setAccepted(false) == ignore()</span><br><span class="hljs-comment"> */</span> <br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QEvent::setAccepted</span><span class="hljs-params">(<span class="hljs-type">bool</span> accepted)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>得到事件的类型, 返回值是一个枚举类型  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QEvent::Type <span class="hljs-title">QEvent::type</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在不需要人为干预的情况下, 事件分发器会自主的完成相关事件的分发, 下面来还原一下事件分发器的分发流程, 以下是这个函数的部分源码展示:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QWidget::event</span><span class="hljs-params">(QEvent *ev)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">switch</span>(ev-&gt;<span class="hljs-built_in">type</span>())<br>    &#123;<br>    <span class="hljs-comment">// 鼠标移动</span><br>    <span class="hljs-keyword">case</span> QEvent::MouseMove:		<br>        <span class="hljs-built_in">mouseMoveEvent</span>((QMouseEvent*)event);<br>        <span class="hljs-keyword">break</span>;<br>    <span class="hljs-comment">// 鼠标按下</span><br>    <span class="hljs-keyword">case</span> QEvent::MouseButtonPress:	<br>        <span class="hljs-built_in">mousePressEvent</span>((QMouseEvent*)event);<br>        <span class="hljs-keyword">break</span>;<br>    <span class="hljs-comment">// 鼠标释放</span><br>    <span class="hljs-keyword">case</span> QEvent::MouseButtonRelease:	<br>        <span class="hljs-built_in">mouseReleaseEvent</span>((QMouseEvent*)event);<br>        <span class="hljs-keyword">break</span>;<br>    <span class="hljs-comment">// 鼠标双击</span><br>    <span class="hljs-keyword">case</span> QEvent::MouseButtonDblClick:	<br>        <span class="hljs-built_in">mouseDoubleClickEvent</span>((QMouseEvent*)event);<br>        <span class="hljs-keyword">break</span>;<br>    <span class="hljs-comment">// 键盘按键被按下事件</span><br>    <span class="hljs-keyword">case</span> QEvent::KeyPress:<br>        <span class="hljs-keyword">break</span>;<br>        ...<br>        ...<br>        ...<br>    <span class="hljs-keyword">default</span>:<br>        <span class="hljs-keyword">break</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>可以直观的看到事件分发器在对事件进行判定之后会调用相关的事件处理器函数. <strong>如果传入的事件已被识别并且处理, 则该函数会返回 <code>true</code>, 否则返回 <code>false</code></strong>. 如果返回值是 <code>true</code>, 那么 QT 会认为这个事件已经处理完毕, 不会再将这个事件发送给其它对象, 而是继续处理事件队列中的下一事件.</p>
+<p>如果我们不想让某些触发的事件进入到当前窗口中, 可以在事件分发器中进行拦截, 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">MainWindow::event</span><span class="hljs-params">(QEvent *ev)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span>(ev-&gt;<span class="hljs-built_in">type</span>() == QEvent::MouseButtonPress ||<br>            ev-&gt;<span class="hljs-built_in">type</span>() == QEvent::MouseButtonDblClick)<br>    &#123;<br>        <span class="hljs-comment">// 过滤调用鼠标按下的事件</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> QWidget::<span class="hljs-built_in">event</span>(ev);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>我们处理过自己感兴趣的事件之后, 可以直接返回 <code>true</code>, 表示我们已经对此事件进行了处理; 对于其它我们不关心的事件, 则需要调用父类的 <code>event()</code> 函数继续转发, 否则这个组件就只能处理我们定义的事件了.</p>
+<h2 id="事件过滤器">事件过滤器</h2>
+<p>虽然可以在 <code>event()</code> 函数中实现拦截的操作. 由于 <code>event()</code> 函数是 protected 的, 因此, 需要继承已有类. 如果组件很多, 就需要重写很多个 <code>event()</code> 函数. 这当然相当麻烦, 更不用说重写 <code>event()</code> 函数还得小心一堆问题.</p>
+<p>除了使用事件分发器来过滤 QT 窗口中产生的事件, 还可以通过事件过滤器过滤相关的事件. 当 QT 的事件 “通过应用程序对象发送给相关窗口之后, 到相关窗口接收到数据之前” 这个期间可对事件进行过滤, 也就是说, 如果你在事件过滤器中过滤了某个事件, 那么相关窗口就不会接收到该事件. <code>QObject</code> 有一个<code>eventFilter</code> 函数用于建立事件过滤器</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 如果想过滤掉这个事件, 返回 true, 否则返回 false</span><br><span class="hljs-comment"> * watched: 要被过滤事件的对象</span><br><span class="hljs-comment"> * event: 要过滤的具体事件</span><br><span class="hljs-comment"> */</span> <br>[<span class="hljs-keyword">virtual</span>] <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QObject::eventFilter</span><span class="hljs-params">(QObject *watched, QEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+<p><strong>通过事件过滤器进行事件的过滤, 主要分为两步</strong>:</p>
+<ol>
+<li>给要被过滤事件的类对象安装事件过滤器 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QObject::installEventFilter</span><span class="hljs-params">(QObject *filterObj)</span></span>;<br></code></pre></td></tr></table></figure>
+由 <code>filterObj</code> 对象来过滤传递给当前对象的事件.</li>
+<li>在要进行事件过滤的类 (<code>filterObj</code>) 中重写从 <code>QObject</code> 中继承的虚函数 <code>eventFilter</code>.</li>
+</ol>
+<p>对于已经存在的过滤器, 则可以通过 <code>QObject::removeEventFilter()</code> 函数移除.</p>
+<p>例如: 在一个窗口中有一个多行文本输入框 <code>QTextEdit</code>, 需要屏蔽掉键盘上的回车键.</p>
+<p>该需求有三种解决方案:</p>
+<ol>
+<li>自定义一个新的类让其继承 <code>QTextEdit</code>, 在这个子类中重写键盘事件<code>keyPressEvent</code>, 在这个函数中屏蔽回车键.</li>
+<li>自定义一个新的类让其继承 <code>QTextEdit</code>, 在这个子类中重写事件分发器 <code>event</code>, 在这个函数中屏蔽回车键.</li>
+<li><code>QTextEdit</code> 安装事件过滤器, 由 <code>QTextEdit</code> 的父窗口对这个控件的事件进行过滤.</li>
+</ol>
+<p>三种解决方案中第三种方案显然更简单, 实现如下:</p>
+<ol>
+<li>在主窗口中添加一个 <code>QTextEdit</code> 类型的控件</li>
+<li>主窗口头文件: mainwindow.h <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QT_BEGIN_NAMESPACE<br><span class="hljs-keyword">namespace</span> Ui &#123; <span class="hljs-keyword">class</span> <span class="hljs-title class_">MainWindow</span>; &#125;<br>QT_END_NAMESPACE<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainWindow</span> : <span class="hljs-keyword">public</span> QMainWindow<br>&#123;<br>    Q_OBJECT<br><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">MainWindow</span>(QWidget *parent = <span class="hljs-literal">nullptr</span>);<br>    ~<span class="hljs-built_in">MainWindow</span>();<br><br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">eventFilter</span><span class="hljs-params">(QObject *watched, QEvent *event)</span></span>;<br><br><br><span class="hljs-keyword">private</span>:<br>    Ui::MainWindow *ui;<br>&#125;;<br></code></pre></td></tr></table></figure>
+</li>
+<li>主窗口源文件: mainwindow.cpp <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs cpp">MainWindow::<span class="hljs-built_in">MainWindow</span>(QWidget *parent)<br>    : <span class="hljs-built_in">QMainWindow</span>(parent)<br>    , <span class="hljs-built_in">ui</span>(<span class="hljs-keyword">new</span> Ui::MainWindow)<br>&#123;<br>    ui-&gt;<span class="hljs-built_in">setupUi</span>(<span class="hljs-keyword">this</span>);<br><br>    ui-&gt;textEdit-&gt;<span class="hljs-built_in">installEventFilter</span>(<span class="hljs-keyword">this</span>);<br>&#125;<br><br>MainWindow::~<span class="hljs-built_in">MainWindow</span>()<br>&#123;<br>    <span class="hljs-keyword">delete</span> ui;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">MainWindow::eventFilter</span><span class="hljs-params">(QObject *watched, QEvent *event)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// 判断对象和事件</span><br>    <span class="hljs-keyword">if</span>(watched == ui-&gt;textEdit &amp;&amp; event-&gt;<span class="hljs-built_in">type</span>() == QEvent::KeyPress) &#123;<br>        QKeyEvent* keyEv = (QKeyEvent*)event;<br>        <span class="hljs-keyword">if</span>(keyEv-&gt;<span class="hljs-built_in">key</span>() == Qt::Key_Enter ||         <span class="hljs-comment">// 小键盘确认</span><br>                keyEv-&gt;<span class="hljs-built_in">key</span>() == Qt::Key_Return) &#123;   <span class="hljs-comment">// 大键盘回车</span><br>            <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;我是回车, 被按下了...&quot;</span>;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>	        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> QMainWindow::<span class="hljs-built_in">eventFilter</span>(watched, event);<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>通过这样的处理, 对于 <code>QTextEdit</code> 组件, 就能过滤掉键盘上的回车键; 而对于其他组件, 由于我们并不能保证父类中是否还有过滤器, 因此最保险的做法是调用父类的函数.</p>
+<p><strong>如果一个对象存在多个事件过滤器, 那么最后一个安装的会第一个执行</strong>.</p>
+<p>另外, <strong>安装事件过滤器的窗口和执行事件过滤的窗口必须在同一线程, 否则, 过滤器将不起作用. 如果在安装过滤器之后, 这两个窗口不在同一个线程, 那么, 只有等到二者重新回到同一线程的时候, 过滤器才会有效</strong>.</p>
+<p>如果要实现全局的事件过滤器 (只能用在主线程上), 则可以将事件过滤器安装到 <code>QApplication</code> 或者 <code>QCoreApplication</code> 上面. 这里需要注意的是, 如果使用 <code>installEventFilter()</code> 函数给一个对象安装事件过滤器, 那么该事件过滤器只对该对象有效, 只有这个对象的事件需要先传递给事件过滤器的 <code>eventFilter()</code> 函数进行过滤, 其它对象不受影响. 如果给 <code>QApplication</code> 对象安装事件过滤器, 那么该过滤器对程序中的每一个对象都有效, 任何对象的事件都是先传给 <code>eventFilter()</code> 函数.</p>
+<p>下面给出一个简单的例子便于理解:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Label</span> : <span class="hljs-keyword">public</span> QWidget<br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">Label</span>()<br>    &#123;<br>        <span class="hljs-built_in">installEventFilter</span>(<span class="hljs-keyword">this</span>);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">eventFilter</span><span class="hljs-params">(QObject *watched, QEvent *event)</span></span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">if</span> (watched == <span class="hljs-keyword">this</span>) &#123;<br>            <span class="hljs-keyword">if</span> (event-&gt;<span class="hljs-built_in">type</span>() == QEvent::MouseButtonPress) &#123;<br>                <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;eventFilter&quot;</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br><br><span class="hljs-keyword">protected</span>:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">mousePressEvent</span><span class="hljs-params">(QMouseEvent *)</span></span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;mousePressEvent&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">event</span><span class="hljs-params">(QEvent *e)</span></span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">if</span> (e-&gt;<span class="hljs-built_in">type</span>() == QEvent::MouseButtonPress) &#123;<br>            <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;event&quot;</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> QWidget::<span class="hljs-built_in">event</span>(e);<br>    &#125;<br>&#125;;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">EventFilter</span> : <span class="hljs-keyword">public</span> QObject<br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">EventFilter</span>(QObject *watched, QObject *parent = <span class="hljs-number">0</span>) :<br>        <span class="hljs-built_in">QObject</span>(parent),<br>        <span class="hljs-built_in">m_watched</span>(watched)<br>    &#123;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">eventFilter</span><span class="hljs-params">(QObject *watched, QEvent *event)</span></span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">if</span> (watched == m_watched) &#123;<br>            <span class="hljs-keyword">if</span> (event-&gt;<span class="hljs-built_in">type</span>() == QEvent::MouseButtonPress) &#123;<br>                <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;QApplication::eventFilter&quot;</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br><br><span class="hljs-keyword">private</span>:<br>    QObject *m_watched;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">QApplication <span class="hljs-title">app</span><span class="hljs-params">(argc, argv)</span></span>;<br>    Label label;<br>    app.<span class="hljs-built_in">installEventFilter</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">EventFilter</span>(&amp;label, &amp;label));<br>    label.<span class="hljs-built_in">show</span>();<br>    <span class="hljs-keyword">return</span> app.<span class="hljs-built_in">exec</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>该程序的执行结果如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">QApplication::eventFilter <br>eventFilter <br>event <br>mousePressEvent<br></code></pre></td></tr></table></figure>
+<p>可见, 全局事件过滤器被第一个调用, 之后是该对象上面的事件过滤器, 其次是 <code>event()</code> 函数, 最后是特定的事件处理函数.</p>
+<h2 id="自定义事件">自定义事件</h2>
+<p>尽管 Qt 已经提供了很多事件, 但对于更加千变万化的需求来说, 有限的事件都是不够的. 例如, 我要支持一种新的设备, 这个设备提供一种崭新的交互方式, 这时就需要自定义事件类型.</p>
+<p>使用事件而不是信号槽的主要原因是: 事件的分发既可以是同步的, 又可以是异步的; 而函数的调用或者说是槽的回调总是同步的. 事件的另外一个好处是可以使用过滤器.</p>
+<p>想要在 Qt 中自定义事件, 首先需要<strong>继承 <code>QEvent</code> 类, 并提供一个 <code>QEvent::Type</code> 类型的参数</strong>, 作为自定义事件的类型值.</p>
+<ul>
+<li><code>QEvent::Type</code> 是 <code>QEvent</code> 定义的一个枚举. 因此, 我们可以传递一个 <code>int</code> 值. 但是需要注意的是, 我们的<strong>自定义事件的 <code>type</code> 不能和已经存在的 <code>type</code> 值重复</strong>, 因为系统会将你新增加的事件当做系统事件进行派发和调用. 在 Qt 中, <strong>系统保留 0 – 999 的值</strong>, 也就是说, 你的事件 <code>type</code> 要大于 999, 由于数值不利于记忆, 因此, <strong>Qt 定义了两个边界值: <code>QEvent::User</code> 和 <code>QEvent::MaxUser</code></strong>, 其中 <code>QEvent::User</code> 的值是 1000, <code>QEvent::MaxUser</code> 的值是 65535, 我们的自定义事件的 <code>type</code> 应该在这两个值之间. 虽然这能保证我们自定义的事件类型不会覆盖系统定义的事件类型. 但是, 这样并不能保证自定义事件相互之间不会被覆盖. 为了解决这个问题, Qt 提供了一个函数 <code>registerEventType()</code> 用于自定义事件的注册:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 返回向系统注册的新的 Type 类型的值</span><br><span class="hljs-comment"> * hint: 希望自定义事件绑定的 Type 值. 如果不会发生覆盖 (系统的以及其它自定义事件的), 则直接返回该值; 否则由系统自动分配一个合法值返回</span><br><span class="hljs-comment"> */</span> <br><span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">int</span> <span class="hljs-title">QEvent::registerEventType</span> <span class="hljs-params">(<span class="hljs-type">int</span> hint = <span class="hljs-number">-1</span>)</span></span>;<br></code></pre></td></tr></table></figure>
+这个函数是线程安全的, 因此不必另外添加同步.</li>
+</ul>
+<p>我们可以在 <code>QEvent</code> 子类中添加自己的事件所需要的数据, 然后进行事件的发送. Qt 中提供了两种事件发送方式:</p>
+<ul>
+<li><code>QCoreApplication::sendEvent</code>, 该函数声明如下:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">bool</span> <span class="hljs-title">QCoreApplication::sendEvent</span><span class="hljs-params">(QObject *receiver, QEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+该函数通过 <code>QCoreApplication::notify()</code> 函数, 直接将 <code>event</code> 事件发送给 <code>receiver</code> 接收者. 函数返回值就是事件处理函数的返回值. 在事件被发送后, <code>event</code> 对象并不会被销毁, 因此我们通常在栈上创建 <code>event</code> 对象, 以期望事件对象在离开作用域的时候被自动销毁. 例如:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QMouseEvent <span class="hljs-title">event</span><span class="hljs-params">(QEvent::MouseButtonPress, pos, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)</span></span>;<br>QApplication::<span class="hljs-built_in">sendEvent</span>(mainWindow, &amp;event);<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>QCoreApplication::postEvent</code>, 该函数声明如下:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title">QCoreApplication::postEvent</span><span class="hljs-params">(QObject *receiver, QEvent *event)</span></span>;<br></code></pre></td></tr></table></figure>
+将 <code>event</code> 事件及其接受者 <code>receiver</code> 一同追加到事件队列中后, 该函数会立即返回.<code>event</code> 对象必须在堆上分配, 因为事件队列会持有该对象, 并在将其 post 之后将其 delete. 当控制返回到主事件循环时, 所有存储在队列中的事件都将通过 <code>notify()</code> 函数发送出去. 事件按照降序优先级排序, 即具有较高优先级的事件将在具有较低优先级的事件之前处理, 而如果两个事件具有相同的优先级, 它们将按照被 post 的顺序进行处理. 优先级可以是任何整数值, 即介于 <code>INT_MAX</code> 和 <code>INT_MIN</code> 之间, 包括这两个值. 默认的优先级是 <code>Qt::NormalEventPriority</code>. 当然, 这个函数同样是线程安全的.</li>
+</ul>
+<p>Qt 还提供了一个函数:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title">QCoreApplication::sendPostedEvents</span><span class="hljs-params">(QObject *receiver, <span class="hljs-type">int</span> event_type)</span></span>;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该函数能立即分发所有先前使用 <code>QCoreApplication::postEvent()</code> 排队的、针对对象 <code>receiver</code> 且事件类型为 <code>event_type</code> 的事件. 如果 <code>receiver</code> 为 nullptr, 则将事件类型为 <code>event_type</code> 的事件发送到所有对象; 如果 <code>event_type</code> 为 0, 则将所有事件发送到 <code>receiver</code>. 当然, 窗口系统的事件不会由此函数分发, 而是由 <code>processEvents()</code> 处理. 需要注意的是: 该方法必须从其 <code>QObject</code> 参数 <code>receiver</code> 所在的线程中调用.</li>
+</ul>
+<p>而自定义事件的处理和之前的并无区别, 就不再赘述.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Qt事件之事件处理器: <a target="_blank" rel="noopener" href="https://subingwen.cn/qt/event_handler/">https://subingwen.cn/qt/event_handler/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>Qt事件之事件分发器: <a target="_blank" rel="noopener" href="https://subingwen.cn/qt/event/">https://subingwen.cn/qt/event/</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>Qt事件之事件过滤器: <a target="_blank" rel="noopener" href="https://subingwen.cn/qt/event_filter/">https://subingwen.cn/qt/event_filter/</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>「Qt」事件概念: <a target="_blank" rel="noopener" href="https://blog.csdn.net/YMGogre/article/details/129738036">https://blog.csdn.net/YMGogre/article/details/129738036</a>
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:5" class="footnote-text"><span>QT 学习之路 2（18）：事件: <a target="_blank" rel="noopener" href="https://www.devbean.net/2012/09/qt-study-road-2-events/">https://www.devbean.net/2012/09/qt-study-road-2-events/</a>
+<a href="#fnref:5" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:6" class="footnote-text"><span>QT 学习之路 2（19）：事件的接受与忽略: <a target="_blank" rel="noopener" href="https://www.devbean.net/2012/09/qt-study-road-2-events-accept-reject/">https://www.devbean.net/2012/09/qt-study-road-2-events-accept-reject/</a>
+<a href="#fnref:6" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:7" class="footnote-text"><span>QT 学习之路 2（20）：EVENT(): <a target="_blank" rel="noopener" href="https://www.devbean.net/2012/10/qt-study-road-2-event-func/">https://www.devbean.net/2012/10/qt-study-road-2-event-func/</a>
+<a href="#fnref:7" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:8" class="footnote-text"><span>QT 学习之路 2（21）：事件过滤器: <a target="_blank" rel="noopener" href="https://www.devbean.net/2012/10/qt-study-road-2-event-filter/">https://www.devbean.net/2012/10/qt-study-road-2-event-filter/</a>
+<a href="#fnref:8" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:9" class="footnote-text"><span>QT 学习之路 2（22）：事件总结: <a target="_blank" rel="noopener" href="https://www.devbean.net/2012/10/qt-study-road-2-event-summary/">https://www.devbean.net/2012/10/qt-study-road-2-event-summary/</a>
+<a href="#fnref:9" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:10" class="footnote-text"><span>QT 学习之路 2（23）：自定义事件: <a target="_blank" rel="noopener" href="https://www.devbean.net/2012/10/qt-study-road-2-custom-event/">https://www.devbean.net/2012/10/qt-study-road-2-custom-event/</a>
+<a href="#fnref:10" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/" class="category-chain-item">QT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QT/" class="print-no-link">#QT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="QT 数据类型">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QT 数据类型</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E6%97%B6%E9%97%B4/" title="QT 时间">
+                        <span class="hidden-mobile">QT 时间</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

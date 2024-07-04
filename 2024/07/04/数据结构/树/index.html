@@ -1,0 +1,1089 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="树 树由两部分组成:  一系列节点 连接节点的边, 且任意两个节点之间仅有一条边.  有根树 已将一个节点指定为根节点的树. 一棵树中除根节点外, 其他节点仅有一个父节点. 叶子 没有子节点的节点. N 元树 树中的每个节点最多有  N  个子节点. 二叉搜索树 对于二叉搜索树中的每个节点  X :  左子树中所有的键 (节点中的项) 都小于  X  节点的键. 右子树中所有的键都大于  X  节">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树">
+<meta property="og:url" content="http://example.com/2024/07/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="树 树由两部分组成:  一系列节点 连接节点的边, 且任意两个节点之间仅有一条边.  有根树 已将一个节点指定为根节点的树. 一棵树中除根节点外, 其他节点仅有一个父节点. 叶子 没有子节点的节点. N 元树 树中的每个节点最多有  N  个子节点. 二叉搜索树 对于二叉搜索树中的每个节点  X :  左子树中所有的键 (节点中的项) 都小于  X  节点的键. 右子树中所有的键都大于  X  节">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905104803.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905125642.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905125624.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905131733.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905132014.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905132152.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905144508.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905144906.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905144933.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905145206.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905145307.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905145412.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905150038.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905150228.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905150417.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905224516.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905224531.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905224545.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905224620.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905224635.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905224645.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905224758.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905224815.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905224826.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905224939.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220905225148.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906140703.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906141520.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906151201.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906151606.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906154957.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906143940.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906144338.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906144210.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906144519.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906144711.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906144810.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906145000.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906144210.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906145204.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906145225.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906202743.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906202918.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906203050.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906203449.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906203606.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220906203759.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220918192027.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220918192423.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220918192621.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220918192816.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220918192824.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220918193408.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220918193339.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220919140919.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220919140919.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220919140919.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220919140919.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220930095047.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220930095056.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220930191720.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20220930194105.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221001203021.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221001203235.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221001204209.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221001204810.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221001205432.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221001205646.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221001205948.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221001211224.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221001211338.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002140314.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002141019.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002141253.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002141650.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002141915.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002142323.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002142504.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002142621.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002142915.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002143021.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002143814.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002143917.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002144416.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002144647.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002144753.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002150424.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221002150440.png">
+<meta property="article:published_time" content="2024-07-04T10:04:08.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CS61B">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20220905104803.png">
+  
+  
+  
+  <title>树 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="树"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 18:04" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          40 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">树</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>树</h1>
+<p>树由两部分组成:</p>
+<ul>
+<li>一系列节点</li>
+<li>连接节点的边, 且<strong>任意两个节点之间仅有一条边</strong>.</li>
+</ul>
+<p><strong>有根树</strong><br>
+已将一个节点指定为根节点的树. 一棵树中除根节点外, 其他节点仅有一个父节点.</p>
+<p><strong>叶子</strong><br>
+没有子节点的节点.</p>
+<p><strong>N 元树</strong><br>
+树中的每个节点最多有  N  个子节点.</p>
+<h2 id="二叉搜索树">二叉搜索树</h2>
+<p>对于二叉搜索树中的每个节点  X :</p>
+<ul>
+<li>左子树中所有的键 (节点中的项) 都小于  X  节点的键.</li>
+<li>右子树中所有的键都大于  X  节点的键.</li>
+</ul>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220905104803.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>dog  节点的左子树中的所有键 (例如:  bag/alf/cat ) 都小于  dog  节点的键;  dog  节点的右子树中的所有键 (例如:  flat/elf/glut ) 都大于  dog  节点的键.</p>
+<p>二叉搜索树中所有的键都必须是完整的/可传递的/反对称的, 简单来说就是任意两个键值都可以明确地比较出大小.</p>
+<p><strong>二叉搜索树中不允许存在重复的键值</strong>.</p>
+<h3 id="查找">查找</h3>
+<p>只需判断目标的键值和当前二叉搜索树的根节点的键值的大小:</p>
+<ul>
+<li>目标键值等于当前根节点的键值, 则直接返回传入的二叉搜索树.</li>
+<li>目标值小于当前根节点的键值, 则在传入的二叉搜索树的左子树中查找目标.</li>
+<li>目标值大于当前根节点的键值, 则在传入的二叉搜索树的右子树中查找目标.</li>
+</ul>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220905125642.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>查找  elf  的路线如下所示:</p>
+<p><img src="/img/Pictures/20220905125624.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>具体实现如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> BST <span class="hljs-title function_">find</span><span class="hljs-params">(BST T, Key sk)</span> &#123;<br>	<span class="hljs-keyword">if</span> (T == <span class="hljs-literal">null</span>) &#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>	&#125;;<br>	<span class="hljs-keyword">if</span> (sk.equals(T.key)) &#123;<br>		<span class="hljs-keyword">return</span> T;<br>	&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (sk &lt; T.key) &#123;<br>		<span class="hljs-keyword">return</span> find(T.left, sk);<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>		<span class="hljs-keyword">return</span> find(T.right, sk);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="插入">插入</h3>
+<p>二叉搜索树插入的写法和查找的写法类似, 当待插入值小于当前二叉搜素树的根节点的键值时, 插入到当前二叉搜索树的左子树, 大于当前二叉搜索树的根节点的键值时, 插入到当前二叉搜索树的右子树.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220905131733.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>要插入键值为  eyes  的键</p>
+<p>搜索路径如下:</p>
+<p><img src="/img/Pictures/20220905132014.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220905132152.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>具体实现如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> BST <span class="hljs-title function_">insert</span><span class="hljs-params">(BST T, Key ik)</span> &#123;<br>	<span class="hljs-keyword">if</span> (T == <span class="hljs-literal">null</span>) &#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BST</span>(ik);<br>	&#125;<br>	<span class="hljs-keyword">if</span> (ik &lt; T.key) &#123;<br>		T.left = insert(T.left, ik);<br>	&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (ik &gt; T.key) &#123;<br>		T.right = insert(T.right, ik);<br>	&#125;<br>	<span class="hljs-keyword">return</span> T;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="删除">删除</h3>
+<p>删除需要考虑三种情况:</p>
+<ul>
+<li>
+<p><strong>删除的节点没有子节点</strong>: 此时直接删除即可.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220905144508.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>删除键值为  glut  的键:</p>
+<p><img src="/img/Pictures/20220905144906.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220905144933.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p><strong>删除的节点只有一个子节点</strong>: 则将被删除的节点的父节点指向其子节点.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220905145206.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>删除键值为  flat  的键:</p>
+<p><img src="/img/Pictures/20220905145307.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220905145412.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p><strong>删除的节点有两个子节点</strong>: 找到被删除节点的前驱项 (指定节点的左子树中键值最大的节点) 或继承项 (指定节点的右子树中键值最小的节点), 然后用该节点的前驱项或继承项替代该节点, 然后删除该节点的前驱项或继承项 (前驱项或继承项只可能有  0  或  1  个子节点, 所以删除操作只需要遵循前两种情况的处理方法).</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220905150038.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>删除键值为  k  的键:</p>
+<p>找到前驱项或继承项 (图中紫色的部分)</p>
+<p><img src="/img/Pictures/20220905150228.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此处选择用前驱项替代被删除项, 并删除前驱项</p>
+<p><img src="/img/Pictures/20220905150417.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ul>
+<h2 id="B-树">B 树</h2>
+<p>B  树是一种自平衡的树, 本质上是多叉树, 能够避免产生较大的树高.</p>
+<p><strong>B  树每个节点允许存储  L  个元素</strong>,  L  由设计者决定.</p>
+<p><strong>B  树的元素只会插入到叶子上.</strong></p>
+<p><strong>一旦  B  树某个节点的元素个数大于  L  , 则需要将该节点进行分裂</strong>, 假设该节点中元素的个数为  N :</p>
+<ul>
+<li>当  N  为奇数时, 将该节点中下标为  N/2  的元素推到该节点的父节点中, 并以下标  N/2  为分界线, 将原节点分成两个新的节点.</li>
+<li>当  N  为偶数时, 将该节点中下标为  N/2 - 1  的元素推到该节点的父节点中, 并以下标  N/2 - 1  为分界线, 将原节点分成两个新的节点.</li>
+</ul>
+<p>如果父节点也满了, 则继续往上推.</p>
+<p>例如:</p>
+<p>以  1, 2, 3, 4, 5, 6, 7  的顺序写入  L = 2  的  B  树:</p>
+<p><img src="/img/Pictures/20220905224516.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220905224531.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220905224545.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>分裂:</p>
+<p><img src="/img/Pictures/20220905224620.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220905224635.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220905224645.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>分裂:</p>
+<p><img src="/img/Pictures/20220905224758.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220905224815.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220905224826.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>分裂:</p>
+<p><img src="/img/Pictures/20220905224939.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>继续分裂:</p>
+<p><img src="/img/Pictures/20220905225148.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>L = 2  的  B  树也叫  2-3  树, 即该  B  树的每个节点可以有  2, 3  个子节点,  L = 3  的  B  树也叫  2-3-4  树, 即该  B  树的每个节点可以有  2, 3, 4  个子节点.</p>
+<h3 id="不变量">不变量</h3>
+<ul>
+<li>所有的叶节点到根节点的距离相同 (因为当根节点分裂的时候, 会将所有的节点向下推一层, 即使所有的节点的高度加  1 , 而其余节点分裂的时候, 不会影响其他节点的高度). ^b1bff3</li>
+<li>一个非叶节点如果有  K  个元素, 那么其必然有  K + 1  个子节点 (因为非叶节点中的元素增加的同时子节点会进行分裂).</li>
+</ul>
+<p>这些不变量保证了树的平衡.</p>
+<h3 id="高度">高度</h3>
+<ul>
+<li>
+<p>最坏情况下, 每个节点只保存一个元素, 相同数量的元素, 树的高度会比较大:</p>
+<p><img src="/img/Pictures/20220906140703.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此时树的高度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msubsup><mi>g</mi><mn>2</mn><mi>N</mi></msubsup></mrow><annotation encoding="application/x-tex">log_2^N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0894em;vertical-align:-0.2481em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-2.4519em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2481em;"><span></span></span></span></span></span></span></span></span></span>.</p>
+</li>
+<li>
+<p>最好的情况下, 每个节点保存  L  个元素, 相同数量的元素, 树的高度会比较小:</p>
+<p><img src="/img/Pictures/20220906141520.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此时树的高度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msubsup><mi>g</mi><mrow><mi>L</mi><mo>+</mo><mn>1</mn></mrow><mi>N</mi></msubsup></mrow><annotation encoding="application/x-tex">log_{L + 1}^N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.175em;vertical-align:-0.3337em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-2.4247em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">L</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3337em;"><span></span></span></span></span></span></span></span></span></span>.</p>
+</li>
+</ul>
+<p>所以树的高度介于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msubsup><mi>g</mi><mn>2</mn><mi>N</mi></msubsup></mrow><annotation encoding="application/x-tex">log_2^N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0894em;vertical-align:-0.2481em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-2.4519em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2481em;"><span></span></span></span></span></span></span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msubsup><mi>g</mi><mrow><mi>L</mi><mo>+</mo><mn>1</mn></mrow><mi>N</mi></msubsup></mrow><annotation encoding="application/x-tex">log_{L + 1}^N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.175em;vertical-align:-0.3337em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-2.4247em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">L</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3337em;"><span></span></span></span></span></span></span></span></span></span> 之间, 所以树的高度的增长率为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo stretchy="false">(</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>N</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\theta (log^N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0913em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>.</p>
+<h3 id="运行时间">运行时间</h3>
+<p>假设最坏的情况下搜索树的高度为  H + 1 , 最坏的情况下在一个节点搜索的元素的数量为  L , 所以搜索所需的总时间为  L * (H + 1) , 所以搜索操作的时间复杂度为  O(HL) , 由于  L  是开始确定的, 所以  L  是常数,  H  的增长率为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo stretchy="false">(</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>N</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\theta (log^N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0913em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>, 所以搜索操作的时间复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>N</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(log^N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0913em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>.</p>
+<h2 id="红黑树">红黑树</h2>
+<p>红黑树是一种自平衡的二叉树，通过每次插入和删除的自旋方式保证树的平衡态，从而获得稳定且较高的查询性能.</p>
+<p>红黑树本质上是模仿B树中的  2-3  树, 即  L = 2  的  B  树.</p>
+<p>虽然  B  树各种操作的时间复杂度很低, 但是  B  树的实现比较复杂, 红黑树的各种操作的时间复杂度和  B  树相同, 当实现相对简单.</p>
+<p>红黑树使用二叉搜索树来表示  2-3  树.</p>
+<p>红黑树<strong>用红线链接</strong>  2-3  树中有  2  个元素的节点 (<strong>此处所写皆为左倾红黑树</strong>), <strong>此处的红线必须是左倾斜, 即节点中前面元素是后面元素的左子节点</strong>:</p>
+<p><img src="/img/Pictures/20220906151201.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220906151606.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220906154957.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>该链接不为左倾链接, 为右倾链接, 不符合要求.</p>
+<p><strong>对二叉搜索树进行左旋转和右旋转不会改变二叉搜索树的属性</strong>.</p>
+<h3 id="左旋转">左旋转</h3>
+<p>对某节点进行左旋转会将该节点的右子节点转为根节点.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220906143940.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>如果要对  B  节点进行左旋转, 通常分为两步:</p>
+<ul>
+<li>
+<p>首先将  B  节点并入  D  节点:</p>
+<p><img src="/img/Pictures/20220906144338.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220906144210.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>然后将  B  节点作为  D  节点的子节点:</p>
+<p><img src="/img/Pictures/20220906144519.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220906144711.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ul>
+<h3 id="右旋转">右旋转</h3>
+<p>对某节点进行右旋转会将该节点的左子节点转为根节点.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220906144810.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>如果要对  D  节点进行右旋转, 通常分为两步:</p>
+<ul>
+<li>
+<p>首先将  D  节点并入  B  节点:</p>
+<p><img src="/img/Pictures/20220906145000.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220906144210.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>然后将  D  节点作为  B  节点的子节点:</p>
+<p><img src="/img/Pictures/20220906145204.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220906145225.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ul>
+<h3 id="插入-2">插入</h3>
+<p>左倾红黑树插入方式和二叉搜索树插入一致, 但是插入后需要考虑三种情况:</p>
+<ul>
+<li>
+<p>插入后有一条右倾链接, 可以通过|左旋转解决.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220906202743.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此时对节点  7  进行左旋转:</p>
+<p><img src="/img/Pictures/20220906202918.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+<li>
+<p>插入后有两个连续的左倾链接 (一个节点有两个左倾链接), 可以通过右旋转解决.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220906203050.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此时对节点  7  进行右旋转</p>
+<p><img src="/img/Pictures/20220906203449.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此时将问题转化为第三种情况</p>
+</li>
+<li>
+<p>插入后一个节点有一个左倾链接和一个右倾链接, 可以通过翻转 (将所有与该节点有关的链接的颜色改变, 即红 -&gt; 黑, 黑 -&gt; 红) 解决.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220906203606.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此时对节点  4  进行翻转</p>
+<p><img src="/img/Pictures/20220906203759.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ul>
+<h3 id="性质">性质</h3>
+<ul>
+<li>没有一个节点会拥有两个红色链接 (如果有两个红色链接, 则转化为  B  树时, 一个节点内将有三个元素, 在  B  树中此节点应该分裂).</li>
+<li>每条从根节点到叶子节点的路径都具有相同数量的黑色链接 (红黑树中从根节点到叶子节点的黑色链接的数量等于其等价  B  树中根节点到叶子节点的距离, 且  B  树具有不变量)</li>
+</ul>
+<h3 id="高度-2">高度</h3>
+<p>假设某一红黑树对应的  2-3  树的树高为  H , 则红黑树中黑色链接的数量为  H , 最坏情况下, 红黑树对应的  2-3  树从根节点到叶子节点的每个节点都包含两个元素, 则该红黑树中最长的路径将包含  H + 1  个红色链接 (因为树高为  H , 则应当由  H + 1  个节点), 所以总共的链接数为  2 * H + 1 , 所以树的高度最坏情况下为  2 * H + 1 , 所以<strong>红黑树高的增长率和  B  树一样也为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>N</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(log^N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0913em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></strong>.</p>
+<h2 id="多种形式">多种形式</h2>
+<ol>
+<li>每个节点有固定数量的子节点, 每个节点存储其所有节点的引用.</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Tree1A</span>&lt;Key&gt; &#123;<br>	Key k;<br>	Tree1A left;<br>	Tree1A middle;<br>	Tree1A right;<br>	...<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><img src="/img/Pictures/20220918192027.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="2">
+<li>每个节点以数组的形式存储其所有子节点.</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Tree1B</span>&lt;Key&gt; &#123;<br>	Key k;<br>	Tree1B[] children;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><img src="/img/Pictures/20220918192423.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="3">
+<li>每个节点存储其子节点和兄弟节点的引用.</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Tree1C</span>&lt;Key&gt; &#123;<br>	Key k;<br>	Tree1C favoredChild;<br>	Tree1C sibling;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><img src="/img/Pictures/20220918192621.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="4">
+<li>有两个数组, 一个数组存储所有节点的键值, 一个数组存储所有节点的父节点.</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Tree2</span>&lt;Key&gt; &#123;<br>	Key[] keys;<br>	<span class="hljs-type">int</span>[] parents;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><img src="/img/Pictures/20220918192816.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220918192824.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="5">
+<li>在形式  4  的基础上舍去存储所有节点的父节点的数组,  keys  数组开头增加一个哨兵节点, 方便查找每个节点的子节点, 每个节点可以通过索引来找到其父节点, 对于索引为  i  的节点, 其父节点的索引为  i/2 , 其左子节点和其右子节点的索引分别为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>⋅</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">2 \cdot i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>⋅</mo><mi>i</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2 \cdot i + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7429em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>. ^d85614</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Tree3</span>&lt;Key&gt; &#123;<br>	Key[] keys;<br>	...<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><img src="/img/Pictures/20220918193408.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220918193339.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="遍历方式">遍历方式</h2>
+<h3 id="层序遍历">层序遍历</h3>
+<p>从树根到叶子, 一层一层遍历节点, 每层从左往右遍历.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220919140919.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>对这棵树层序遍历打印节点的键值, 结果如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">A -&gt; B -&gt; C -&gt; D -&gt; E -&gt; F -&gt; G<br></code></pre></td></tr></table></figure>
+<h3 id="前序遍历">前序遍历</h3>
+<p>对于树中的每个节点首先打印当前节点的键值, 再打印其左子树的键值, 最后打印其右子树的键值.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220919140919.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>对这棵树前序遍历打印节点的键值, 结果如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">A -&gt; B -&gt; D -&gt; E -&gt; C -&gt; F -&gt; G<br></code></pre></td></tr></table></figure>
+<p>代码如下所示:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">preOrder</span><span class="hljs-params">(BSTNode x)</span> &#123;<br>    <span class="hljs-keyword">if</span> (x == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span>;<br>    print(x.key)<br>    preOrder(x.left)<br>    preOrder(x.right)<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="中序遍历">中序遍历</h3>
+<p>对于树中的每个节点首先打印其左子树的键值, 再打印当前节点的键值, 最后打印其右子树的键值.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220919140919.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>对这棵树中序遍历打印节点的键值, 结果如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">D -&gt; B -&gt; E -&gt; A -&gt; F -&gt; C -&gt; G<br></code></pre></td></tr></table></figure>
+<p>代码如下所示:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">inOrder</span><span class="hljs-params">(BSTNode x)</span> &#123;<br>    <span class="hljs-keyword">if</span> (x == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span>;    <br>    inOrder(x.left)<br>    print(x.key)<br>    inOrder(x.right)<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="后序遍历">后序遍历</h3>
+<p>对于树中的每个节点首先打印其左子树的键值, 再打印其右子树的键值, 最后打印当前节点的键值.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220919140919.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>对这棵树后序遍历打印节点的键值, 结果如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">D -&gt; E -&gt; B -&gt; F -&gt; G -&gt; C -&gt; A<br></code></pre></td></tr></table></figure>
+<p>代码如下所示:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">postOrder</span><span class="hljs-params">(BSTNode x)</span> &#123;<br>    <span class="hljs-keyword">if</span> (x == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span>;    <br>    postOrder(x.left)<br>    postOrder(x.right)<br>    print(x.key)   <br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="最小生成树">最小生成树</h2>
+<p>对于一个<strong>无向图</strong> G, 生成树 T 是 G 的一个子图, 使得 T 满足:</p>
+<ul>
+<li>所有节点连通.</li>
+<li>没有环.</li>
+<li>包含图 G 中的所有节点.</li>
+</ul>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220930095047.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20220930095056.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><strong>最小生成树</strong>: 树中所有边的权值加起来最小的生成树.</p>
+<h3 id="割">割</h3>
+<p>将一个图中的所有节点分配到两个集合中的一个.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220930191720.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>紫色节点表示集合 A, 白色节点表示集合 B, 图中所有节点皆在这两个集合之中.</p>
+<p><strong>交叉边</strong>: 一条连接一个集合的一个节点与另一个集合的一个节点的一条边.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20220930194105.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>图中红色的皆为交叉边.</p>
+<p>性质: <strong>给定一个割, 该割对应的图的最小生成树包含最小权重的交叉边.</strong></p>
+<h3 id="Prims-算法">Prims 算法</h3>
+<p>Prims 算法将图中的所有节点分别放入两个集合中来创建一个割, 一个集合中存放已经访问过的节点, 而另一个集合存放未访问过的节点, 利用割的性质, 不断寻找并添加最小权值的交叉边到最小生成树中 (当添加一条交叉边, 便将边的两个端点标记为已访问) 当所有节点都被访问时, 便找到了最小生成树.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20221001203021.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>寻找上图中的最小生成树.</p>
+<ol>
+<li>将所有节点和它们到树的距离 (到已访问节点的距离) 加入优先队列中.</li>
+</ol>
+<p><img src="/img/Pictures/20221001203235.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="2">
+<li>标记节点 0 (将其加入存放已访问节点的集合) , 将 0 移出优先队列, 并更新其所有邻节点到树的距离.</li>
+</ol>
+<p><img src="/img/Pictures/20221001204209.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="3">
+<li>标记节点 2, 将 2 移出优先队列, 并更新其所有邻节点到树的距离.</li>
+</ol>
+<p><img src="/img/Pictures/20221001204810.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="4">
+<li>标记节点 4, 将 4 移出优先队列, 并更新其所有邻节点到树的距离.</li>
+</ol>
+<p><img src="/img/Pictures/20221001205432.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="5">
+<li>标记节点 1, 将 1  移出优先队列, 并更新其所有邻节点到树的距离.</li>
+</ol>
+<p><img src="/img/Pictures/20221001205646.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="6">
+<li>标记节点 3, 将 3 移出优先队列, 并更新其所有邻节点到树的距离.</li>
+</ol>
+<p><img src="/img/Pictures/20221001205948.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="7">
+<li>标记节点 6, 将 6 移出优先队列, 并更新其所有邻节点到树的距离.</li>
+</ol>
+<p><img src="/img/Pictures/20221001211224.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="8">
+<li>标记节点 5, 将 5 移出优先队列, 并更新其所有邻节点到树的距离.</li>
+</ol>
+<p><img src="/img/Pictures/20221001211338.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>Prims 算法和 Dijkstra 算法非常相似, 只不过 Prims 算法考虑的是所有节点到树 (已标记节点的集合) 的距离, 而 Dijkstra 算法考虑的是所有节点到源点的距离.</p>
+<p>Prims 算法的实现如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PrimMST</span> &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-title function_">PrimMST</span><span class="hljs-params">(EdgeWeightedGraph G)</span> &#123;<br>		edgeTo = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Edge</span>(G.V());<br>		distTo = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>(G.V());<br>		marked = <span class="hljs-keyword">new</span> <span class="hljs-title class_">boolean</span>(G.V());<br>		fringe = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SpecialPQ</span>&lt;Double&gt;(G.V());<br><br>		distTo[s] = <span class="hljs-number">0.0</span>;<br>		setDistancesToInfinityExceptS(s);<br>		insertAllVertices(fringe);<br><br>		<span class="hljs-keyword">while</span> (!fringe.isEmpty()) &#123;<br>			<span class="hljs-type">int</span> <span class="hljs-variable">v</span> <span class="hljs-operator">=</span> fringe.delMin();<br>			scan(G, v);<br>		&#125;<br>	&#125;<br>&#125;<br><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">scan</span><span class="hljs-params">(EdgeWeightedGraph G, <span class="hljs-type">int</span> v)</span> &#123;<br>	marked[v] = <span class="hljs-literal">true</span>;<br>	<span class="hljs-keyword">for</span> (Edge e : G.adj(v)) &#123;<br>		<span class="hljs-comment">/** 得到边的另一个端点 **/</span><br>		<span class="hljs-type">int</span> <span class="hljs-variable">w</span> <span class="hljs-operator">=</span> e.other(v);<br>		<span class="hljs-keyword">if</span> (marked[w]) &#123;<br>			<span class="hljs-keyword">continue</span>;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (e.weight() &lt; distTo[w]) &#123;<br>			distTo[w] = e.weight();<br>			edgeTo[w] = v;<br>			pq.decreasePriority(w, distTo[w]);<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>优先队列的添加和删除操作所需的时间复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>V</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(log^V)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0913em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>, 开始需要将所有的节点加入优先队列中, 所以时间复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>V</mi><mo>⋅</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>V</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(V \cdot log^V)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0913em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>, 总共需要将 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi></mrow><annotation encoding="application/x-tex">V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span></span></span></span> 个节点移出优先队列, 所以删除所需要的时间复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>V</mi><mo>⋅</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>V</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(V \cdot log^V)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0913em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>, 总共有 E 条边, 最坏情况下每条边都需要更新, 更新边需要更新优先队列, 而优先队列更新所需的时间复杂度同样为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>V</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(log^V)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0913em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>, 所以更新边所需要的时间复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>E</mi><mo>⋅</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>V</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(E \cdot log^V)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0913em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>, 所以该算法所需要的总的时间复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>V</mi><mo>⋅</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>V</mi></msup><mo>+</mo><mi>E</mi><mo>⋅</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>V</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(V \cdot log^V + E \cdot log^V)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0358em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0913em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>, 由于大部分情况下图中的边的数量大于图中点的数量, 所以总的时间复杂度约等于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>E</mi><mo>⋅</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>V</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(E \cdot log^V)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0913em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>.</p>
+<h3 id="Kruskal-算法">Kruskal 算法</h3>
+<p>Kruskal 算法过程如下:</p>
+<ul>
+<li>将所有边按照权值从小到大排序.</li>
+<li>每次取出最小的边, 如果没有产生环 (通过使用并查集实现), 则将它加入最小生成树中 (相比 Prims 算法保证每次生成的最小生成树是连通的, Kruskal 算法并不能保证每次生成的最小生成树是连通的, 但最终仍是连通的).</li>
+<li>不断取出最小边, 直到最小生成树中包含 N - 1 条边.</li>
+</ul>
+<p>Kruskal 算法同样利用了割的性质, 每次将图分为两个集合, 一个集合是当前遍历的边的端点所在的最小生成树 (不连通的两个最小生成树不属于同一个集合) 的集合, 另一个集合包含图中剩余的节点.</p>
+<p>例如:</p>
+<p><img src="/img/Pictures/20221002140314.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>寻找上图中的最小生成树:</p>
+<ol>
+<li>将所有边放入优先队列中,</li>
+</ol>
+<p><img src="/img/Pictures/20221002141019.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="2">
+<li>找到最小边 0-2, 将该边加入最小生成树后不会产生环, 更新 WQU 和 MST (不同颜色表示不同的集合, 紫色表示正在访问的边, 黑色表示已经加入最小生成树的边).</li>
+</ol>
+<p><img src="/img/Pictures/20221002141253.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221002141650.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="3">
+<li>找到最小边 2-4 , 将该边加入最小生成树后不会产生环, 更新 WQU 和 MST.</li>
+</ol>
+<p><img src="/img/Pictures/20221002141915.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221002142323.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="4">
+<li>找到最小边 3-6 , 将该边加入最小生成树后不会产生环, 更新 WQU 和 MST.</li>
+</ol>
+<p><img src="/img/Pictures/20221002142504.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221002142621.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="5">
+<li>找到最小边 5-6 , 将该边加入最小生成树后不会产生环, 更新 WQU 和 MST.</li>
+</ol>
+<p><img src="/img/Pictures/20221002142915.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221002143021.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="6">
+<li>找到最小边 0-1 , 将该边加入最小生成树后不会产生环, 更新 WQU 和 MST.</li>
+</ol>
+<p><img src="/img/Pictures/20221002143814.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221002143917.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="7">
+<li>找到最小边 1-4, 将该边加入最小生成树中会产生环, 所以忽略该边.</li>
+</ol>
+<p><img src="/img/Pictures/20221002144416.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol start="8">
+<li>找到最小边 3-4, 将该边加入最小生成树后不会产生环, 更新 WQU 和 MST.</li>
+</ol>
+<p><img src="/img/Pictures/20221002144647.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221002144753.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>实现如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">KruskalMST</span> &#123;<br>	<span class="hljs-keyword">private</span> List&lt;Edge&gt; mst = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;Edge&gt;();<br>	<br>	<span class="hljs-keyword">public</span> <span class="hljs-title function_">KruskalMST</span><span class="hljs-params">(EdgeWeightGraph G)</span> &#123;<br>		MinPQ&lt;Edge&gt; pq = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MinPQ</span>&lt;Edge&gt;();<br>		<span class="hljs-keyword">for</span> (Edge e : G.V()) &#123;<br>			pq.insert(e);<br>		&#125;<br>		<br>		<span class="hljs-type">WeightedQuickUnionPC</span> <span class="hljs-variable">uf</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">WeightedQuickUnionPC</span>(G.V());<br>		<span class="hljs-keyword">while</span> (!pq.isEmpty() &amp;&amp; mst.size() &lt; G.V() - <span class="hljs-number">1</span>) &#123;<br>			<span class="hljs-type">Edge</span> <span class="hljs-variable">e</span> <span class="hljs-operator">=</span> pq.delMin();<br>			<span class="hljs-type">int</span> <span class="hljs-variable">v</span> <span class="hljs-operator">=</span> e.from();<br>			<span class="hljs-type">int</span> <span class="hljs-variable">w</span> <span class="hljs-operator">=</span> e.to();<br>			<span class="hljs-keyword">if</span> (!uf.conntected(v, w)) &#123;<br>				uf.union(v, w);<br>				mst.add(e);<br>			&#125;<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>将所有边插入优先队列需要遍历所有边, 时间复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>E</mi><mo>⋅</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>E</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(E \cdot log^E)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0913em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05764em;">E</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>; 删除操作同理; 在并查集中需要连接 V 个节点, 所以时间复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>V</mi><mo>⋅</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mrow><mo>∗</mo><mi>V</mi></mrow></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(V \cdot log^{* V})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0913em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∗</span><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>; 一共只有 E 条边, 所以 isConnect 操作的时间复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>E</mi><mo>⋅</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mrow><mo>∗</mo><mi>V</mi></mrow></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(E \cdot log^{* V})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0913em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∗</span><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>. 所以总的时间复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>E</mi><mo>⋅</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>E</mi></msup><mo>+</mo><mi>V</mi><mo>⋅</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mrow><mo>∗</mo><mi>V</mi></mrow></msup><mo>+</mo><mi>E</mi><mo>⋅</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mrow><mo>∗</mo><mi>V</mi></mrow></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(E \cdot log^E + V \cdot log^{* V} + E \cdot log^{* V})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0358em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05764em;">E</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0358em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∗</span><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0913em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∗</span><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>, 由于一般情况下 E &gt; V, 所以总的时间复杂度约为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>E</mi><mo>⋅</mo><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>E</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(E \cdot log^E)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0913em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05764em;">E</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>.</p>
+<p><img src="/img/Pictures/20221002150424.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><img src="/img/Pictures/20221002150440.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>CS61B Data Structures: <a target="_blank" rel="noopener" href="https://sp21.datastructur.es/">https://sp21.datastructur.es/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-chain-item">数据结构</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CS61B/" class="print-no-link">#CS61B</a>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="print-no-link">#数据结构</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E7%BB%84/" title="数组">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">数组</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%8E%92%E5%BA%8F/" title="排序">
+                        <span class="hidden-mobile">排序</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

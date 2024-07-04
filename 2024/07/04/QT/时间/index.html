@@ -1,0 +1,640 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="时间 日期信息 QDate 类可以封装日期信息也可以通过这个类得到日期相关的信息, 常用 API 如下: 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849&#x2F;&#x2F; 构造函数QDate::QDate();QDate::QDate(int y, int m, int d);&#x2F;&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QT 时间">
+<meta property="og:url" content="http://example.com/2024/07/04/QT/%E6%97%B6%E9%97%B4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="时间 日期信息 QDate 类可以封装日期信息也可以通过这个类得到日期相关的信息, 常用 API 如下: 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849&#x2F;&#x2F; 构造函数QDate::QDate();QDate::QDate(int y, int m, int d);&#x2F;&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-04T12:36:59.000Z">
+<meta property="article:modified_time" content="2024-07-04T12:37:49.542Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="QT">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>QT 时间 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QT 时间"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:36" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">QT 时间</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>时间</h1>
+<h2 id="日期信息">日期信息</h2>
+<p><code>QDate</code> 类可以封装日期信息也可以通过这个类得到日期相关的信息, 常用 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br>QDate::<span class="hljs-built_in">QDate</span>();<br>QDate::<span class="hljs-built_in">QDate</span>(<span class="hljs-type">int</span> y, <span class="hljs-type">int</span> m, <span class="hljs-type">int</span> d);<br><br><span class="hljs-comment">// 公共成员函数</span><br><span class="hljs-comment">// 重新设置日期对象中的日期</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QDate::setDate</span><span class="hljs-params">(<span class="hljs-type">int</span> year, <span class="hljs-type">int</span> month, <span class="hljs-type">int</span> day)</span></span>;<br><span class="hljs-comment">// 给日期对象增加 ndays 天</span><br><span class="hljs-function">QDate <span class="hljs-title">QDate::addDays</span><span class="hljs-params">(qint64 ndays)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 给日期对象增加 nmonths 月</span><br><span class="hljs-function">QDate <span class="hljs-title">QDate::addMonths</span><span class="hljs-params">(<span class="hljs-type">int</span> nmonths)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 给日期对象增加 nyears 月</span><br><span class="hljs-function">QDate <span class="hljs-title">QDate::addYears</span><span class="hljs-params">(<span class="hljs-type">int</span> nyears)</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 得到日期对象中的年/月/日</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QDate::year</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QDate::month</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QDate::day</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QDate::getDate</span><span class="hljs-params">(<span class="hljs-type">int</span> *year, <span class="hljs-type">int</span> *month, <span class="hljs-type">int</span> *day)</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 日期对象格式化</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">    d    - The day as a number without a leading zero (1 to 31)</span><br><span class="hljs-comment">    dd   - The day as a number with a leading zero (01 to 31)</span><br><span class="hljs-comment">    ddd	 - The abbreviated localized day name (e.g. &#x27;Mon&#x27; to &#x27;Sun&#x27;). Uses the system locale to localize the name, i.e. QLocale::system().</span><br><span class="hljs-comment">    dddd - The long localized day name (e.g. &#x27;Monday&#x27; to &#x27;Sunday&#x27;). Uses the system locale to localize the name, i.e. QLocale::system().</span><br><span class="hljs-comment">    M    - The month as a number without a leading zero (1 to 12)</span><br><span class="hljs-comment">    MM   - The month as a number with a leading zero (01 to 12)</span><br><span class="hljs-comment">    MMM	 - The abbreviated localized month name (e.g. &#x27;Jan&#x27; to &#x27;Dec&#x27;). Uses the system locale to localize the name, i.e. QLocale::system().</span><br><span class="hljs-comment">    MMMM - The long localized month name (e.g. &#x27;January&#x27; to &#x27;December&#x27;). Uses the system locale to localize the name, i.e. QLocale::system().</span><br><span class="hljs-comment">    yy   - The year as a two digit number (00 to 99)</span><br><span class="hljs-comment">    yyyy - The year as a four digit number. If the year is negative, a minus sign is prepended, making five characters.</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function">QString <span class="hljs-title">QDate::toString</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;format)</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 例如: 想要以 2000-01-01 的形式得到日期</span><br>QString str = d.<span class="hljs-built_in">toString</span>(<span class="hljs-string">&quot;yyyy-MM-dd&quot;</span>);<br><br><span class="hljs-comment">// 操作符重载 ==&gt; 日期比较</span><br><span class="hljs-type">bool</span> QDate::<span class="hljs-keyword">operator</span>!=(<span class="hljs-type">const</span> QDate &amp;d) <span class="hljs-type">const</span>;<br><span class="hljs-type">bool</span> QDate::<span class="hljs-keyword">operator</span>&lt;(<span class="hljs-type">const</span> QDate &amp;d) <span class="hljs-type">const</span>;<br><span class="hljs-type">bool</span> QDate::<span class="hljs-built_in">operator</span>&lt;=(<span class="hljs-type">const</span> QDate &amp;d) <span class="hljs-type">const</span>;<br><span class="hljs-type">bool</span> QDate::<span class="hljs-keyword">operator</span>==(<span class="hljs-type">const</span> QDate &amp;d) <span class="hljs-type">const</span>;<br><span class="hljs-type">bool</span> QDate::<span class="hljs-keyword">operator</span>&gt;(<span class="hljs-type">const</span> QDate &amp;d) <span class="hljs-type">const</span>;<br><span class="hljs-type">bool</span> QDate::<span class="hljs-keyword">operator</span>&gt;=(<span class="hljs-type">const</span> QDate &amp;d) <span class="hljs-type">const</span>;<br><br><span class="hljs-comment">// 静态函数 -&gt; 得到本地的当前日期</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QDate <span class="hljs-title">QDate::currentDate</span><span class="hljs-params">()</span></span>;<br>......<br></code></pre></td></tr></table></figure>
+<h2 id="时间信息">时间信息</h2>
+<p><code>QTime</code> 类可以封装时间信息也可以通过这个类得到时间相关的信息, 包括: 时, 分, 秒, 毫秒. 常用 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br>QTime::<span class="hljs-built_in">QTime</span>();<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">    h 		==&gt; 取值范围： 0 ~ 23</span><br><span class="hljs-comment">    m and s 	==&gt; 取值范围： 0 ~ 59</span><br><span class="hljs-comment">    ms 		==&gt; 取值范围： 0 ~ 999</span><br><span class="hljs-comment">*/</span> <br>QTime::<span class="hljs-built_in">QTime</span>(<span class="hljs-type">int</span> h, <span class="hljs-type">int</span> m, <span class="hljs-type">int</span> s = <span class="hljs-number">0</span>, <span class="hljs-type">int</span> ms = <span class="hljs-number">0</span>);<br><br><span class="hljs-comment">// 公共成员函数</span><br><span class="hljs-comment">// Returns true if the set time is valid; otherwise returns false.</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QTime::setHMS</span><span class="hljs-params">(<span class="hljs-type">int</span> h, <span class="hljs-type">int</span> m, <span class="hljs-type">int</span> s, <span class="hljs-type">int</span> ms = <span class="hljs-number">0</span>)</span></span>;<br><span class="hljs-function">QTime <span class="hljs-title">QTime::addSecs</span><span class="hljs-params">(<span class="hljs-type">int</span> s)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function">QTime <span class="hljs-title">QTime::addMSecs</span><span class="hljs-params">(<span class="hljs-type">int</span> ms)</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 示例代码</span><br>  <span class="hljs-function">QTime <span class="hljs-title">n</span><span class="hljs-params">(<span class="hljs-number">14</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)</span></span>;                <span class="hljs-comment">// n == 14:00:00</span><br>  QTime t;<br>  t = n.<span class="hljs-built_in">addSecs</span>(<span class="hljs-number">70</span>);                <span class="hljs-comment">// t == 14:01:10</span><br>  t = n.<span class="hljs-built_in">addSecs</span>(<span class="hljs-number">-70</span>);               <span class="hljs-comment">// t == 13:58:50</span><br>  t = n.<span class="hljs-built_in">addSecs</span>(<span class="hljs-number">10</span> * <span class="hljs-number">60</span> * <span class="hljs-number">60</span> + <span class="hljs-number">5</span>);  <span class="hljs-comment">// t == 00:00:05</span><br>  t = n.<span class="hljs-built_in">addSecs</span>(<span class="hljs-number">-15</span> * <span class="hljs-number">60</span> * <span class="hljs-number">60</span>);     <span class="hljs-comment">// t == 23:00:00</span><br><br><span class="hljs-comment">// 从时间对象中取出 时/分/秒/毫秒</span><br><span class="hljs-comment">// Returns the hour part (0 to 23) of the time. Returns -1 if the time is invalid.</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QTime::hour</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// Returns the minute part (0 to 59) of the time. Returns -1 if the time is invalid.</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QTime::minute</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// Returns the second part (0 to 59) of the time. Returns -1 if the time is invalid.</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QTime::second</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// Returns the millisecond part (0 to 999) of the time. Returns -1 if the time is invalid.</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QTime::msec</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br><br><span class="hljs-comment">// 时间格式化</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">    -- 时 --</span><br><span class="hljs-comment">    h	==&gt;	The hour without a leading zero (0 to 23 or 1 to 12 if AM/PM display)</span><br><span class="hljs-comment">    hh	==&gt;	The hour with a leading zero (00 to 23 or 01 to 12 if AM/PM display)</span><br><span class="hljs-comment">    H	==&gt;	The hour without a leading zero (0 to 23, even with AM/PM display)</span><br><span class="hljs-comment">    HH	==&gt;	The hour with a leading zero (00 to 23, even with AM/PM display)</span><br><span class="hljs-comment">    -- 分 --</span><br><span class="hljs-comment">    m	==&gt;	The minute without a leading zero (0 to 59)</span><br><span class="hljs-comment">    mm	==&gt;	The minute with a leading zero (00 to 59)</span><br><span class="hljs-comment">    -- 秒 --</span><br><span class="hljs-comment">    s	==&gt;	The whole second, without any leading zero (0 to 59)</span><br><span class="hljs-comment">    ss	==&gt;	The whole second, with a leading zero where applicable (00 to 59)</span><br><span class="hljs-comment">    -- 毫秒 --</span><br><span class="hljs-comment">    zzz	==&gt;	The fractional part of the second, to millisecond precision, </span><br><span class="hljs-comment">			including trailing zeroes where applicable (000 to 999).</span><br><span class="hljs-comment">    -- 上午或者下午</span><br><span class="hljs-comment">    AP or A	==&gt;	使用AM/PM(大写) 描述上下午, 中文系统显示汉字</span><br><span class="hljs-comment">    ap or a	==&gt;	使用am/pm(小写) 描述上下午, 中文系统显示汉字</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function">QString <span class="hljs-title">QTime::toString</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;format)</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 例如: 以 22:28:10.379 的形式得到时间</span><br>QString str = d.<span class="hljs-built_in">toString</span>(<span class="hljs-string">&quot;hh:mm:ss.zzz&quot;</span>);<br><br><span class="hljs-comment">// 阶段性计时</span><br><span class="hljs-comment">// 过时的API函数</span><br><span class="hljs-comment">// 开始计时</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTime::start</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 计时结束</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QTime::elapsed</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 重新计时</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QTime::restart</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-comment">// 推荐使用的API函数</span><br><span class="hljs-comment">// QElapsedTimer 类</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QElapsedTimer::start</span><span class="hljs-params">()</span></span>;<br><span class="hljs-function">qint64 <span class="hljs-title">QElapsedTimer::restart</span><span class="hljs-params">()</span></span>;<br><span class="hljs-function">qint64 <span class="hljs-title">QElapsedTimer::elapsed</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 例如: 要计算 `randNumbers(100)` 这个函数执行的时间</span><br>QElapsedTimer tt;<br>tt.<span class="hljs-built_in">start</span>();<br><span class="hljs-built_in">randNumbers</span>(<span class="hljs-number">100</span>);<br><span class="hljs-comment">// 返回值为毫秒数</span><br><span class="hljs-type">int</span> ms = tt.<span class="hljs-built_in">elapsed</span>();<br><br><br><br><span class="hljs-comment">// 操作符重载 ==&gt; 时间比较</span><br><span class="hljs-type">bool</span> QTime::<span class="hljs-keyword">operator</span>!=(<span class="hljs-type">const</span> QTime &amp;t) <span class="hljs-type">const</span>;<br><span class="hljs-type">bool</span> QTime::<span class="hljs-keyword">operator</span>&lt;(<span class="hljs-type">const</span> QTime &amp;t) <span class="hljs-type">const</span>;<br><span class="hljs-type">bool</span> QTime::<span class="hljs-built_in">operator</span>&lt;=(<span class="hljs-type">const</span> QTime &amp;t) <span class="hljs-type">const</span>;<br><span class="hljs-type">bool</span> QTime::<span class="hljs-keyword">operator</span>==(<span class="hljs-type">const</span> QTime &amp;t) <span class="hljs-type">const</span>;<br><span class="hljs-type">bool</span> QTime::<span class="hljs-keyword">operator</span>&gt;(<span class="hljs-type">const</span> QTime &amp;t) <span class="hljs-type">const</span>;<br><span class="hljs-type">bool</span> QTime::<span class="hljs-keyword">operator</span>&gt;=(<span class="hljs-type">const</span> QTime &amp;t) <span class="hljs-type">const</span>;<br><br><span class="hljs-comment">// 静态函数 -&gt; 得到当前时间</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QTime <span class="hljs-title">QTime::currentTime</span><span class="hljs-params">()</span></span>;<br></code></pre></td></tr></table></figure>
+<h2 id="日期和时间信息">日期和时间信息</h2>
+<p><code>QDateTime</code> 类可以封装日期和时间信息也可以通过这个类得到日期和时间相关的信息, 包括: 年, 月, 日, 时, 分, 秒, 毫秒. 其实这个类就是 <code>QDate</code> 和 <code>QTime</code> 这两个类的结合体. 常用的 API 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br>QDateTime::<span class="hljs-built_in">QDateTime</span>();<br>QDateTime::<span class="hljs-built_in">QDateTime</span>(<span class="hljs-type">const</span> QDate &amp;date, <span class="hljs-type">const</span> QTime &amp;time, Qt::TimeSpec spec = Qt::LocalTime);<br><br><span class="hljs-comment">// 公共成员函数</span><br><span class="hljs-comment">// 设置日期</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QDateTime::setDate</span><span class="hljs-params">(<span class="hljs-type">const</span> QDate &amp;date)</span></span>;<br><span class="hljs-comment">// 设置时间</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QDateTime::setTime</span><span class="hljs-params">(<span class="hljs-type">const</span> QTime &amp;time)</span></span>;<br><span class="hljs-comment">// 给当前日期对象增加 年/月/日/秒/毫秒, 参数可以是负数</span><br><span class="hljs-function">QDateTime <span class="hljs-title">QDateTime::addYears</span><span class="hljs-params">(<span class="hljs-type">int</span> nyears)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function">QDateTime <span class="hljs-title">QDateTime::addMonths</span><span class="hljs-params">(<span class="hljs-type">int</span> nmonths)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function">QDateTime <span class="hljs-title">QDateTime::addDays</span><span class="hljs-params">(qint64 ndays)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function">QDateTime <span class="hljs-title">QDateTime::addSecs</span><span class="hljs-params">(qint64 s)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-function">QDateTime <span class="hljs-title">QDateTime::addMSecs</span><span class="hljs-params">(qint64 msecs)</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 得到对象中的日期</span><br><span class="hljs-function">QDate <span class="hljs-title">QDateTime::date</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 得到对象中的时间</span><br><span class="hljs-function">QTime <span class="hljs-title">QDateTime::time</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 日期和时间格式, 格式字符参考QDate 和 QTime 类的 toString() 函数</span><br><span class="hljs-function">QString <span class="hljs-title">QDateTime::toString</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;format)</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 例如: 以 2020/01/10 22:28:10 上午/下午 的形式得到日期和时间</span><br>QString str = d.<span class="hljs-built_in">toString</span>(<span class="hljs-string">&quot;yyyy/MM/dd hh:mm:ss ap&quot;</span>);<br><br><span class="hljs-comment">// 操作符重载 ==&gt; 日期时间对象的比较</span><br><span class="hljs-type">bool</span> QDateTime::<span class="hljs-keyword">operator</span>!=(<span class="hljs-type">const</span> QDateTime &amp;other) <span class="hljs-type">const</span>;<br><span class="hljs-type">bool</span> QDateTime::<span class="hljs-keyword">operator</span>&lt;(<span class="hljs-type">const</span> QDateTime &amp;other) <span class="hljs-type">const</span>;<br><span class="hljs-type">bool</span> QDateTime::<span class="hljs-built_in">operator</span>&lt;=(<span class="hljs-type">const</span> QDateTime &amp;other) <span class="hljs-type">const</span>;<br><span class="hljs-type">bool</span> QDateTime::<span class="hljs-keyword">operator</span>==(<span class="hljs-type">const</span> QDateTime &amp;other) <span class="hljs-type">const</span>;<br><span class="hljs-type">bool</span> QDateTime::<span class="hljs-keyword">operator</span>&gt;(<span class="hljs-type">const</span> QDateTime &amp;other) <span class="hljs-type">const</span>;<br><span class="hljs-type">bool</span> QDateTime::<span class="hljs-keyword">operator</span>&gt;=(<span class="hljs-type">const</span> QDateTime &amp;other) <span class="hljs-type">const</span>;<br><br><span class="hljs-comment">// 静态函数</span><br><span class="hljs-comment">// 得到当前时区的日期和时间(本地设置的时区对应的日期和时间)</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function">QDateTime <span class="hljs-title">QDateTime::currentDateTime</span><span class="hljs-params">()</span></span>;<br></code></pre></td></tr></table></figure>
+<h2 id="定时器">定时器</h2>
+<p>在进行窗口程序的处理过程中, 经常要周期性的执行某些操作, 或者制作一些动画效果, 看似比较复杂的问题使用定时器就可以完美的解决这些问题.</p>
+<p>要使用定时器, 只需要创建一个 <code>QTimer</code> 对象, 然后调用它的 <code>start()</code> 函数开启定时器, 此后 <code>QTimer</code> 对象就会周期性的发出 <code>timeout()</code> 信号.</p>
+<p>该类的相关 API 如下所示:</p>
+<ol>
+<li>槽函数 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 构造函数</span><br><span class="hljs-comment">// 如果指定了父对象, 创建的堆内存可以自动析构</span><br>QTimer::<span class="hljs-built_in">QTimer</span>(QObject *parent = <span class="hljs-literal">nullptr</span>);<br><br><span class="hljs-comment">// 设置定时器时间间隔为 msec 毫秒</span><br><span class="hljs-comment">// 默认值是0，一旦窗口系统事件队列中的所有事件都已经被处理完，一个时间间隔为0的QTimer就会触发</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTimer::setInterval</span><span class="hljs-params">(<span class="hljs-type">int</span> msec)</span></span>;<br><span class="hljs-comment">// 获取定时器的时间间隔, 返回值单位: 毫秒</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">QTimer::interval</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 根据指定的时间间隔启动或者重启定时器, 需要调用 setInterval() 设置时间间隔</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTimer::start</span><span class="hljs-params">()</span></span>;<br><span class="hljs-comment">// 启动或重新启动定时器，超时间隔为msec毫秒。</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTimer::start</span><span class="hljs-params">(<span class="hljs-type">int</span> msec)</span></span>;<br><span class="hljs-comment">// 停止定时器。</span><br>[slot] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTimer::stop</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-comment">// 设置定时器精度 (精度越高, 运行的速度越慢; 反之越快.)</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">参数: </span><br><span class="hljs-comment">    - Qt::PreciseTimer -&gt; 精确的精度, 毫秒级</span><br><span class="hljs-comment">    - Qt::CoarseTimer  -&gt; 粗糙的精度, 和1毫秒的误差在5%的范围内, 默认精度</span><br><span class="hljs-comment">    - Qt::VeryCoarseTimer -&gt; 非常粗糙的精度, 精度在1秒左右</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTimer::setTimerType</span><span class="hljs-params">(Qt::TimerType atype)</span></span>;<br><span class="hljs-function">Qt::TimerType <span class="hljs-title">QTimer::timerType</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;	<span class="hljs-comment">// 获取当前定时器的精度</span><br><br><span class="hljs-comment">// 如果定时器正在运行，返回 true; 否则返回 false。</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QTimer::isActive</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-comment">// 判断定时器是否只触发一次</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">QTimer::isSingleShot</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-comment">// 设置定时器是否只触发一次, 参数为true定时器只触发一次, 为false定时器重复触发, 默认为false</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTimer::setSingleShot</span><span class="hljs-params">(<span class="hljs-type">bool</span> singleShot)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>信号<br>
+这个类的信号只有一个, 当定时器超时 (运行一个周期) 时, 该信号就会被发射出来. 给这个信号通过 <code>conect()</code> 关联一个槽函数, 就可以在槽函数中处理超时事件 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[signal] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTimer::timeout</span><span class="hljs-params">()</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>静态 public 函数 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 其他同名重载函数可以自己查阅帮助文档</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">功能: 在msec毫秒后发射一次信号, 并且只发射一次</span><br><span class="hljs-comment">参数:</span><br><span class="hljs-comment">	- msec:     在msec毫秒后发射信号</span><br><span class="hljs-comment">	- receiver: 接收信号的对象地址</span><br><span class="hljs-comment">	- method:   槽函数地址</span><br><span class="hljs-comment">*/</span><br>[<span class="hljs-type">static</span>] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">QTimer::singleShot</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">        <span class="hljs-type">int</span> msec, <span class="hljs-type">const</span> QObject *receiver, </span></span><br><span class="hljs-params"><span class="hljs-function">        PointerToMemberFunction method)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>实例如下:</p>
+<p><strong>周期性定时器</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 创建定时器对象</span><br>QTimer* timer = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QTimer</span>(<span class="hljs-keyword">this</span>);<br><br><span class="hljs-comment">// 修改定时器对象的精度</span><br>timer-&gt;<span class="hljs-built_in">setTimerType</span>(Qt::PreciseTimer);<br><br><span class="hljs-comment">// 按钮 loopBtn 的点击事件</span><br><span class="hljs-comment">// 点击按钮启动或者关闭定时器, 定时器启动, 周期性得到当前时间</span><br><span class="hljs-built_in">connect</span>(ui-&gt;loopBtn, &amp;QPushButton::clicked, <span class="hljs-keyword">this</span>, [=]()<br>&#123;<br>    <span class="hljs-comment">// 启动定时器</span><br>    <span class="hljs-keyword">if</span>(timer-&gt;<span class="hljs-built_in">isActive</span>())<br>    &#123;<br>        timer-&gt;<span class="hljs-built_in">stop</span>();  <span class="hljs-comment">// 关闭定时器</span><br>        ui-&gt;loopBtn-&gt;<span class="hljs-built_in">setText</span>(<span class="hljs-string">&quot;开始&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        ui-&gt;loopBtn-&gt;<span class="hljs-built_in">setText</span>(<span class="hljs-string">&quot;关闭&quot;</span>);<br>        timer-&gt;<span class="hljs-built_in">start</span>(<span class="hljs-number">1000</span>); <span class="hljs-comment">// 1000ms == 1s</span><br>    &#125;<br>&#125;);<br><br><span class="hljs-built_in">connect</span>(timer, &amp;QTimer::timeout, <span class="hljs-keyword">this</span>, [=]()<br>&#123;<br>    QTime tm = QTime::<span class="hljs-built_in">currentTime</span>();<br>    <span class="hljs-comment">// 格式化当前得到的系统时间</span><br>    QString tmstr = tm.<span class="hljs-built_in">toString</span>(<span class="hljs-string">&quot;hh:mm:ss.zzz&quot;</span>);<br>    <span class="hljs-comment">// 设置要显示的时间</span><br>    ui-&gt;curTime-&gt;<span class="hljs-built_in">setText</span>(tmstr);<br>&#125;);<br></code></pre></td></tr></table></figure>
+<p><strong>一次性定时器</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 点击按钮 onceBtn 只发射一次信号</span><br><span class="hljs-comment">// 点击按钮一次, 发射一个信号, 得到某一个时间点的时间</span><br><span class="hljs-built_in">connect</span>(ui-&gt;onceBtn, &amp;QPushButton::clicked, <span class="hljs-keyword">this</span>, [=]()<br>&#123;<br>     <span class="hljs-comment">// 获取2s以后的系统时间, 不创建定时器对象, 直接使用类的静态方法</span><br>    QTimer::<span class="hljs-built_in">singleShot</span>(<span class="hljs-number">2000</span>, <span class="hljs-keyword">this</span>, [=]()&#123;<br>        QTime tm = QTime::<span class="hljs-built_in">currentTime</span>();<br>        <span class="hljs-comment">// 格式化当前得到的系统时间</span><br>        QString tmstr = tm.<span class="hljs-built_in">toString</span>(<span class="hljs-string">&quot;hh:mm:ss.zzz&quot;</span>);<br>        <span class="hljs-comment">// 设置要显示的时间</span><br>        ui-&gt;onceTime-&gt;<span class="hljs-built_in">setText</span>(tmstr);<br>    &#125;);<br>&#125;);<br></code></pre></td></tr></table></figure>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Qt定时器类QTimer: <a target="_blank" rel="noopener" href="https://subingwen.cn/qt/qt-timer/">https://subingwen.cn/qt/qt-timer/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>Qt中的基础数据类型: <a target="_blank" rel="noopener" href="https://subingwen.cn/qt/qt-basetype/">https://subingwen.cn/qt/qt-basetype/</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/" class="category-chain-item">QT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QT/" class="print-no-link">#QT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E4%BA%8B%E4%BB%B6/" title="QT 事件">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QT 事件</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E5%AE%B9%E5%99%A8/" title="QT 容器">
+                        <span class="hidden-mobile">QT 容器</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

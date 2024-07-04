@@ -1,0 +1,771 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="理解网络编程和套接字 套接字的创建和使用 套接字是一种用于在计算机网络中进行通信的编程接口. 它允许在网络上的不同计算机之间进行数据交换, 使得应用程序能够通过网络发送和接收数据. 网络编程中接受连接请求的套接字 (又称服务端套接字或监听套接字) 创建和使用的流程如下:  调用 socket 函数创建套接字. 调用 bind 函数分配 IP 地址和端口号. 调用 listen 函数将套接字转为可接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解网络编程和套接字">
+<meta property="og:url" content="http://example.com/2024/07/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E7%90%86%E8%A7%A3%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%92%8C%E5%A5%97%E6%8E%A5%E5%AD%97/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="理解网络编程和套接字 套接字的创建和使用 套接字是一种用于在计算机网络中进行通信的编程接口. 它允许在网络上的不同计算机之间进行数据交换, 使得应用程序能够通过网络发送和接收数据. 网络编程中接受连接请求的套接字 (又称服务端套接字或监听套接字) 创建和使用的流程如下:  调用 socket 函数创建套接字. 调用 bind 函数分配 IP 地址和端口号. 调用 listen 函数将套接字转为可接">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-04T10:26:51.000Z">
+<meta property="article:modified_time" content="2024-07-04T10:27:26.792Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="网络编程">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>理解网络编程和套接字 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="理解网络编程和套接字"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 18:26" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          24 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">理解网络编程和套接字</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>理解网络编程和套接字</h1>
+<h2 id="套接字的创建和使用">套接字的创建和使用</h2>
+<p>套接字是一种用于在计算机网络中进行通信的编程接口. 它允许在网络上的不同计算机之间进行数据交换, 使得应用程序能够通过网络发送和接收数据.</p>
+<p>网络编程中接受连接请求的套接字 (又称<strong>服务端套接字</strong>或<strong>监听套接字</strong>) 创建和使用的流程如下:</p>
+<ol>
+<li>调用 <code>socket</code> 函数创建套接字.</li>
+<li>调用 <code>bind</code> 函数分配 IP 地址和端口号.</li>
+<li>调用 <code>listen</code> 函数将套接字转为可接受请求状态</li>
+<li>调用 <code>accept</code> 函数受理连接请求.</li>
+</ol>
+<p>网络编程中用于请求连接的套接字 (又称<strong>客户端套接字</strong>) 创建和使用的流程如下:</p>
+<ol>
+<li>调用<code>socket</code> 函数创建套接字.</li>
+<li>调用 <code>connect</code> 向服务端发送连接请求.</li>
+</ol>
+<h2 id="基于-Linux-的文件操作">基于 Linux 的文件操作</h2>
+<p><strong>在 Linux 中, socket 也被认为是一种文件</strong>, 因此在网络数据传输过程中可以使用文件 I/O 相关的函数. 而 Windows 和 Linux 不同, <strong>在 Windows 中要区分 socket 和文件, 所以在 Windows 中需要调用特殊的数据传输相关的函数</strong>.</p>
+<p><strong>文件描述符</strong>是操作系统分配给文件或套接字的非负整数, 它作为进程内部对打开文件或套接字的引用. 在 Linux 中, 每个进程都有一组文件描述符, 用于访问打开的文件、套接字和其他 I/O 资源. 例如标准输入、标准输出和标准错误被分别分配了文件描述符 0、1 和 2. 文件和套接字一般经过创建过程才会被分配文件描述符, 而上文中描述的标准输入/输出/错误即使未经过特殊的创建过程, 也会被自动分配文件描述符.</p>
+<ul>
+<li>文件描述符也称为文件句柄, 由于 “句柄” 主要是 Windows 中的术语, 所以如果涉及 Windows 平台一般使用 “句柄”, 如果涉及 Linux 则使用 “描述符”.</li>
+</ul>
+<p><code>open</code> 函数用于打开文件, 该函数如下所示:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回文件描述符, 失败时返回 -1</span><br><span class="hljs-comment"> * path: 目标文件路径</span><br><span class="hljs-comment"> * flag: 文件打开模式</span><br><span class="hljs-comment"> */</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">open</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *path, <span class="hljs-type">int</span> flag)</span>;<br></code></pre></td></tr></table></figure>
+<p>文件打开模式:</p>
+<table>
+<thead>
+<tr>
+<th>打开模式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O_CREAT</td>
+<td>必要时创建文件</td>
+</tr>
+<tr>
+<td>O_TRUNC</td>
+<td>删除全部现有数据</td>
+</tr>
+<tr>
+<td>O_APPEND</td>
+<td>维持现有数据, 保存到其后面</td>
+</tr>
+<tr>
+<td>O_RDONLY</td>
+<td>只读打开</td>
+</tr>
+<tr>
+<td>O_WRONLY</td>
+<td>只写打开</td>
+</tr>
+<tr>
+<td>O_RDWR</td>
+<td>读写打开</td>
+</tr>
+</tbody>
+</table>
+<p><code>close</code> 函数不仅可以用来关闭文件, <strong>也可以关闭套接字</strong>, 该函数如下所示:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回 0, 失败时返回 -1</span><br><span class="hljs-comment"> * fd:  需要关闭的文件或套接字的文件描述符</span><br><span class="hljs-comment"> */</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">close</span><span class="hljs-params">(<span class="hljs-type">int</span> fd)</span>;<br></code></pre></td></tr></table></figure>
+<p><code>write</code> 函数用于向文件输出数据, 同样, <strong>套接字也可以通过该函数向其他计算机传递数据</strong>, 该函数如下所示:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unisted.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回写入的字节数, 失败时返回 -1</span><br><span class="hljs-comment"> * fd: 数据传输对象的文件描述符</span><br><span class="hljs-comment"> * buf: 保存要传输数据的地址</span><br><span class="hljs-comment"> * nbytes: 要传输数据的字节数</span><br><span class="hljs-comment"> */</span> <br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">write</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">const</span> <span class="hljs-type">void</span> *buf, <span class="hljs-type">size_t</span> nbytes)</span>;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>size_t</code> 是通过 <code>typedef </code> 声明的 <code>unsigned int</code> 类型; <code>ssize_t</code> 是通过 <code>typedef </code> 声明的 <code>signed int</code> 类型.
+<ul>
+<li><code>size_t</code>、 <code>ssize_t</code>  这些类型都称为元数据类型, 在 <code>sys/types.h</code> 头文件中一般由 <code>typedef</code> 来声明定义. 由于在不同的操作系统上, <code>int</code> 类型的位数可能不同 (如 16 位、32 位), 根据系统的不同、时代的变化, 数据类型的表现形式也随之发生变化, 此时需要修改程序中使用的数据类型. 如果之前声明 4 字节的数据类型之处使用了 <code>size_t</code> 或 <code>ssize_t</code>, 则将大大减少代码改动, 因为此时只需要修改并编译 <code>size_t</code> 或 <code>ssize_t</code> 的 <code>typedef</code> 声明即可. 而为了与程序员定义的新数据类型区分, 操作系统定义的数据类型会添加后缀 _t.</li>
+</ul>
+</li>
+</ul>
+<p><code>read</code> 函数用于从文件中读取数据:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回接受的字节数 (但遇到文件结尾时返回 0), 失败时返回 -1</span><br><span class="hljs-comment"> * fd: 数据接收对象的文件描述符</span><br><span class="hljs-comment"> * buf: 要保存接收数据的地址</span><br><span class="hljs-comment"> * nbytes: 要接收数据的最大字节数</span><br><span class="hljs-comment"> */</span><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">read</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">void</span> *buf, <span class="hljs-type">size_t</span> nbytes)</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="底层文件-I-O-与-ANSI-标准定义的文件-I-O">底层文件 I/O 与 ANSI 标准定义的文件 I/O</h3>
+<p>底层文件 I/O 函数与 ANSI 标准定义的文件 I/O 函数有以下区别:</p>
+<ol>
+<li>接口不同: 底层文件 I/O 函数是操作系统提供的, 一般使用系统调用进行操作, 并且通常是在 C 语言中编写的. 而 ANSI 标准定义的文件 I/O 函数则是由 ANSI (美国国家标准协会) 定义的, 通常以库函数形式提供, 可以在多种编程语言中使用.</li>
+<li>实现方式不同: 底层文件 I/O 函数直接访问系统资源, 可以实现更为底层的读写操作; 而 ANSI 标准定义的文件 I/O 函数则是基于底层文件 I/O 函数实现的, 提供了更为便捷的使用方式.</li>
+<li>性能不同: 由于底层文件 I/O 函数直接操作系统资源, 因此它们的性能一般比标准文件 I/O 函数更优秀. 但是, 由于底层文件 I/O 函数需要处理的细节较多, 所以使用起来也更为复杂.</li>
+<li>移植性不同: 由于不同操作系统提供的底层文件 I/O 函数不尽相同, 因此在移植代码时, 需要对不同操作系统进行适配. 而 ANSI 标准定义的文件 I/O 函数则是跨平台的, 可以在不同操作系统上使用.</li>
+</ol>
+<h2 id="Windows-平台的环境配置">Windows 平台的环境配置</h2>
+<p>Windows 套接字 (Winsock) 大部分是参考 BSD 系列 Unix 套接字设计的, 所以很多地方跟 Linux 套接字类似. 因此, 只需要更改 Linux 环境下编好的一部分网络程序内容, 就能在 Windows 平台下运行.</p>
+<h3 id="设置头文件和库">设置头文件和库</h3>
+<p>为了在 Winsock 基础上开发网络程序, 需要做如下准备:</p>
+<ul>
+<li>导入头文件 winsock2.h.</li>
+<li>链接 ws2_32.lib 库.</li>
+</ul>
+<p>环境为 Visual Studio, 流程:  打开项目的 “属性” 页, 选择 “配置属性” <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> “链接器” <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> “输入” <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> “附加依赖项”, 写入 ws2_32.lib 即可. 完成库的配置后, 只需要在源文件中添加头文件, 即可调用 Winsock 相关函数.</p>
+<h3 id="Winsock-的初始化">Winsock 的初始化</h3>
+<p>进行 Winsock 编程时, 首先必须调用 <code>WSAStartup</code> 函数来设置程序中用到的 Winsock 版本, 并初始化相应版本的库:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;winsock2.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回 0, 失败时返回非零的错误代码值</span><br><span class="hljs-comment"> * wVersionRequested: 要使用的 Winsock 版本信息</span><br><span class="hljs-comment"> * lpWSAData: WSADATA 结构体变量的地址, 用来保存函数请求的 Socket 库信息</span><br><span class="hljs-comment"> */</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">WSAStartup</span><span class="hljs-params">(WORD wVersionRequested, LPWSADATA lpWSAData)</span>;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>该函数的第一个参数指定程序使用的 Winsock 版本</strong>. 由于 Winsock 存在多个版本, 应当通过 <code>WORD</code> 类型的 (<code>WORD</code> 是通过 <code>typedef</code> 声明定义的 <code>unsigned short</code> 类型) 变量来指定.
+<ul>
+<li><code>WORD</code> 类型的套接字版本中<strong>高 8 位为副版本号, 低 8 位为主版本号</strong>.
+<ul>
+<li>例如:  若版本为 1.2, 则其中 1 是主版本号, 2 是副版本号, 应传递 0x0201; 若版本为 2.2, 应传递 0x0202.</li>
+</ul>
+</li>
+<li><strong>通过 <code>MAKEWORD</code> 宏也可以构建 <code>WORD</code> 类型的套接字版本</strong>.
+<ul>
+<li>例如:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">MAKEWORD(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 主版本为 1, 副版本为 2, 返回 0x0201.</span><br>MAKEWORD(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 主版本为 2, 副版本为 2, 返回 0x0202.</span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>该函数利用第二个参数来返回请求的 Winsock 的库信息</strong>. 当一个应用程序调用<code>WSAStartup</code> 函数时, <strong>操作系统根据请求的 Winsock 版本来搜索相应的 Winsock 库, 然后将该库信息保存到 <code>WSADATA</code> 类型的结构体变量中</strong> (<code>LPWSADATA</code> 是 <code>WSADATA</code> 的指针类型), 这样应用程序就可以调用所请求的 Winsock 库中的其它 Socket 函数.</li>
+</ul>
+<p>该函数使用如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	WSADATA wsaData;<br>	<br>	...<br>	<br>	<span class="hljs-keyword">if</span> (WSAStartup(MAKEWORD(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>), &amp;wsaData) != <span class="hljs-number">0</span>)<br>		ErrorHandling(<span class="hljs-string">&quot;WSAStartup() error!&quot;</span>);<br><br>	...<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="注销-Winsock-库">注销 Winsock 库</h3>
+<p>注销 Winsock 库应当使用以下函数:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;winsock2.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回 0, 失败时返回 SOCKET_ERROR</span><br><span class="hljs-comment"> */</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">WSACleanup</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br></code></pre></td></tr></table></figure>
+<p>调用该函数时, Winsock 相关库将归还给 Windows 操作系统, 无法再调用 Winsock 相关函数.</p>
+<h2 id="基于-Windows-的套接字">基于 Windows 的套接字</h2>
+<h3 id="相关函数">相关函数</h3>
+<ul>
+<li>
+<p><code>socket</code> 函数用于创建套接字句柄</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;winsock2.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回套接字句柄, 失败时返回 INVALID_SOCKET</span><br><span class="hljs-comment"> */</span> <br>SOCKET <span class="hljs-title function_">socket</span><span class="hljs-params">(<span class="hljs-type">int</span> af, <span class="hljs-type">int</span> type, <span class="hljs-type">int</span> protocol)</span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>bind</code> 函数用于分配 IP 地址和端口号</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;winsock2.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回 0, 失败时返回 SOCKET_ERROR</span><br><span class="hljs-comment"> */</span> <br><span class="hljs-type">int</span> <span class="hljs-title function_">bind</span><span class="hljs-params">(SOCKET s, <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> sockaddr *name, <span class="hljs-type">int</span> namelen)</span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>listen</code> 函数用于监听客户端连接</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;winsock2.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回 0, 失败时返回 SOCKET_ERROR</span><br><span class="hljs-comment"> */</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">listen</span><span class="hljs-params">(SOCKET s, <span class="hljs-type">int</span> backlog)</span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>accept</code> 函数用于受理客户端连接请求</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;winsock2.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回套接字句柄, 失败时返回 INVALID_SOCKET</span><br><span class="hljs-comment"> */</span><br>SOCKET <span class="hljs-title function_">accept</span><span class="hljs-params">(SOCKET s, <span class="hljs-keyword">struct</span> sockaddr *addr, <span class="hljs-type">int</span> *addrlen)</span>; <br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>connect</code> 函数用于发出连接请求</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;winsock2.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回 0, 失败时返回 SOCKET_ERROR</span><br><span class="hljs-comment"> */</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">connect</span><span class="hljs-params">(SOCKET s, <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> sockaddr *name, <span class="hljs-type">int</span> namelen)</span>; <br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>closesocket</code> 函数用于关闭套接字</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;winsock2.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回 0, 失败时返回 SOCKET_ERROR</span><br><span class="hljs-comment"> */</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">closesocket</span><span class="hljs-params">(SOCKET s)</span>;<br></code></pre></td></tr></table></figure>
+<p>Linux 中, 关闭文件和套接字时都会调用 <code>close</code> 函数; 而 Windows 中有专门用来关闭套接字的函数</p>
+</li>
+</ul>
+<h3 id="文件句柄和套接字句柄">文件句柄和套接字句柄</h3>
+<p>Linux 内部将套接字当作文件, 因此, 不管创建文件还是套接字都返回文件描述符; <strong>Windows中通过系统调用创建文件时, 返回句柄 (handle)</strong>, 即 Windows 中的句柄相当于 Linux 中的文件描述符, 表示一个对象的引用, 可以是文件、套接字、命名管道、信号等. <strong>只不过 Windows 中要区分文件句柄和套接字句柄</strong>.</p>
+<h3 id="基于-Windows-的-I-O-函数">基于 Windows 的 I/O 函数</h3>
+<p>Linux中套接字也是文件, 因而可以通过文件 I/O 函数 <code>read</code> 和 <code>write</code> 进行数据传输.  而 Windows 中则有些不同. Windows 严格区分文件 I/O 函数和套接字 I/O 函数.</p>
+<p>**Winsock 数据传输函数如下: **</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;winsock2.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回传输字节数, 失败时返回 SOCKET_ERROR</span><br><span class="hljs-comment"> * s: 表示数据传输对象连接的套接字句柄值</span><br><span class="hljs-comment"> * buf: 保存待传输数据的缓冲地址值</span><br><span class="hljs-comment"> * len: 要传输的字节数</span><br><span class="hljs-comment"> * flags: 传输数据时用到的多种选项信息</span><br><span class="hljs-comment"> */</span> <br><span class="hljs-type">int</span> <span class="hljs-title function_">send</span><span class="hljs-params">(SOCKET s, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *buf, <span class="hljs-type">int</span> len, <span class="hljs-type">int</span> flags)</span>;<br></code></pre></td></tr></table></figure>
+<p>此函数与 Linux 的 write 函数相比, 只是多出了最后的 <code>flags</code> 参数. Linux 中也有同样的函数, 它也来自于 BSD 套接字.</p>
+<p>**Winsock 数据接收函数如下: **</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;winsock2.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回接收的字节数 (收到 EOF 时为 0), 失败时返回 SOCKET_ERROR</span><br><span class="hljs-comment"> * s: 表示数据接收对象连接的套接字句柄值</span><br><span class="hljs-comment"> * buf: 保存接收数据的缓冲地址值</span><br><span class="hljs-comment"> * len: 能接收的最大字节数</span><br><span class="hljs-comment"> * flags: 接收数据时用到的多种选项信息</span><br><span class="hljs-comment"> */</span> <br><span class="hljs-type">int</span> <span class="hljs-title function_">recv</span><span class="hljs-params">(SOCKET s, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *buf, <span class="hljs-type">int</span> len, <span class="hljs-type">int</span> flags)</span>;<br></code></pre></td></tr></table></figure>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>TCP/IP 网络编程 - 尹圣雨
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="category-chain-item">网络编程</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="print-no-link">#网络编程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E5%A5%97%E6%8E%A5%E5%AD%97%E7%9A%84%E5%A4%9A%E7%A7%8D%E5%8F%AF%E9%80%89%E9%A1%B9/" title="套接字的多种可选项">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">套接字的多种可选项</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" title="进程间通信">
+                        <span class="hidden-mobile">进程间通信</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

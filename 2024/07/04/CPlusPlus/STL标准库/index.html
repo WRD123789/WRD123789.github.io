@@ -1,0 +1,807 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="STL 标准库 STL 体系结构 C++ 标准库 (C++ Standard Library) 是一组预定义的函数、类和对象, 这些内容都包含在 C++ 标准中. 它提供了许多常用的功能, 如输入&#x2F;输出、字符串处理、容器、算法、日期和时间等. 标准库被设计为可移植、高效且可靠的工具, 可以在不同的 C++ 编译器和平台上使用. 标准库的组成部分被组织在不同的头文件中, 通过 #include 指令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ STL 标准库">
+<meta property="og:url" content="http://example.com/2024/07/04/CPlusPlus/STL%E6%A0%87%E5%87%86%E5%BA%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="STL 标准库 STL 体系结构 C++ 标准库 (C++ Standard Library) 是一组预定义的函数、类和对象, 这些内容都包含在 C++ 标准中. 它提供了许多常用的功能, 如输入&#x2F;输出、字符串处理、容器、算法、日期和时间等. 标准库被设计为可移植、高效且可靠的工具, 可以在不同的 C++ 编译器和平台上使用. 标准库的组成部分被组织在不同的头文件中, 通过 #include 指令">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20230825161112.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230827210006.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230827210438.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230827211648.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230827210602.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230901113259.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230905154910.png">
+<meta property="article:published_time" content="2024-07-04T11:38:29.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20230825161112.png">
+  
+  
+  
+  <title>C++ STL 标准库 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="C++ STL 标准库"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 19:38" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          42 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">C++ STL 标准库</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>STL 标准库</h1>
+<h2 id="STL-体系结构">STL 体系结构</h2>
+<p><strong>C++ 标准库 (C++ Standard Library)</strong> 是一组预定义的函数、类和对象, 这些内容都包含在 C++ 标准中. 它提供了许多常用的功能, 如输入/输出、字符串处理、容器、算法、日期和时间等.</p>
+<p>标准库被设计为可移植、高效且可靠的工具, 可以在不同的 C++ 编译器和平台上使用.</p>
+<p>标准库的组成部分被组织在不同的头文件中, 通过 <code>#include</code> 指令来引入使用.</p>
+<p><strong>标准模板库 (Standard Template Library, STL)</strong> 是 C++ 标准库的一个重要组成部分, 它提供了一组模板类和函数, 用于实现通用的数据结构和算法.</p>
+<p>STL 的设计目标是提供一组高效、通用和灵活的工具, 可以在不同情况下重用.</p>
+<p>STL 包括以下主要组件:</p>
+<ul>
+<li>容器 (Containers): 容器是用于存储和管理数据的数据结构. STL 提供了多种类型的容器, 如向量 (<code>vector</code>)、链表 (<code>list</code>)、队列 (<code>queue</code>)、栈 (<code>stack</code>)、映射 (<code>map</code>) 等. 每种容器都有其特定的特点和适用场景. 从实现的角度来看容器是一种类模板.</li>
+<li>算法 (Algorithms): 算法是对数据执行操作的一组功能. STL 提供了许多通用的算法, 如排序、搜索、变换等. 这些算法可以用于不同类型的容器, 并且它们的实现是高度优化的, 以便在各种情况下获得最佳性能. 从实现的角度来看, STL 算法是一种函数模板.</li>
+<li>迭代器 (Iterators): 迭代器用于在容器中遍历元素. 它们提供了一种统一的方式来访问容器中的元素, 而不必了解容器内部的具体实现细节. 从实现角度来看, 迭代器是一种将 <code>operator*</code>、<code>operator-&gt;</code>、<code>operator++</code>、<code>operator--</code> 等指针操作予以重载的类模板.</li>
+<li>仿函数 (Functors): 也称为函数对象 (Function Objects), 是可调用的对象, 可以像函数一样使用. 从实现角度来看, 仿函数是一种重载了 <code>operator()</code> 的类或者类模板.</li>
+<li>适配器 (Adapters): 适配器是一种用于改变容器或迭代器接口的机制.</li>
+<li>分配器 (Allocators): 分配器用于管理内存分配和释放, 是 STL 内部用于容器和算法的内存管理机制. 默认情况下, STL 使用默认分配器, 但你也可以为容器提供自定义的分配器以满足特定需求. 从实现上来看, 分配器是一个实现了动态配置空间、空间管理、空间释放的类模板.</li>
+</ul>
+<p><img src="/img/Pictures/20230825161112.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="STL-容器">STL 容器</h2>
+<p><strong>容器是存储其他对象的对象</strong>. 被存储的对象<strong>必须是同一种类型的</strong>.</p>
+<p>STL 的容器可以分为顺序容器、关联容器和无序关联容器.</p>
+<h3 id="顺序容器">顺序容器</h3>
+<p>顺序容器是一类用于存储和管理元素的数据结构, 其特点是<strong>元素在容器中的顺序与它们被插入的顺序相同</strong>, 其元素按严格的线性顺序排列, 即存在第一个元素、最后一个元素, 除第一个元素和最后一个元素外, 每个元素前后都分别有一个元素.</p>
+<p>STL 顺序容器包括 <code>deque</code>、<code>forward_list</code>、<code>list</code>、<code>queue</code>、<code>priority_queue</code>、<code>stack</code> 和 <code>vector</code>.</p>
+<h4 id="vector"><code>vector</code></h4>
+<p><code>vector</code> 是一种封装了动态数组的顺序容器.</p>
+<p><img src="/img/Pictures/20230827210006.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><code>vector</code> 具有以下特点:</p>
+<ul>
+<li>动态数组大小: <code>vector</code> 允许你在运行时动态地添加或删除元素, 而不需要提前指定数组的大小.</li>
+<li>连续存储: <code>vector</code>中的元素在内存中是连续存储的, 这有助于实现高效的随机访问.</li>
+<li>随机访问: 你可以使用索引来访问任何元素, 这使得 <code>vector</code> 适用于需要快速随机访问的场景.</li>
+<li>尾部操作: 在 <code>vector</code> 的末尾添加或删除元素的操作通常是高效的, 因为不需要移动大量的元素.</li>
+<li>自动扩展: 当 <code>vector</code> 的容量不足以存储新的元素时, 它会自动扩展以容纳更多的元素, 通常以两倍的容量增加.</li>
+<li>迭代器支持: <code>vector</code> 支持正向迭代器和逆向迭代器, 使得你可以遍历容器中的元素.</li>
+</ul>
+<h4 id="deque"><code>deque</code></h4>
+<p><code>deque</code> 也是一种顺序容器, 它允许在两端高效地进行元素插入和删除操作, 同时还支持随机访问.</p>
+<p><img src="/img/Pictures/20230827210438.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><code>deque</code> 具有以下特点:</p>
+<ul>
+<li>双端操作: <code>deque</code> 支持在其头部和尾部高效地添加和删除元素. 这使得它适用于需要频繁插入和删除操作的情况, 而不仅限于 <code>vector</code> 末尾的操作.</li>
+<li>连续存储块: 与 <code>vector</code> 类似, <code>deque</code> 也使用了一系列连续的存储块来存储元素, 从而实现了较好的随机访问性能.</li>
+<li>动态增长: <code>deque</code> 会动态地增加内部存储块, 以适应新的元素. 这使得它适合于动态变化的数据大小.</li>
+<li>随机访问: 与 <code>vector</code> 类似, <code>deque</code> 也支持通过索引进行随机访问. 这使得你可以在 O(1) 的时间内访问元素.</li>
+</ul>
+<p><code>deque</code> 实现原理如下:</p>
+<p><img src="/img/Pictures/20230827211648.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h4 id="list"><code>list</code></h4>
+<p><code>list</code> 是一个双向链表, 它能够支持高效的插入和删除操作, 但在随机访问方面的性能较差.</p>
+<p><code>list</code> 具有以下特点:</p>
+<ul>
+<li>双向链表: <code>list</code> 中的元素以双向链表的形式存储, 每个元素都包含指向前一个元素和后一个元素的指针. 这使得在中间位置插入和删除元素变得高效, 而不需要移动其他元素.</li>
+<li>无随机访问: <code>list</code> 不支持通过索引进行随机访问, 因为要访问中间元素, 必须从链表的开头或结尾开始遍历.</li>
+<li>不连续存储: 与 <code>vector</code> 和 <code>deque</code> 不同, <code>list</code> 中的元素并不是连续存储的. 这可能导致在一些情况下内存使用效率较低.</li>
+</ul>
+<h4 id="forward-list"><code>forward_list</code></h4>
+<p><code>forward_list</code> 是一个单链表, 它的每个节点都只链接到下一个节点, 而没有链接到前一个节点. 因此 <code>forward_list</code> 只需要正向迭代器, 而不需要双向迭代器.</p>
+<p>相比 <code>list</code> , 由于只需要存储一个指针, 所以 <code>forward_list</code> 所占用的内存更小.</p>
+<h4 id="queue"><code>queue</code></h4>
+<p><code>queue</code> 是一个容器适配器, 用于实现队列数据结构. 它是基于其他STL 顺序容器 (通常是 <code>deque</code>) 实现的, 即它内部使用其他容器来存储数据, 对外提供队列操作的接口.</p>
+<h4 id="priority-queue"><code>priority_queue</code></h4>
+<p><code>priority_queue</code> 是一个容器适配器, 用于实现优先队列数据结构. 优先队列是一种特殊的队列, 其中元素具有优先级, 每次出队操作都会返回具有最高优先级的元素.</p>
+<p><code>priority_queue</code> 具有以下特点:</p>
+<ul>
+<li>优先队列操作: <code>priority_queue</code> 支持优先队列的基本操作, 包括插入元素和出队操作. 每次出队操作都会返回具有最高优先级的元素.</li>
+<li>堆实现: <code>priority_queue</code>内部使用堆 (通常是最大堆, 堆内部结构可以使用多种方式来实现) 来管理元素的优先级. 这使得最高优先级的元素总是在队列的前面.</li>
+<li>默认比较器: 默认情况下, <code>priority_queue</code> 使用元素类型的比较操作符来确定元素的优先级. 对于基本数据类型, 最大堆会将最大元素放在前面.</li>
+</ul>
+<h4 id="stack"><code>stack</code></h4>
+<p><code>stack</code> 是一种容器适配器, 用于实现栈数据结构. 栈是一种具有特定行为的数据结构, 每次弹出操作都会返回最近添加的元素.</p>
+<p><code>stack</code> 具有以下特点:</p>
+<ul>
+<li>栈操作: <code>stack</code> 支持栈的基本操作, 包括入栈 (push) 和出栈 (pop). 每次出栈操作都会返回最近入栈的元素.</li>
+<li>基于容器实现: <code>stack</code> 的实现基于其他 STL 容器, 通常是 <code>deque</code>. 这意味着 <code>stack</code> 继承了底层容器的性能特点.</li>
+</ul>
+<h4 id="array"><code>array</code></h4>
+<p><code>array</code> 是一种顺序容器, 用于存储固定大小的数组. 与普通的 C 数组不同, C++中的 <code>array</code> 提供了更多的安全性和便利性, 同时也支持许多 STL 算法和操作.</p>
+<p><img src="/img/Pictures/20230827210602.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p><code>array</code> 具有以下特点:</p>
+<ul>
+<li>固定大小: <code>array</code> 的大小在创建时被指定, 并且不能在运行时更改. 这使得 <code>array</code> 适用于那些大小固定的情况.</li>
+<li>类型安全: 与原始 C 数组相比, <code>array</code> 提供更好的类型安全性, 防止访问越界和类型不匹配的问题.</li>
+</ul>
+<h3 id="关联容器">关联容器</h3>
+<p>关联容器用于存储有序的数据集合, 并且提供了快速查找和访问元素的能力. 与顺序容器不同, 关联容器中的元素是按照其键 (key) 来进行排序和组织的.</p>
+<p>STL 关联容器包括 <code>set</code>、<code>multiset</code>、<code>map</code> 和 <code>multimap</code>.</p>
+<p>这些关联容器使用平衡二叉搜索树 (通常是红黑树) 来实现, 以保持元素的有序性.</p>
+<h3 id="无序关联容器">无序关联容器</h3>
+<p>无序关联容器用于存储无序的数据集合, 并且提供了快速查找和访问元素的能力. 与有序关联容器不同, 无序关联容器中的元素不会按照键 (key) 的特定顺序进行排序.</p>
+<p>STL 无序关联容器包括 <code>unordered_set</code>、<code>unordered_multiset</code>、<code>unordered_map</code> 和 <code>unordered_multimap</code>.</p>
+<p>这些无序关联容器使用哈希表来实现, 以实现快速的查找和插入操作. 无序容器的插入、删除和查找操作在平均情况下具有很好的性能, 但不保证元素的顺序.</p>
+<h2 id="分配器">分配器</h2>
+<p>分配器是<strong>负责封装堆内存管理的对象</strong>, 它们在整个标准库中使用, 特别是 STL 容器使用它们来管理容器内部的所有内存分配.</p>
+<p>标准容器使用默认的分配器称为 <code>std::allocator</code>, 例如当你声明一个简单的 <code>vector</code> 对象时, C++ 编译器默认已经使用了内置的 <code>std::allocator</code>:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp, <span class="hljs-keyword">typename</span> _Alloc=std::allocator&lt;_Tp&gt;&gt;<br><span class="hljs-keyword">class</span> vector : <span class="hljs-keyword">protected</span> _Vector_base&lt;_Tp, _Alloc&gt; &#123;<br>	...<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>自定义 allocator 有许多原因:</p>
+<ul>
+<li>有些嵌入式平台没有提供默认的 <code>malloc</code> / <code>free</code> 等底层内存管理函数, 而在绝大多数情况下, <code>std::allocator</code> 的 <code>allocate</code> 函数的实现会调用底层的内存分配函数, 所以此时你需要继承 <code>std::allocator</code> 并重写 <code>allocate</code> 函数, 以实现自定义的内存分配逻辑, 而不是直接调用 <code>malloc</code>.</li>
+<li>当在 C++ 中实现自己的数据结构时, 需要继承 <code>std::allocator</code> 来自定义其分配器.</li>
+</ul>
+<p>分配器通常具备以下基本的成员函数:</p>
+<ul>
+<li><code>T* allocate(size_t n)</code>: 分配足够的空间来存储 <code>T</code> 的 <code>n</code> 个实例, 并返回指向它的指针.</li>
+<li><code>void deallocate(T* p, size_t n)</code>: 释放所分配的内存空间.</li>
+<li><code>void construct(T* p, Args ... args)</code>: 使用 <code>p</code> 指向的 <code>args</code> 参数构造一个对象 (该接口在 C++20 中已被移除).</li>
+<li><code>void destroy(T* p)</code>: 调用 <code>p</code> 指向的对象的析构函数 (该接口在 C++20 中已被移除).</li>
+</ul>
+<p>标准库中的 allocator  还有一些可选成员:</p>
+<ul>
+<li>指向类型 <code>T</code> 的指针, 以及指向类型为 <code>T</code> 的常量指针.</li>
+<li>类型 <code>T</code> 的引用, 以及类型 <code>T</code> 的常量引用.</li>
+<li>自身类型 <code>T</code> 的别名 <code>value_type</code>.</li>
+<li>能表达内存分配模型中可分配的最大对象大小的一个无符号整数类型, 能表示内存分配模型中两个指针区别 (<code>difference_type</code>) 的有符号整数类型.
+<ul>
+<li>在 C++ 的内存分配中, 通常会有一些限制, 例如单次分配的内存块大小的上限, 这是由操作系统、硬件架构和编译器等因素决定的.</li>
+<li>在内存分配模型中, 两个指针之间的差距, 也就是它们在内存中的位置之间的距离, 通常被表示为一个有符号整数, 称为 <code>difference_type</code>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="自定义分配器">自定义分配器</h3>
+<p>下面是我们对 <code>MyAllocator</code> 的定义, 并且定义了标准库规定的所有类型别名, 下面的类型别名在标准库的 <code>std::allocator_traints</code> 中都提供了默认值, 因此这里列出所有类型别名仅仅为了完整说明一个 allocator 的实现过程:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span>&lt;tpyename T&gt;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyAllocator</span> &#123;<br> <span class="hljs-keyword">public</span>:<br>      <span class="hljs-keyword">using</span> value_type T;<br>      <span class="hljs-keyword">using</span> pointer=T*;<br>      <span class="hljs-keyword">using</span> const_pointer=<span class="hljs-type">const</span> T*;<br>      <span class="hljs-keyword">using</span> void_pointer=<span class="hljs-type">void</span>*;<br>      <span class="hljs-keyword">using</span> const_void_pointer=<span class="hljs-type">const</span> <span class="hljs-type">void</span>*;<br>      <span class="hljs-keyword">using</span> size_type <span class="hljs-type">size_t</span>;<br>      <span class="hljs-keyword">using</span> difference_type=std::<span class="hljs-type">ptrdiff_t</span><br>      <br>      <span class="hljs-built_in">MyAllocator</span>()=<span class="hljs-keyword">default</span>;<br>      ~<span class="hljs-built_in">MyAllocator</span>()=<span class="hljs-keyword">default</span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>C++ 的 allocator 的堆内存接口调用顺序如下所示:<br>
+<img src="/img/Pictures/20230901113259.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此时 <code>Myallocator</code> 实现的 <code>allocate</code> 和 <code>deallocate</code> 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyAllocator</span> &#123;<br> <span class="hljs-keyword">public</span>:<br>      ...<br>      <span class="hljs-function">pointer <span class="hljs-title">allocate</span><span class="hljs-params">(size_type numObjs)</span> </span>&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">static_cast</span>&lt;pointer&gt;(<span class="hljs-keyword">operator</span> <span class="hljs-built_in">new</span>(<span class="hljs-built_in">sizeof</span>(T)*numObjs));<br>      &#125;<br>      <br>      <span class="hljs-function">pointer <span class="hljs-title">allocate</span><span class="hljs-params">(size_type numObjs,const_void_pointer hit)</span> </span>&#123;<br>              <span class="hljs-keyword">return</span> <span class="hljs-built_in">allocate</span>(numObjs);<br>      &#125;<br>     <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">deallocate</span><span class="hljs-params">(pointer p,size_type numObjs)</span> </span>&#123;<br>            <span class="hljs-function"><span class="hljs-keyword">operator</span> <span class="hljs-title">delete</span><span class="hljs-params">(p)</span></span>;<br>     &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>上面两个 <code>allocate</code> 函数的实现都是相同的, 其中的第二个版本只是调用了第一个版本. 这是因为在很多情况下, 程序员可能不需要使用 <code>hint</code> 参数来进行特定的内存分配优化, 所以可以简单地重用默认版本的 <code>allocate</code> 函数来处理分配请求.</p>
+<p>C++20 之前的标准库, 在 allocator 中, 我们有两个的方法用于构造和销毁对象, 一个叫 <code>construct</code>, 用于在我们分配的内存中构造类型 <code>T</code> 的实际对象. 如下所示:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyAllocator</span>&#123;<br> <span class="hljs-keyword">public</span>:<br>	<span class="hljs-comment">//类型别名的代码省略</span><br>    <span class="hljs-comment">//其余代码略</span><br><br>    <span class="hljs-comment">//构造函数</span><br>    <span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> U, <span class="hljs-keyword">typename</span> ... Args&gt;</span><br><span class="hljs-function">    <span class="hljs-type">void</span> <span class="hljs-title">construct</span><span class="hljs-params">(U *p,Args&amp;&amp; ... args)</span> </span>&#123;<br>          <span class="hljs-keyword">new</span>(p) <span class="hljs-built_in">U</span>(std::forward&lt;Args&gt;(args) ...);<br>     &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该成员函数接受一个类型为 <code>U</code> 的指针 <code>p</code> (已分配了堆内存).</li>
+<li><code>construct</code> 的运行原理非常简单, 他在 <code>construct</code> 函数内部调用类型 <code>U</code> 的构造函数, 并且转发外部的任意参数给类型 <code>U</code> 的构造函数.</li>
+</ul>
+<p>同理, <code>destroy</code> 接口实现如下所示:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyAllocator</span> &#123;<br> <span class="hljs-keyword">public</span>:<br>	<span class="hljs-comment">//类型别名的代码省略</span><br>    <span class="hljs-comment">//其余代码略</span><br><br>    <span class="hljs-comment">//构造函数</span><br>    <span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> U,<span class="hljs-keyword">typename</span> ... Args&gt;</span><br><span class="hljs-function">    <span class="hljs-type">void</span> <span class="hljs-title">destroy</span><span class="hljs-params">(U *p)</span> </span>&#123;<br>        p-&gt;~<span class="hljs-built_in">U</span>();<br>     &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h3 id="内置绑定机制">内置绑定机制</h3>
+<p>根据标准库的定义, <code>rebind</code> 被定义为 <code>std::allocator</code> 类的结构体成员:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyAllocator</span> &#123;<br> <span class="hljs-keyword">public</span>:<br>    ...<br>	<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">U</span>&gt;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">rebind</span> &#123;<br>	    <span class="hljs-keyword">typedef</span> MyAllocator&lt;U&gt; other;<br>	&#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p><code>rebind</code> 主要用于在给定的分配器类型上创建新的分配器类型, 以适应不同的数据类型. 例如, 在 <code>std::list&lt;_Tp, MyAllocator&lt;_Tp&gt;&gt;</code> 中, <code>MyAllocator</code> 不仅要为 <code>_Tp</code> 类型的对象分配内存, 还要为存储 <code>_Tp</code> 对象的节点 <code>list_node&lt;_Tp&gt;</code> 分配内存。但是 <code>std::list&lt;_Tp, MyAllocator&lt;_Tp&gt;&gt;</code> 的类模板参数中只是传入了用于分配 <code>_Tp</code> 类型的内存分配器<code>MyAllocator&lt;_Tp&gt;</code>, 此时可以依靠 <code>rebind</code>: <code>MyAllocator&lt;_Tp&gt;::rebind&lt;list_node&lt;_Tp&gt;&gt;::other</code>, 获得的就是用于分配 <code>list_node&lt;_Tp&gt;</code> 类型的内存分配器 <code>MyAllocator&lt;list_node&lt;_Tp&gt;&gt;</code>.</p>
+<p>综合上述内容, 完整的自定义的分配器如下所示:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;limits&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyAllocator</span> &#123;<br> <span class="hljs-keyword">public</span>:<br>    <span class="hljs-comment">// 下面是个类型别名, 实现中的可选项</span><br>    <span class="hljs-keyword">using</span> value_type = T;<br>    <span class="hljs-keyword">using</span> pointer = T *;<br>    <span class="hljs-keyword">using</span> const_pointer = <span class="hljs-type">const</span> T *;<br><br>    <span class="hljs-keyword">using</span> void_pointer = <span class="hljs-type">void</span> *;<br>    <span class="hljs-keyword">using</span> const_void_pointer = <span class="hljs-type">const</span> <span class="hljs-type">void</span> *;<br><br>    <span class="hljs-keyword">using</span> size_type = <span class="hljs-type">size_t</span>;<br>    <span class="hljs-keyword">using</span> difference = std::<span class="hljs-type">ptrdiff_t</span>;<br><br>    <span class="hljs-comment">// 重新绑定函数</span><br>    <span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> U&gt;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">rebind</span> &#123;<br>        <span class="hljs-keyword">typedef</span> MyAllocator&lt;U&gt; other;<br>    &#125;;<br><br>    <span class="hljs-built_in">MyAllocator</span>() = <span class="hljs-keyword">default</span>;<br>    ~<span class="hljs-built_in">MyAllocator</span>() = <span class="hljs-keyword">default</span>;<br><br>    <span class="hljs-comment">// 分配内存</span><br>    <span class="hljs-function">pointer <span class="hljs-title">allocate</span><span class="hljs-params">(size_type numObjects)</span> </span>&#123;<br>        allocCount += numObjects;<br>        std::cout &lt;&lt; <span class="hljs-string">&quot;MyAllocator::allocate,内存分配:&quot;</span> &lt;&lt; numObjects &lt;&lt; std::endl;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">static_cast</span>&lt;pointer&gt;(<span class="hljs-keyword">operator</span> <span class="hljs-built_in">new</span>(<span class="hljs-built_in">sizeof</span>(T) * numObjects));<br>    &#125;<br><br>    <span class="hljs-comment">// 分配内存</span><br>    <span class="hljs-function">pointer <span class="hljs-title">allocate</span><span class="hljs-params">(size_type numObjects, const_void_pointer hint)</span> </span>&#123;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">allocate</span>(numObjects);<br>    &#125;<br><br>    <span class="hljs-comment">// 释放内存</span><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">deallocate</span><span class="hljs-params">(pointer p, size_type numObjects)</span> </span>&#123;<br>        std::cout &lt;&lt; <span class="hljs-string">&quot;MyAllocator::deallocate,内存释放:&quot;</span> &lt;&lt; numObjects &lt;&lt; std::endl;<br>        allocCount = allocCount - numObjects;<br>        <span class="hljs-function"><span class="hljs-keyword">operator</span> <span class="hljs-title">delete</span><span class="hljs-params">(p)</span></span>;<br>    &#125;<br><br>    <span class="hljs-comment">// 分配器支持最大的内存数</span><br>    <span class="hljs-function">size_type <span class="hljs-title">max_size</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> std::numeric_limits&lt;size_type&gt;::<span class="hljs-built_in">max</span>();<br>    &#125;<br><br>    <span class="hljs-comment">// // 构造对象</span><br>    <span class="hljs-comment">// template &lt;class U, class... Args&gt;</span><br>    <span class="hljs-comment">// void construct(U *p, Args &amp;&amp;... args)</span><br>    <span class="hljs-comment">// &#123;</span><br><br>    <span class="hljs-comment">//     new (p) U(std::forward&lt;Args&gt;(args)...);</span><br>    <span class="hljs-comment">// &#125;</span><br><br>    <span class="hljs-comment">// // 销毁对象</span><br>    <span class="hljs-comment">// template &lt;class U&gt;</span><br>    <span class="hljs-comment">// void destroy(U *p)</span><br>    <span class="hljs-comment">// &#123;</span><br>    <span class="hljs-comment">//     p-&gt;~U();</span><br>    <span class="hljs-comment">// &#125;</span><br><br>    <span class="hljs-comment">// 返回每次分配/删除的内存数</span><br>    <span class="hljs-function">size_type <span class="hljs-title">get_allocations</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> allocCount;<br>    &#125;<br><br> <span class="hljs-keyword">private</span>:<br>    <span class="hljs-comment">// 统计当前内存的使用量</span><br>    size_type allocCount;<br></code></pre></td></tr></table></figure>
+<h2 id="萃取器">萃取器</h2>
+<p>萃取器 (Traits) 用于通过模板编程方式描述和操纵型别的特性或特征, 以便在编译时根据这些特性来执行不同的操作, 即它允许程序员在不依赖于特定型别的情况下, 根据型别的属性来编写通用的代码.</p>
+<p>在算法中, 我们可能需要知道迭代器所指向的元素的型别, 但是 C++ 没有 <code>typedef</code> 这类判断型别的函数.</p>
+<p>有以下几种解决方法:</p>
+<ol>
+<li>
+<p>利用 <code>function template</code> 的参数推导机制</p>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">I</span>, <span class="hljs-keyword">class</span> <span class="hljs-title class_">T</span>&gt;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">func_impl</span><span class="hljs-params">(I iter, T t)</span> </span>&#123;<br>	T tmp; <span class="hljs-comment">// 这里就是迭代器所指物的型别新建的对象</span><br>	<span class="hljs-comment">// ... 功能实现</span><br>&#125;<br>​<br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">I</span>&gt;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">func</span><span class="hljs-params">(I iter)</span> </span>&#123;<br>	<span class="hljs-built_in">func_impl</span>(iter, *iter); <span class="hljs-comment">// 传入 `iter` 和 `iter` 所指的值, class 自动推导</span><br>&#125;<br>  ​<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-type">int</span> i;<br>    <span class="hljs-built_in">func</span>(&amp;i);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>该方法以 <code>func()</code> 为对外接口, 把实际操作置于 <code>func_imp1()</code> 之中. 由于 <code>func_imp1()</code> 是一个 <code>function template</code>, 一旦被调用, 编译器会自动进行 <code>template</code> 参数推导, 于是能够导出型别 <code>T</code>. 但是<strong>该方法只能推导参数的型别, 无法推导函数的返回值的型别</strong>.</p>
+<p>例如:</p>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">I</span>, <span class="hljs-keyword">class</span> <span class="hljs-title class_">T</span>&gt;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">func_impl</span><span class="hljs-params">(I iter, T t)</span> </span>&#123;<br>	T tmp; <span class="hljs-comment">// 这里就是迭代器所指物的型别新建的对象</span><br>	<span class="hljs-comment">// ... 功能实现</span><br>&#125;<br>​<br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">I</span>&gt;<br><span class="hljs-built_in">inline</span> (*I) <span class="hljs-built_in">func</span>(I iter) &#123; <span class="hljs-comment">// 编译错误</span><br>	<span class="hljs-keyword">return</span> <span class="hljs-built_in">func_impl</span>(iter, *iter);<br>&#125;<br>  ​<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-type">int</span> i;<br>    cout &lt;&lt; <span class="hljs-built_in">func</span>(&amp;i) &lt;&lt; endl;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>声明内嵌</p>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">T</span>&gt;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">MyIter</span> &#123;<br>    <span class="hljs-keyword">typedef</span> T value_type; <span class="hljs-comment">// 内嵌型别声明</span><br>    T* ptr;<br>    <br>    <span class="hljs-built_in">MyIter</span>(T* p = <span class="hljs-number">0</span>) : <span class="hljs-built_in">ptr</span>(p) &#123;&#125;<br>    <br>    T&amp; <span class="hljs-keyword">operator</span>*() <span class="hljs-type">const</span> &#123; <span class="hljs-keyword">return</span> *ptr; &#125;<br>&#125;;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">I</span>&gt;<br><span class="hljs-function"><span class="hljs-keyword">typename</span> I::value_type <span class="hljs-title">func</span><span class="hljs-params">(I ite)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> *ite;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// ...</span><br>    <span class="hljs-function">MyIter&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">ite</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-type">int</span>(<span class="hljs-number">8</span>))</span></span>;<br>    cout &lt;&lt; <span class="hljs-built_in">func</span>(ite) &lt;&lt; endl; <span class="hljs-comment">// 输出: 8</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>上述方法虽然解决了之前的问题, 但是<strong>当 <code>func</code> 接收一个指针作为迭代器时, 无法通过编译</strong>:</p>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">int</span> *p = <span class="hljs-keyword">new</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">8</span>);<br>cout &lt;&lt; <span class="hljs-built_in">func</span>(p) &lt;&lt; endl;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>函数偏特化</p>
+<p>使用上面的方法内嵌 <code>value_type</code>, 对于没有 <code>value_type</code> 的指针, 我们可以对其进行偏特化:</p>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">T</span>&gt;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">MyIter</span> &#123;<br>    <span class="hljs-keyword">typedef</span> T value_type; <span class="hljs-comment">// 内嵌型别声明</span><br>    T* ptr;<br>    <br>    <span class="hljs-built_in">MyIter</span>(T* p = <span class="hljs-number">0</span>) : <span class="hljs-built_in">ptr</span>(p) &#123;&#125;<br>    <br>    T&amp; <span class="hljs-keyword">operator</span>*() <span class="hljs-type">const</span> &#123; <span class="hljs-keyword">return</span> *ptr; &#125;<br>&#125;;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">I</span>&gt;<br><span class="hljs-function"><span class="hljs-keyword">typename</span> I::value_type <span class="hljs-title">func</span><span class="hljs-params">(I ite)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> *ite;<br>&#125;<br><br><span class="hljs-comment">/* 针对指针进行偏特化 */</span><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">I</span>&gt;<br><span class="hljs-function">I <span class="hljs-title">func</span><span class="hljs-params">(I* ite)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> *ite;<br>&#125;<br><br><span class="hljs-comment">/* 针对常量指针进行偏特化 */</span><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">I</span>&gt;<br><span class="hljs-function">I <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-type">const</span> I* ite)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> *ite;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// ...</span><br>    <span class="hljs-function">MyIter&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">ite</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-type">int</span>(<span class="hljs-number">8</span>))</span></span>;<br>    cout &lt;&lt; <span class="hljs-built_in">func</span>(ite) &lt;&lt; endl;<br>    <br>    <span class="hljs-type">int</span> *p = <span class="hljs-keyword">new</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">52</span>);<br>    cout &lt;&lt; <span class="hljs-built_in">func</span>(p) &lt;&lt; endl;<br>    <br>    <span class="hljs-type">const</span> <span class="hljs-type">int</span> k = <span class="hljs-number">3</span>;<br>    cout &lt;&lt; <span class="hljs-built_in">func</span>(&amp;k) &lt;&lt; endl;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>萃取机 (Traits)</p>
+<p>Traits 相当于中间层, 算法可以通过 Traits 获得迭代器或原生指针所指向的元素的型别:</p>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">T</span>&gt;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">MyIter</span> &#123;<br>    <span class="hljs-keyword">typedef</span> T value_type; <span class="hljs-comment">// 内嵌型别声明</span><br>    T* ptr;<br>    <br>    <span class="hljs-built_in">MyIter</span>(T* p = <span class="hljs-number">0</span>) : <span class="hljs-built_in">ptr</span>(p) &#123;&#125;<br>    <br>    T&amp; <span class="hljs-keyword">operator</span>*() <span class="hljs-type">const</span> &#123; <span class="hljs-keyword">return</span> *ptr; &#125;<br>&#125;;<br><br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">T</span>&gt;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">iterator_traits</span> &#123;<br>    <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> T::value_type value_type;<br>&#125;;<br><br><span class="hljs-comment">// 偏特化1</span><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">T</span>&gt;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">iterator_traits</span>&lt;T*&gt; &#123;<br>    <span class="hljs-keyword">typedef</span> T value_type;<br>&#125;;<br><br><span class="hljs-comment">// 偏特化2</span><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">T</span>&gt;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">iterator_traits</span>&lt;<span class="hljs-type">const</span> T*&gt; &#123;<br>    <span class="hljs-keyword">typedef</span> T value_type;<br>&#125;;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">I</span>&gt;<br><span class="hljs-keyword">typename</span> iterator_traits&lt;I&gt;::<span class="hljs-function">value_type <span class="hljs-title">func</span><span class="hljs-params">(I ite)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> *ite;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// ...</span><br>    <span class="hljs-function">MyIter&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">ite</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-type">int</span>(<span class="hljs-number">8</span>))</span></span>;<br>    std::cout &lt;&lt; <span class="hljs-built_in">func</span>(ite) &lt;&lt; std::endl;<br>    <br>    <span class="hljs-type">int</span> *p = <span class="hljs-keyword">new</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">52</span>);<br>    std::cout &lt;&lt; <span class="hljs-built_in">func</span>(p) &lt;&lt; std::endl;<br>    <br>    <span class="hljs-type">const</span> <span class="hljs-type">int</span> k = <span class="hljs-number">3</span>;<br>    std::cout &lt;&lt; <span class="hljs-built_in">func</span>(&amp;k) &lt;&lt; std::endl;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><img src="/img/Pictures/20230905154910.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>上图说明了 Traits 所扮演的 “特性萃取机” 角色, 萃取各个迭代器的特性, 这里的迭代器特性, 指的是迭代器的相应型别.</p>
+<p>最常见的迭代器型别有 5 种 <code>value_type</code>、<code>difference_type</code>、<code>pointer</code>、<code>reference</code>、<code>iterator_category</code>, 因此 Traits 中会有这 5 个型别:</p>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">I</span>&gt;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">iterator_traits</span> &#123;<br>  <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> I::iterator_category iterator_category;<br>  <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> I::value_type        value_type;<br>  <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> I::difference_type   difference_type;<br>  <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> I::pointer           pointer;<br>  <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> I::reference         reference;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>value_type</code>: 迭代器所指对象的型别.
+<ul>
+<li>如: <code>vector&lt;int&gt;</code> 的迭代器的 <code>value_type</code> 是 <code>int</code>.</li>
+</ul>
+</li>
+<li><code>difference type</code>: 表示两个迭代器之间的距离.
+<ul>
+<li>如果一个泛型算法提供计数功能, 例如 STL 的 <code>count()</code>, 其返回值就必须使用迭代器的 <code>diference type</code>:  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">I</span>,<span class="hljs-keyword">class</span> <span class="hljs-title class_">T</span>&gt;<br><span class="hljs-keyword">typename</span> iterator_traits&lt;I&gt;::<span class="hljs-function">difference_type</span><br><span class="hljs-function"><span class="hljs-title">count</span> <span class="hljs-params">(I first, I last, <span class="hljs-type">const</span> T&amp; value)</span> </span>&#123;<br>    <span class="hljs-keyword">typename</span> iterator_traits&lt;I&gt;::difference_type n = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(; first != last; ++first)<br>        <span class="hljs-keyword">if</span>(*first == value)<br>            ++n;<br>    <span class="hljs-keyword">return</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><code>iterator_category</code>: 迭代器的型别, 迭代器根据移动特性与施行操作可以分为 5 类.</li>
+</ul>
+</li>
+</ol>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>STL和泛型编程 (侯捷): <a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PLTcwR9j5y6W2Bf4S-qi0HBQlHXQVFoJrP">https://www.youtube.com/playlist?list=PLTcwR9j5y6W2Bf4S-qi0HBQlHXQVFoJrP</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/CPlusPlus/" class="category-chain-item">CPlusPlus</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/C/" class="print-no-link">#C++</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/CPlusPlus/volatile/" title="C++ volatile">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C++ volatile</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/CPlusPlus/noexcept/" title="C++ noexcept">
+                        <span class="hidden-mobile">C++ noexcept</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

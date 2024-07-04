@@ -1,0 +1,663 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="优雅地断开套接字连接 基于TCP的半关闭 Linux 的 close 函数和 Windows 的 closesocket 函数意味着完全断开连接. 完全断开不仅无法传输数据, 而且也不能接收数据. 因此, 在某些情况下, 通信一方调用 close 或 closesocket 函数断开连接就显得不太优雅.   上图描述的是 2 台主机正在进行双向通信. 主机 A 发送完最后的数据后, 调用 clos">
+<meta property="og:type" content="article">
+<meta property="og:title" content="优雅地断开套接字连接">
+<meta property="og:url" content="http://example.com/2024/07/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E4%BC%98%E9%9B%85%E5%9C%B0%E6%96%AD%E5%BC%80%E5%A5%97%E6%8E%A5%E5%AD%97%E8%BF%9E%E6%8E%A5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="优雅地断开套接字连接 基于TCP的半关闭 Linux 的 close 函数和 Windows 的 closesocket 函数意味着完全断开连接. 完全断开不仅无法传输数据, 而且也不能接收数据. 因此, 在某些情况下, 通信一方调用 close 或 closesocket 函数断开连接就显得不太优雅.   上图描述的是 2 台主机正在进行双向通信. 主机 A 发送完最后的数据后, 调用 clos">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20231125210948.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231125212239.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231125214443.png">
+<meta property="article:published_time" content="2024-07-04T10:29:54.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="网络编程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20231125210948.png">
+  
+  
+  
+  <title>优雅地断开套接字连接 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="优雅地断开套接字连接"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 18:29" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">优雅地断开套接字连接</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>优雅地断开套接字连接</h1>
+<h2 id="基于TCP的半关闭">基于TCP的半关闭</h2>
+<p><strong>Linux 的 <code>close</code> 函数和 Windows 的 <code>closesocket</code> 函数意味着完全断开连接.</strong> 完全断开不仅无法传输数据, 而且也不能接收数据. 因此, 在某些情况下, 通信一方调用 <code>close</code> 或 <code>closesocket</code> 函数断开连接就显得不太优雅.</p>
+<p><img src="/img/Pictures/20231125210948.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>上图描述的是 2 台主机正在进行双向通信. 主机 A 发送完最后的数据后, 调用 <code>close</code> 函数断开了连接, 之后主机 A 无法再接收主机 B 传输的数据, 因为断开后主机 A 完全无法调用接收数据的函数. 最终, 由主机 B 传输的、主机 A 必须接收的数据也销毁了.</li>
+</ul>
+<p>为了解决这类问题, 只 “关闭一部分数据交换中使用的流” 的方法应运而生. <strong>断开一部分连接是指, 可以传输数据但无法接收, 或可以接收数据但无法传输, 即只关闭流的一半</strong>.</p>
+<h3 id="套接字和流">套接字和流</h3>
+<p><strong>两台主机通过套接字建立连接后进入可交换数据的状态, 又称 “流形成的状态”</strong>. 也就是把建立套接字后可交换数据的状态看作一种流.</p>
+<p>此处的流可以比作水流, 水朝着一个方向流动, 同样, 在套接字的流中, 数据也只能向一个方向移动. 因此, 为了进行双向通信, 需要下图所示的 2 个流:</p>
+<p><img src="/img/Pictures/20231125212239.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>一旦两台主机间建立了套接字连接, <strong>每个主机就会拥有单独的输入流和输出流</strong>. 当然, 其中一个主机的输入流与另一台主机的输出流相连, 而输出流则与另一主机的输入流相连.</p>
+<p>那么 Linux 的 <code>close</code> 函数和 Windows 的 <code>closesocket</code> 函数会同时断开这两个流, 而本章所讨论的半关闭只是断开其中的一个流.</p>
+<h3 id="针对优雅断开的-shutdown-函数">针对优雅断开的 shutdown 函数</h3>
+<p><strong><code>shutdown</code> 函数就是用来关闭其中一个流</strong>:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回 0, 失败时返回 -1</span><br><span class="hljs-comment"> * sock: 需要断开的套接字文件描述符</span><br><span class="hljs-comment"> * howto: 传递断开连接的方式</span><br><span class="hljs-comment"> */</span> <br><span class="hljs-type">int</span> <span class="hljs-title function_">shutdown</span><span class="hljs-params">(<span class="hljs-type">int</span> sock, <span class="hljs-type">int</span> howto)</span>;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>参数 howto 用来传递断开连接的方式, 其可能值如下:
+<ul>
+<li><code>SHUT_RD</code>: 断开输入流</li>
+<li><code>SHUT_WR</code>: 断开输出流</li>
+<li><code>SHUT_RDWR</code>: 同时断开 I/O 流</li>
+</ul>
+</li>
+</ul>
+<p>若向 <code>shutdown</code> 的第二个参数传递 <code>SHUT_RD</code>, 则断开输入流, 套接字无法接收数据. <strong>即使输入缓冲收到的数据也会抹去, 而且无法调用输入相关函数</strong>; 如果向 <code>shutdown</code> 函数的第二个参数传递 <code>SHUT_WR</code>, 则中断输出流, 也就无法传输数据. <strong>如果输出缓冲还留有未传输的数据, 则将其传递至目标主机</strong>; 如果向 <code>shutdown</code> 函数的第二个参数传递 <code>SHUT_WR</code>, 则同时终端 I/O 流.</p>
+<p><strong>当调用 <code>shutdown</code> 关闭输出流的时候, 会向对方传递 EOF</strong> (EOF 表示文件传输结束, 对方可以通过 <code>read</code> 函数的返回值接收 EOF 来防止 EOF 与文件内容冲突), 此后将无法接收对方传输的数据. 当然, 调用 <code>close</code> 函数也会传递 EOF.</p>
+<h2 id="基于半关闭的文件传输程序">基于半关闭的文件传输程序</h2>
+<p>例: 一旦客户端连接到服务器端, 服务器端就将约定的文件传给客户端, 此后服务器端无需再传输数据给客户端, 客户端收到后发送字符串 “Thank you” 给服务器端.</p>
+<p><img src="/img/Pictures/20231125214443.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>服务器端代码如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;arpa/inet.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> BUF_SIZE 30</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">error_handling</span><span class="hljs-params">(<span class="hljs-type">char</span> * message)</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> * argv[])</span><br>&#123;<br>	<span class="hljs-type">int</span> serv_sd, clnt_sd;<br>	FILE * fp;<br>	<span class="hljs-type">char</span> buf[BUF_SIZE];<br>	<span class="hljs-type">int</span> read_cnt;<br><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> <span class="hljs-title">serv_adr</span>, <span class="hljs-title">clnt_adr</span>;</span><br>	<span class="hljs-type">socklen_t</span> clnt_adr_sz;<br><br>	<span class="hljs-keyword">if</span>(argc != <span class="hljs-number">2</span>)&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Usage: %s &lt;port&gt;\n&quot;</span>, argv[<span class="hljs-number">0</span>]);<br>		<span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>	&#125;<br><br>	fp = fopen(<span class="hljs-string">&quot;file_server.c&quot;</span>, <span class="hljs-string">&quot;rb&quot;</span>);<br>	serv_sd = socket(PF_INET, SOCK_STREAM, <span class="hljs-number">0</span>);<br><br>	<span class="hljs-built_in">memset</span>(&amp;serv_adr, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(serv_adr));<br>	serv_adr.sin_family = AF_INET;<br>	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);<br>	serv_adr.sin_port = htons(atoi(argv[<span class="hljs-number">1</span>]));<br><br>	bind(serv_sd, (<span class="hljs-keyword">struct</span> sockaddr*)&amp;serv_adr, <span class="hljs-keyword">sizeof</span>(serv_adr));<br>	listen(serv_sd, <span class="hljs-number">5</span>);<br><br>	clnt_adr_sz = <span class="hljs-keyword">sizeof</span>(clnt_adr);<br>	clnt_sd = accept(serv_sd, (<span class="hljs-keyword">struct</span> sockaddr*)&amp;clnt_adr, &amp;clnt_adr_sz);<br><br>	<span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)<br>	&#123;<br>		read_cnt = fread((<span class="hljs-type">void</span>*)buf, <span class="hljs-number">1</span>, BUF_SIZE, fp);<br>		<span class="hljs-keyword">if</span>(read_cnt &lt; BUF_SIZE)<br>		&#123;<br>			write(clnt_sd, buf, read_cnt);<br>			<span class="hljs-keyword">break</span>;<br>		&#125;<br>		write(clnt_sd, buf, BUF_SIZE);<br>	&#125;<br><br>	shutdown(clnt_sd, SHUT_WR);<br>	read(clnt_sd, buf, BUF_SIZE);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Message from client: %s \n&quot;</span>, buf);<br><br>	fclose(fp);<br>	close(clnt_sd);<br>	close(serv_sd);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>客户端的代码如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;arpa/inet.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> BUF_SIZE 30</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">error_handling</span><span class="hljs-params">(<span class="hljs-type">char</span> * message)</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> * argv[])</span><br>&#123;<br>	<span class="hljs-type">int</span> sd;<br>	FILE * fp;<br><br>	<span class="hljs-type">char</span> buf[BUF_SIZE];<br>	<span class="hljs-type">int</span> read_cnt;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> <span class="hljs-title">serv_adr</span>;</span><br>	<span class="hljs-keyword">if</span>(argc != <span class="hljs-number">3</span>)&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Usage: %s &lt;IP&gt; &lt;port&gt;\n&quot;</span>, argv[<span class="hljs-number">0</span>]);<br>		<span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>	&#125;<br><br>	fp = fopen(<span class="hljs-string">&quot;receive.dat&quot;</span>, <span class="hljs-string">&quot;wb&quot;</span>);<br>	sd = socket(PF_INET, SOCK_STREAM, <span class="hljs-number">0</span>);<br><br>	<span class="hljs-built_in">memset</span>(&amp;serv_adr, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(serv_adr));<br>	serv_adr.sin_family = AF_INET;<br>	serv_adr.sin_addr.s_addr = inet_addr(argv[<span class="hljs-number">1</span>]);<br>	serv_adr.sin_port = htons(atoi(argv[<span class="hljs-number">2</span>]));<br><br>	connect(sd, (<span class="hljs-keyword">struct</span> sockaddr*)&amp;serv_adr, <span class="hljs-keyword">sizeof</span>(serv_adr));<br><br>	<span class="hljs-keyword">while</span>((read_cnt = read(sd, buf, BUF_SIZE )) != <span class="hljs-number">0</span>)<br>		fwrite((<span class="hljs-type">void</span> * )buf, <span class="hljs-number">1</span>, read_cnt, fp);<br><br>	<span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Received file data&quot;</span>);<br>	write(sd, <span class="hljs-string">&quot;Thank you&quot;</span>, <span class="hljs-number">10</span>);<br>	fclose(fp);<br>	close(sd);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="基于-Windows-的实现">基于 Windows 的实现</h2>
+<p>Windows 平台同样通过调用 <code>shutdown</code> 函数完成半关闭, 只是向其传递的参数值的名称略有不同:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;winsock2.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回 0, 失败时返回 SOCKET_ERROR</span><br><span class="hljs-comment"> * sock: 要断开的套接字句柄</span><br><span class="hljs-comment"> * howto: 断开连接的方式</span><br><span class="hljs-comment"> */</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">shutdown</span><span class="hljs-params">(SOCKET sock, <span class="hljs-type">int</span> howto)</span>;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>该函数的第二个参数的可能值如下:
+<ul>
+<li><code>SD_RECEIVE</code>: 断开输入流</li>
+<li><code>SD_SEND</code>: 断开输出流</li>
+<li><code>SD_BOTH</code>: 同时断开输入流和输出流</li>
+</ul>
+</li>
+</ul>
+<p>虽然这些常量名与 Linux 中的不同, 但是其值是完全相同的: <code>SD_RECEIVE</code>、<code>SHUT_RD</code> 都是 0, <code>SD_SEND</code>、<code>SHUT_WR</code> 都是 1, <code>SD_BOTH</code>、<code>SHUT_RDWR</code> 都是 2.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>TCP/IP 网络编程 - 尹圣雨
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="category-chain-item">网络编程</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="print-no-link">#网络编程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E4%BC%98%E4%BA%8Eselect%E7%9A%84epoll/" title="优于 select 的 epoll">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">优于 select 的 epoll</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E5%A5%97%E6%8E%A5%E5%AD%97%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8D%8F%E8%AE%AE%E8%AE%BE%E7%BD%AE/" title="套接字类型与协议设置">
+                        <span class="hidden-mobile">套接字类型与协议设置</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,746 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="信号槽 当某个事件发生之后, 比如, 按钮检测到自己被点击了一下, 它就会发出一个信号 (signal) . 这种发出是没有目的的, 类似广播. 如果有对象对这个信号感兴趣, 它就会使用连接 (connect) 函数, 表示用自己的一个函数 (作为槽 (slot)) 来处理这个信号. 当信号发出时, 被连接的槽函数会自动被调用. 信号的本质 信号是由于用户对窗口或控件进行了某些操作, 导致窗口或控">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QT 信号槽">
+<meta property="og:url" content="http://example.com/2024/07/04/QT/%E4%BF%A1%E5%8F%B7%E6%A7%BD/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="信号槽 当某个事件发生之后, 比如, 按钮检测到自己被点击了一下, 它就会发出一个信号 (signal) . 这种发出是没有目的的, 类似广播. 如果有对象对这个信号感兴趣, 它就会使用连接 (connect) 函数, 表示用自己的一个函数 (作为槽 (slot)) 来处理这个信号. 当信号发出时, 被连接的槽函数会自动被调用. 信号的本质 信号是由于用户对窗口或控件进行了某些操作, 导致窗口或控">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20231107163011.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231107163408.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231107163730.png">
+<meta property="article:published_time" content="2024-07-04T12:44:36.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="QT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20231107163011.png">
+  
+  
+  
+  <title>QT 信号槽 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QT 信号槽"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 20:44" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">QT 信号槽</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>信号槽</h1>
+<p>当某个事件发生之后, 比如, 按钮检测到自己被点击了一下, 它就会发出一个信号 (signal) . 这种发出是没有目的的, 类似广播. 如果有对象对这个信号感兴趣, 它就会使用连接 (connect) 函数, 表示用自己的一个函数 (作为槽 (slot)) 来处理这个信号. <strong>当信号发出时, 被连接的槽函数会自动被调用</strong>.</p>
+<h2 id="信号的本质">信号的本质</h2>
+<p><strong>信号是由于用户对窗口或控件进行了某些操作, 导致窗口或控件产生了某个特定事件, 这时候 Qt 对应的窗口类会发出某个信号, 以此对用户的操作做出响应</strong>.</p>
+<p>因此信号的本质就是事件, 例如:</p>
+<ul>
+<li>按钮单击、双击</li>
+<li>窗口刷新</li>
+<li>鼠标移动、按下、释放</li>
+<li>键盘输入</li>
+</ul>
+<p>那么在 Qt 中信号是通过什么形式呈现给使用者的呢?</p>
+<ul>
+<li>我们对哪个窗口进行操作, 哪个窗口就可以捕捉到这些被触发的事件.</li>
+<li>对于使用者来说触发了一个事件我们就可以得到Qt框架给我们发出的某个特定信号.</li>
+<li>信号的呈现形式就是函数, 也就是说某个事件发生了,  Qt 框架就会调用该事件对应的信号函数,  通知使用者.</li>
+</ul>
+<p>在 QT 中信号的发出者是某个实例化的类对象, 对象内部可以进行相关事件的检测.</p>
+<h2 id="槽的本质">槽的本质</h2>
+<p>在 Qt 中槽函数是一类特殊的功能的函数, 在编码过程中也可以作为类的普通成员函数来使用, <strong>之所以称之为槽函数是因为它们还有一个职责就是对 Qt 框架中产生的信号进行处理</strong>.</p>
+<h2 id="信号和槽的关系">信号和槽的关系</h2>
+<p>在 Qt 中信号和槽函数都是独立的个体, 本身没有任何联系, 但是由于某种特性需求我们可以将二者连接到一起, <strong>通常我们需要使用 <code>QObject</code> 类的 <code>connect</code> 函数对两者进行关联</strong>.</p>
+<p><code>connect</code> 函数最常用的一般形式如下所示:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QMetaObject::Connection <span class="hljs-title">QObject::connect</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    	<span class="hljs-type">const</span> QObject *sender, PointerToMemberFunction signal, </span></span><br><span class="hljs-params"><span class="hljs-function">        <span class="hljs-type">const</span> QObject *receiver, PointerToMemberFunction method, </span></span><br><span class="hljs-params"><span class="hljs-function">		Qt::ConnectionType type = Qt::AutoConnection)</span></span>;<br>参数:<br>  - sender:   发出信号的对象<br>  - signal:   属于sender对象, 信号是一个函数, 这个参数的类型是函数<br>              指针, 信号函数地址<br>  - receiver: 信号接收者<br>  - method:   属于receiver对象, 当检测到sender发出了signal信号, <br>              receiver对象调用method方法，信号发出之后的处理动作<br> <br><span class="hljs-comment">//  参数 signal 和 method 都是函数地址, 因此简化之后的 connect() 如下:</span><br><span class="hljs-built_in">connect</span>(<span class="hljs-type">const</span> QObject *sender, &amp;QObject::signal, <br>        <span class="hljs-type">const</span> QObject *receiver, &amp;QObject::method);<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>该函数表示当 sender 发出了 signal 信号之后, 会自动调用 receiver 的 slot 函数</strong>, 槽函数本质是一个回调函数, 调用的时机是信号产生之后, 调用是 Qt 框架来执行的.</li>
+<li><strong><code>connect</code> 函数相当于做了信号处理动作的注册</strong>.</li>
+</ul>
+<p>在 QT5 中, <code>QObject::connect()</code> 函数有 5 个重载版本:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">QMetaObject::Connection <span class="hljs-title">connect</span><span class="hljs-params">(<span class="hljs-type">const</span> QObject *, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *,</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-type">const</span> QObject *, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *,</span></span><br><span class="hljs-params"><span class="hljs-function">	Qt::ConnectionType)</span></span>;<br><br><span class="hljs-function">QMetaObject::Connection <span class="hljs-title">connect</span><span class="hljs-params">(<span class="hljs-type">const</span> QObject *, <span class="hljs-type">const</span> QMetaMethod &amp;,</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-type">const</span> QObject *, <span class="hljs-type">const</span> QMetaMethod &amp;,</span></span><br><span class="hljs-params"><span class="hljs-function">	Qt::ConnectionType)</span></span>;<br><br><span class="hljs-function">QMetaObject::Connection <span class="hljs-title">connect</span><span class="hljs-params">(<span class="hljs-type">const</span> QObject *, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *,</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-type">const</span> <span class="hljs-type">char</span> *,</span></span><br><span class="hljs-params"><span class="hljs-function">	Qt::ConnectionType)</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-function">QMetaObject::Connection <span class="hljs-title">connect</span><span class="hljs-params">(<span class="hljs-type">const</span> QObject *, PointerToMemberFunction,</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-type">const</span> QObject *, PointerToMemberFunction,</span></span><br><span class="hljs-params"><span class="hljs-function">	Qt::ConnectionType)</span></span><br><span class="hljs-function"></span><br><span class="hljs-function">QMetaObject::Connection <span class="hljs-title">connect</span><span class="hljs-params">(<span class="hljs-type">const</span> QObject *, PointerToMemberFunction,</span></span><br><span class="hljs-params"><span class="hljs-function">	Functor)</span></span>;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>connect</code> 只是为了发送信号时, 能找到槽函数. 当槽函数是非静态成员函数时, 由于非静态成员函数的第一个参数是 <code>this</code> 指针, 需要拿到对象指针才能调用, 所以需要传入 receiver (对应重载版本 1 、2 、4); 当槽函数是静态成员函数或非成员函数时, 不需要对象指针, 也就不需要传入 receiver (对应重载版本 3 、5).</li>
+<li>其中 <code>Functor</code> 类型表示可以接受 <code>static</code> 函数、全局函数以及 <code>Lambda</code> 表达式.</li>
+</ul>
+<h2 id="标准信号-槽">标准信号/槽</h2>
+<p>在 Qt 提供的很多标准类中都可以对用户触发的某些特定事件进行检测, 因此当用户做了这些操作之后, 事件被触发, 类的内部就会产生对应的信号, 这些信号都是 Qt 类内部自带的, 因此称之为标准信号.</p>
+<p>同样的, 在 Qt 的很多类内部提供了很多功能函数, 并且这些函数也可以作为触发的信号的处理函数, 有这类特性的函数在 Qt 中称为标准槽函数.</p>
+<p>标准信息/槽的使用如下:</p>
+<ol>
+<li>首先在 mainWindow.ui 文件中添加一个按钮:<br>
+<img src="/img/Pictures/20231107163011.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>此处设置按钮对象的名称:<br>
+<img src="/img/Pictures/20231107163408.png" srcset="/img/loading.gif" lazyload alt=""><br>
+此处的 closeWindow 是一个 <code>QPushButton *</code> 类型.</li>
+<li>此处可见 closeWindow 是哪个类的对象指针:<br>
+<img src="/img/Pictures/20231107163730.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+</li>
+<li>在 <code>MainWindow</code> 类的构造函数中用 <code>connect</code> 完成信号和槽函数联系的建立: <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;mainwindow.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;./ui_mainwindow.h&quot;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QPushButton&gt;</span></span><br><br>MainWindow::<span class="hljs-built_in">MainWindow</span>(QWidget *parent)<br>    : <span class="hljs-built_in">QMainWindow</span>(parent)<br>    , <span class="hljs-built_in">ui</span>(<span class="hljs-keyword">new</span> Ui::MainWindow)<br>&#123;<br>    ui-&gt;<span class="hljs-built_in">setupUi</span>(<span class="hljs-keyword">this</span>);<br><br>    <span class="hljs-built_in">connect</span>(ui-&gt;closeWindow, &amp;QPushButton::clicked, <span class="hljs-keyword">this</span>, &amp;MainWindow::close);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>当 closeWindow 发出 <code>clicked()</code> 信号时, 会调用 <code>MainWindow</code> 对象的 <code>close()</code> 函数.</li>
+<li><strong><code>connect()</code> 操作一般写在窗口的构造函数中</strong>, 相当于在事件产生之前在 QT 框架中先进行注册, 这样在程序运行过程中假设产生了按钮的点击事件, 框架就会调用信号接收者对象对应的槽函数; 如果信号不产生, 槽函数也就不会被调用.</li>
+</ul>
+</li>
+</ol>
+<h2 id="自定义信号-槽">自定义信号/槽</h2>
+<p>Qt 框架提供的信号槽在某些特定场景下是无法满足我们的项目需求的, 因此我们还设计自己需要的的信号和槽, 同样还是使用 <code>connect()</code> 对自定义的信号槽进行连接.</p>
+<p>想要在 QT 类中自定义信号/槽, 需要满足一些条件, 并且有些事项也需要注意:</p>
+<ul>
+<li>这个类必须继承 <code>QObject</code> 类或者是 <code>QObject</code> 的派生类.</li>
+<li>在定义类的<strong>头文件</strong>中加入 <code>Q_OBJECT</code> 宏.</li>
+<li><strong><code>QObject</code> 类的派生类 (无论是直接子类还是间接子类), 不管是否使用信号槽, 都应该在第一行写上宏 <code>Q_OBJECT</code></strong>. 这个宏的展开将为我们的类提供信号槽机制、国际化机制以及 Qt 提供的不基于 C++ RTTI 的反射能力.
+<ul>
+<li><code>Q_OBJECT</code> 将由 moc (可以视作一种比 C++ 预处理器更早执行的预处理器) 做特殊处理. moc 会读取标记了 <code>Q_OBJECT</code> 的<strong>头文件 (不会处理 cpp 文件中的类似声明)</strong>, 生成以 moc_ 为前缀的文件, 比如 newspaper.h 将生成 moc_newspaper.cpp.</li>
+</ul>
+</li>
+</ul>
+<h3 id="自定义信号">自定义信号</h3>
+<p>在 Qt 中信号的本质是事件, 但是在框架中也是以函数的形式存在的, 只不过信号对应的函数只有声明, 没有定义. 如果 Qt 中的标准信号不能满足我们的需求, 可以在程序中进行信号的自定义, 当自定义信号对应的事件产生之后, 人为的将这个信号发射出去即可 (调用一下信号函数).</p>
+<p>自定义信号的要求:</p>
+<ol>
+<li>信号是类的成员函数.</li>
+<li><strong>返回值必须是 <code>void</code> 类型</strong>.</li>
+<li>参数是该类需要让外界知道的数据, 会传递给槽函数.</li>
+<li>信号需要使用 <code>signals</code> 关键字进行声明, 使用方法类似于 <code>public</code> 等关键字.</li>
+<li><strong>信号函数只需要声明, 不需要定义</strong> (moc 会帮我们实现信号函数所需要的函数体).</li>
+<li>发送信号的本质就是调用信号函数.</li>
+<li>信号会受到访问控制符的影响, 如果信号是 <code>private</code> 的, 这个信号就不能在类的外面连接, 也就没有任何意义</li>
+<li>习惯性在信号函数前加关键字 <code>emit</code>, 可以省略不写
+<ul>
+<li><strong><code>emit</code> 显式声明表示发射信号</strong>, 没有特殊含义.</li>
+</ul>
+</li>
+</ol>
+<p>一般形式:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 举例: 信号重载</span><br><span class="hljs-comment">// Qt中的类想要使用信号槽机制必须要从QObject类派生(直接或间接派生都可以)</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> : <span class="hljs-keyword">public</span> QObject<br>&#123;<br>    Q_OBJECT<br>signals:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">testsignal</span><span class="hljs-params">()</span></span>;<br>	<span class="hljs-comment">// 参数的作用是数据传递, 谁调用信号函数谁就指定实参</span><br>	<span class="hljs-comment">// 实参最终会被传递给槽函数</span><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">testsignal</span><span class="hljs-params">(<span class="hljs-type">int</span> a)</span></span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h3 id="自定义槽">自定义槽</h3>
+<p>槽函数就是信号的处理动作, 在 Qt 中槽函数可以作为普通的成员函数来使用. 如果标准槽函数提供的功能满足不了需求, 可以自己定义槽函数进行某些特殊功能的实现. 自定义槽函数和自定义的普通函数写法是一样的.</p>
+<p>自定义槽的要求:</p>
+<ol>
+<li>返回值必须是 <code>void</code> 类型.</li>
+<li>槽的参数和信号保持一致, 所谓一致, 是参数类型一致. 如果不一致, 允许的情况是, <strong>槽函数的参数可以比信号的少</strong>, 即便如此, <strong>槽函数存在的那些参数的顺序也必须和信号的前面几个一致起来</strong>. 这是因为, 你可以在槽函数中选择忽略信号传来的数据 (也就是槽函数的参数比信号的少), 但是不能在槽函数中接收信号没有的数据, 除非槽函数的参数带有默认值.</li>
+<li>Qt 中的槽函数可以是类的成员函数、全局函数、静态函数、<code>Lambda</code> 表达式.</li>
+<li><strong>槽函数会受到访问控制符的影响</strong>, 只有声明为 <code>public</code> 的槽函数才能在类外部被调用.</li>
+<li>可添加关键字 <code>slots</code>, 如 <code>public slots:</code>, 在 QT5 之后也可不添加.</li>
+</ol>
+<p>自定义信号槽的示例如下:</p>
+<p>观察者模式: 有一个报纸类 <code>Newspaper</code>, 有一个订阅者类 <code>Subscriber</code>. <code>Subscriber</code> 可以订阅 <code>Newspaper</code>. 这样, 当 <code>Newspaper</code> 有了新的内容的时候, <code>Subscriber</code> 可以立即得到通知.</p>
+<p>QT 自定义信号槽实现观察者模式效果:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QObject&gt;</span></span><br><br><span class="hljs-comment">// newspaper.h</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Newspaper</span> : <span class="hljs-keyword">public</span> QObject<br>&#123;<br>	Q_OBJECT<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-built_in">Newspaper</span>(<span class="hljs-type">const</span> QString &amp; name) :<br>		<span class="hljs-built_in">m_name</span>(name)<br>	&#123;&#125;<br><br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">send</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-function">emit <span class="hljs-title">newPaper</span><span class="hljs-params">(m_name)</span></span>;<br>	&#125;<br><br>signals:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">newPaper</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp;name)</span></span>;<br><br><span class="hljs-keyword">private</span>:<br>	QString m_name;<br>&#125;;<br><br><span class="hljs-comment">// reader.h</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QObject&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QDebug&gt;</span></span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Reader</span> : <span class="hljs-keyword">public</span> QObject<br>&#123;<br>	Q_OBJECT<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-built_in">Reader</span>() &#123;&#125;<br><br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">receiveNewspaper</span><span class="hljs-params">(<span class="hljs-type">const</span> QString &amp; name)</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;Receives Newspaper: &quot;</span> &lt;&lt; name;<br>	&#125;<br>&#125;;<br><br><span class="hljs-comment">// main.cpp</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;QCoreApplication&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;newspaper.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;reader.h&quot;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-function">QCoreApplication <span class="hljs-title">app</span><span class="hljs-params">(argc, argv)</span></span>;<br>	<br>	<span class="hljs-function">Newspaper <span class="hljs-title">newspaper</span><span class="hljs-params">(<span class="hljs-string">&quot;Newspaper A&quot;</span>)</span></span>;<br>	Reader reader;<br>	QObject::<span class="hljs-built_in">connect</span>(&amp;newspaper, &amp;Newspaper::newPaper,<br>		&amp;reader, &amp;Reader::receiveNewspaper);<br>	newspaper.<span class="hljs-built_in">send</span>();<br>	<br>	<span class="hljs-keyword">return</span> app.<span class="hljs-built_in">exec</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>Newspaper</code> 类的 <code>signals</code> 代码块中所列出的就是该类的信号.</li>
+<li>上述代码中的 <code>emit newPaper(m_name);</code>, 表示发出 <code>newPaper()</code> 信号, 并将 m_name 通过信号传递给槽函数.</li>
+</ul>
+<h2 id="信号槽拓展">信号槽拓展</h2>
+<h3 id="信号槽使用拓展">信号槽使用拓展</h3>
+<ul>
+<li>一个信号可以连接多个槽函数, 即发送一个信号有多个处理动作.
+<ul>
+<li>槽函数的执行顺序是随机的, 和 <code>connect</code> 函数的调用顺序没有关系.</li>
+</ul>
+</li>
+<li>一个槽函数可以连接多个信号, 即对于不同的信号, 处理动作是相同的.</li>
+<li>信号可以连接信号. 信号接收者可以不处理接收的信号, 而是继续发射新的信号, 这相当于传递了数据, 并没有对数据进行处理.  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">connect</span>(<span class="hljs-type">const</span> QObject *sender, &amp;signal,<br>		<span class="hljs-type">const</span> QObject *receiver, &amp;signal-<span class="hljs-keyword">new</span>*)<br></code></pre></td></tr></table></figure>
+</li>
+<li>信号和槽之间的连接是可以断开  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">disconnect</span>(<span class="hljs-type">const</span> QObject *sender, &amp;signal, <br>		<span class="hljs-type">const</span> QObject *receiver, &amp;method);<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="信号槽的连接方式">信号槽的连接方式</h3>
+<p>QT5 的连接方式:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 语法:</span><br><span class="hljs-function">QMetaObject::Connection <span class="hljs-title">QObject::connect</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    	<span class="hljs-type">const</span> QObject *sender, PointerToMemberFunction signal, </span></span><br><span class="hljs-params"><span class="hljs-function">        <span class="hljs-type">const</span> QObject *receiver, PointerToMemberFunction method, </span></span><br><span class="hljs-params"><span class="hljs-function">		Qt::ConnectionType type = Qt::AutoConnection)</span></span>;<br><br><span class="hljs-comment">// 信号和槽函数也就是第2,4个参数传递的是地址, 编译器在编译过程中会对数据的正确性进行检测</span><br><span class="hljs-built_in">connect</span>(<span class="hljs-type">const</span> QObject *sender, &amp;QObject::signal, <br>        <span class="hljs-type">const</span> QObject *receiver, &amp;QObject::method);<br></code></pre></td></tr></table></figure>
+<p>QT4 的连接方式:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp">[<span class="hljs-type">static</span>] <span class="hljs-function">QMetaObject::Connection <span class="hljs-title">QObject::connect</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-type">const</span> QObject *sender, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *signal, </span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-type">const</span> QObject *receiver, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *method, </span></span><br><span class="hljs-params"><span class="hljs-function">    Qt::ConnectionType type = Qt::AutoConnection)</span></span>;<br><br><span class="hljs-built_in">connect</span>(<span class="hljs-type">const</span> QObject *sender,<span class="hljs-built_in">SIGNAL</span>(信号函数名(参数<span class="hljs-number">1</span>, 参数<span class="hljs-number">2</span>, ...)),<br>        <span class="hljs-type">const</span> QObject *receiver,<span class="hljs-built_in">SLOT</span>(槽函数名(参数<span class="hljs-number">1</span>, 参数<span class="hljs-number">2</span>, ...)));<br></code></pre></td></tr></table></figure>
+<ul>
+<li>这种旧的信号槽连接方式在 Qt5 中是支持的, 但是不推荐使用, 因为这种方式在进行信号槽连接的时候, 信号槽函数通过宏 <code>SIGNAL</code> 和 <code>SLOT</code> 转换为字符串类型, 编译器并不会检查函数是否存在, 只有在程序运行起来之后才能发现问题, 而且问题不容易被定位.</li>
+</ul>
+<p><strong>如果信号/槽函数重载过, 则在 <code>connect</code> 的时候不能直接使用 <code>&amp;QObject::signal</code> 或 <code>&amp;QObject::slot</code> (因为有多个版本的函数, 所以无法确定函数地址), 而应该使用函数指针</strong>.</p>
+<p>例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Me</span> : <span class="hljs-keyword">public</span> QObject<br>&#123;<br>    Q_OBJECT<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">eat</span><span class="hljs-params">(QString somthing)</span></span>;<br>    <br>signals:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">hungury</span><span class="hljs-params">()</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">hungury</span><span class="hljs-params">(QString somthing)</span></span>;<br>&#125;;<br><br>-------------------------------------------------------------<br><br><span class="hljs-comment">// Qt5处理方式</span><br><span class="hljs-built_in">connect</span>(&amp;m, &amp;Me::eat, &amp;m, &amp;Me::hungury);	<span class="hljs-comment">// error</span><br><br><span class="hljs-comment">// 发出 `eat` 信号时调用槽函数 `hungury(QString somthing)`</span><br><span class="hljs-built_in">void</span> (Me::*mySlot)(QString) = &amp;Me::hungury;<br><span class="hljs-built_in">connect</span>(&amp;m, &amp;Me::eat, &amp;m, mySlot);<br></code></pre></td></tr></table></figure>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Qt中的信号槽: <a target="_blank" rel="noopener" href="https://subingwen.cn/qt/qt-signal-slot/">https://subingwen.cn/qt/qt-signal-slot/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>QT 学习之路 2: <a target="_blank" rel="noopener" href="https://www.devbean.net/2012/08/qt-study-road-2-catelog/">https://www.devbean.net/2012/08/qt-study-road-2-catelog/</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/" class="category-chain-item">QT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QT/" class="print-no-link">#QT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6/" title="QT 资源文件">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QT 资源文件</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/%E6%96%87%E4%BB%B6/" title="QT 文件">
+                        <span class="hidden-mobile">QT 文件</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

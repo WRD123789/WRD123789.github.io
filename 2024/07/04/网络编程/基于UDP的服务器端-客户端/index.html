@@ -1,0 +1,672 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="基于 UDP 的服务器端&#x2F;客户端 UDP UDP 提供的是不可靠的数据传输服务. 虽然 UDP 在可靠性上不如 TCP, 但 UDP 在结构上比 TCP 更简洁. UDP 不会发送类似 ACK 的应答消息, 在传输数据前也不需要建立连接, 也不会给数据包分配序号. 因此, UDP 的性能有时比 TCP 高出很多. 另外, UDP 的可靠性虽比不上 TCP, 但也不会频繁地发生数据丢失. 因此, 在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 UDP 的服务器端&#x2F;客户端">
+<meta property="og:url" content="http://example.com/2024/07/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E5%9F%BA%E4%BA%8EUDP%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF-%E5%AE%A2%E6%88%B7%E7%AB%AF/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="基于 UDP 的服务器端&#x2F;客户端 UDP UDP 提供的是不可靠的数据传输服务. 虽然 UDP 在可靠性上不如 TCP, 但 UDP 在结构上比 TCP 更简洁. UDP 不会发送类似 ACK 的应答消息, 在传输数据前也不需要建立连接, 也不会给数据包分配序号. 因此, UDP 的性能有时比 TCP 高出很多. 另外, UDP 的可靠性虽比不上 TCP, 但也不会频繁地发生数据丢失. 因此, 在">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20231125161429.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20231125162316.png">
+<meta property="article:published_time" content="2024-07-04T10:25:04.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.564Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="网络编程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20231125161429.png">
+  
+  
+  
+  <title>基于 UDP 的服务器端/客户端 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="基于 UDP 的服务器端/客户端"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 18:25" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          20 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">基于 UDP 的服务器端/客户端</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>基于 UDP 的服务器端/客户端</h1>
+<h2 id="UDP">UDP</h2>
+<p><strong>UDP 提供的是不可靠的数据传输服务</strong>. 虽然 UDP 在可靠性上不如 TCP, 但 <strong>UDP 在结构上比 TCP 更简洁</strong>. UDP 不会发送类似 ACK 的应答消息, 在传输数据前也不需要建立连接, 也不会给数据包分配序号. 因此, UDP 的性能有时比 TCP 高出很多. 另外, UDP 的可靠性虽比不上 TCP, 但也不会频繁地发生数据丢失. 因此, 在<strong>更重视性能而非可靠性</strong>的情况下, UDP 是一种很好的选择.</p>
+<p><img src="/img/Pictures/20231125161429.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>IP 的作用就是让离开主机 B 的 UDP 数据包准确传递到主机 A, 但把 UDP 包最终交给主机 A 的某一 UDP 套接字的过程则是由 UDP 完成的, 即<strong>UDP 最重要的作用就是根据端口号将传到主机的数据包交付给最终的 UDP 套接字</strong>.</p>
+<p>对于多媒体数据而言, 丢失一部分也没有太大问题, 这只会引起短暂的画面抖动, 或出现细微的杂音. 但因为需要提供实时服务, 速度就成为非常重要的因素, 因此此时需要考虑使用 UDP.</p>
+<p>但 UDP 并非每次都快于 TCP, TCP 比 UDP 慢的原因通常有以下两点:</p>
+<ul>
+<li>收发数据前后进行的连接设置及清除过程.</li>
+<li>收发数据过程中为保证可靠性而添加的流控制.</li>
+</ul>
+<p>如果收发的数据量小但需要频繁连接时, UDP 比 TCP 更高效.</p>
+<h2 id="实现基于-UDP-的服务器端-客户端">实现基于 UDP 的服务器端/客户端</h2>
+<p>UDP 服务器端/客户端不像 TCP 那样在连接状态下交换数据, 因此与 TCP 不同, <strong>无需经过连接过程</strong>. 也就是说, 不必调用 TCP 连接过程中调用的 <code>listen</code> 函数和 <code>accept</code> 函数. <strong>UDP 中只有创建套接字的过程和数据交换的过程</strong>.</p>
+<p>TCP 中, 套接字之间是一对一关系, 若要向 10 个客户端提供服务, 则除了监听套接字外, 还需要 10 个服务器端套接字, 但<strong>在 UDP 中, 不管是服务器端还是客户端都只需要 1 个套接字, 即只需要 1 个 UDP 套接字就可以和多台主机通信</strong>:</p>
+<p><img src="/img/Pictures/20231125162316.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="基于-UDP-的数据-I-O-函数">基于 UDP 的数据 I/O 函数</h3>
+<p><strong>创建好 TCP 套接字后, 传输数据时无需再添加地址信息</strong>. 因为 TCP 套接字将保持与对方套接字的连接. 换言之, TCP 套接字知道目标地址信息. <strong>但 UDP 套接字不会保持连接状态, 因此每次传输数据都要添加目标地址信息</strong>.</p>
+<p><strong>UDP 中使用 <code>sendto</code> 函数传输数据</strong>:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回传输的字节数, 失败时返回 -1</span><br><span class="hljs-comment"> * sock: 用于传输数据的 UDP 套接字文件描述符</span><br><span class="hljs-comment"> * buff: 保存待传输数据的缓冲地址值</span><br><span class="hljs-comment"> * nbytes: 待传输的数据长度, 以字节为单元</span><br><span class="hljs-comment"> * flags: 可选项参数, 若没有则传递 0</span><br><span class="hljs-comment"> * to: 存有目标地址信息的 sockaddr 结构体变量的地址值</span><br><span class="hljs-comment"> * addrlen: 传递给参数 to 的地址值结构体变量长度</span><br><span class="hljs-comment"> */</span> <br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">sendto</span><span class="hljs-params">(<span class="hljs-type">int</span> sock, <span class="hljs-type">void</span> *buff, <span class="hljs-type">size_t</span> nbytes, <span class="hljs-type">int</span> flags,</span><br><span class="hljs-params">			   <span class="hljs-keyword">struct</span> sockaddr *to, <span class="hljs-type">socklen_t</span> addrlen)</span>;<br></code></pre></td></tr></table></figure>
+<p><strong>UDP 中使用<code>recvfrom</code> 函数接收数据</strong>:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回接收的字节数, 失败时返回 -1</span><br><span class="hljs-comment"> * sock: 用于将接受数据的 UDP 套接字文件描述符</span><br><span class="hljs-comment"> * buff: 保存接收数据的缓冲地址值</span><br><span class="hljs-comment"> * nbytes: 可接收的最大字节数, 故无法超过参数 buff 所指的缓冲大小</span><br><span class="hljs-comment"> * flags: 可选项参数, 若没有则传入 0</span><br><span class="hljs-comment"> * from: 存有发送端地址信息的 sockaddr 结构体变量的地址</span><br><span class="hljs-comment"> * addrlen: 保存参数 from 的结构体变量长度的变量地址值</span><br><span class="hljs-comment"> */</span> <br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">recvfrom</span><span class="hljs-params">(<span class="hljs-type">int</span> sock, <span class="hljs-type">void</span> * buff, <span class="hljs-type">size_t</span> nbytes, <span class="hljs-type">int</span> flags,</span><br><span class="hljs-params">				 <span class="hljs-keyword">struct</span> sockaddr * from, <span class="hljs-type">socklen_t</span> * addrlen)</span>;<br></code></pre></td></tr></table></figure>
+<h2 id="基于-UDP-的回声服务器端-客户端">基于 UDP 的回声服务器端/客户端</h2>
+<p>UDP 不同于 TCP, 不存在请求连接和受理过程, 因此在某种意义上无法明确区分服务器端和客户端. 只是因其提供服务而称为服务器端.</p>
+<p>服务器端代码如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;arpa/inet.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> BUF_SIZE 30</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">error_handling</span><span class="hljs-params">(<span class="hljs-type">char</span> * message)</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	<span class="hljs-type">int</span> serv_sock;<br>	<span class="hljs-type">char</span> message[BUF_SIZE];<br>	<span class="hljs-type">int</span> str_len;<br>	<span class="hljs-type">socklen_t</span> clnt_adr_sz;<br><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> <span class="hljs-title">serv_adr</span>, <span class="hljs-title">clnt_adr</span>;</span><br>	<span class="hljs-keyword">if</span>(argc != <span class="hljs-number">2</span>)&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Usage: %s &lt;port&gt;\n&quot;</span>, argv[<span class="hljs-number">0</span>]);<br>		<span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>	&#125;<br><br>	serv_sock = socket(PF_INET, SOCK_DGRAM, <span class="hljs-number">0</span>);<br>	<span class="hljs-keyword">if</span>(serv_sock == <span class="hljs-number">-1</span>)<br>		error_handling(<span class="hljs-string">&quot;UDP socket creation error&quot;</span>);<br><br>	<span class="hljs-built_in">memset</span>(&amp;serv_adr, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(serv_adr));<br>	serv_adr.sin_family = AF_INET;<br>	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);<br>	serv_adr.sin_port = htons(atoi(argv[<span class="hljs-number">1</span>]));<br>	<br>	<span class="hljs-keyword">if</span>(bind(serv_sock, (<span class="hljs-keyword">struct</span> sockaddr*)&amp;serv_adr, <span class="hljs-keyword">sizeof</span>(serv_adr)) == <span class="hljs-number">-1</span>)<br>		error_handling(<span class="hljs-string">&quot;bind() error&quot;</span>);<br>	<br>	<span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)<br>	&#123;<br>		clnt_adr_sz = <span class="hljs-keyword">sizeof</span>(clnt_adr);<br>		str_len = recvfrom(serv_sock, message, BUF_SIZE, <span class="hljs-number">0</span>,<br>			       	(<span class="hljs-keyword">struct</span> sockaddr*)&amp;clnt_adr, &amp;clnt_adr_sz);<br>		sendto(serv_sock, message, str_len, <span class="hljs-number">0</span>,<br>				(<span class="hljs-keyword">struct</span> sockaddr*)&amp;clnt_adr, clnt_adr_sz);<br>	&#125;<br>	close(serv_sock);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>客户端代码如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;arpa/inet.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> BUF_SIZE 30</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">error_handling</span><span class="hljs-params">(<span class="hljs-type">char</span> * message)</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> * argv[])</span><br>&#123;<br>	<span class="hljs-type">int</span> sock;<br>	<span class="hljs-type">char</span> message[BUF_SIZE];<br>	<span class="hljs-type">int</span> str_len;<br>	<span class="hljs-type">socklen_t</span> adr_sz;<br><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> <span class="hljs-title">serv_adr</span>, <span class="hljs-title">from_adr</span>;</span><br>	<span class="hljs-keyword">if</span>(argc != <span class="hljs-number">3</span>)<br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Usage : %s &lt;IP&gt; &lt;port&gt;\n&quot;</span>, argv[<span class="hljs-number">0</span>]);<br>		<span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>	&#125;<br><br>	sock = socket(PF_INET, SOCK_DGRAM, <span class="hljs-number">0</span>);<br>	<span class="hljs-keyword">if</span>(sock == <span class="hljs-number">-1</span>)<br>		error_handling(<span class="hljs-string">&quot;socket() error&quot;</span>);<br><br>	<span class="hljs-built_in">memset</span>(&amp;serv_adr, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(serv_adr));<br>	serv_adr.sin_family = AF_INET;<br>	serv_adr.sin_addr.s_addr = inet_addr(argv[<span class="hljs-number">1</span>]);<br>	serv_adr.sin_port = htons(atoi(argv[<span class="hljs-number">2</span>]));<br><br>	<span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)<br>	&#123;<br>		<span class="hljs-built_in">fputs</span>(<span class="hljs-string">&quot;Insert messgae(q) to quit): &quot;</span>, <span class="hljs-built_in">stdout</span>);<br>		fgets(message, <span class="hljs-keyword">sizeof</span>(message), <span class="hljs-built_in">stdin</span>);<br>		<span class="hljs-keyword">if</span>(!<span class="hljs-built_in">strcmp</span>(message, <span class="hljs-string">&quot;q\n&quot;</span>) || !<span class="hljs-built_in">strcmp</span>(message, <span class="hljs-string">&quot;Q\n&quot;</span>))<br>			<span class="hljs-keyword">break</span>;<br><br>		sendto(sock, message, <span class="hljs-built_in">strlen</span>(message), <span class="hljs-number">0</span>,<br>				(<span class="hljs-keyword">struct</span> sockaddr*)&amp;serv_adr, <span class="hljs-keyword">sizeof</span>(serv_adr));<br>		adr_sz = <span class="hljs-keyword">sizeof</span>(from_adr);<br>		str_len = recvfrom(sock, message, BUF_SIZE, <span class="hljs-number">0</span>,<br>			       	(<span class="hljs-keyword">struct</span> sockaddr*)&amp;from_adr, &amp;adr_sz);<br>		message[str_len] = <span class="hljs-number">0</span>;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Message from server: %s&quot;</span>, message);<br>	&#125;<br>	close(sock);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="UDP-客户端套接字的地址分配">UDP 客户端套接字的地址分配</h2>
+<p>如果调用 <code>sendto</code> 函数时发现尚未分配地址信息, 则在首次调用 <code>sendto</code> 函数时, 操作系统会给相应的套接字自动分配 IP 和端口. 所以 UDP 客户端中通常不需要额外的地址分配过程.</p>
+<h2 id="UDP-的数据传输特性">UDP 的数据传输特性</h2>
+<p><strong>UDP 是具有数据边界的协议</strong>, 传输中调用 I/O 函数的次数非常重要. 因此, 输入函数的调用次数应和输出函数的调用次数完全一致, 这样才能保证接收全部已发送数据.</p>
+<h2 id="已连接-UDP-套接字和未连接-UDP-套接字">已连接 UDP 套接字和未连接 UDP 套接字</h2>
+<p>TCP套接字中需注册待传输数据的目标 IP 和端口 (通过 <code>connect</code>), 而 UDP 中则无需注册. 因此, 通过 <code>sendto</code> 函数传输数据的过程大致可分为以下 3 个阶段:</p>
+<ol>
+<li>向 UDP 套接字注册目标 IP 和端口号.</li>
+<li>传输数据</li>
+<li>删除 UDP 套接字中注册的目标地址信息.</li>
+</ol>
+<p>每次调用 <code>sendto</code> 函数时重复上述过程. 每次都要重新注册目标地址, 因此可以重复利用同一 UDP 套接字向不同目标传输数据.</p>
+<p>这种未注册目标地址信息的套接字称为<strong>未连接套接字</strong>, 反之, 注册了目标地址信息的套接字称为<strong>已连接套接字</strong>.</p>
+<p>当某一主机要向另一个主机调用多次 <code>sendto</code> 来传输多个数据时, 需要重复多次上述三个阶段, 而上述三个阶段中第一个阶段和第三个阶段占整个通信过程近 1/3 的时间, 因此此时可以将未连接套接字变成已连接套接字来提高整体性能.</p>
+<h3 id="创建已连接-UDP-套接字">创建已连接 UDP 套接字</h3>
+<p>和 TCP 一样, <strong>想要创建已连接套接字, 只需要调用 <code>connect</code> 函数</strong>即可:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c">sock = socket(PF_INET, SOCK_DGRAM, <span class="hljs-number">0</span>);<br><span class="hljs-built_in">memset</span>(&amp;adr, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(adr));<br>adr.sin_family = AF_INET;<br>adr.sin_addr.s_addr = ......<br>adr.sin_adr_port = ......<br>connect(sock, (<span class="hljs-keyword">struct</span> sockaddr*)&amp;adr, <span class="hljs-keyword">sizeof</span>(adr));<br></code></pre></td></tr></table></figure>
+<ul>
+<li>调用 <code>connect</code> 函数并不意味着要和对方 UDP 套接字连接, 这只是向 UDP 套接字注册目标 IP 和端口信息.</li>
+</ul>
+<p>之后就与 TCP 套接字一样, 每次调用 <code>sendto</code> 函数时只需传输数据. 因为已经指定了收发对象, 所以不仅可以使用 <code>sendto</code>、<code>recvfrom</code> 函数, 还可以使用 <code>write</code>、<code>read</code> 函数进行通信.</p>
+<p>可以对上文中的基于 UDP 的回声客户端进行优化:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;arpa/inet.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> BUF_SIZE 30</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">error_handling</span><span class="hljs-params">(<span class="hljs-type">char</span> * message)</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc , <span class="hljs-type">char</span> * argv[])</span><br>&#123;<br>	<span class="hljs-type">int</span> sock;<br>	<span class="hljs-type">char</span> message[BUF_SIZE];<br>	<span class="hljs-type">int</span> str_len;<br>	<span class="hljs-type">socklen_t</span> adr_sz; <span class="hljs-comment">// 该参数已经不再需要使用</span><br><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> <span class="hljs-title">serv_adr</span>, <span class="hljs-title">from_adr</span>;</span> <span class="hljs-comment">// 不再需要 from_adr</span><br>	<span class="hljs-keyword">if</span>(argc != <span class="hljs-number">3</span>)&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Usage: %s &lt;IP&gt; &lt;port&gt;\n&quot;</span>, argv[<span class="hljs-number">0</span>]);<br>		<span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>	&#125;<br>	<br>	sock = socket(sock, SOCK_DGRAM, <span class="hljs-number">0</span>);<br>	<span class="hljs-keyword">if</span>(sock == <span class="hljs-number">-1</span>)<br>		error_handling(<span class="hljs-string">&quot;socket() error&quot;</span>);<br><br>	<span class="hljs-built_in">memset</span>(&amp;serv_adr, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(serv_adr) );<br>	serv_adr.sin_family = AF_INET;<br>	serv_adr.sin_addr.s_addr = inet_addr(argv[<span class="hljs-number">1</span>]);<br>	serv_adr.sin_port = htons(atoi(argv[<span class="hljs-number">2</span>]));<br><br>	connect(sock, (<span class="hljs-keyword">struct</span> sockaddr*)&amp;serv_adr, <span class="hljs-keyword">sizeof</span>(serv_adr));<br><br>	<span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)<br>	&#123;<br>		<span class="hljs-built_in">fputs</span>(<span class="hljs-string">&quot;Insert message(q to quit): &quot;</span>, <span class="hljs-built_in">stdout</span>);<br>		fgets(message, <span class="hljs-keyword">sizeof</span>(message), <span class="hljs-built_in">stdin</span>);<br>		<span class="hljs-keyword">if</span>(!<span class="hljs-built_in">strcmp</span>(message, <span class="hljs-string">&quot;q\n&quot;</span>) || !<span class="hljs-built_in">strcmp</span>(message, <span class="hljs-string">&quot;Q\n&quot;</span>))<br>			<span class="hljs-keyword">break</span>;<br>		<span class="hljs-comment">/*</span><br><span class="hljs-comment">		  sendto(sock, message, strlen(message), 0, </span><br><span class="hljs-comment">		  	(struct sockaddr*)&amp;serv_adr, sizeof(serv_adr));</span><br><span class="hljs-comment">		*/</span><br><br>		write(sock, message, <span class="hljs-built_in">strlen</span>(message));<br>		<span class="hljs-comment">/*</span><br><span class="hljs-comment">		 adr_sz = sizeof(from_adr);</span><br><span class="hljs-comment">		 str_len = recvfrom(sock, message, BUF_SIZE, 0,</span><br><span class="hljs-comment">		 	(struct sockaddr*)&amp;from_adr, &amp;adr_sz);</span><br><span class="hljs-comment">		*/</span><br>		str_len = read(sock, message, <span class="hljs-keyword">sizeof</span>(message) - <span class="hljs-number">1</span>);<br>		message[str_len] = <span class="hljs-number">0</span>;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Message from server: %s&quot;</span>,message);<br>	&#125;<br>	close(sock);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="基于-Windows-的实现">基于 Windows 的实现</h2>
+<p>Windows 下的 <code>sendto</code> 函数和 <code>readfrom</code> 函数和 Linux 下的没有什么区别.</p>
+<p>Windows 下的 <code>sendto</code> 函数如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;winsock2.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回传输的字节数, 失败时返回 SOCKET_ERROR</span><br><span class="hljs-comment"> */</span> <br><span class="hljs-type">int</span> <span class="hljs-title function_">sendto</span><span class="hljs-params">(SOCKET s, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *buf, <span class="hljs-type">int</span> len, <span class="hljs-type">int</span> flags, </span><br><span class="hljs-params">		   <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> sockaddr *to, <span class="hljs-type">int</span> tolen)</span>;<br></code></pre></td></tr></table></figure>
+<p>Windows 下的 <code>readfrom</code> 函数如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;winsock2.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 成功时返回接收的字节数, 失败时返回 SOCKET_ERROR</span><br><span class="hljs-comment"> */</span> <br><span class="hljs-type">int</span> <span class="hljs-title function_">readfrom</span><span class="hljs-params">(SOCKET s, <span class="hljs-type">char</span> *buf, <span class="hljs-type">int</span> len, <span class="hljs-type">int</span> flags,</span><br><span class="hljs-params">			<span class="hljs-keyword">struct</span> sockaddr *from, <span class="hljs-type">int</span> *fromlen)</span>;<br></code></pre></td></tr></table></figure>
+<p>Windows 平台下基于 UDP 的回声服务器端/客户端的实现基本上和 Linux 平台下的一致, 不再赘述.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>TCP/IP 网络编程 - 尹圣雨
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="category-chain-item">网络编程</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="print-no-link">#网络编程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" title="进程间通信">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">进程间通信</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E5%9F%BA%E4%BA%8ETCP%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF-%E5%AE%A2%E6%88%B7%E7%AB%AF/" title="基于 TCP 的服务器端/客户端">
+                        <span class="hidden-mobile">基于 TCP 的服务器端/客户端</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

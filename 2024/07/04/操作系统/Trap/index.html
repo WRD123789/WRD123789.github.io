@@ -1,0 +1,977 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Trap 有三种事件 (用 Trap 作为这三种事件的通用术语) 会导致 CPU 搁置普通指令的执行, 强制将控制权转移给处理该事件的特殊代码:  系统调用: 当用户程序执行 ecall 指令要求内核为其处理事情. 异常: 一条指令做了一些非法的事情, 如除以零或使用无效的虚拟地址. 中断: 当一个设备发出需要注意的信号时, 例如当磁盘硬件完成一个读写请求时.  Trap 发生时由内核来处理所有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Trap">
+<meta property="og:url" content="http://example.com/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Trap/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Trap 有三种事件 (用 Trap 作为这三种事件的通用术语) 会导致 CPU 搁置普通指令的执行, 强制将控制权转移给处理该事件的特殊代码:  系统调用: 当用户程序执行 ecall 指令要求内核为其处理事情. 异常: 一条指令做了一些非法的事情, 如除以零或使用无效的虚拟地址. 中断: 当一个设备发出需要注意的信号时, 例如当磁盘硬件完成一个读写请求时.  Trap 发生时由内核来处理所有">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322131541.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322134305.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322141236.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322141617.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322141909.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322142055.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322142152.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322142312.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322142416.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322142730.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322150836.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322151151.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322151753.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322152028.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322153749.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322153924.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322154132.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322154221.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322154625.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322154757.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322155630.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322155713.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322183238.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322183631.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322184005.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322184339.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322184552.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322184808.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230322185410.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230323133625.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230323133748.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230323134001.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230323134308.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230323134559.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20230323134809.png">
+<meta property="article:published_time" content="2024-07-04T05:17:12.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="MIT 6.S081">
+<meta property="article:tag" content="操作系统">
+<meta property="article:tag" content="Xv6">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20230322131541.png">
+  
+  
+  
+  <title>Trap - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Trap"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 13:17" pubdate>
+          2024年7月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          35 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Trap</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>Trap</h1>
+<p>有三种事件 (用 Trap 作为这三种事件的通用术语) 会导致 CPU 搁置普通指令的执行, 强制将控制权转移给处理该事件的特殊代码:</p>
+<ul>
+<li>系统调用: 当用户程序执行 ecall 指令要求内核为其处理事情.</li>
+<li>异常: 一条指令做了一些非法的事情, 如除以零或使用无效的虚拟地址.</li>
+<li>中断: 当一个设备发出需要注意的信号时, 例如当磁盘硬件完成一个读写请求时.</li>
+</ul>
+<p>Trap 发生时由<strong>内核</strong>来处理所有 Trap:</p>
+<ol>
+<li>当代码执行时发生 Trap 时, 处理器会检测到 Trap 信号, 然后自动执行一些预定义的操作.</li>
+<li>内核保存寄存器和其他状态, 以便恢复执行.</li>
+<li>内核执行适当的 Trap 处理程序代码 (例如，系统调用实现或设备驱动程序)</li>
+<li>内核恢复保存的状态, 并从 Trap 中返回; 代码从原来的地方恢复执行.</li>
+</ol>
+<p>以上处理过程主要分为四个阶段:</p>
+<ol>
+<li>RISC-V CPU 采取的硬件行为.</li>
+<li>为内核 C 代码准备的汇编入口.</li>
+<li>处理 Trap 的 C 处理程序.</li>
+<li>系统调用或设备驱动服务.</li>
+</ol>
+<h2 id="RISC-V-Trap-机制">RISC-V Trap 机制</h2>
+<p>每个 RISC-V CPU 都有一组控制寄存器, 内核写入这些寄存器来告诉 CPU 如何处理 Trap, 内核可以通过读取这些寄存器来发现已经发生的 Trap</p>
+<ul>
+<li>STVEC: 内核在这里写下 Trap 处理程序的地址, RISC-V 跳转到这里来处理Trap.</li>
+<li>SEPC: 当 Trap 发生时, RISC-V 会将程序计数器保存在这里; 当从 Trap 中返回时 (调用 sret 汇编指令), 指令将 SEPC 复制到 PC 中.</li>
+<li>SCAUSE: 记录最近的异常或中断的原因和类型.</li>
+<li>SSCRATCH: 提供一个不受中断影响的保存区域, 用于在内核和用户进程之间切换时保存内核栈的栈顶指针.</li>
+<li>SSTATUS: SSTATUS 中的 SIE 位控制设备中断是否被启用, 如果内核清除 SIE, RISC-V 将推迟设备中断, 直到内核设置 SIE;  SPP 位表示 Trap 是来自用户模式还是内核模式, 因此也决定了 sret 返回到什么模式.</li>
+</ul>
+<p>上述寄存器与在内核模式下处理的 Trap 有关, 在用户模式下不能读或写.</p>
+<p>对于机器模式下处理的 Trap, 有一组等效的控制寄存器 (以 m 开头), 只有在机器模式下处理 Trap 时, 才能用到它们. 在 xv6 中, 只在定时器中断的特殊情况下使用它们.</p>
+<p>对于多核芯片, 每个 CPU 上都有一组这些寄存器, 因此在任何时候都可能有多个 CPU 在处理 Trap.</p>
+<p>当需要执行 Trap 时, RISC-V 硬件对所有的 Trap 类型 (除定时器中断外) 进行以下操作: ^7192b4</p>
+<ol>
+<li>如果该 Trap 是设备中断, 且 SSTATUS 的 SIE 位为 0, 则不执行以下任何操作.</li>
+<li>通过清除 SSTATUS 的 SIE 位来禁用中断 (防止被设备中断打断).</li>
+<li>复制 PC 到 SEPC.</li>
+<li>将当前模式 (用户态或内核态) 保存在 SSTATUS 的 SPP 位.</li>
+<li>在 SCAUSE 设置该次 Trap 的原因.</li>
+<li>将模式转换为内核态.</li>
+<li>将 STVEC 复制到 PC 中 (准备跳转到 Trap 处理程序).</li>
+<li>从新的 PC 开始执行.</li>
+</ol>
+<p>切换内核页表、切换内核栈和保存 PC 以外的其他寄存器的任务需要由内核软件完成.</p>
+<h2 id="来自用户空间的-Trap">来自用户空间的 Trap</h2>
+<p><strong>来自用户空间的 Trap 的执行总过程示意图如下</strong>:</p>
+<ul>
+<li><img src="/img/Pictures/20230322131541.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+<p><strong>具体流程如下</strong> (以 Shell 中调用 write 为例):</p>
+<ol>
+<li>当在 Shell (user/sh.c) 中调用 write 时, 首先会进入关联到 Shell 的一个库函数中 (user/usys.S)<br>
+<img src="/img/Pictures/20230322134305.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>该汇编代码将 SYS_write 加载到寄存器 a7 中, 以便告诉内核运行编号为 SYS_write 的系统调用, 然后执行 ecall.</li>
+</ul>
+</li>
+<li>在 usys.S 中执行 ecall 指令.
+<ul>
+<li>ecall 指令 是 CPU 指令, 即由 RISC-V 硬件来执行.</li>
+<li>ecall 指令会完成以下工作:
+<ol>
+<li>关闭设备中断.</li>
+<li>将代码从用户模式改为内核模式</li>
+<li>将程序计数器 PC 的值保存在 SEPC 寄存器中 (为了处理完 Trap 后继续执行被中断的程序).</li>
+<li>修改 SCAUSE 寄存器, 即确定导致 Trap 的原因.</li>
+<li>将 STVEC 寄存器的值 (包含 uservec (kernel/Trampoline.S) 的地址) 传递给 PC 寄存器, 即跳转到 uservec 中.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>执行完 ecall 指令后, 此时已经处于 uservec 中
+<ul>
+<li>控制状态寄存器 SSCRATCH 寄存器中保存了进程 Trapframe 的虚拟地址, 所以首先使用 csrrw 指令交换 SSCRATCH 寄存器和 a0 寄存器的值, 此时 a0 寄存器就保存了进程 Trapframe 的虚拟地址.<br>
+<img src="/img/Pictures/20230322141236.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>其中 Trapframe 的结构如下:<br>
+<img src="/img/Pictures/20230322141617.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+</li>
+<li>通过 a0 寄存器将用户寄存器保存在进程的 Trapframe 中<br>
+<img src="/img/Pictures/20230322141909.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>加载内核栈<br>
+<img src="/img/Pictures/20230322142055.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>获取 CPU 编号<br>
+<img src="/img/Pictures/20230322142152.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>获取 usertrap (kernel/trap.c) 函数的地址<br>
+<img src="/img/Pictures/20230322142312.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>加载内核页表<br>
+<img src="/img/Pictures/20230322142416.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>此时程序会从用户页表切换到内核页表, 由于此时在 Trampoline 代码中, 而 Trampoline 代码在用户空间和内核空间都映射到了相同的地址, 所以代码能够继续执行而不受页表切换的影响.</li>
+</ul>
+</li>
+<li>跳转到 usertrap (kernel/trap.c) 函数<br>
+<img src="/img/Pictures/20230322142730.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+</li>
+<li>现在在 usertrap (kernel/trap.c) 函数中
+<ul>
+<li>首先要更改 STVEC 寄存器, 使其包含 kernelvec 的地址<br>
+<img src="/img/Pictures/20230322150836.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>由于现在在内核空间中, 所以此时如果发生 trap, 应当跳转到 kernelvec 处, 而不是 uservec 处, 所以需要修改 STVEC 寄存器.</li>
+</ul>
+</li>
+<li>将 SEPC 寄存器中的内容保存到进程 Trapframe 中.
+<ul>
+<li><img src="/img/Pictures/20230322151151.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>如果此时突然发生进程切换, 且切换到的进程调用了系统调用, 会导致 SEPC 寄存器被覆盖, 所以需要保护 SEPC 寄存器.</li>
+</ul>
+</li>
+<li>根据控制状态寄存器 SCAUSE (在 ecall 时由 RISC-V 硬件设置) 的值确定如何处理 Trap.<br>
+<img src="/img/Pictures/20230322151753.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>由于此例中执行的是系统调用, 所以首先会将进程的 Trapframe 中保存的用户程序计数器的值加 4.<br>
+<img src="/img/Pictures/20230322152028.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>这样当 Trap 处理完回到用户空间时, 将从 ecall 的下一条指令开始执行.</li>
+</ul>
+</li>
+<li>打开设备中断<br>
+<img src="/img/Pictures/20230322153749.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>在处理系统调用期间打开中断是为了避免在执行系统调用期间出现死锁或者无法响应其他硬件中断的情况.</li>
+</ul>
+</li>
+<li>调用 syscall (kernel/syscall.c) 函数<br>
+<img src="/img/Pictures/20230322153924.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>现在在 syscall (kernel/syscall.c) 函数
+<ul>
+<li>首先从进程的 Trapframe 中取出系统调用编号, 再根据编号执行对应的系统调用.<br>
+<img src="/img/Pictures/20230322154132.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>本例中编号 SYS_write 对应的函数为 sys_write.<br>
+<img src="/img/Pictures/20230322154221.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>进入 sys_write 函数执行相应的代码后将返回值保存在进程的 Trapframe 的 a0 寄存器中.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>当执行完 syscall (kernel/syscall.c) 函数后, 会返回到 usertrap (kernel/trap.c) 中, usertrap 会调用 usertrapret (kernel/trap.c) 函数<br>
+<img src="/img/Pictures/20230322154625.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>首先关闭设备中断<br>
+<img src="/img/Pictures/20230322154757.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>这里关闭中断是因为将要更新 STVEC 寄存器使其包含 uservec 的地址, 但现在仍然在内核空间中执行代码, 如果更新完 STVEC 寄存器后发生中断, 则程序会跳转到用户空间的 Trap 处理代码处, 会导致错误.</li>
+</ul>
+</li>
+<li>更新 STVEC 寄存器使其包含 uservec 的地址, 保存内核页表的地址、内核栈的地址、usertrap 的地址、 CPU 核编号到进程的 Trapframe 中, 为下一次用户空间的 Trap 的发生做准备.<br>
+<img src="/img/Pictures/20230322155630.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>设置 SSTATUS 寄存器<br>
+<img src="/img/Pictures/20230322155713.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>SSTATUS 寄存器的 SPP 位控制 sret 指令的行为, 为 0 时表示下一次执行 sret 的时候, 我们想要返回到用户模式.</li>
+<li>SSTATUS 寄存器的 SPIE 位表示在执行完 sret 后, 是否打开中断, 为 1 表示打开中断; 为 0 反之.</li>
+</ul>
+</li>
+<li>根据用户页表地址生成相应的 SATP 值<br>
+<img src="/img/Pictures/20230322183238.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>将生成的 SATP 传递给位于 Trampoline 处的 userret 函数, 因为只有 Trampoline 处的代码在用户空间和内核空间同时映射, 在 Trampoline 处切换页表才不会导致错误.</li>
+</ul>
+</li>
+<li>计算将要跳转到的 userret 函数的位置, 并以函数指针的形式调用它<br>
+<img src="/img/Pictures/20230322183631.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+</li>
+<li>进入 Trampoline.S 中的 userret 函数
+<ul>
+<li>首先切换页表并刷新页表缓存<br>
+<img src="/img/Pictures/20230322184005.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>将进程的 Trapframe 中保存的 a0 写入控制状态寄存器 SSCRATCH 中, 为后面 SSCRATCH 和 a0 的交换做准备<br>
+<img src="/img/Pictures/20230322184339.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>恢复用户寄存器 (除了 a0, 它现在保存的仍然是 usertrapret (kernel/trap.c) 传递过来的 Trapframe 的地址)<br>
+<img src="/img/Pictures/20230322184552.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>交换 a0 寄存器和 SSCRATCH 寄存器的值<br>
+<img src="/img/Pictures/20230322184808.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>此时 SSCRATCH 寄存器中存储的是进程的 Trapframe 的地址, 为下一次用户的 Trap 的发生做准备.</li>
+</ul>
+</li>
+<li>最后执行 sret 指令</li>
+</ul>
+</li>
+<li>执行 sret 指令
+<ul>
+<li>sret 指令是CPU 指令, 即由 RISC-V 硬件来执行.</li>
+<li>它的工作如下:
+<ol>
+<li>从内核模式切换回用户模式.</li>
+<li>将 SEPC 寄存器的值复制到 PC 寄存器中.</li>
+<li>重新打开中断.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>执行完 sret 指令, 回到了 ecall 的下一条指令, 即 ret 指令<br>
+<img src="/img/Pictures/20230322185410.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>此时回到了用户空间, 执行 ret 指令即可回到 Shell (user/sh.c).</li>
+</ul>
+</li>
+</ol>
+<p><strong>问题总结</strong>:</p>
+<ul>
+<li>问: 是如何限制用户访问用户地址空间中的 Trampoline 页的?
+<ul>
+<li>答: 即使 Trampoline 页被映射在用户页表上, 但是用户代码不能读写和运行它, 因为这个页对应的 PTE 并没有设置 PTE_U 标志位.</li>
+</ul>
+</li>
+<li>问: 在执行 ecall 指令的过程中, 为什么不给硬件多一点工作? 比如让硬件来切换内核页表、让硬件来保存用户寄存器…
+<ul>
+<li>答: 这样的设计可以给软件和操作系统的程序员提供最大的灵活性, 他们可以按照他们想要的方式来开发操作系统. 比如:
+<ul>
+<li>某些操作系统可以在不切换页表的前提下执行部分系统调用. 切换页表的代价比较高, 如果 ecall 打包完成了这部分工作, 那就不能对一些系统调用进行改进, 使其不用在不必要的场景切换页表.</li>
+<li>某些操作系统同时将用户和内核的虚拟地址映射到一个页表中, 这样在用户和内核之间切换时根本就不用切换页表. 对于这样的操作系统来说, 如果 ecall 切换了页表那将会是一种浪费, 并且也减慢了程序的运行.</li>
+<li>或许在一些系统调用过程中, 一些寄存器不用保存, 而哪些寄存器需要保存, 哪些不需要, 取决于于软件、编程语言和编译器. 通过不保存所有的 32 个寄存器或许可以节省大量的程序运行时间, 所以你不会想要 ecall 迫使你保存所有的寄存器.</li>
+<li>对于某些简单的系统调用或许根本就不需要任何栈, 所以对于一些非常关注性能的操作系统, ecall 不会自动为你完成栈切换是极好的.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>问: 在 uservec 函数中, 当交换 a0 寄存器和 SSCRATCH 寄存器的时候, Trapframe 的地址是怎么出现在 SSCRATCH 寄存器中的?
+<ul>
+<li>答: 在前一次内核切换回用户空间时, 内核会将 Trapframe 的地址存储在 SSCRATCH 寄存器中, 具体的细节可以看 userret 函数 (kernel/trampoline.S). 由于一台机器总是从内核开始运行, 所以每次从用户空间切换到内核空间时, SSCRATCH 寄存器中必然已经存储了 Trapframe 的地址.</li>
+</ul>
+</li>
+<li>问: 在 uservec (kernel/trampoline.S) 中, 为什么要将寄存器保存在进程的 Trapframe 中, 而不是直接保存在栈中?
+<ul>
+<li>答: 我们不确定用户程序是否有栈, 必然有一些编程语言没有栈, 且不同的编程语言中栈的格式也可能不同, 编程语言在运行代码时知道如何安排栈, 但内核并不知道, 所以, 如果我们想要运行任意编程语言实现的用户程序, 内核就不能假设用户内存的哪部分可以访问、哪部分有效、哪部分存在. 所以内核需要自己管理这些寄存器的保存, 这就是为什么内核将这些内容保存在进程的Trapframe 中, 而不是用户空间的栈中.</li>
+</ul>
+</li>
+<li>问: 为什么不在 uservec (kernel/trampoline.S) 中保存 SEPC 寄存器, 而是在 usertrap (kernel/trap.c) 中保存 SEPC 寄存器?
+<ul>
+<li>答: 可以在 uservec 中存储 SEPC 寄存器, 即 SEPC 寄存器在汇编代码 Trampoline 中保存和在 C 代码 usertrap 中保存都是可以的. 但是用户寄存器必须在汇编代码中保存, 因为任何需要经过编译器的语言, 都不能修改用户寄存器. 所以对于用户寄存器, 必须要在进入C代码之前在汇编代码中保存好.</li>
+</ul>
+</li>
+</ul>
+<h2 id="来自内核空间的-Trap">来自内核空间的 Trap</h2>
+<p>当在内核空间发生 Trap 时, 具体过程如下:</p>
+<ol>
+<li>由于在 usertrap (kernel/trap.c) 中将 STVEC 寄存器中的值设置为 kernelvec 的地址, 所以会直接跳转到 kernelvec (kernel/kernelvec.S) 中
+<ul>
+<li>kernelvec 首先会见寄存器保存在中断内核线程的堆栈上<br>
+<img src="/img/Pictures/20230323133625.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>然后直接跳转到 kerneltrap 函数 (kernel/trap.c) 中.<br>
+<img src="/img/Pictures/20230323133748.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+</li>
+<li>在 kerneltrap 函数中
+<ul>
+<li>kerneltrap 是为两种类型的 Trap 准备的: 设备中断和异常. 它调用 devintr 函数来检查和处理设备中断<br>
+<img src="/img/Pictures/20230323134001.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>如果 Trap 不是设备中断, 那么它必须是异常, 如果它发生在Xv6 内核中, 则一定是一个致命错误, 内核将调用 panic 并停止执行.</li>
+</ul>
+</li>
+<li>如果由于计时器中断而调用了 kerneltrap, 并且进程的内核线程正在运行, 则调用 yield 让出 CPU, 此时允许其他线程运行.<br>
+<img src="/img/Pictures/20230323134308.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>在某个时刻, 其中一个线程将退出, 并让我们的线程及其kerneltrap 恢复.</li>
+</ul>
+</li>
+<li>恢复部分控制状态寄存器<br>
+<img src="/img/Pictures/20230323134559.png" srcset="/img/loading.gif" lazyload alt="">
+<ul>
+<li>因为 yield 可能破坏 SEPC 寄存器和 SSTATUS 寄存器.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>返回到 kernelvec 函数中
+<ul>
+<li>从堆栈中恢复之前保存的寄存器<br>
+<img src="/img/Pictures/20230323134809.png" srcset="/img/loading.gif" lazyload alt=""></li>
+<li>调用 sert 返回到发生 Trap 的内核代码处.</li>
+</ul>
+</li>
+</ol>
+<h2 id="缺页异常">缺页异常</h2>
+<p>Xv6 对异常的响应相当固定:</p>
+<ul>
+<li>如果一个异常发生在用户空间, 内核就会杀死故障进程.</li>
+<li>如果一个异常发生在内核中, 内核就会调用 panic.</li>
+</ul>
+<p>真正的操作系统会以更有趣的方式进行响应:</p>
+<ul>
+<li>写时复制 (copy-on-write, cow) fork
+<ul>
+<li>如果在每次调用 fork 时直接为子进程分配物理内存, 并将父进程的内存复制到子进程中, 会降低效率.</li>
+<li>cow fork 的基本思想:
+<ol>
+<li>父进程和子进程最初共享所有的物理页面, 但将这些页面的 PTE 设置为只读.</li>
+<li>当子进程或父进程对某一页面执行写入时, RISC-V CPU 会引发一个缺页异常.</li>
+<li>作为对这个异常的响应, 内核会拷贝一份包含故障地址的页, 然后将一个副本 (设置为可读可写) 映射在子进程地址空间, 另一个副本(设置为可读可写) 映射在父进程地址空间.</li>
+<li>更新页表后, 内核在引起故障的指令处恢复执行.</li>
+</ol>
+</li>
+<li>cow fork 可以使内核避免对父进程的地址空间的完整复制, 提高效率.</li>
+</ul>
+</li>
+<li>懒分配 (lazy allocation)
+<ul>
+<li>当一个应用程序调用 sbrk 时, 内核会增长其地址空间, 但在页表中把新的地址标记为无效.</li>
+<li>但一个新地址中的一个出现页面故障时, 内核分配物理内存并将其映射到页表中.</li>
+<li>懒分配的基本思想是: 只有在应用程序实际使用内存时才分配内存.</li>
+</ul>
+</li>
+<li>磁盘分页 (paging from disk)
+<ul>
+<li>如果应用程序需要的内存超过了可用的物理内存, 内核可以交换出一些页: 将它们写入一个存储设备, 比如磁盘, 并将其 PTE 标记为无效.</li>
+<li>如果一个应用程序读取或写入一个被换出到磁盘的页, CPU 将引发一个页面故障. 内核检查故障地址, 如果该地址属于磁盘上的页面, 内核就会分配一个物理内存的页面, 从磁盘上读取页面到该内存, 更新 PTE 为有效并引用该内存, 然后恢复应用程序. 为了给该页腾出空间, 内核可能要交换另一个页.</li>
+</ul>
+</li>
+</ul>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>MIT 6.S081 Operating System Engineering: <a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.S081/2020/schedule.html">https://pdos.csail.mit.edu/6.S081/2020/schedule.html</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>xv6: a simple, Unix-like teaching operating system: <a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.S081/2020/xv6/book-riscv-rev1.pdf">https://pdos.csail.mit.edu/6.S081/2020/xv6/book-riscv-rev1.pdf</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>阿苏EEer MIT 6.S081 指导文档: <a target="_blank" rel="noopener" href="https://tarplkpqsm.feishu.cn/docs/doccnBFsXFMsAr1oXEVsaT9E3Jg">https://tarplkpqsm.feishu.cn/docs/doccnBFsXFMsAr1oXEVsaT9E3Jg</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/MIT-6-S081/" class="print-no-link">#MIT 6.S081</a>
+      
+        <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="print-no-link">#操作系统</a>
+      
+        <a href="/tags/Xv6/" class="print-no-link">#Xv6</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%92%8C%E5%9B%A0%E7%89%B9%E7%BD%91/" title="计算机网络和因特网">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">计算机网络和因特网</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E4%B8%AD%E6%96%AD/" title="中断">
+                        <span class="hidden-mobile">中断</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

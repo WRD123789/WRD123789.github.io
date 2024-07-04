@@ -1,0 +1,792 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="核心元素 元素可以分为可见元素和不可见元素. 可见元素 (如矩形) 具有几何形状, 通常在屏幕上显示一个区域. 不可见元素 (如 Timer) 提供通用功能, 通常用于操作可见元素. Item 元素 Item 是所有可见元素的基元素, 它本身并不绘制任何东西, 而是定义了所有可见元素的共有属性:  几何. x 和 y 定义了元素的左上角位置, width 和 height 定义了元素的大小, z">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QML 核心元素">
+<meta property="og:url" content="http://example.com/2024/07/04/QT/QML/%E6%A0%B8%E5%BF%83%E5%85%83%E7%B4%A0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="核心元素 元素可以分为可见元素和不可见元素. 可见元素 (如矩形) 具有几何形状, 通常在屏幕上显示一个区域. 不可见元素 (如 Timer) 提供通用功能, 通常用于操作可见元素. Item 元素 Item 是所有可见元素的基元素, 它本身并不绘制任何东西, 而是定义了所有可见元素的共有属性:  几何. x 和 y 定义了元素的左上角位置, width 和 height 定义了元素的大小, z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20240524154947.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240524155946.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240524161643.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240607150104.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240524163017.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240607153121.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240607153612.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240607154521.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240525075506.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240525082117.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240525082121.png">
+<meta property="article:published_time" content="2024-07-04T13:16:34.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.567Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="QT">
+<meta property="article:tag" content="QML">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20240524154947.png">
+  
+  
+  
+  <title>QML 核心元素 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QML 核心元素"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 21:16" pubdate>
+          2024年7月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">QML 核心元素</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>核心元素</h1>
+<p>元素可以分为可见元素和不可见元素. <strong>可见元素</strong> (如矩形) 具有几何形状, 通常在屏幕上显示一个区域. <strong>不可见元素</strong> (如 Timer) 提供通用功能, 通常用于操作可见元素.</p>
+<h2 id="Item-元素">Item 元素</h2>
+<p><code>Item</code> 是所有可见元素的基元素, 它本身并不绘制任何东西, 而是定义了所有可见元素的共有属性:</p>
+<ul>
+<li>几何. <code>x</code> 和 <code>y</code> 定义了元素的左上角位置, <code>width</code> 和 <code>height</code> 定义了元素的大小, <code>z</code> 定义了元素的堆叠顺序, 也就是元素在三维空间中的位置.</li>
+<li>布局处理. <code>anchors</code> (<code>left</code>, <code>right</code>, <code>top</code>, <code>bottom</code>, <code>verticalCenter</code> 和 <code>horizontalCenter</code>) 定位元素相对于其他元素的位置, 还可以使用可选的边距 (<code>margins</code>) 来调整元素的位置.</li>
+<li>键处理. <code>Key</code> 属性用于处理键盘事件, 你可以在一个元素的 <code>Key</code> 属性中定义各种按键处理函数; <code>KeyNavigation</code> 属性用于控制键盘导航, 你可以在一个元素的 <code>KeyNavigation</code> 属性中定义如何通过键盘的方向键在不同的元素之间切换焦点; <code>focus</code> 用于控制元素是否可以接收键盘输入.</li>
+<li>转换. <code>scale</code> (缩放) 属性能够改变元素的尺寸, <code>rotate</code> (旋转) 属性能够围绕一个点旋转元素, <code>transform</code> 属性能够同时改变元素在 x、y 和 z 三个轴上的位置和尺寸, <code>transformOrigin</code> 设置变换原点.</li>
+<li>视觉. <code>opacity</code> 属性控制透明度, <code>visible</code> 属性设置元素是否可见, <code>clip</code> 属性用于限制元素的绘制范围, <code>smooth</code> 属性用于提高元素的渲染质量 (当 <code>smooth</code> 属性被设置为 <code>true</code> 时, 元素的边缘将被平滑处理).</li>
+<li>状态定义. <code>states</code> 是一个包含了元素所有可能状态的列表属性, 每个状态都是元素的一种特定配置, 它定义了元素在该状态下的所有属性值; <code>currentState</code> 属性用于设置和获取元素的当前状态; <code>transitions</code> 是一个包含了元素所有可能的状态过渡的列表属性。每个过渡定义了元素从一个状态切换到另一个状态时的动画效果.</li>
+</ul>
+<h2 id="Rectangle-元素">Rectangle 元素</h2>
+<p><code>Rectangle</code> 继承自 <code>Item</code>, 并且可以填充颜色 (在 QML 中, 颜色一般用 RGB 字符串,  如 “#FF4444”, 或者颜色名, 如 “white”). 另外, <code>Rectangle</code> 通过 <code>border.color</code> 和 <code>border.width</code> 来设置边框, 可以通过 <code>radius</code> 创建圆角矩形.</p>
+<p>例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">Rectangle</span> &#123;<br>    <span class="hljs-attribute">id:</span><span class="hljs-string"> rect1</span><br>    <span class="hljs-attribute">x</span>: <span class="hljs-number">12</span>; <span class="hljs-attribute">y</span>: <span class="hljs-number">12</span><br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">76</span>; <span class="hljs-attribute">height</span>: <span class="hljs-number">96</span><br>    <span class="hljs-attribute">color</span>: <span class="hljs-string">&quot;lightsteelblue&quot;</span><br>&#125;<br><br><span class="hljs-title">Rectangle</span> &#123;<br>    <span class="hljs-attribute">id:</span><span class="hljs-string"> rect2</span><br>    <span class="hljs-attribute">x</span>: <span class="hljs-number">112</span>; <span class="hljs-attribute">y</span>: <span class="hljs-number">12</span><br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">76</span>; <span class="hljs-attribute">height</span>: <span class="hljs-number">96</span><br>    <span class="hljs-attribute">border.color</span>: <span class="hljs-string">&quot;lightsteelblue&quot;</span><br>    <span class="hljs-attribute">border.width</span>: <span class="hljs-number">4</span><br>    <span class="hljs-attribute">radius</span>: <span class="hljs-number">8</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/Pictures/20240524154947.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>除了填充颜色和边框, <code>Rectangle</code> 还支持<strong>自定义渐变</strong>:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">Rectangle</span> &#123;<br>    <span class="hljs-attribute">id:</span><span class="hljs-string"> rect1</span><br>    <span class="hljs-attribute">x</span>: <span class="hljs-number">12</span>; <span class="hljs-attribute">y</span>: <span class="hljs-number">12</span><br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">176</span>; <span class="hljs-attribute">height</span>: <span class="hljs-number">96</span><br>    <span class="hljs-attribute">gradient</span>: <span class="hljs-title">Gradient</span> &#123;<br>        <span class="hljs-title">GradientStop</span> &#123; <span class="hljs-attribute">position</span>: <span class="hljs-number">0.0</span>; <span class="hljs-attribute">color</span>: <span class="hljs-string">&quot;lightsteelblue&quot;</span> &#125;<br>        <span class="hljs-title">GradientStop</span> &#123; <span class="hljs-attribute">position</span>: <span class="hljs-number">1.0</span>; <span class="hljs-attribute">color</span>: <span class="hljs-string">&quot;slategray&quot;</span> &#125;<br>    &#125;<br>    <span class="hljs-attribute">border.color</span>: <span class="hljs-string">&quot;slategray&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/Pictures/20240524155946.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>渐变由一系列渐变止点 (<code>GradientStop</code>)定义, 每个渐变止点包含一个 <code>position</code> 和 <code>color</code> 组成, 其中 <code>position</code> 标记 y 轴位置 (0 = top, 1 = bottom), <code>color</code> 标记该点的颜色. 如果需要创建斜角渐变的矩形, 最好使用预先设计好的渐变图像.</p>
+<p>需要注意的是, 一个 <code>Rectangle</code> 如果没有设置 <code>height</code> 或 <code>width</code>, 它将不可见.</p>
+<h2 id="Text-元素">Text 元素</h2>
+<p>可以使用 <code>Text</code> 元素显示文本. 该元素根据给定的文本和使用的字体计算初始宽度和高度, 可以通过字体属性组 (如 <code>font.family</code>, <code>font.pixelSize</code>, …) 来改变字体, 文本颜色则通过 <code>color</code> 属性更改.</p>
+<p>例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">Text</span> &#123;<br>    <span class="hljs-attribute">text</span>: <span class="hljs-string">&quot;The quick brown fox&quot;</span><br>    <span class="hljs-attribute">color</span>: <span class="hljs-string">&quot;#303030&quot;</span><br>    <span class="hljs-attribute">font.family</span>: <span class="hljs-string">&quot;Ubuntu&quot;</span><br>    <span class="hljs-attribute">font.pixelSize</span>: <span class="hljs-number">28</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/Pictures/20240524161643.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>可以使用 <code>horizontalAlignment</code> (水平对齐) 和 <code>verticalAlignment</code> (垂直对齐) 对齐文本. 要进一步增强文本呈现效果, 可以使用 <code>style</code> 和 <code>styleColor</code> 属性, 该属性允许以大纲、凸起和凹陷模式呈现文本.</p>
+<h3 id="富文本">富文本</h3>
+<p>除了普通的文本, <code>Text</code> 元素还支持富文本的显示, 例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">ColumnLayout</span> &#123;<br>    <span class="hljs-attribute">spacing</span>: <span class="hljs-number">10</span><br>    <br>    <span class="hljs-comment">// 纯文本</span><br>    <span class="hljs-title">Text</span> &#123;<br>        <span class="hljs-attribute">textFormat</span>: Text.PlainText<br>        <span class="hljs-attribute">text</span>: <span class="hljs-string">&quot;&lt;b&gt;Hello&lt;/b&gt; &lt;i&gt;World!&lt;/i&gt;&quot;</span><br>    &#125;<br><br>    <span class="hljs-comment">// 富文本</span><br>    <span class="hljs-title">Text</span> &#123;<br>        <span class="hljs-attribute">textFormat</span>: Text.RichText<br>        <span class="hljs-attribute">text</span>: <span class="hljs-string">&quot;&lt;b&gt;Hello&lt;/b&gt; &lt;i&gt;World!&lt;/i&gt;&quot;</span><br>    &#125;<br><br>    <span class="hljs-comment">// 显示图片</span><br>    <span class="hljs-title">Text</span> &#123;<br>        <span class="hljs-attribute">text</span>: <span class="hljs-string">&quot;&lt;img src=\&quot;qrc:/1.jpg\&quot;&gt;&quot;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>第一个文本的格式设置为 <code>Text.PlainText</code>, 因此它会以纯文本的形式显示. 第二个文本的格式设置为 <code>Text.RichText</code>, 因此它会以富文本的形式显示. 第三个文本没有显式地设置格式, 它会通过默认的 <code>Text.AutoText</code> 自动计算显示.</p>
+<p>效果如下图所示:<br>
+<img src="/img/Pictures/20240607150104.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="长文本">长文本</h3>
+<p>对于较长的文本, 可以通过 <code>elide</code> 属性定义一个中断位置 (如, “非常 … 长的文本”). <code>elide</code> 属性允许你将省略号放在文本的左边、右边和中间. 如果希望看到完整的文本, 可以使用 <code>wrapMode</code> 属性换行文本 (只有在显示设置宽度时才有效).</p>
+<p>例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">Text</span> &#123;<br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">40</span>; <span class="hljs-attribute">height</span>: <span class="hljs-number">120</span><br>    <span class="hljs-attribute">text</span>: <span class="hljs-string">&#x27;A very long text&#x27;</span><br>    <span class="hljs-comment">// &#x27;...&#x27; shall appear in the middle</span><br>    <span class="hljs-attribute">elide</span>: Text.ElideMiddle<br>    <span class="hljs-comment">// red sunken text styling</span><br>    <span class="hljs-attribute">style</span>: Text.Sunken<br>    <span class="hljs-attribute">styleColor</span>: <span class="hljs-string">&#x27;#FF4444&#x27;</span><br>    <span class="hljs-comment">// align text to the top</span><br>    <span class="hljs-attribute">verticalAlignment</span>: Text.AlignTop<br>    <span class="hljs-comment">// only sensible when no elide mode</span><br>    <span class="hljs-comment">// wrapMode: Text.WordWrap</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/Pictures/20240524163017.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="文本样式">文本样式</h3>
+<p>除 <code>color</code> 外, 文本还能设置额外的样式:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">RowLayout</span> &#123;<br>    <span class="hljs-attribute">spacing</span>: <span class="hljs-number">10</span><br>    <span class="hljs-title">Text</span> &#123; <span class="hljs-attribute">font.pointSize</span>: <span class="hljs-number">24</span>; <span class="hljs-attribute">text</span>: <span class="hljs-string">&quot;Normal&quot;</span> &#125;<br>    <span class="hljs-title">Text</span> &#123; <span class="hljs-attribute">font.pointSize</span>: <span class="hljs-number">24</span>; <span class="hljs-attribute">text</span>: <span class="hljs-string">&quot;Raised&quot;</span>; <span class="hljs-attribute">style</span>: Text.Raised; <span class="hljs-attribute">styleColor</span>: <span class="hljs-string">&quot;red&quot;</span> &#125;<br>    <span class="hljs-title">Text</span> &#123; <span class="hljs-attribute">font.pointSize</span>: <span class="hljs-number">24</span>; <span class="hljs-attribute">text</span>: <span class="hljs-string">&quot;Outline&quot;</span>; <span class="hljs-attribute">style</span>: Text.Outline; <span class="hljs-attribute">styleColor</span>: <span class="hljs-string">&quot;red&quot;</span> &#125;<br>    <span class="hljs-title">Text</span> &#123; <span class="hljs-attribute">font.pointSize</span>: <span class="hljs-number">24</span>; <span class="hljs-attribute">text</span>: <span class="hljs-string">&quot;Sunken&quot;</span>; <span class="hljs-attribute">style</span>: Text.Sunken; <span class="hljs-attribute">styleColor</span>: <span class="hljs-string">&quot;red&quot;</span> &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/Pictures/20240607153121.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="超链接">超链接</h3>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">Text</span> &#123;<br>    <span class="hljs-attribute">linkColor</span>: <span class="hljs-string">&quot;green&quot;</span>  <span class="hljs-comment">// 超链接颜色</span><br>    <span class="hljs-attribute">text</span>: <span class="hljs-string">&quot;See the &lt;a href=\&quot;https://waleon.blog.csdn.net\&quot;&gt;Waleon blog&lt;/a&gt;.&quot;</span><br>    <span class="hljs-attribute">onLinkHovered</span>: <span class="hljs-built_in">console</span>.info(link + <span class="hljs-string">&quot; link hovered&quot;</span>)<br>    <span class="hljs-attribute">onLinkActivated</span>: &#123;<br>        Qt.openUrlExternally(link)<br>        <span class="hljs-built_in">console</span>.info(link + <span class="hljs-string">&quot; link activated&quot;</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/Pictures/20240607153612.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>需要注意的是, 默认情况下超链接在点击时是没有任何反应的. 需要监听<code>linkActivated(string link)</code> 信号, 并调用 <code>Qt.openUrlExternally(link)</code> 才能打开链接. 此外, 如果要捕获链接划过的事件, 可以通过 <code>linkHovered(string link)</code> 信号来截获.</p>
+<h3 id="文本背景">文本背景</h3>
+<p>可以通过 <code>Label</code> 元素为文本设置背景, 该元素继承自 <code>Text</code>. 例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">Label</span> &#123;<br>    <span class="hljs-attribute">text</span>: qsTr(<span class="hljs-string">&quot;Hello World!&quot;</span>)<br>    <span class="hljs-attribute">color</span>: <span class="hljs-string">&quot;white&quot;</span><br><br>    <span class="hljs-attribute">background</span>: <span class="hljs-title">Rectangle</span> &#123;<br>        <span class="hljs-attribute">color</span>: <span class="hljs-string">&quot;green&quot;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/Pictures/20240607154521.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Image-元素">Image 元素</h2>
+<p><code>Image</code> 元素能够以各种格式显示图像 (如 PNG、 JPG、 GIF、 BMP、 WEBP). 下面是一些常见的 <code>Image</code> 属性:</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>source</td>
+<td>指定图片路径</td>
+</tr>
+<tr>
+<td>mirror</td>
+<td>用于控制图像是否镜像显示, 即水平反转</td>
+</tr>
+<tr>
+<td>mirrorVertically</td>
+<td>用于控制图像是否镜像显示, 即垂直反转</td>
+</tr>
+<tr>
+<td>fillMode</td>
+<td>用于控制图像的显示方式</td>
+</tr>
+<tr>
+<td>asynchronous</td>
+<td>用于指定图像加载时是否启用异步模式</td>
+</tr>
+<tr>
+<td>status</td>
+<td>表示当前图像的加载状态 (图像加载出错时, 状态为 Image.Error)</td>
+</tr>
+<tr>
+<td>progress</td>
+<td>表示当前图像的加载进度</td>
+</tr>
+</tbody>
+</table>
+<p>当源图像的大小与项的大小不同时, 可以通过 <code>fillMode</code> 属性控制图像的显示方式, 来达到缩放和对齐图片以适应 <code>Image</code> 元素的内容矩形 (即可视区域) 的目的.</p>
+<p>该属性包含以下几种选项:</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Image.Strech (默认值)</td>
+<td>缩放图像以填充可视区域, 无需保持宽高比</td>
+</tr>
+<tr>
+<td>Image.PreserveAspectFit</td>
+<td>保持宽高比, 并缩放图像以适合可视区域</td>
+</tr>
+<tr>
+<td>Image.PreserveAspectCrop</td>
+<td>保持图像宽高比, 并缩放图像以填充可视区域 (必要时进行裁剪)</td>
+</tr>
+<tr>
+<td>Image.Tile</td>
+<td>将原始图像平铺在可视区域中 (当图像大小小于可视区域时, 图像会水平和垂直复制)</td>
+</tr>
+<tr>
+<td>Image.TileVertically</td>
+<td>水平居中重复显示元素, 直到填充整个可视区域 (与 “Tile” 不同, 此选项会垂直平铺, 但在水平方向上只显示一次)</td>
+</tr>
+<tr>
+<td>Image.TileHorizontally</td>
+<td>垂直居中重复显示元素, 直到填充整个可视区域 (与 “Tile” 不同, 此选项会水平平铺, 但在垂直方向上只显示一次)</td>
+</tr>
+<tr>
+<td>Image.Pad</td>
+<td>图像未转换</td>
+</tr>
+</tbody>
+</table>
+<p>例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">Image</span> &#123;<br>    <span class="hljs-attribute">x</span>: <span class="hljs-number">12</span>; <span class="hljs-attribute">y</span>: <span class="hljs-number">12</span><br>    <span class="hljs-comment">// width: 72</span><br>    <span class="hljs-comment">// height: 72</span><br>    <span class="hljs-attribute">source</span>: <span class="hljs-string">&quot;assets/triangle_red.png&quot;</span><br>&#125;<br><br><span class="hljs-title">Image</span> &#123;<br>    <span class="hljs-attribute">x</span>: <span class="hljs-number">12</span>+<span class="hljs-number">64</span>+<span class="hljs-number">12</span>; <span class="hljs-attribute">y</span>: <span class="hljs-number">12</span><br>    <span class="hljs-comment">// width: 72</span><br>    <span class="hljs-attribute">height</span>: <span class="hljs-number">72</span>/<span class="hljs-number">2</span><br>    <span class="hljs-attribute">source</span>: <span class="hljs-string">&quot;assets/triangle_red.png&quot;</span><br>    <span class="hljs-attribute">fillMode</span>: Image.PreserveAspectCrop<br>    <span class="hljs-attribute">clip</span>: <span class="hljs-literal">true</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>其中 <code>PreserveAspectCrop</code> 是一种缩放模式, 它会保持图片的宽高比并将其缩放到 <code>Image</code> 元素的大小. 一般在设置该属性的同时还应该同时开启 <code>clip</code> (剪切) 属性, 来防止图片的数据渲染到 <code>Image</code> 元素的边界之外.</li>
+</ul>
+<p>效果如下图所示:<br>
+<img src="/img/Pictures/20240525075506.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>上述 URL 可以是本地路径 (如 “./images/home.png”), 可以是网络链接 (如 “<a target="_blank" rel="noopener" href="http://example.org/home.png'">http://example.org/home.png</a>”), 也可以是资源文件 (.qrc 文件) 中的路径.</p>
+<p>需要注意是, 在 Qt 6 中, 从资源文件 (假设为 images.qrc) 中加载图片时, 需要在项目构建文件 (CMakeLists.txt) 中添加以下内容:</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs cmake">...<br><br><span class="hljs-keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="hljs-keyword">ON</span>)<br><span class="hljs-keyword">set</span>(CMAKE_AUTOMOC <span class="hljs-keyword">ON</span>)  // 添加<br><span class="hljs-keyword">set</span>(CMAKE_AUTORCC <span class="hljs-keyword">ON</span>)  // 添加<br><br>...<br><br>qt_add_executable(appuntitled1<br>    main.cpp<br>    images.qrc // 添加<br>)<br><br>// 不包含 RESOURCES images.qrc<br>qt_add_qml_module(appuntitled1<br>    URI untitled1<br>    VERSION <span class="hljs-number">1.0</span><br>    QML_FILES Main.qml<br>)<br><br>...<br></code></pre></td></tr></table></figure>
+<p>加载图片时最好用 “qrc:xxx” 而不是 “:/xxx”.</p>
+<h2 id="MouseArea-元素">MouseArea 元素</h2>
+<p>为了与其他元素交互, 通常需要使用 <code>MouseArea</code> 元素. 这是一个用来捕获鼠标事件的矩形不可见元素. 当用户与可见部分交互时, <code>MouseArea</code> 通常和可见项一起使用来执行命令.</p>
+<p>例如:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-title">Rectangle</span> &#123;<br>    <span class="hljs-attribute">id:</span><span class="hljs-string"> rect1</span><br>    <span class="hljs-attribute">x</span>: <span class="hljs-number">12</span>; <span class="hljs-attribute">y</span>: <span class="hljs-number">12</span><br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">76</span>; <span class="hljs-attribute">height</span>: <span class="hljs-number">96</span><br>    <span class="hljs-attribute">color</span>: <span class="hljs-string">&quot;lightsteelblue&quot;</span><br>    <span class="hljs-title">MouseArea</span> &#123;<br>        <span class="hljs-attribute">id:</span><span class="hljs-string"> area</span><br>        <span class="hljs-attribute">width</span>: <span class="hljs-built_in">parent</span>.width<br>        <span class="hljs-attribute">height</span>: <span class="hljs-built_in">parent</span>.height<br>        <span class="hljs-attribute">onClicked</span>: rect2.visible = !rect2.visible<br>    &#125;<br>&#125;<br><br><span class="hljs-title">Rectangle</span> &#123;<br>    <span class="hljs-attribute">id:</span><span class="hljs-string"> rect2</span><br>    <span class="hljs-attribute">x</span>: <span class="hljs-number">112</span>; <span class="hljs-attribute">y</span>: <span class="hljs-number">12</span><br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">76</span>; <span class="hljs-attribute">height</span>: <span class="hljs-number">96</span><br>    <span class="hljs-attribute">border.color</span>: <span class="hljs-string">&quot;lightsteelblue&quot;</span><br>    <span class="hljs-attribute">border.width</span>: <span class="hljs-number">4</span><br>    <span class="hljs-attribute">radius</span>: <span class="hljs-number">8</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>效果如下图所示:<br>
+<img src="/img/Pictures/20240525082117.png" srcset="/img/loading.gif" lazyload alt=""><br>
+<img src="/img/Pictures/20240525082121.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Qt QML Book - Core Elements: <a target="_blank" rel="noopener" href="https://www.qt.io/product/qt6/qml-book/ch04-qmlstart-core-elements">https://www.qt.io/product/qt6/qml-book/ch04-qmlstart-core-elements</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>How to add an image to your QT Quick Application | QT6 | QT Creator 10.0.0: <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=UDCRQiMMiZ4">https://www.youtube.com/watch?v=UDCRQiMMiZ4</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>QML Text 元素: <a target="_blank" rel="noopener" href="https://waleon.blog.csdn.net/article/details/130977326">https://waleon.blog.csdn.net/article/details/130977326</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>QML Image 元素: <a target="_blank" rel="noopener" href="https://waleon.blog.csdn.net/article/details/131197531">https://waleon.blog.csdn.net/article/details/131197531</a>
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/" class="category-chain-item">QT</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/QT/QML/" class="category-chain-item">QML</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QT/" class="print-no-link">#QT</a>
+      
+        <a href="/tags/QML/" class="print-no-link">#QML</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/QML/%E6%8E%A7%E4%BB%B6%E4%BB%8B%E7%BB%8D/" title="QML 控件介绍">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QML 控件介绍</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/QT/QML/%E5%8A%A8%E7%94%BB/" title="QML 动画">
+                        <span class="hidden-mobile">QML 动画</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

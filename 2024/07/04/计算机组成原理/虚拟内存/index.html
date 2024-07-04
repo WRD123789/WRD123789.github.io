@@ -1,0 +1,877 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="虚拟内存 由于内存存在问题:  空间不足  RISC-V 32 提供了一个 32 位的地址空间   理论上来说, 我们的程序可以访问 232 bytes&#x3D;4 GB2^{32} \ bytes &#x3D; 4 \ GB232 bytes&#x3D;4 GB  的内存  假设计算机中的 RAM 容量为 1 GB, 由于运行程序的时候, 该程序所有的数据都存储在 RAM 中. 由于 RAM 比较小, 所以无法将所有数据从">
+<meta property="og:type" content="article">
+<meta property="og:title" content="虚拟内存">
+<meta property="og:url" content="http://example.com/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="虚拟内存 由于内存存在问题:  空间不足  RISC-V 32 提供了一个 32 位的地址空间   理论上来说, 我们的程序可以访问 232 bytes&#x3D;4 GB2^{32} \ bytes &#x3D; 4 \ GB232 bytes&#x3D;4 GB  的内存  假设计算机中的 RAM 容量为 1 GB, 由于运行程序的时候, 该程序所有的数据都存储在 RAM 中. 由于 RAM 比较小, 所以无法将所有数据从">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20221123183502.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221123192356.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221123192446.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221123192643.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221123193107.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221123194612.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221124112731.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221124113352.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221124114014.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221124132519.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221124134827.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221124134856.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221125115914.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221124150018.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221124164423.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221124165744.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221124185641.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221124190652.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221125120855.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221125121251.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221125182429.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221126133241.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221126133403.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221126143000.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221126184513.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221126184811.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20221126200628.png">
+<meta property="article:published_time" content="2024-07-04T05:36:39.000Z">
+<meta property="article:modified_time" content="2024-07-04T13:37:06.509Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="计算机组成原理">
+<meta property="article:tag" content="CS61C">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20221123183502.png">
+  
+  
+  
+  <title>虚拟内存 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="虚拟内存"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-04 13:36" pubdate>
+          2024年7月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">虚拟内存</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>虚拟内存</h1>
+<p>由于内存存在问题:</p>
+<ul>
+<li>空间不足
+<ul>
+<li>RISC-V 32 提供了一个 32 位的地址空间
+<ul>
+<li>
+<p>理论上来说, 我们的程序可以访问 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>32</mn></msup><mtext> </mtext><mi>b</mi><mi>y</mi><mi>t</mi><mi>e</mi><mi>s</mi><mo>=</mo><mn>4</mn><mtext> </mtext><mi>G</mi><mi>B</mi></mrow><annotation encoding="application/x-tex">2^{32} \ bytes = 4 \ GB</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0085em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">32</span></span></span></span></span></span></span></span></span><span class="mspace"> </span><span class="mord mathnormal">b</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mord mathnormal">t</span><span class="mord mathnormal">es</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">4</span><span class="mspace"> </span><span class="mord mathnormal" style="margin-right:0.05017em;">GB</span></span></span></span>  的内存<br>
+<img src="/img/Pictures/20221123183502.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>假设计算机中的 RAM 容量为 1 GB, 由于运行程序的时候, 该程序所有的数据都存储在 RAM 中. 由于 RAM 比较小, 所以无法将所有数据从地址空间中映射到 RAM, 所以当程序访问比 RAM 容量大的地址时, 程序会崩溃.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>地址空间中的空洞
+<ul>
+<li>
+<p>假设有一个容量为 4 GB 的 RAM, 程序 1 所占空间为 1 GB, 程序 2 所占空间为 2 GB, 程序 3 所占空间为 2 GB</p>
+<p><img src="/img/Pictures/20221123192356.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>首先运行程序 1 和程序 2, 即将程序 1 和程序 2 加载到内存中.</p>
+<p><img src="/img/Pictures/20221123192446.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此时剩余空间不够, 所以程序 3 无法加载到内存中. 当程序 1 运行完成, 内存中剩余空间变为 2 GB, 但是程序 3 仍然无法加载到内存中, 因为程序必须连续地存储在内存中.</p>
+<p><img src="/img/Pictures/20221123192643.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ul>
+</li>
+<li>不能保护程序不受其他程序的影响
+<ul>
+<li>
+<p>每个程序都可以访问任意 32 位地址空间.</p>
+</li>
+<li>
+<p>程序之间会相互破坏数据</p>
+<p><img src="/img/Pictures/20221123193107.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>于是便有了虚拟内存.</p>
+<p>虚拟内存是假想的内存, 让每个程序认为自己有一个可访问的 32 位地址空间, 虚拟内存获取程序地址, 并将其映射到 RAM 地址或硬盘上.</p>
+<p><img src="/img/Pictures/20221123194612.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>对内存问题的解决</p>
+<ul>
+<li>
+<p>解决问题一</p>
+<p>当 RAM 满的时候, 可以直接将程序地址空间映射到硬盘上, 当需要使用的数据在硬盘上时, 需要从硬盘上加载数据到 RAM 中, 如果 RAM 没有剩余空间, 可以驱逐 RAM 中的数据, 再将从磁盘中加载的数据放入 RAM 中.</p>
+<p>由于从硬盘中加载数据到 RAM 中的代价很大, 所以当 RAM 满、不得不从硬盘中获取所需的数据时, 对性能影响很大.</p>
+</li>
+<li>
+<p>解决问题二</p>
+<p><img src="/img/Pictures/20221124112731.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>每个程序有自己的 Map, Map 可以将程序数据映射到 RAM 的任何位置.</p>
+</li>
+<li>
+<p>解决问题三</p>
+<p><img src="/img/Pictures/20221124113352.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>程序 1 和程序 2 的地址通过 Map 映射到 RAM 中, 由于两个 Map 不会将地址映射到 RAM 中相同的位置, 所以两个程序无法访问对方的数据.</p>
+<p>由于不同程序之间可以共享部分数据 (例如 库), 所以虚拟内存能够在保护私有数据的同时共享数据</p>
+<p><img src="/img/Pictures/20221124114014.png" srcset="/img/loading.gif" lazyload alt=""></p>
+</li>
+</ul>
+<p>虚拟内存有两个地址</p>
+<ul>
+<li>虚拟地址 (Virtual Address, VA)
+<ul>
+<li>程序所看到的地址.</li>
+<li>例如 lw t0, 1024(x0), 此处的地址为虚拟地址.</li>
+<li>虚拟地址会被放到 Map 中, 然后 Map 会给出对应的物理地址 (数据实际存储的位置).</li>
+<li>在 RISC-V 32 中, 我们可以访问 0 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∼</mo></mrow><annotation encoding="application/x-tex">\sim</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">∼</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>32</mn></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^{32} - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">32</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> 的地址.</li>
+</ul>
+</li>
+<li>物理地址 (Physical Address, PA)
+<ul>
+<li>计算机中的物理 RAM.</li>
+<li>地址空间的大小由你的计算机有多少 RAM 所决定.</li>
+<li>例如, 假设你有一个 2 GB 的 RAM, 那么你可以访问 0 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∼</mo></mrow><annotation encoding="application/x-tex">\sim</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">∼</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>31</mn></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^{31} - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">31</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> 的地址 (2 GB = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">2^{31}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">31</span></span></span></span></span></span></span></span></span></span></span></span> byte).</li>
+</ul>
+</li>
+</ul>
+<p>转换</p>
+<ol>
+<li>程序执行指定虚拟地址的加载.</li>
+<li>计算机将虚拟地址转换为内存中的物理地址.</li>
+<li>如果物理地址不在内存中, 则操作系统从硬盘中加载数据到内存中.</li>
+<li>计算机使用物理地址从内存中读取数据并返回给程序.</li>
+</ol>
+<p><img src="/img/Pictures/20221124132519.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="页表">页表</h2>
+<p>页表是从虚拟地址到物理地址的映射.</p>
+<p>如果将每一个虚拟地址都映射到一个物理地址并存储在页表中, 则总共需要存储 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msup><mn>2</mn><mn>32</mn></msup><msup><mn>2</mn><mn>2</mn></msup></mfrac><mo>=</mo><msup><mn>2</mn><mn>30</mn></msup></mrow><annotation encoding="application/x-tex">\frac{2^{32}}{2^2} = 2^{30}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.3629em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0179em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463em;"><span style="top:-2.786em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913em;"><span style="top:-2.931em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">32</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">30</span></span></span></span></span></span></span></span></span></span></span></span> 个条目 (一个 VA 到 PA 的映射).</p>
+<p><img src="/img/Pictures/20221124134827.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>为了减少页表中的大小, 可以将一定范围内的虚拟地址映射到一定范围内的物理地址</p>
+<p><img src="/img/Pictures/20221124134856.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>当我们从磁盘加载数据时, 我们必须加载一整页, 而不是一个字, 此时一个条目表示一个页 (一定范围的虚拟地址到一定范围的物理地址的映射).</p>
+<p>现在页的大小通常是 4 KB (1024 字), 所以对于 32 位机器, 页表可以存储 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msup><mn>2</mn><mn>32</mn></msup><msup><mn>2</mn><mn>12</mn></msup></mfrac></mrow><annotation encoding="application/x-tex">\frac{2^{32}}{2^{12}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.3629em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0179em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463em;"><span style="top:-2.786em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">12</span></span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913em;"><span style="top:-2.931em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">32</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>20</mn></msup></mrow><annotation encoding="application/x-tex">2^{20}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">20</span></span></span></span></span></span></span></span></span></span></span></span> 个页.</p>
+<p><strong>额外页表元数据</strong></p>
+<p><img src="/img/Pictures/20221125115914.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>V, Valid: 1, 则页在 RAM 中且映射有效; 0, 页不在 RAM 中.</li>
+<li>D, Dirty: 1, RAM 中的页和硬盘中的页的数据不一致; 0, RAM 中的页和硬盘中的页的数据一致.</li>
+<li>R, Read: 读权限.</li>
+<li>W, Wrtie: 写权限.</li>
+<li>X, Execute: 执行权限.</li>
+</ul>
+<p>其中 R, W, X 位为保护位, 可以阻止进程访问其他进程中无权限访问的页, 如果无权访问页, 则会导致内存保护错误 (Memory protection fault) 或段错误 (Segmentation fault).</p>
+<p>页表初始化时将每个虚拟页码映射到磁盘中的页码, 有效位为 0, 这样才能在发生页错误时找到页在磁盘中的位置.</p>
+<p>将虚拟内存和物理内存分页, 通过页表进行对应:</p>
+<p><img src="/img/Pictures/20221124150018.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ul>
+<li>页码 (Page Number)
+<ul>
+<li>确定地址在内存中的第几页.</li>
+<li>虚拟页码 (Virtual Page Number, VPN): 虚拟内存的分页码.</li>
+<li>物理页码 (Physical Page Number, PPN): 物理内存的分页码.</li>
+</ul>
+</li>
+<li>页偏移量 (Page offset)
+<ul>
+<li>确定地址在内存中的某一页中的位置.</li>
+</ul>
+</li>
+</ul>
+<p>虚拟地址可以拆成虚拟页码 + 页偏移量, 同样物理地址也可以拆成物理页码 + 页偏移量</p>
+<p><img src="/img/Pictures/20221124164423.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>由于从虚拟地址转换为物理地址后页偏移量不发生改变, 所以在页表中不需要存储页偏移量, 只需要存储虚拟页码和物理页码:</p>
+<p><img src="/img/Pictures/20221124165744.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此时从 VPN 到 PPN 的映射便是页表中的条目.</p>
+<h2 id="页错误">页错误</h2>
+<p>当需要的页不在 RAM 中时, 会发生页错误.</p>
+<p>处理</p>
+<ol>
+<li>硬件 (CPU) 产生页错误异常.</li>
+<li>硬件跳转到操作系统页错误处理器来修复错误.</li>
+<li>如果 RAM 中没有剩余的空间, 则操作系统选择将 RAM 中的一个页逐出 RAM.</li>
+<li>如果被逐出的页被标记为脏 (Dirty, 该页在 RAM 中的数据和在硬盘中的数据不一致), 则需要将该页写回硬盘.</li>
+<li>更新页表, 将被逐出页表的页中的虚拟页码映射到硬盘.</li>
+<li>将所需的页从硬盘中加载到 RAM 中.</li>
+<li>更新页表.</li>
+<li>跳转回产生页错误的指令.</li>
+</ol>
+<h2 id="页驱逐策略">页驱逐策略</h2>
+<ul>
+<li>先进先出 (First in and first out, FIFO)
+<ul>
+<li>驱逐页表中最旧的页.</li>
+<li>只有在访问不在 RAM 中的页时, 才需要更新时间表.</li>
+<li><img src="/img/Pictures/20221124185641.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+</li>
+<li>最近最少使用 (Least Recently Used, LRU)
+<ul>
+<li>驱逐最长时间未使用的页.</li>
+<li>每次访问都需要更新时间表.</li>
+<li><img src="/img/Pictures/20221124190652.png" srcset="/img/loading.gif" lazyload alt=""></li>
+</ul>
+</li>
+<li>随机 (Random)
+<ul>
+<li>随机驱逐页.</li>
+</ul>
+</li>
+</ul>
+<p>通常情况下 LRU 更优, 但是 LRU 代价也比较大:</p>
+<ul>
+<li>需要在每次访问时更新页表.</li>
+<li>拥有许多元数据.</li>
+<li>如果我们只能在内存中存储 4 个页, 则随机驱逐可能更优
+<ul>
+<li>例如: 访问 0, 1, 2, 3, 4, 0, 1, 2, 3</li>
+</ul>
+</li>
+</ul>
+<h2 id="页表缓存">页表缓存</h2>
+<p>对于虚拟内存, 每次访问一段数据需要进行两次内存访问:</p>
+<p><img src="/img/Pictures/20221125120855.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<ol>
+<li>由于页表存储在内存中, 所以需要访问内存中的页表来将虚拟地址转换为物理地址.</li>
+<li>得到物理地址后访问内存来得到数据.</li>
+</ol>
+<p>由于两次访问内存的代价相对较大, 而第二次对内存的访问无法避免, 于是可以用缓存来加快第一次访问.</p>
+<p><img src="/img/Pictures/20221125121251.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>页表的缓存也被称为 Translation Lookaside Buffer (TLB).</p>
+<ul>
+<li>如果缓存命中, 则直接从缓存中获取对应的物理地址, 并访问 RAM 以获取数据.</li>
+<li>如果缓存未命中, 则从页表中加载映射到缓存中 (如果页表表明数据在硬盘中, 则需要先更新页表) , 然后访问 RAM 以获取数据.</li>
+</ul>
+<p>为了让 TLB 尽量小而快, TLB 通常是全关联映射的, 通常包含 32 - 128 个条目.</p>
+<p><strong>页表缓存刷新 (TLB Flush)</strong></p>
+<p>当上下文切换, 即切换进程时, 需要刷新页表缓存.</p>
+<p>因为 TLB 中的所有条目是相对于当前执行的进程而言的, 当切换时, 需要使所有的条目无效.</p>
+<p>当有了页表缓存后, 无需在页表中存储 VPN, 因为 VPN 可以作为索引来确定对应的物理地址在页表中的位置.</p>
+<p><img src="/img/Pictures/20221125182429.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="多级页表">多级页表</h2>
+<p>由于每个程序都需要一个独立的页表, 且页表存储在 RAM 中, 当运行的程序足够多时, 将占据大量内存空间.</p>
+<p>于是便有了多级页表 (Multi-level Page Tables).</p>
+<p>对于两级页表, 第一级页表包含第二级页表的物理地址, 第二级页表包含数据的物理地址.</p>
+<p><img src="/img/Pictures/20221126133241.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>其中第一级页表必须存储在 RAM, 而第二级页表可以存储在 RAM 中, 也可以存储在硬盘中.</p>
+<p><img src="/img/Pictures/20221126133403.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>因为通过第一级页表来索引第二级页表的位置, 所以第一级页表必须存储在 RAM 中, 为了减小页表在内存中所占空间, 开始将第二级页表存储在硬盘中, 当需要访问某一第二级页表时, 将其加载到内存中.</p>
+<p>例如:</p>
+<p>对于 32 位机器上的 4 GB 的 RAM 和 4 KB 的页.</p>
+<p>对于一个页表条目的大小等于 PPN + 状态位 = 20 + 5 = 25 位, 大约为 4 字节.</p>
+<p>一级页表的大小等于 4 KB, 则第一级页表中页表条目的数量为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><msup><mn>2</mn><mn>2</mn></msup><mo>×</mo><msup><mn>2</mn><mn>10</mn></msup></mrow><msup><mn>2</mn><mn>2</mn></msup></mfrac><mo>=</mo><msup><mn>2</mn><mn>10</mn></msup><mo>=</mo><mn>1024</mn></mrow><annotation encoding="application/x-tex">\frac{2^2 \times 2^{10}}{2^2} = 2^{10} = 1024</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.3629em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0179em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463em;"><span style="top:-2.786em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913em;"><span style="top:-2.931em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mbin mtight">×</span><span class="mord mtight"><span class="mord mtight">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913em;"><span style="top:-2.931em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1024</span></span></span></span>, 即第一级页表占 10 位. 同理第二级页表占 10 位.</p>
+<p><img src="/img/Pictures/20221126143000.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="缓存与虚拟内存">缓存与虚拟内存</h2>
+<ul>
+<li>
+<p>物理索引/物理标记缓存 (PIPT)</p>
+<p><img src="/img/Pictures/20221126184513.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>由于缓存中包含的是物理索引/物理标记, 所以同一个缓存可以被多个进程共享.</p>
+<p>但是在访问缓存之前, 必须先将虚拟地址转换为物理地址, 需要一定的时间代价.</p>
+</li>
+<li>
+<p>虚拟索引/虚拟标记缓存 (VIVT)</p>
+<p><img src="/img/Pictures/20221126184811.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>由于缓存中包含的是虚拟索引/虚拟标记, 所以同一个缓存不能被多个进程共享.</p>
+<p>由于同一个缓存不能被多个进程共享, 所以必须在每次上下文切换的时候刷新缓存.</p>
+</li>
+<li>
+<p>虚拟索引/物理标记缓存 (VIPT)</p>
+<p><img src="/img/Pictures/20221126200628.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>由于物理页偏移量等于虚拟页偏移量, 所以可以将虚拟页偏移量拆成索引和位偏移量来确定数据在缓存中的位置, 并行查找 TLB 和 缓存, 通过比较物理地址的 Tag 和缓存中找到的缓存行的 Tag 是否相等来判断是否命中.</p>
+<p>VIPT 能够使同一个缓存被多个进程共享, 且时间花费小于 PIPT.</p>
+</li>
+</ul>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>CS61C Great Ideas in Computer Architecture: <a target="_blank" rel="noopener" href="https://inst.eecs.berkeley.edu/~cs61c/sp22/">https://inst.eecs.berkeley.edu/~cs61c/sp22/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="category-chain-item">计算机组成原理</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="print-no-link">#计算机组成原理</a>
+      
+        <a href="/tags/CS61C/" class="print-no-link">#CS61C</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%8A%B6%E6%80%81%E5%85%83%E4%BB%B6/" title="状态元件">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">状态元件</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%90%8C%E6%AD%A5%E6%95%B0%E5%AD%97%E7%B3%BB%E7%BB%9F/" title="同步数字系统">
+                        <span class="hidden-mobile">同步数字系统</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
