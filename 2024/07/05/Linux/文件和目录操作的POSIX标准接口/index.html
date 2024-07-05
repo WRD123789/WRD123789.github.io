@@ -16,16 +16,16 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="C 文件库函数 目录相关操作 获取当前工作目录 库函数 getcmd 函数可以获取当前工作目录的绝对路径: 123#include &lt;unistd.h&gt;char *getcmd(char *buf, size_t size); 参数:  buf: 一个指向存储当前工作目录路径的缓冲区指针. 如果 buf 为 NULL, 则函数会自动分配足够的内存来存储路径. size: 缓冲区的大小.">
+    <meta name="description" content="文件和目录操作的 POSIX 标准接口 POSIX 是 IEEE 制定的一系列标准, 旨在为操作系统提供一致的接口, 使得软件可以在不同的 Unix 和 Unix-like 操作系统上无缝运行. 目录相关操作 获取当前工作目录 函数 getcmd 函数可以获取当前工作目录的绝对路径: 123#include &lt;unistd.h&gt;char *getcmd(char *buf, size_">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C 文件库函数">
-<meta property="og:url" content="http://example.com/2024/07/05/Linux/C%E6%96%87%E4%BB%B6%E5%BA%93%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:title" content="文件和目录操作的 POSIX 标准接口">
+<meta property="og:url" content="http://example.com/2024/07/05/Linux/%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C%E7%9A%84POSIX%E6%A0%87%E5%87%86%E6%8E%A5%E5%8F%A3/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="C 文件库函数 目录相关操作 获取当前工作目录 库函数 getcmd 函数可以获取当前工作目录的绝对路径: 123#include &lt;unistd.h&gt;char *getcmd(char *buf, size_t size); 参数:  buf: 一个指向存储当前工作目录路径的缓冲区指针. 如果 buf 为 NULL, 则函数会自动分配足够的内存来存储路径. size: 缓冲区的大小.">
+<meta property="og:description" content="文件和目录操作的 POSIX 标准接口 POSIX 是 IEEE 制定的一系列标准, 旨在为操作系统提供一致的接口, 使得软件可以在不同的 Unix 和 Unix-like 操作系统上无缝运行. 目录相关操作 获取当前工作目录 函数 getcmd 函数可以获取当前工作目录的绝对路径: 123#include &lt;unistd.h&gt;char *getcmd(char *buf, size_">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/Pictures/20240705151445.png">
 <meta property="article:published_time" content="2024-07-05T11:09:58.000Z">
-<meta property="article:modified_time" content="2024-07-05T11:17:28.004Z">
+<meta property="article:modified_time" content="2024-07-05T13:03:37.731Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -33,7 +33,7 @@
   
   
   
-  <title>C 文件库函数 - Hexo</title>
+  <title>文件和目录操作的 POSIX 标准接口 - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="C 文件库函数"></span>
+            <span id="subtitle" data-typed-text="文件和目录操作的 POSIX 标准接口"></span>
           
         </div>
 
@@ -233,7 +233,7 @@
         
         
         
-          14 分钟
+          15 分钟
         
       </span>
     
@@ -270,15 +270,16 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">C 文件库函数</h1>
+            <h1 id="seo-header">文件和目录操作的 POSIX 标准接口</h1>
             
             
               <div class="markdown-body">
                 
-                <h1>C 文件库函数</h1>
+                <h1>文件和目录操作的 POSIX 标准接口</h1>
+<p>POSIX 是 IEEE 制定的一系列标准, 旨在为操作系统提供一致的接口, 使得软件可以在不同的 Unix 和 Unix-like 操作系统上无缝运行.</p>
 <h2 id="目录相关操作">目录相关操作</h2>
 <h3 id="获取当前工作目录">获取当前工作目录</h3>
-<p>库函数 <code>getcmd</code> 函数可以获取当前工作目录的绝对路径:</p>
+<p>函数 <code>getcmd</code> 函数可以获取当前工作目录的绝对路径:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">char</span> *<span class="hljs-title function_">getcmd</span><span class="hljs-params">(<span class="hljs-type">char</span> *buf, <span class="hljs-type">size_t</span> size)</span>;<br></code></pre></td></tr></table></figure>
 <p>参数:</p>
 <ul>
@@ -294,7 +295,7 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// func.h</span><br><span class="hljs-comment">// 包含一些要用到的头文件, 以及一些常用的宏函数, 方便学习使用</span><br><span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> __WD_FUNC_H</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> __WD_FUNC_H</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;dirent.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;errno.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> ARGS_CHECK(argc, n) &#123;  \</span><br><span class="hljs-meta">	<span class="hljs-keyword">if</span> (argc != n) &#123;  \</span><br><span class="hljs-meta">		fprintf(stderr, <span class="hljs-string">&quot;ERROR: expected %d arguments.\n&quot;</span>, n);  \</span><br><span class="hljs-meta">		exit(1);  \</span><br><span class="hljs-meta">	&#125;  \</span><br><span class="hljs-meta">&#125;</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> ERROR_CHECK(retval, val, msg) &#123;  \</span><br><span class="hljs-meta">	<span class="hljs-keyword">if</span> (retval == val) &#123;  \</span><br><span class="hljs-meta">		perror(msg);  \</span><br><span class="hljs-meta">		exit(1);  \</span><br><span class="hljs-meta">	&#125;  \</span><br><span class="hljs-meta">&#125;</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> SIZE(a) (sizeof(a) / sizeof(a[0]))</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br></code></pre></td></tr></table></figure>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// getcwd.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>	<span class="hljs-comment">// 此时由系统调用 `malloc` 动态申请内存空间</span><br>	<span class="hljs-type">char</span> *cwd = getcwd(<span class="hljs-literal">NULL</span>, <span class="hljs-number">0</span>);<br>	ERROR_CHECK(cwd, <span class="hljs-literal">NULL</span>, <span class="hljs-string">&quot;getcwd&quot;</span>);<br><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, cwd);<br>	<span class="hljs-built_in">free</span>(cwd);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h3 id="改变当前工作目录">改变当前工作目录</h3>
-<p>库函数 <code>chdir</code> 可以改变当前工作目录:</p>
+<p>函数 <code>chdir</code> 可以改变当前工作目录:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">chdir</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *path)</span>;<br></code></pre></td></tr></table></figure>
 <p>参数:</p>
 <ul>
@@ -308,7 +309,7 @@
 <p>示例:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// chdir.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">2</span>);<br><br>	<span class="hljs-type">char</span> buf[<span class="hljs-number">256</span>];<br>	getcwd(buf, <span class="hljs-keyword">sizeof</span>(buf));<br>	<span class="hljs-built_in">puts</span>(buf);<br><br>	<span class="hljs-type">int</span> ret = chdir(argv[<span class="hljs-number">1</span>]);<br>	ERROR_CHECK(ret, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;chdir&quot;</span>);<br>	getcwd(buf, <span class="hljs-keyword">sizeof</span>(buf));<br>	<span class="hljs-built_in">puts</span>(buf);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h3 id="创建目录">创建目录</h3>
-<p>库函数 <code>mkdir</code> 可以用于创建目录:</p>
+<p>函数 <code>mkdir</code> 可以用于创建目录:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">mkdir</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *pathname, <span class="hljs-type">mode_t</span> mode)</span>;<br></code></pre></td></tr></table></figure>
 <p>参数:</p>
 <ul>
@@ -323,7 +324,7 @@
 <p>示例:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// mkdir.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">3</span>);<br><br>	<span class="hljs-type">mode_t</span> mode;<br>	<span class="hljs-built_in">sscanf</span>(argv[<span class="hljs-number">2</span>], <span class="hljs-string">&quot;%o&quot;</span>, &amp;mode);<br><br>	<span class="hljs-type">int</span> ret = mkdir(argv[<span class="hljs-number">1</span>], mode);<br>	ERROR_CHECK(ret, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;mkdir&quot;</span>);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h3 id="改变目录权限">改变目录权限</h3>
-<p>库函数 <code>chmod</code> 不仅仅可以改变文件的权限, 也可以改变目录的权限:</p>
+<p>函数 <code>chmod</code> 不仅仅可以改变文件的权限, 也可以改变目录的权限:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">chmod</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *pathname, <span class="hljs-type">mode_t</span> mode)</span>;<br></code></pre></td></tr></table></figure>
 <p>参数:</p>
 <ul>
@@ -338,7 +339,7 @@
 <p>示例:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// chmod.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">3</span>);<br><br>	<span class="hljs-type">mode_t</span> mode;<br>	<span class="hljs-built_in">sscanf</span>(argv[<span class="hljs-number">2</span>], <span class="hljs-string">&quot;%o&quot;</span>, &amp;mode);<br><br>	<span class="hljs-type">int</span> ret = chmod(argv[<span class="hljs-number">1</span>], mode);<br>	ERROR_CHECK(ret, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;chmod&quot;</span>);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h3 id="删除空目录">删除空目录</h3>
-<p>库函数 <code>rmdir</code> 可以用于删除空目录:</p>
+<p>函数 <code>rmdir</code> 可以用于删除空目录:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">rmdir</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *pathname)</span>;<br></code></pre></td></tr></table></figure>
 <p>参数:</p>
 <ul>
