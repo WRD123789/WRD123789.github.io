@@ -16,18 +16,22 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="open 函数的详细介绍可见此处">
+    <meta name="description" content="Linux 文件操作 在 UNIX&#x2F;Linux 中, 所有满足速度较慢、容量较大或可持久化存储中的任意一个特征的数据集合都可以称为文件. 根据文件存在的形式, 文件分为普通文件、目录文件、链接文件和设备文件等类型:  普通文件: 也称磁盘文件, 并且能够进行随机的数据存储. 管道: 是一个从一端发送数据, 另一端接收数据的数据通道. 目录: 包含了保存在目录中文件列表的简单文件. 设备: 该类型的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux 文件操作">
 <meta property="og:url" content="http://example.com/2024/07/06/Linux/Linux%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="open 函数的详细介绍可见此处">
+<meta property="og:description" content="Linux 文件操作 在 UNIX&#x2F;Linux 中, 所有满足速度较慢、容量较大或可持久化存储中的任意一个特征的数据集合都可以称为文件. 根据文件存在的形式, 文件分为普通文件、目录文件、链接文件和设备文件等类型:  普通文件: 也称磁盘文件, 并且能够进行随机的数据存储. 管道: 是一个从一端发送数据, 另一端接收数据的数据通道. 目录: 包含了保存在目录中文件列表的简单文件. 设备: 该类型的">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20240706201643.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240606101017.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240604091727.png">
 <meta property="article:published_time" content="2024-07-06T13:00:57.000Z">
-<meta property="article:modified_time" content="2024-07-06T13:06:08.876Z">
+<meta property="article:modified_time" content="2024-07-10T07:18:05.389Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20240706201643.png">
   
   
   
@@ -220,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          12 字
+          7.6k 字
         
       </span>
     
@@ -231,7 +235,7 @@
         
         
         
-          1 分钟
+          64 分钟
         
       </span>
     
@@ -273,8 +277,500 @@
             
               <div class="markdown-body">
                 
-                <p><a target="_blank" rel="noopener" href="https://wrd123789.github.io/2024/07/04/Linux/Linux-UNIX%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6%E6%96%87%E4%BB%B6IO/">open 函数的详细介绍可见此处</a></p>
-
+                <h1>Linux 文件操作</h1>
+<p>在 UNIX/Linux 中, 所有满足速度较慢、容量较大或可持久化存储中的<strong>任意一个</strong>特征的数据集合都可以称为<strong>文件</strong>.</p>
+<p>根据文件存在的形式, 文件分为普通文件、目录文件、链接文件和设备文件等类型:</p>
+<ul>
+<li>普通文件: 也称磁盘文件, 并且能够进行随机的数据存储.</li>
+<li>管道: 是一个从一端发送数据, 另一端接收数据的数据通道.</li>
+<li>目录: 包含了保存在目录中文件列表的简单文件.</li>
+<li>设备: 该类型的文件提供了大多数物理设备的接口. 它又可以分为两种类型: 字符设备和块设备. 字符设备一次只能读出和写入一个字节的数据, 如终端、打印机、声卡、鼠标; 块设备必须以一定大小的块来读出或者写入数据, 块设备包括 CD-ROM、RAM 驱动器和磁盘驱动器等. 字符设备一般用来传输数据, 块设备一般用来存储数据.</li>
+<li>链接: 类似 Windows 的快捷方式.</li>
+</ul>
+<h2 id="基于文件流的文件操作">基于文件流的文件操作</h2>
+<h3 id="文件的创建-打开和关闭">文件的创建, 打开和关闭</h3>
+<p>下面是 C 标准库中的相关函数:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br>FILE *<span class="hljs-title function_">fopen</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *path, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *mode)</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">fclose</span><span class="hljs-params">(FILE *stream)</span><br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li>
+<p><code>path</code>: 要打开的文件的路径, 可以是相对路径或绝对路径.</p>
+</li>
+<li>
+<p><code>mode</code>: 打开文件的模式, 指定了文件的打开方式和文件类型. 常见模式如下:</p>
+<ul>
+<li><code>&quot;r&quot;</code>: 以只读方式打开文件. 文件必须存在.</li>
+<li><code>&quot;w&quot;</code>: 以写入方式打开文件. 如果文件不存在, 则创建新文件; 如果文件存在, 则截断文件内容 (清空文件).</li>
+<li><code>&quot;a&quot;</code>: 以追加方式打开文件. 如果文件不存在, 则创建新文件; 如果文件存在, 写入的数据会追加到文件末尾.</li>
+<li><code>&quot;r+&quot;</code>: 以读写方式打开文件. 文件必须存在.</li>
+<li><code>&quot;w+&quot;</code>: 以读写方式打开文件. 如果文件不存在, 则创建新文件; 如果文件存在, 则截断文件内容.</li>
+<li><code>&quot;a+&quot;</code>: 以读写方式打开文件. 如果文件不存在, 则创建新文件; 如果文件存在, 写入的数据会追加到文件末尾 (对于 <code>a</code> 和 <code>a+</code> 而言, 写入数据时, <strong>只会在文件末尾</strong>追加数据).</li>
+</ul>
+<p>还可以在模式字符串后面加上 <code>&quot;b&quot;</code> 表示以二进制模式打开文件, 例如 <code>&quot;rb&quot;</code>、<code>&quot;wb&quot;</code>、<code>&quot;ab&quot;</code> 等.</p>
+</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功: 返回一个指向 <code>FILE</code> 结构的指针, 该指针可用于后续的文件操作.</li>
+<li>失败: 返回 <code>NULL</code>, 并设置全局变量 <code>errno</code>, 以指示错误类型.</li>
+</ul>
+<h3 id="读写文件">读写文件</h3>
+<p>基于文件流的数据读写函数, 可以分为如下几组:</p>
+<ul>
+<li>
+<p><strong>数据块读写</strong>:</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">size_t</span> <span class="hljs-title function_">fread</span><span class="hljs-params">(<span class="hljs-type">void</span> *ptr, <span class="hljs-type">size_t</span> size, <span class="hljs-type">size_t</span> nmemb, FILE *stream)</span>;<br><span class="hljs-type">size_t</span> <span class="hljs-title function_">fwrite</span><span class="hljs-params">(<span class="hljs-type">void</span> *ptr, <span class="hljs-type">size_t</span> size, <span class="hljs-type">size_t</span> nmemb, FILE *stream)</span>;<br></code></pre></td></tr></table></figure>
+<p>其中:</p>
+<ul>
+<li><code>fread</code> 函数从文件流 <code>stream</code> 中读取 <code>nmemb</code> 个元素, 写到 <code>ptr</code> 指向的内存中, 每个元素的大小为 <code>size</code> 字节.</li>
+<li><code>fwrite</code> 函数从 <code>ptr</code> 指向的内存中读取 <code>nnmemb</code> 个元素, 写到文件流中, 每个元素的大小为 <code>size</code> 字节.</li>
+<li>所有的文件读写函数都从文件的当前读写点开始读写, 读写完成以后, 当前读写点自动往后移动 <code>size * nmemb</code> 字节.</li>
+</ul>
+</li>
+<li>
+<p><strong>格式化读写</strong>:</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">printf</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *format, ...)</span>; <span class="hljs-comment">// 相当于 fprintf(stdout, format, ...)</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">scanf</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *format, ...)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">fprintf</span><span class="hljs-params">(FILE *stream, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *format, ...)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">fscanf</span><span class="hljs-params">(FILE *stream, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *format, ...)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">sprintf</span><span class="hljs-params">(<span class="hljs-type">char</span> *str, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *format, ...)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">sscanf</span><span class="hljs-params">(<span class="hljs-type">char</span> *str, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *format, ...)</span>;<br></code></pre></td></tr></table></figure>
+<p>其中:</p>
+<ul>
+<li><code>fprintf</code> 将格式化后的字符串写入到文件流 <code>stream</code> 中.</li>
+<li><code>sprintf</code> 将格式化后的字符串写入到字符串 <code>str</code> 中.</li>
+</ul>
+</li>
+<li>
+<p><strong>单个字符读写</strong>:</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">fgetc</span><span class="hljs-params">(FILE *stream)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">fputc</span><span class="hljs-params">(<span class="hljs-type">int</span> c, FILE *stream)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">getc</span><span class="hljs-params">(FILE *stream)</span>; <span class="hljs-comment">// 通常实现为宏, 作用上等价于 `fgetc`</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">putc</span><span class="hljs-params">(<span class="hljs-type">int</span> c, FILE *stream)</span>; <span class="hljs-comment">// 通常实现为宏, 作用上等价于 `fputc`</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">getchar</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;  <span class="hljs-comment">// 等价于 `fgetc(stdin)`</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">putchar</span><span class="hljs-params">(<span class="hljs-type">int</span> c)</span>; <span class="hljs-comment">// 等价于 `fputc(c, stdout)`</span><br></code></pre></td></tr></table></figure>
+<p>其中, <code>getchar</code> 和 <code>putchar</code> 从标准输入输出流中读写数据, 其他函数从文件流 <code>stream</code> 中读写数据.</p>
+</li>
+<li>
+<p><strong>字符串读写</strong>:</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> *<span class="hljs-title function_">fgets</span><span class="hljs-params">(<span class="hljs-type">char</span> *s, <span class="hljs-type">int</span> size, FILE *stream)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">fputs</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *s, FILE *stream)</span>;<br><span class="hljs-type">char</span> *<span class="hljs-title function_">gets</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *s)</span> <span class="hljs-comment">// 等价于 `fgets(s, size, stdin)`</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">puts</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *s)</span>;  <span class="hljs-comment">// 等价于 `fputs(s, stdout)`</span><br></code></pre></td></tr></table></figure>
+<p>其中:</p>
+<ul>
+<li><code>fgets</code> 和 <code>fputs</code> 从文件流 <code>stream</code> 中读写一行数据.</li>
+<li><code>puts</code> 和 <code>gets</code> 从标准输入输出流中读写一行数据.</li>
+<li><code>fgets</code> 可以限制读取的最大字符数, 因此相比 <code>gets</code> 更加安全 (<code>gets</code> 不会检查缓冲区的大小, 可能导致缓冲区溢出). <code>fgets</code> 调用时, 如果文件中当前行的字符数大于 <code>size</code>, 则下一次 <code>fgets</code> 调用时, 将继续读取该行剩下的字符.</li>
+<li><code>fgets</code> 读取一行字符时, 保留行尾的换行符, 而 <code>gets</code> 不会保留行尾的换行符.</li>
+<li><code>fputs</code> 不会在行尾自动添加换行符, 而 <code>puts</code> 会在标准输出流中自动添加换行符.</li>
+</ul>
+</li>
+</ul>
+<h3 id="文件定位">文件定位</h3>
+<p>文件定位指读取或设置文件当前读写点, 常用函数如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-comment">// 检查文件流是否到达了文件末尾.</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">feof</span><span class="hljs-params">(FILE *stream)</span>;<br><span class="hljs-comment">// 设置文件流的位置指针</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">fseek</span><span class="hljs-params">(FILE *stream, <span class="hljs-type">long</span> offset, <span class="hljs-type">int</span> whence)</span>;<br><span class="hljs-comment">// 获取文件流的位置指针</span><br><span class="hljs-type">long</span> <span class="hljs-title function_">ftell</span><span class="hljs-params">(FILE *stream)</span>;<br><span class="hljs-comment">// 把文件流的位置指针移动到文件开头. 等价于 `fseek(fp, 0, SEEK_SET)`.</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">rewind</span><span class="hljs-params">(FILE *stream)</span>;<br></code></pre></td></tr></table></figure>
+<p>其中:</p>
+<ul>
+<li><code>feof</code> 检查文件流是否到达文件末尾. 如果文件流到达了文件末尾, 则返回非零值; 反之返回 0.</li>
+<li><code>fseek</code> 用于设置文件流的位置指针. 参数 <code>offset</code> 是相对于 <code>whence</code> 的偏移量, 以字节为单位; 参数 <code>whence</code> 是位置常量, 指定从哪里开始偏移, 可以是以下值之一:
+<ul>
+<li><code>SEEK_SET</code>: 文件开头.</li>
+<li><code>SEEK_CUR</code>: 当前位置.</li>
+<li><code>SEEK_END</code>: 文件末尾.</li>
+</ul>
+</li>
+</ul>
+<h3 id="文本文件和二进制文件">文本文件和二进制文件</h3>
+<p><strong>文本文件</strong>是以人类可读的字符形式存储数据的文件. 它们通常包含 ASCII 或 UTF-8 编码的字符, 这些文件可以用文本编辑器直接打开和编辑.</p>
+<p>例如, 有一个名为 <code>example.txt</code> 的文件, 内容如下:</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs txt">Hello, World!<br>This is a text file.<br></code></pre></td></tr></table></figure>
+<p>可以用以下代码读取该文件中的内容:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> <br>&#123;<br>    FILE *file = fopen(<span class="hljs-string">&quot;example.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br>    <span class="hljs-keyword">if</span> (file) &#123;<br>        <span class="hljs-type">char</span> buffer[<span class="hljs-number">256</span>];<br>        <span class="hljs-keyword">while</span> (fgets(buffer, <span class="hljs-keyword">sizeof</span>(buffer), file) != <span class="hljs-literal">NULL</span>) &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s&quot;</span>, buffer);<br>        &#125;<br>        fclose(file);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>二进制文件</strong>以原始二进制形式存储数据, 内容通常不是人类可读的.</p>
+<p>例如, 有一个名为 <code>example.bin</code> 的二进制文件, 可以使用以下代码<strong>写入</strong>该二进制文件:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> <br>&#123;<br>    FILE *file = fopen(<span class="hljs-string">&quot;example.bin&quot;</span>, <span class="hljs-string">&quot;wb&quot;</span>);<br>    <span class="hljs-keyword">if</span> (file) &#123;<br>        <span class="hljs-type">int</span> numbers[] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>&#125;;<br>        fwrite(numbers, <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>), <span class="hljs-number">5</span>, file);<br>        fclose(file);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>可以使用以下代码<strong>读取</strong>该二进制文件:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> <br>&#123;<br>    FILE *file = fopen(<span class="hljs-string">&quot;example.bin&quot;</span>, <span class="hljs-string">&quot;rb&quot;</span>);<br>    <span class="hljs-keyword">if</span> (file) &#123;<br>        <span class="hljs-type">int</span> buffer[<span class="hljs-number">5</span>];<br>        fread(buffer, <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>), <span class="hljs-number">5</span>, file);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; ++i) &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d &quot;</span>, buffer[i]);<br>        &#125;<br>        fclose(file);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="文件链接">文件链接</h2>
+<h3 id="创建硬链接">创建硬链接</h3>
+<p><code>link</code> 可以创建硬链接:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">link</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *oldpath, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *newpath)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>oldpath</code>: 原文件路径.</li>
+<li><code>newpath</code>: 新文件路径.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时, 返回 0.</li>
+<li>失败时, 返回 - 1, 并设置 <code>errno</code> 以指示错误类型.</li>
+</ul>
+<p>示例:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">3</span>);<br><br>	<span class="hljs-type">int</span> ret = link(argv[<span class="hljs-number">1</span>], argv[<span class="hljs-number">2</span>]);<br>	ERROR_CHECK(ret, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;link&quot;</span>);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="删除硬链接">删除硬链接</h3>
+<p><code>unlink</code> 可以删除硬链接:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">unlink</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *pathname)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>pathname</code>: 文件路径.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时, 返回 0.</li>
+<li>失败时, 返回 - 1, 并设置 <code>errno</code> 以指示错误类型.</li>
+</ul>
+<h3 id="创建符号链接">创建符号链接</h3>
+<p><code>symlink</code> 可以创建符号链接:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">symlink</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *target, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *linkpath)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>target</code>: 符号链接指向的文件.</li>
+<li><code>linkpath</code>: 符号链接的路径.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时, 返回 0.</li>
+<li>失败时, 返回 - 1, 并设置 <code>errno</code> 以指示错误类型.</li>
+</ul>
+<h2 id="目录相关操作">目录相关操作</h2>
+<p>下面是一些目录相关的 POSIX 标准函数, 这些函数的实现依赖于底层的系统调用.</p>
+<h3 id="获取当前工作目录">获取当前工作目录</h3>
+<p>当前工作目录是进程的属性之一. 当进程以相对路径的方式访问文件时, 当前工作目录就是路径的起点. <strong>函数 <code>getcwd</code> 函数可以获取当前工作目录的绝对路径</strong>:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">char</span> *<span class="hljs-title function_">getcwd</span><span class="hljs-params">(<span class="hljs-type">char</span> *buf, <span class="hljs-type">size_t</span> size)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>buf</code>: 一个指向存储当前工作目录路径的缓冲区指针. 如果 <code>buf</code> 为 <code>NULL</code>, 则函数会自动分配足够的内存 (使用 <code>malloc</code>) 来存储路径.</li>
+<li><code>size</code>: 缓冲区的大小.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时, 返回 <code>buf</code> (如果 <code>buf</code> 不是 <code>NULL</code>) 或者返回分配的缓冲区指针.</li>
+<li>失败时, 返回 <code>NULL</code>, 并将 <code>errno</code> 的值设置为 <code>ERANGE</code>.</li>
+</ul>
+<p>示例如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// func.h</span><br><span class="hljs-comment">// 包含一些要用到的头文件, 以及一些常用的宏函数, 方便学习使用</span><br><span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> __WD_FUNC_H</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> __WD_FUNC_H</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;dirent.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;errno.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/time.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/select.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> ARGS_CHECK(argc, n) &#123;  \</span><br><span class="hljs-meta">	<span class="hljs-keyword">if</span> (argc != n) &#123;  \</span><br><span class="hljs-meta">		fprintf(stderr, <span class="hljs-string">&quot;ERROR: expected %d arguments.\n&quot;</span>, n);  \</span><br><span class="hljs-meta">		exit(1);  \</span><br><span class="hljs-meta">	&#125;  \</span><br><span class="hljs-meta">&#125;</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> ERROR_CHECK(retval, val, msg) &#123;  \</span><br><span class="hljs-meta">	<span class="hljs-keyword">if</span> (retval == val) &#123;  \</span><br><span class="hljs-meta">		perror(msg);  \</span><br><span class="hljs-meta">		exit(1);  \</span><br><span class="hljs-meta">	&#125;  \</span><br><span class="hljs-meta">&#125;</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> SIZE(a) (sizeof(a) / sizeof(a[0]))</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// getcwd.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>	<span class="hljs-comment">// 此时由系统调用 `malloc` 动态申请内存空间</span><br>	<span class="hljs-type">char</span> *cwd = getcwd(<span class="hljs-literal">NULL</span>, <span class="hljs-number">0</span>);<br>	ERROR_CHECK(cwd, <span class="hljs-literal">NULL</span>, <span class="hljs-string">&quot;getcwd&quot;</span>);<br><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, cwd);<br>	<span class="hljs-built_in">free</span>(cwd);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="改变当前工作目录">改变当前工作目录</h3>
+<p>函数 <code>chdir</code> 可以改变当前工作目录:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">chdir</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *path)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>path</code>: 改变后的路径.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时, 返回 0.</li>
+<li>失败时, 返回 -1, 并设置 <code>errno</code> 以指示错误类型.</li>
+</ul>
+<p>示例:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// chdir.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">2</span>);<br><br>	<span class="hljs-type">char</span> buf[<span class="hljs-number">256</span>];<br>	getcwd(buf, <span class="hljs-keyword">sizeof</span>(buf));<br>	<span class="hljs-built_in">puts</span>(buf);<br><br>	<span class="hljs-type">int</span> ret = chdir(argv[<span class="hljs-number">1</span>]);<br>	ERROR_CHECK(ret, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;chdir&quot;</span>);<br>	getcwd(buf, <span class="hljs-keyword">sizeof</span>(buf));<br>	<span class="hljs-built_in">puts</span>(buf);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="创建目录">创建目录</h3>
+<p>函数 <code>mkdir</code> 可以用于创建目录:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">mkdir</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *pathname, <span class="hljs-type">mode_t</span> mode)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>pathname</code>: 要创建目录的路径.</li>
+<li><code>mode</code>: 目录的权限位, 会受文件创建掩码 <code>umask</code> 的影响, 实际的权限为 <code>mode &amp; ~umask &amp; 0777</code>.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时, 返回 0.</li>
+<li>失败时, 返回 -1, 并设置 <code>errno</code> 以指示错误类型.</li>
+</ul>
+<p>示例:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// mkdir.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">3</span>);<br><br>	<span class="hljs-type">mode_t</span> mode;<br>	<span class="hljs-built_in">sscanf</span>(argv[<span class="hljs-number">2</span>], <span class="hljs-string">&quot;%o&quot;</span>, &amp;mode);<br><br>	<span class="hljs-type">int</span> ret = mkdir(argv[<span class="hljs-number">1</span>], mode);<br>	ERROR_CHECK(ret, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;mkdir&quot;</span>);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="改变目录权限">改变目录权限</h3>
+<p>函数 <code>chmod</code> 不仅仅可以改变文件的权限, 也可以改变目录的权限:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">chmod</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *pathname, <span class="hljs-type">mode_t</span> mode)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>pathname</code>: 要改变权限的目录的路径.</li>
+<li><code>mode</code>: 修改后的权限位.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时, 返回 0.</li>
+<li>失败时, 返回 -1, 并设置 <code>errno</code> 以指示错误类型.</li>
+</ul>
+<p>示例:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// chmod.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">3</span>);<br><br>	<span class="hljs-type">mode_t</span> mode;<br>	<span class="hljs-built_in">sscanf</span>(argv[<span class="hljs-number">2</span>], <span class="hljs-string">&quot;%o&quot;</span>, &amp;mode);<br><br>	<span class="hljs-type">int</span> ret = chmod(argv[<span class="hljs-number">1</span>], mode);<br>	ERROR_CHECK(ret, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;chmod&quot;</span>);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="删除空目录">删除空目录</h3>
+<p>函数 <code>rmdir</code> 可以用于删除空目录:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">rmdir</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *pathname)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>pathname</code>: 要删除的目录</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时, 返回 0.</li>
+<li>失败时, 返回 -1, 并设置 <code>errno</code> 以指示错误类型.</li>
+</ul>
+<p>示例:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// rmdir.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">2</span>);<br><br>	<span class="hljs-type">int</span> ret = rmdir(argv[<span class="hljs-number">1</span>]);<br>	ERROR_CHECK(ret, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;rmdir&quot;</span>);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="目录流">目录流</h3>
+<p>目录是一种特殊的文件, 采用链表来组织其中各种文件的信息, 链表的结点称为目录项 (dirent). 目录项的定义如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">dirent</span> &#123;</span><br>	<span class="hljs-type">ino_t</span> d_ino;  <span class="hljs-comment">/* inode 编号 */</span><br>	<span class="hljs-type">off_t</span> d_off;  <span class="hljs-comment">/* 到下一个 dirent 的偏移 */</span><br>	<span class="hljs-type">unsigned</span> <span class="hljs-type">short</span> d_reclen;  <span class="hljs-comment">/* 结构体的长度 */</span><br>	<span class="hljs-type">unsigned</span> <span class="hljs-type">char</span> d_type;     <span class="hljs-comment">/* 文件的类型 */</span><br>	<span class="hljs-type">char</span> d_name[<span class="hljs-number">256</span>];         <span class="hljs-comment">/* 文件名 */</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>该定义中的 <code>d_type</code> 可选值如下:</p>
+<ul>
+<li><code>DT_BLK</code>: 块设备.</li>
+<li><code>DT_CHR</code>: 字符设备.</li>
+<li><code>DT_DIR</code>: 目录.</li>
+<li><code>DT_FIFO</code>: 命名管道.</li>
+<li><code>DT_LNK</code>: 符号链接.</li>
+<li><code>DT_REG</code>: 常规文件.</li>
+<li><code>DT_SOCK</code>: 套接字.</li>
+<li><code>DT_UNKNOWN</code>: 文件类型不确定.</li>
+</ul>
+<p>目录流用于逐个读取目录中的目录项, 如下图所示:<br>
+<img src="/img/Pictures/20240706201643.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h4 id="打开目录">打开目录</h4>
+<p><code>opendir</code> 可以打开一个目录, 得到一个指向目录流的指针:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;dirent.h&gt;</span></span><br><br>DIR *<span class="hljs-title function_">opendir</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *name)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>name</code>: 目录路径</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时, 返回指向目录流的指针.</li>
+<li>失败时, 返回 <code>NULL</code>, 并设置 <code>errno</code> 以指示错误类型.</li>
+</ul>
+<h4 id="关闭目录流">关闭目录流</h4>
+<p><code>closedir</code> 可以关闭目录流:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;dirent.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">closedir</span><span class="hljs-params">(DIR *dirp)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>dirp</code>: 指向目录流的指针.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时, 返回 0.</li>
+<li>失败时, 返回 -1, 并设置 <code>errno</code> 以指示错误类型.</li>
+</ul>
+<h4 id="读取目录流">读取目录流</h4>
+<p><code>readdir</code> 用于读取目录流, 得到指向下一个目录项的指针:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;dirent.h&gt;</span></span><br><br><span class="hljs-keyword">struct</span> dirent *<span class="hljs-title function_">readdir</span><span class="hljs-params">(DIR *dirp)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>dirp</code>: 指向目录流的指针.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时, 返回指向结构体 <code>dirent</code> 的指针; 如果读到流的末尾, 返回 <code>NULL</code>.</li>
+<li>失败时, 返回 <code>NULL</code>, 并设置 <code>errno</code> 以指示错误类型.</li>
+</ul>
+<h4 id="在目录流中移动">在目录流中移动</h4>
+<p><code>seekdir</code> 可以移动目录流中的位置:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;dirent.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">seekdir</span><span class="hljs-params">(DIR *dirp, <span class="hljs-type">long</span> loc)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>dirp</code>: 目录流.</li>
+<li><code>loc</code>: 目录流中的当前位置.</li>
+</ul>
+<h4 id="返回目录流中的当前位置">返回目录流中的当前位置</h4>
+<p><code>telldir</code> 可以返回目录流中的当前位置:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;dirent.h&gt;</span></span><br><br><span class="hljs-type">long</span> <span class="hljs-title function_">telldir</span><span class="hljs-params">(DIR *dirp)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>dirp</code>: 目录流.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时, 返回目录流中的当前位置.</li>
+<li>失败时, 返回 -1, 并设置 <code>errno</code> 以指示错误类型.</li>
+</ul>
+<h4 id="重置目录流">重置目录流</h4>
+<p><code>rewinddir</code> 用于重置目录流, 即移动到目录流的起始位置:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;dirent.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">rewinddir</span><span class="hljs-params">(DIR *dirp)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>dirp</code>: 目录流.</li>
+</ul>
+<p>下面是目录流的使用示例:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	DIR *pdir = opendir(<span class="hljs-string">&quot;.&quot;</span>);<br>	ERROR_CHECK(pdir, <span class="hljs-literal">NULL</span>, <span class="hljs-string">&quot;opendir&quot;</span>);<br><br>	<span class="hljs-type">long</span> loc = telldir(pdir);<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">dirent</span> *<span class="hljs-title">pdirent</span>;</span><br>	errno = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;<br>		<span class="hljs-type">long</span> tmploc = telldir(pdir);<br>		pdirent = readdir(pdir);<br>		<span class="hljs-keyword">if</span> (pdirent == <span class="hljs-literal">NULL</span>)<br>			<span class="hljs-keyword">break</span>;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s &quot;</span>, pdirent-&gt;d_name);<br>		<span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(pdirent-&gt;d_name, <span class="hljs-string">&quot;Makefile&quot;</span>) == <span class="hljs-number">0</span>)<br>			loc = tmploc;<br>	&#125;<br><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br>	<span class="hljs-keyword">if</span> (errno != <span class="hljs-number">0</span>) &#123;<br>		perror(<span class="hljs-string">&quot;readdir&quot;</span>);<br>		<span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>	&#125;<br><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;---------------------\n&quot;</span>);<br><br>	seekdir(pdir, loc);<br>	pdirent = readdir(pdir);<br>	<span class="hljs-built_in">puts</span>(pdirent-&gt;d_name);<br><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;---------------------\n&quot;</span>);<br><br>	rewinddir(pdir);<br>	pdirent = readdir(pdir);<br>	<span class="hljs-built_in">puts</span>(pdirent-&gt;d_name);<br><br>	closedir(pdir);<br>	<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="基于文件描述符的文件操作">基于文件描述符的文件操作</h2>
+<p>之前所讨论的文件操作都利用了数据结构 <code>FILE</code>, <code>FILE</code> 是文件流, 也称为<strong>用户态文件缓冲区</strong>, 所以与 <code>FILE</code> 类型相关的文件操作称为带缓冲的 I/O.</p>
+<p>POSIX 标准支持另一类无缓冲的 I/O, 即通过文件描述符进行的文件操作.</p>
+<p>针对每个进程, 内核都为其维护了打开文件 (也称为文件对象 <code>filestruct</code>) 的文件描述符表. 该表的每一条目都记录了单个文件描述符的相关信息, 如下所示:</p>
+<ul>
+<li>控制文件描述符操作的一组标志 (如 <code>close-on-exec</code> 标志).</li>
+<li>对打开文件句柄的引用.</li>
+</ul>
+<p>内核对所有打开的文件维护有一个系统级的描述表格 (也称作<strong>打开文件表</strong>), 并将表中各条目称为<strong>打开文件句柄</strong>. 一个打开文件句柄存储了与一个打开文件相关的全部信息, 如下所示:</p>
+<ul>
+<li>当前文件偏移量.</li>
+<li>打开文件时所使用的状态标志.</li>
+<li>文件访问模式.</li>
+<li>与信号驱动 I/O 相关的设置.</li>
+<li>对该文件 i-node 对象的引用.</li>
+</ul>
+<p>每个文件系统都会为驻留其上的所有文件建立一个 i-node 表, 一个文件的 i-node 信息如下:</p>
+<ul>
+<li>文件类型和访问权限.</li>
+<li>一个指针, 指向该文件所持有的锁的列表.</li>
+<li>文件的各种属性, 包括文件大小以及与不同类型操作相关的时间戳.</li>
+</ul>
+<p>磁盘上的 i-node 记录了文件的固有属性, 例如: 文件类型、访问权限和时间戳. 访问一个文件时, 会在内存中为 i-node 创建一个副本, 其中记录了引用该 i-node 的打开文件句柄数量以及该 i-node 所在设备的主、从设备号, 还包括一些打开文件时与文件相关的临时属性, 如: 文件锁.</p>
+<p>下图展示了文件描述符、打开的文件句柄以及 i-node 之间的关系:<br>
+<img src="/img/Pictures/20240606101017.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h3 id="打开、创建和关闭文件">打开、创建和关闭文件</h3>
+<p>使用 <code>open</code> 函数可以打开一个已存在的文件或者创建一个新的文件 (这会创建一个文件对象 <code>filestruct</code>), 返回值是相关的文件描述符:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">open</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *pathname, <span class="hljs-type">int</span> flags)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">open</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *pathname, <span class="hljs-type">int</span> flags, <span class="hljs-type">mode_t</span> mode)</span>;<br></code></pre></td></tr></table></figure>
+<p>关于 <code>open</code> 函数的详细介绍, <a target="_blank" rel="noopener" href="https://wrd123789.github.io/2024/07/04/Linux/Linux-UNIX%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6%E6%96%87%E4%BB%B6IO/">可见此处</a>.</p>
+<h3 id="读写文件-2">读写文件</h3>
+<p><code>read</code> 和 <code>write</code> 函数可以读写文件, 它们是不带缓冲 (指用户态的库函数是否在用户态实现了额外的缓冲) 的 I/O:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">read</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">void</span> *buf, <span class="hljs-type">size_t</span> count)</span>;<br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">write</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">const</span> <span class="hljs-type">void</span> *buf, <span class="hljs-type">size_t</span> count)</span>;<br></code></pre></td></tr></table></figure>
+<p>调用 <code>read</code> 系统调用时, 会将数据从内核缓冲区拷贝到用户态提供的缓冲区 (buf) 中, 如果文件数据不存在于内核缓冲区中, 那么操作系统会触发一个 I/O 操作, 将数据从外部设备读取到内核缓冲区中; 调用 <code>write</code> 系统调用时, 会将数据从用户态提供的缓冲区中拷贝到内核缓冲区, 最终将这些数据写入到外部设备上.</p>
+<p>使用示例:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 读取文件内容</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">2</span>);<br>	<br>	<span class="hljs-type">int</span> fd = open(argv[<span class="hljs-number">1</span>], O_RDWR);<br>	ERROR_CHECK(fd, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;open&quot;</span>);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;fd = %d\n&quot;</span>, fd);<br><br>	<span class="hljs-type">char</span> buf[<span class="hljs-number">128</span>] = &#123;<span class="hljs-number">0</span>&#125;;<br>	<span class="hljs-type">int</span> ret = read(fd, buf, <span class="hljs-keyword">sizeof</span>(buf));<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;buf = %s, ret = %d\n&quot;</span>, buf, ret);<br><br>	close(fd);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 写入文件</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">2</span>);<br><br>	<span class="hljs-type">int</span> fd = open(argv[<span class="hljs-number">1</span>], O_RDWR);<br>	ERROR_CHECK(fd, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;open&quot;</span>);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;fd = %d\n&quot;</span>, fd);<br><br>	<span class="hljs-type">int</span> ret = write(fd, &amp;fd, <span class="hljs-keyword">sizeof</span>(fd));<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;ret = %d\n&quot;</span>, ret);<br><br>	close(fd);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="截断文件">截断文件</h3>
+<p>使用 <code>ftruncate</code> 函数可以截断文件, 来控制文件的大小:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">ftruncate</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">off_t</span> length)</span>;<br></code></pre></td></tr></table></figure>
+<p>该函数会将参数 <code>fd</code> 指定的文件大小改为参数 <code>length</code> 指定的大小 (实际上是修改文件的 <code>inode</code> 信息). 成功返回 0, 失败返回 -1.</p>
+<p>如果设置的 <code>length</code> 大于文件本身的大小, 则会产生文件空洞. 文件空洞通常以 0 填充, 但是不占用实际的磁盘空间 (因为没有实际的数据块与之对应). <strong>一个文件的逻辑大小 (文件读取时的大小) 通常包含文件空洞的大小</strong>, 而该文件的实际大小 (实际占用磁盘空间的大小) 则不包含文件空洞的大小.</p>
+<h3 id="文件映射">文件映射</h3>
+<p>使用 <strong><code>mmap</code> 可以将文件的一部分或全部内容映射到进程的地址空间 (用户态的内存)</strong>, 使得文件的内容可以像内存一样进行访问:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/mman.h&gt;</span></span><br><br><span class="hljs-type">void</span> *<span class="hljs-title function_">mmap</span><span class="hljs-params">(<span class="hljs-type">void</span> *addr, <span class="hljs-type">size_t</span> length, <span class="hljs-type">int</span> prot, <span class="hljs-type">int</span> flags, <span class="hljs-type">int</span> fd, <span class="hljs-type">off_t</span> offset)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>addr</code>: 指定映射区域的起始地址, 通常为 <code>NULL</code>, 表示由内核选择地址.</li>
+<li><code>length</code>: 映射区域的长度 (字节数).</li>
+<li><code>prot</code>: 内存保护标志, 控制映射区域的访问权限 (如 <code>PROT_READ</code>、<code>PROT_WRITE</code>、<code>PROT_EXEC</code>、<code>PROT_NONE</code>).</li>
+<li><code>flags</code>: 映射选项, 控制映射区域的特性 (如 <code>MAP_SHARED</code>、<code>MAP_PRIVATE</code>、<code>MAP_ANONYMOUS</code>).
+<ul>
+<li><code>MAP_SHARED</code> 表示共享, 方便多个进程共享同一个文件的映射区域.</li>
+<li><code>MAP_ANONYMOUS</code> 表示匿名映射, 即该映射区域不与任何文件关联, 通常用于创建共享内存.</li>
+</ul>
+</li>
+<li><code>fd</code>: 文件描述符, 表示要映射的文件. 如果是匿名映射, 则应为 <code>-1</code>.</li>
+<li><code>offset</code>: 文件的偏移量, 表示从文件的哪个位置开始映射 (<strong><code>mmap</code> 的映射区域大小和偏移量必须是系统虚拟内存页大小的整数倍</strong>).</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回映射区域的起始地址.</li>
+<li>失败时返回 <code>MAP_FAILED</code>.</li>
+</ul>
+<p>使用 <strong><code>munmap</code> 则可以解除映射</strong>:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/mman.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">munmap</span><span class="hljs-params">(<span class="hljs-type">void</span> *addr, <span class="hljs-type">size_t</span> length)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>addr</code>: 映射区域的起始地址.</li>
+<li><code>length</code>: 映射区域的长度 (字节数).</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回 0.</li>
+<li>失败时返回 -1.</li>
+</ul>
+<p>如果映射的文件大小小于所需的映射区域大小, 虽然 <code>mmap</code> 会成功, 但访问超出文件实际大小的部分会导致未定义行为, 甚至可能触发 <code>SIGBUS</code> 错误. 因此, 可以配合 <code>ftruncate</code> 来调整文件大小, 使其足够大以匹配 <code>mmap</code> 所需的映射区域大小, 避免访问越界.</p>
+<p>具体示例如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span> <br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">2</span>);<br>	<br>    <span class="hljs-type">int</span> fd = open(argv[<span class="hljs-number">1</span>], O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);<br>	ERROR_CHECK(fd, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;open&quot;</span>);<br><br>    <span class="hljs-comment">// 需要映射的区域大小 (必须是页大小的倍数)</span><br>    <span class="hljs-type">size_t</span> length = <span class="hljs-number">4096</span>;  <span class="hljs-comment">// 假设页大小是 4 KB</span><br><br>    <span class="hljs-comment">// 调整文件大小</span><br>    <span class="hljs-type">int</span> ret0 = ftruncate(fd, length);<br>    ERROR_CHECK(ret0, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;ftruncate&quot;</span>);<br><br>    <span class="hljs-comment">// 将文件映射到内存</span><br>    <span class="hljs-type">char</span> *<span class="hljs-built_in">map</span> = mmap(<span class="hljs-literal">NULL</span>, length, PROT_READ | PROT_WRITE, MAP_SHARED, fd, <span class="hljs-number">0</span>);<br>    ERROR_CHECK(<span class="hljs-built_in">map</span>, MAP_FAILED, <span class="hljs-string">&quot;mmap&quot;</span>);<br><br>    <span class="hljs-comment">// 通过指针访问文件内容</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;File contents before: %s\n&quot;</span>, <span class="hljs-built_in">map</span>);<br><br>    <span class="hljs-comment">// 修改映射区域内容</span><br>    <span class="hljs-built_in">strcpy</span>(<span class="hljs-built_in">map</span>, <span class="hljs-string">&quot;Hello, mmap!&quot;</span>);<br><br>    <span class="hljs-comment">// 解除映射</span><br>    <span class="hljs-type">int</span> ret1 = munmap(<span class="hljs-built_in">map</span>, length);<br>    ERROR_CHECK(ret1, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;munmap&quot;</span>);<br><br>    <span class="hljs-comment">// 关闭文件</span><br>    close(fd);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="文件定位-2">文件定位</h3>
+<p><code>lseek()</code> 系统调用根据 <code>offset</code> 和 <code>whence</code> 参数值调整该文件的文件偏移量:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">off_t</span> <span class="hljs-title function_">lseek</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">off_t</span> offset, <span class="hljs-type">int</span> whence)</span>;<br></code></pre></td></tr></table></figure>
+<p>其中 <code>offset</code> 参数是一个以字节为单位的数值. <code>whence</code> 参数则表明应参照哪个基点来解释 <code>offset</code> 参数, 该参数的可选值如下:</p>
+<ul>
+<li><code>SEEK_SET</code>. 将文件偏移量设置为从文件起始点开始的 <code>offset</code> 个字节.</li>
+<li><code>SEEK_CUR</code>. 将文件偏移量设置为从当前文件偏移量开始的 <code>offset</code> 个字节.</li>
+<li><code>SEEK_END</code>. 将文件偏移量设置为从当前文件末尾 (文件最后一个字节的下一个字节) 开始的 <code>offset</code> 个字节.</li>
+</ul>
+<p>上述可选值可以以下图表示:<br>
+<img src="/img/Pictures/20240604091727.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>如果 <code>whence</code> 参数值为 <code>SEEK_CUR</code> 或 <code>SEEK_END</code>, <code>offset</code> 参数可以为正数也可以为负数；; 如果 <code>whence</code> 参数值为 <code>SEEK_SET</code>, <code>offset</code> 参数值必须为非负数.</p>
+<p><code>lseek()</code> 调用成功会返回新的文件偏移量. <strong>该调用只是调整内核中与文件描述符相关的文件偏移量记录, 并没有访问物理设备</strong>.</p>
+<h3 id="获取文件信息">获取文件信息</h3>
+<p>可以通过 <code>fstat</code> 和 <code>stat</code> 函数获取文件信息, 调用后, 文件信息将被填充到结构体 <code>stat</code> 中:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">stat</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *file_name, <span class="hljs-keyword">struct</span> stat *buf)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">fstat</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-keyword">struct</span> stat *buf)</span>;<br></code></pre></td></tr></table></figure>
+<p>其中 <code>struct stat</code> 结构体, 定义如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">stat</span> &#123;</span><br>    <span class="hljs-type">dev_t</span>     st_dev;     <span class="hljs-comment">// 文件的设备编号</span><br>    <span class="hljs-type">ino_t</span>     st_ino;     <span class="hljs-comment">// inode 编号</span><br>    <span class="hljs-type">mode_t</span>    st_mode;    <span class="hljs-comment">// 文件类型和模式 (权限)</span><br>    <span class="hljs-type">nlink_t</span>   st_nlink;   <span class="hljs-comment">// 硬链接数量</span><br>    <span class="hljs-type">uid_t</span>     st_uid;     <span class="hljs-comment">// 所有者用户 ID</span><br>    <span class="hljs-type">gid_t</span>     st_gid;     <span class="hljs-comment">// 所有者组 ID</span><br>    <span class="hljs-type">dev_t</span>     st_rdev;    <span class="hljs-comment">// 设备文件的设备编号</span><br>    <span class="hljs-type">off_t</span>     st_size;    <span class="hljs-comment">// 文件大小（字节）</span><br>    <span class="hljs-type">blksize_t</span> st_blksize; <span class="hljs-comment">// 文件系统 I/O 块大小</span><br>    <span class="hljs-type">blkcnt_t</span>  st_blocks;  <span class="hljs-comment">// 分配的块数</span><br>    <span class="hljs-type">time_t</span>    st_atime;   <span class="hljs-comment">// 最后访问时间</span><br>    <span class="hljs-type">time_t</span>    st_mtime;   <span class="hljs-comment">// 最后修改时间</span><br>    <span class="hljs-type">time_t</span>    st_ctime;   <span class="hljs-comment">// 最后状态改变时间</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>可以使用以下宏和 <code>st_mode</code> 来判断文件类型:</p>
+<table>
+<thead>
+<tr>
+<th>宏</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>S_ISLINK(mode)</code></td>
+<td>判断是否是符号链接</td>
+</tr>
+<tr>
+<td><code>S_ISREG(mode)</code></td>
+<td>判断是否是普通文件</td>
+</tr>
+<tr>
+<td><code>S_ISDIR(mode)</code></td>
+<td>判断是否是目录</td>
+</tr>
+<tr>
+<td><code>S_ISCHR(mode)</code></td>
+<td>判断是否是字符设备</td>
+</tr>
+<tr>
+<td><code>S_ISBLK(mode)</code></td>
+<td>判断是否是块设备</td>
+</tr>
+<tr>
+<td><code>S_ISFIFO(mode)</code></td>
+<td>判断是否是命名管道</td>
+</tr>
+<tr>
+<td><code>S_ISSOCK(mode)</code></td>
+<td>判断是否是套接字</td>
+</tr>
+</tbody>
+</table>
+<p>使用示例如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">2</span>);<br>	<span class="hljs-comment">/* 使用 `O_PATH` 标志打开文件时, 文件描述符不会用于读写操作, </span><br><span class="hljs-comment">	而仅仅用于获取文件的元数据或文件系统的管理操作 */</span><br>	<span class="hljs-type">int</span> fd = open(argv[<span class="hljs-number">1</span>], O_RDWR | O_PATH);<br>	ERROR_CHECK(fd, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;open&quot;</span>);<br><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">stat</span> <span class="hljs-title">buf</span>;</span><br>	<span class="hljs-type">int</span> ret = fstat(fd, &amp;buf);<br>	ERROR_CHECK(ret, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;fstat&quot;</span>);<br><br>	<span class="hljs-keyword">if</span> (S_ISDIR(buf.st_mode))<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;directory\n&quot;</span>);<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (S_ISREG(buf.st_mode))<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;regular file\n&quot;</span>);<br>	...<br><br>	close(fd);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="文件描述符的复制">文件描述符的复制</h3>
+<p><strong><code>dup()</code> 调用复制一个打开的文件描述符 <code>oldfd</code>, 并返回一个新描述符, 二者都指向同一个打开的文件句柄</strong>. 系统会保证新描述符一定是编号最小的未用文件描述符:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">dup</span><span class="hljs-params">(<span class="hljs-type">int</span> oldfd)</span>;<br></code></pre></td></tr></table></figure>
+<p><strong>如果想要获取指定的文件描述符, 可以使用 <code>dup2()</code></strong>:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">dup2</span><span class="hljs-params">(<span class="hljs-type">int</span> oldfd, <span class="hljs-type">int</span> newfd)</span>;<br></code></pre></td></tr></table></figure>
+<p><code>dup2()</code> 系统调用会为 <code>oldfd</code> 参数所指定的文件描述符创建副本, 其编号由 <code>newfd</code> 参数指定. 如果 <code>newfd</code> 参数指定的文件描述符已经打开, 那么 <code>dup2()</code> 首先会将其关闭. (<code>dup2()</code> 调用会忽略 <code>newfd</code> 关闭期间出现的任何错误. 因此, 更安全的做法是: 在调用 <code>dup2()</code> 之前, 先判断 <code>newfd</code> 是否已经打开, 若打开则应显式调用 <code>close()</code> 将其关闭.</p>
+<p>如果 <code>oldfd</code> 并非有效的文件描述符, 那么 <code>dup2()</code> 调用将失败并返回错误 <code>EBADF</code>; 如果 <code>oldfd</code> 有效, 且与 <code>newfd</code> 值相等, 那么 <code>dup2()</code> 将直接返回结果.</p>
+<h3 id="文件描述符和文件指针">文件描述符和文件指针</h3>
+<p>调用 <code>fopen</code> 函数时, 实际上也获得了文件描述符. 使用 <code>fileno</code> 函数可以得到文件指针的文件描述符, 此时也可以通过文件描述符来执行 I/O, 例如:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">2</span>);<br><br>	FILE *fp = fopen(argv[<span class="hljs-number">1</span>], <span class="hljs-string">&quot;rb+&quot;</span>);<br>	ERROR_CHECK(fp, <span class="hljs-literal">NULL</span>, <span class="hljs-string">&quot;fopen&quot;</span>);<br><br>	<span class="hljs-type">int</span> fd = fileno(fp);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;fd = %d\n&quot;</span>, fd);<br><br>	<span class="hljs-type">char</span> buf[<span class="hljs-number">128</span>] = &#123;<span class="hljs-number">0</span>&#125;;<br>	read(fd, buf, <span class="hljs-number">5</span>);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;buf = %s\n&quot;</span>, buf);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>fopen</code> 会根据传入的模式来调用 <code>open</code> 函数, 然后在用户空间中为文件分配一个缓冲区. 由于 <code>read</code> 和 <code>write</code> 调用时涉及用户态 / 内核态的切换, 对性能影响比较大, 借助用户态缓冲区可以减少 <code>read</code> 和 <code>write</code> 的调用次数.</p>
+<p>使用 <code>fdopen</code> 函数可以根据文件描述符生成用户态缓冲区, 例如:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">2</span>);<br><br>	<span class="hljs-type">int</span> fd = open(argv[<span class="hljs-number">1</span>], O_RDWR);<br>	ERROR_CHECK(fd, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;open&quot;</span>);<br><br>	FILE *fp = fdopen(fd, <span class="hljs-string">&quot;rb+&quot;</span>);<br>	ERROR_CHECK(fp, <span class="hljs-literal">NULL</span>, <span class="hljs-string">&quot;fdopen&quot;</span>);<br><br>	<span class="hljs-type">char</span> buf[<span class="hljs-number">128</span>] = &#123;<span class="hljs-number">0</span>&#125;;<br>	fread(buf, <span class="hljs-number">1</span>, <span class="hljs-keyword">sizeof</span>(buf), fp);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;buf = %s\n&quot;</span>, buf);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="有名管道">有名管道</h3>
+<p>有名管道是一种特殊类型的文件, 可以在不相关的进程之间以半双工 (同一时刻, 只能由管道的一端向另一端传输数据) 的方式传递数据.</p>
+<p>通常可以使用 <code>mkfifo</code> 指令创建有名管道:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">mkfifo</span> mypipe</span><br></code></pre></td></tr></table></figure>
+<p>使用有名管道:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">在一个终端中写入数据</span><br>echo &quot;Hello, World!&quot; &gt; mypipe<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">在另一个终端中读取数据</span><br>cat &lt; mypipe<br></code></pre></td></tr></table></figure>
+<p>管道创建后, 在 C 程序中也可以使用它:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 读端</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">2</span>);<br><br>	<span class="hljs-type">int</span> fdr = open(argv[<span class="hljs-number">1</span>], O_RDONLY);<br>	ERROR_CHECK(fdr, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;open&quot;</span>);<br><br>	<span class="hljs-type">char</span> buf[<span class="hljs-number">128</span>] = &#123;<span class="hljs-number">0</span>&#125;;<br>	read(fdr, buf, <span class="hljs-keyword">sizeof</span>(buf));<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;buf = %s\n&quot;</span>, buf);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 写端</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">2</span>);<br><br>	<span class="hljs-type">int</span> fdw = open(argv[<span class="hljs-number">1</span>], O_WRONLY);<br>	ERROR_CHECK(fdw, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;open&quot;</span>);<br><br>	<span class="hljs-type">char</span> buf[<span class="hljs-number">128</span>] = <span class="hljs-string">&quot;helloworld&quot;</span>;<br>	write(fdw, buf, <span class="hljs-built_in">strlen</span>(buf));<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="I-O-多路复用模型">I/O 多路复用模型</h2>
+<p>I/O 多路复用是一种在单个线程或进程中同时监视多个文件描述符以提高程序并发处理能力的方法. 通过I/O多路复用, 程序可以在一个线程中同时处理多个 I/O 操作, 从而避免了为每个 I/O 操作都创建一个线程或进程的开销.</p>
+<h3 id="select">select</h3>
+<p><code>select</code> 函数是 Linux 中用于 I/O 多路复用的经典方法之一, 它允许程序在一个线程中<strong>同时监视</strong>多个文件描述符, 以检测它们是否准备好进行读、写或有异常条件发生. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/select.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/time.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">select</span><span class="hljs-params">(<span class="hljs-type">int</span> nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, <span class="hljs-keyword">struct</span> timeval *timeout)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>nfds</code>: 一个整数值, 表示待监视的文件描述符集合中最大文件描述符值加 1.</li>
+<li><code>readfds</code>: 指向 <code>fd_set</code> 结构的指针, 表示需要监视<strong>可读</strong>事件的文件描述符集合. 如果不需要监视可读事件, 可以传递 <code>NULL</code>.</li>
+<li><code>writefds</code>: 指向 <code>fd_set</code> 结构的指针, 表示需要监视<strong>可写</strong>事件的文件描述符集合. 如果不需要监视可写事件, 可以传递 <code>NULL</code>.</li>
+<li><code>exceptfds</code>: 指向 <code>fd_set</code> 结构的指针, 表示需要监视<strong>异常事件</strong>的文件描述符集合. 如果不需要监视可写事件, 可以传递 <code>NULL</code>.</li>
+<li><code>timeout</code>: 指向 <code>timeval</code> 结构的指针, 表示等待文件描述符事件发生的超时时间. 如果设为 <code>NULL</code>, 则 <code>select</code> 会无限期地等待; 如果设置超时时间为 <code>&#123;0, 0&#125;</code>, 则 <code>select</code> 会立即返回, 用于非阻塞检查.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回就绪文件描述符的总数.</li>
+<li>失败时返回 -1, 并设置 <code>errno</code> 以指示错误类型.</li>
+</ul>
+<p>上文中所说的 <code>fd_set</code> 实际上是一个位图, 每一个文件描述符对应一个位, 通过位操作来检查和设置文件描述符的状态.</p>
+<p>可以使用下面的宏来操作 <code>fd_set</code>:</p>
+<ul>
+<li><code>FD_ZERO(fd_set *set)</code>: 初始化文件描述符集合, 将集合中的所有位都置为 0.</li>
+<li><code>FD_SET(int fd, fd_set *set)</code>: 将文件描述符 <code>fd</code> 加入集合 <code>set</code> 中.</li>
+<li><code>FD_CLR(int fd, fd_set *set)</code>: 从集合 <code>set</code> 中移除文件描述符 <code>fd</code>.</li>
+<li><code>FD_ISSET(int fd, fd_set *set)</code>: 检查文件描述符 <code>fd</code> 是否在集合 <code>set</code> 中.</li>
+</ul>
+<p>上文中的 <code>timeval</code> 结构体定义如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timeval</span> &#123;</span><br>	<span class="hljs-type">long</span> tv_sec;  <span class="hljs-comment">// 秒</span><br>	<span class="hljs-type">long</span> tv_usec; <span class="hljs-comment">// 微秒</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>下面使用 <code>select</code> 来监视多个文件描述符的可读事件:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_FD 1024</span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span> <br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">3</span>);<br>	<br>    fd_set readfds;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timeval</span> <span class="hljs-title">tv</span>;</span><br>    <span class="hljs-type">int</span> retval, fd1, fd2;<br><br>    <span class="hljs-comment">// 打开两个文件（假设文件存在）</span><br>    fd1 = open(argv[<span class="hljs-number">1</span>], O_RDONLY | O_NONBLOCK);<br>    ERROR_CHECK(fd1, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;open&quot;</span>);<br>    <br>    fd2 = open(argv[<span class="hljs-number">2</span>], O_RDONLY | O_NONBLOCK);<br>    ERROR_CHECK(fd2, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;open&quot;</span>);<br><br>    <span class="hljs-comment">// 初始化文件描述符集合</span><br>    FD_ZERO(&amp;readfds);<br>    FD_SET(fd1, &amp;readfds);<br>    FD_SET(fd2, &amp;readfds);<br><br>    <span class="hljs-comment">// 设置超时时间</span><br>    tv.tv_sec = <span class="hljs-number">5</span>;<br>    tv.tv_usec = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-comment">// 调用 select 函数</span><br>    retval = select(MAX_FD, &amp;readfds, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, &amp;tv);<br>    ERROR_CHECK(retval, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;select&quot;</span>);<br><br>    <span class="hljs-keyword">if</span> (retval) &#123;<br>        <span class="hljs-keyword">if</span> (FD_ISSET(fd1, &amp;readfds))<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;file1.txt is ready to read\n&quot;</span>);<br>            <br>        <span class="hljs-keyword">if</span> (FD_ISSET(fd2, &amp;readfds))<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;file2.txt is ready to read\n&quot;</span>);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;No data within five seconds.\n&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-comment">// 关闭文件</span><br>    close(fd1);<br>    close(fd2);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>另外, 需要注意的是, <strong><code>select</code> 调用返回时, 它会将 <code>timeout</code> 更新为剩余的时间</strong>. 如果在指定的超时时间内没有事件发生, <code>select</code> 返回时 <code>timeout</code> 会变为0.</p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>王道 C++: <a target="_blank" rel="noopener" href="http://home.cskaoyan.com/#/c++/0">http://home.cskaoyan.com/#/c++/0</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>Linux/UNIX 系统编程手册
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
                 
               </div>
             
