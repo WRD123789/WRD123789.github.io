@@ -224,6 +224,78 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Trap/" target="_self">
+          Trap
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Trap/" target="_self">
+        <div>
+          Trap 有三种事件 (用 Trap 作为这三种事件的通用术语) 会导致 CPU 搁置普通指令的执行, 强制将控制权转移给处理该事件的特殊代码:  系统调用: 当用户程序执行 ecall 指令要求内核为其处理事情. 异常: 一条指令做了一些非法的事情, 如除以零或使用无效的虚拟地址. 中断: 当一个设备发出需要注意的信号时, 例如当磁盘硬件完成一个读写请求时.  Trap 发生时由内核来处理所有
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-07-04 13:17" pubdate>
+              2024-07-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/MIT-6-S081/">#MIT 6.S081</a>
+            
+              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">#操作系统</a>
+            
+              <a href="/tags/Xv6/">#Xv6</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E4%B8%AD%E6%96%AD/" target="_self">
           中断
         </a>
@@ -817,78 +889,6 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
             <time datetime="2024-07-04 11:06" pubdate>
-              2024-07-04
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E7%AC%94%E8%AE%B0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
-  
-  
-
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/MIT-6-S081/">#MIT 6.S081</a>
-            
-              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">#操作系统</a>
-            
-              <a href="/tags/Xv6/">#Xv6</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/" target="_self">
-          操作系统架构
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/" target="_self">
-        <div>
-          操作系统架构 抽象系统资源 为了实现强隔离,  最好禁止应用程序直接访问敏感的硬件资源, 而是将资源抽象为服务.  Unix 应用程序只能通过文件系统的 open、read、write 和 close 系统调用与存储交互, 而不是直接读写磁盘. 文件系统对磁盘提供了非常方便的抽象. 你可以对文件命名, 读写文件等等. 之后, 操作系统会决定如何将文件与磁盘中的块对应, 确保一个磁盘块只出现在一个文
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-07-04 10:49" pubdate>
               2024-07-04
             </time>
           </div>

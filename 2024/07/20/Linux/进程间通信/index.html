@@ -1,0 +1,1082 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/bg/3.png">
+  <link rel="icon" href="/img/bg/3.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wangrd">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="进程间通信 在多个进程之间, 如果需要进行通信的话, 隔离特性会造成一些通信的障碍. 所以我们需要一些手段来跨越隔离, 实现进程间通信 (InterProcess Communication, IPC) 管道 一种最自然的通信方式就是依赖文件系统, 一个进程打开文件并写入数据, 另一个进程则打开文件来读取数据, 但这种通信方式依赖于磁盘文件. 为了提高效率, 可以使用有名管道 (FIFO), 有名">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程间通信">
+<meta property="og:url" content="http://example.com/2024/07/20/Linux/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/index.html">
+<meta property="og:site_name" content="Wangrd&#39;s Blog">
+<meta property="og:description" content="进程间通信 在多个进程之间, 如果需要进行通信的话, 隔离特性会造成一些通信的障碍. 所以我们需要一些手段来跨越隔离, 实现进程间通信 (InterProcess Communication, IPC) 管道 一种最自然的通信方式就是依赖文件系统, 一个进程打开文件并写入数据, 另一个进程则打开文件来读取数据, 但这种通信方式依赖于磁盘文件. 为了提高效率, 可以使用有名管道 (FIFO), 有名">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20240715144938.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240715145525.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240717114433.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240717115036.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240717134253.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240717134359.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240717134902.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240717140319.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240717140421.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240717150345.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240717151017.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240717183936.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240717114433.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240717220551.png">
+<meta property="article:published_time" content="2024-07-20T05:35:08.000Z">
+<meta property="article:modified_time" content="2024-07-20T05:57:17.689Z">
+<meta property="article:author" content="Wangrd">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20240715144938.png">
+  
+  
+  
+  <title>进程间通信 - Wangrd&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="进程间通信"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-20 13:35" pubdate>
+          2024年7月20日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          80 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">进程间通信</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>进程间通信</h1>
+<p>在多个进程之间, 如果需要进行通信的话, 隔离特性会造成一些通信的障碍. 所以我们需要一些手段来跨越隔离, 实现进程间通信 (InterProcess Communication, IPC)</p>
+<h2 id="管道">管道</h2>
+<p>一种最自然的通信方式就是依赖文件系统, 一个进程打开文件并写入数据, 另一个进程则打开文件来读取数据, 但这种通信方式依赖于磁盘文件. 为了提高效率, 可以使用有名管道 (FIFO), <strong>有名管道</strong>是文件系统中一种专门用于读写的文件, 它通过内核的管道缓冲区来传输数据.</p>
+<p>如果两个进程直接存在亲缘关系, 则可以使用<strong>匿名管道</strong> (也称作管道), 它不需要在文件系统中创建单独的文件, 而是在进程的执行过程中动态地创建和销毁.</p>
+<h3 id="popen-和-pclose">popen 和 pclose</h3>
+<p><code>popen</code> 函数用于打开一个进程, 通过管道连接到该进程的标准输入或标准输出, 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br>FILE *<span class="hljs-title function_">popen</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *command, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *type)</span>;<br></code></pre></td></tr></table></figure>
+<p>该函数首先会调用 <code>fork</code> 创建一个子进程, 并在父子进程之间创建一个管道用于通信, 然后调用 <code>exec</code> 执行 <code>command</code>.</p>
+<p>该管道在子进程的读/写端会根据模式 <code>type</code> 重定向到 <code>command</code> 的标准输出或者标准输入, 其中: <code>&quot;r&quot;</code> 表示返回的文件指针连接到 <code>command</code> 的标准输出, 即将该管道在子进程的写端重定向到 <code>command</code> 的标准输出, 此时返回的文件流可读; <code>&quot;w&quot;</code> 表示返回的文件指针连接到 <code>command</code> 的标准输入, 即将该管道在子进程的读端重定向到 <code>command</code> 的标准输入, 此时返回的文件流可写.</p>
+<p><code>pclose</code> 函数用于关闭由 <code>popen</code> 打开的进程, 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">pclose</span><span class="hljs-params">(FILE *stream)</span>;<br></code></pre></td></tr></table></figure>
+<p><code>popen</code> 的 <code>&quot;r&quot;</code> 模式的使用示例如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> <br>&#123;<br>    FILE *fp;<br>    <span class="hljs-type">char</span> path[<span class="hljs-number">1035</span>];<br><br>    <span class="hljs-comment">// 打开一个用于读取的管道，执行命令 &quot;ls -l /&quot;</span><br>    fp = popen(<span class="hljs-string">&quot;ls -l /&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br>    <span class="hljs-keyword">if</span> (fp == <span class="hljs-literal">NULL</span>) &#123;<br>        perror(<span class="hljs-string">&quot;popen&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);<br>    &#125;<br><br>    <span class="hljs-comment">// 读取命令的输出</span><br>    <span class="hljs-keyword">while</span> (fgets(path, <span class="hljs-keyword">sizeof</span>(path), fp) != <span class="hljs-literal">NULL</span>) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s&quot;</span>, path);<br>    &#125;<br><br>    <span class="hljs-comment">// 关闭管道</span><br>    <span class="hljs-keyword">if</span> (pclose(fp) == <span class="hljs-number">-1</span>) &#123;<br>        perror(<span class="hljs-string">&quot;pclose&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>popen</code> 的 <code>&quot;w&quot;</code> 模式的使用示例如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// add.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>	<span class="hljs-type">int</span> i, j;<br>	<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d,%d&quot;</span>, &amp;i, &amp;j);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sum = %d\n&quot;</span>, i + j);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// popen_w.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>	FILE *fp = popen(<span class="hljs-string">&quot;./add&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>);<br>	ERROR_CHECK(fp, <span class="hljs-literal">NULL</span>, <span class="hljs-string">&quot;popen&quot;</span>);<br><br>	fwrite(<span class="hljs-string">&quot;3,4&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3</span>, fp);<br>	<br>	pclose(fp);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="pipe">pipe</h3>
+<p>使用系统调用 <code>pipe</code> 可以创建匿名管道, 为了支持可移植性, 管道是半双工的, 所以一般需要同时使用两条管道来实现全双工通信. 除此以外, 管道只使用于存在亲缘关系的进程之间. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">pipe</span><span class="hljs-params">(<span class="hljs-type">int</span> pipefd[<span class="hljs-number">2</span>])</span>;<br></code></pre></td></tr></table></figure>
+<p>使用 <code>pipe</code> 之前, 需要创建一个大小为 2 的整型数组, 用于存储文件描述符. 其中 <code>pipefd[0]</code> 是读端的文件描述符, <code>pipefd[1]</code> 是写端的文件描述符:<br>
+<img src="/img/Pictures/20240715144938.png" srcset="/img/loading.gif" lazyload alt="描述" width="200" align = "center"></p>
+<p>只存在于单个进程中的管道是没有价值的, 因此, 在创建管道后, 必须通过 <code>fork</code> 复制管道的读/写端文件描述符来实现进程间通信:<br>
+<img src="/img/Pictures/20240715145525.png" srcset="/img/loading.gif" lazyload alt="描述" width="500" align = "center"></p>
+<p>相关代码如下所示:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>	<span class="hljs-type">int</span> fds[<span class="hljs-number">2</span>];<br>	pipe(fds);<br><br>	<span class="hljs-keyword">if</span> (!fork()) &#123;<br>		close(fds[<span class="hljs-number">1</span>]); <span class="hljs-comment">// 子进程关闭管道写端</span><br><br>		<span class="hljs-type">char</span> buf[<span class="hljs-number">128</span>] = &#123;<span class="hljs-number">0</span>&#125;;<br>		read(fds[<span class="hljs-number">0</span>], buf, <span class="hljs-keyword">sizeof</span>(buf));<br><br>		<span class="hljs-built_in">puts</span>(buf);<br><br>		<span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>		close(fds[<span class="hljs-number">0</span>]); <span class="hljs-comment">// 父进程关闭管道读端</span><br><br>		write(fds[<span class="hljs-number">1</span>], <span class="hljs-string">&quot;hello&quot;</span>, <span class="hljs-number">5</span>);<br><br>		wait(<span class="hljs-literal">NULL</span>);<br><br>		<span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="FIFO">FIFO</h3>
+<p>使用匿名管道时不需要在文件系统中创建一个管道文件, 进程退出时也不需要删除管道文<br>
+件, 但是匿名管道只能在存在亲缘关系的进程之间通信. 如果想要在任意两个进程之间通信, 可以使用有名管道. <code>mkfifo</code> 用于创建管道文件, 而 <code>unlink</code> 可以删除管道文件:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">mkfifo</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *pathname, <span class="hljs-type">mode_t</span> mode)</span>;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">unlink</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *path)</span>;<br></code></pre></td></tr></table></figure>
+<p>使用示例如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">2</span>);<br><br>	<span class="hljs-type">int</span> ret = mkfifo(argv[<span class="hljs-number">1</span>], <span class="hljs-number">0600</span>);<br>	ERROR_CHECK(ret, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;mkfifo&quot;</span>);<br><br>	<span class="hljs-type">int</span> fd = open(argv[<span class="hljs-number">1</span>], O_WRONLY);<br>	write(fd, <span class="hljs-string">&quot;hello&quot;</span>, <span class="hljs-number">5</span>);<br><br>	unlink(argv[<span class="hljs-number">1</span>]);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="共享内存">共享内存</h2>
+<p>在进程的数量比较少的时候, 使用管道进行通信是比较自然的思路. 但是随着进程数量增加, <code>pipe</code> 的使用次数将会急剧增加. 除此以外, 使用管道通信的时候, 数据要从写端拷贝到内核管道缓冲区, 再从缓冲区拷贝到读端, 总共要进行两次拷贝, 性能较差. 为了提升进程间通信的效率, 可以使用共享内存.</p>
+<p>对于进程而言, 代码中所使用的地址都是虚拟地址, 所操作的地址空间是虚拟地址空间. 当进程执行的时候, 如果发生访问内存的操作, 操作系统和硬件需要保证虚拟地址能够映射到物理内存上, 和这种地址转换相关的设备被称为内存管理单元 (MMU). 因此, 如果两个不同的进程使用相同的虚拟地址, 它们所对应的物理内存地址是不一样的. 共享内存就允许两个或者多个进程共享一个给定的物理存储区域. 当然为了实现共享, 内核会专门维护一个用来存储共享内存信息的数据结构.</p>
+<h3 id="system-V-版本共享内存">system V 版本共享内存</h3>
+<p>在 system V 版本的共享内存中, 内核使用一个非负整数键来区分不同的共享内存区域. 服务端进程和客户端进程可以使用同一个键定位共享内存段来进行通信. 键可以手动指定, 也可以通过 <code>ftok</code> 生成. <code>ftok</code> 需要根据一个已存在的文件和一个项目 ID (0 ~ 255 的整数) 来生成一个键. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/ipc.h&gt;</span></span><br><br><span class="hljs-type">key_t</span> <span class="hljs-title function_">ftok</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *pathname, <span class="hljs-type">int</span> proj_id)</span>;<br></code></pre></td></tr></table></figure>
+<p>使用示例如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>	ARGS_CHECK(argc, <span class="hljs-number">2</span>);<br><br>	<span class="hljs-type">key_t</span> key = ftok(argv[<span class="hljs-number">1</span>], <span class="hljs-number">1</span>);<br>	ERROR_CHECK(key, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;ftok&quot;</span>);<br><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;key = %d\n&quot;</span>, key);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>即使进程终止, 也不会销毁创建的共享内存、信号量和消息队列, 可以通过 <code>ipcs</code> 指令<strong>查看这些 IPC 的信息</strong>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">ipcs</span><br>--------- 消息队列 -----------<br>键        msqid      拥有者  权限     已用字节数 消息<br><br>------------ 共享内存段 --------------<br>键        shmid      拥有者  权限     字节     连接数  状态<br><br>--------- 信号量数组 -----------<br>键        semid      拥有者  权限     nsems<br>0xd2022721 0          root       666        1<br>0xd3022721 1          root       666        1<br>0xd4022721 2          root       666        1<br>0xd2023d62 3          root       666        1<br>0xd2023002 4          root       666        1<br></code></pre></td></tr></table></figure>
+<p>想要<strong>查看各个 IPC 的限制</strong>, 可以使用下面的指令:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">ipcs -l</span><br>---------- 同享内存限制 ------------<br>最大段数 = 4096<br>最大段大小 (千字节) = 18014398509465599<br>max total shared memory (kbytes) = 18446744073709551612<br>最小段大小 (字节) = 1<br><br>--------- 信号量限制 -----------<br>最大数组数量 = 32000<br>每个数组的最大信号量数目 = 32000<br>系统最大信号量数 = 1024000000<br>每次信号量调用最大操作数 = 500<br>信号量最大值=32767<br></code></pre></td></tr></table></figure>
+<p>手动删除某个 IPC, 可以使用下面的指令:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">ipcrm -m shmid</span><br></code></pre></td></tr></table></figure>
+<h3 id="创建-获取共享内存">创建/获取共享内存</h3>
+<p><code>shmget</code> 用于<strong>创建</strong>一个新的共享内存段或<strong>获取</strong>一个已经存在的共享内存段的标识符. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/ipc.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/shm.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">shmget</span><span class="hljs-params">(<span class="hljs-type">key_t</span> key, <span class="hljs-type">size_t</span> size, <span class="hljs-type">int</span> shmflg)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>key</code>: 标识共享内存段的键值. 可以通过 <code>ftok</code> 函数生成一个键值, 或者使用宏 <code>IPC_PRIVATE</code> 创建一个私有的共享内存段.
+<ul>
+<li>使用 <code>shmget</code> 接口时, 如果参数 <code>key</code> 的取值是宏 <code>IPC_PRIVATE</code>. 那么创建的共享内存段是私有的. 如果利用私有共享内存进行通信, 那么进程之间必须存在亲缘关系.</li>
+</ul>
+</li>
+<li><code>size</code> 是共享内存的大小, 它的<strong>取值必须是页大小的整数倍</strong> (以字节为单位).</li>
+<li><code>shmflg</code>: 控制标志, 用于指定共享内存段的权限和行为. 常见标志有:
+<ul>
+<li><code>IPC_CREAT</code>: 如果共享内存段不存在, 则创建它.</li>
+<li><code>IPC_EXCL</code>: 与 <code>IPC_CREAT</code> 一起使用, 如果共享内存段已经存在, 则返回错误.</li>
+<li>权限标志 (如 <code>0666</code>), 指定共享内存段的读写权限.</li>
+</ul>
+</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回共享内存段的标识符 (非负整数).</li>
+<li>失败时返回 <code>-1</code> 并设置 <code>errno</code>.</li>
+</ul>
+<h3 id="附加共享内存">附加共享内存</h3>
+<p><code>shmat</code> 用于<strong>将共享内存段附加到调用进程的地址空间</strong>. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/shm.h&gt;</span></span><br><br><span class="hljs-type">void</span> *<span class="hljs-title function_">shmat</span><span class="hljs-params">(<span class="hljs-type">int</span> shmid, <span class="hljs-type">const</span> <span class="hljs-type">void</span> *shmaddr, <span class="hljs-type">int</span> shmflg)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>shmid</code>: 共享内存段的标识符, 由 <code>shmget</code> 返回.</li>
+<li><code>shmaddr</code>: 指定共享内存段附加到的地址. 如果为 <code>NULL</code>, 系统将选择合适的地址.</li>
+<li><code>shmflg</code>: 控制标志. 常见标志有:
+<ul>
+<li><code>SHM_RDONLY</code>: 只读访问.</li>
+<li><code>SHM_RND</code>: 将共享内存段附加到 <code>shmaddr</code> 附近的一个地址, 该地址是 <code>SHMLBA</code> 的整数倍.</li>
+</ul>
+</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回共享内存段附加到的地址.</li>
+<li>失败时返回 <code>(void *) -1</code> 并设置 <code>errno</code>.</li>
+</ul>
+<h3 id="分离共享内存">分离共享内存</h3>
+<p><code>shmdt</code> 用于<strong>将共享内存段从调用进程的地址空间中分离</strong>. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/shm.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">shmdt</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">void</span> *shmaddr)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>shmaddr</code>: 共享内存段的起始地址, 该地址是 <code>shmat</code> 函数的返回值.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回 <code>0</code>.</li>
+<li>失败时返回 <code>-1</code> 并设置 <code>errno</code>.</li>
+</ul>
+<h3 id="控制共享内存">控制共享内存</h3>
+<p><code>shmctl</code> 用于<strong>对共享内存段进行各种控制操作</strong>, 包括删除共享内存段、获取共享内存段的信息以及设置共享内存段的属性. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/shm.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">shmctl</span><span class="hljs-params">(<span class="hljs-type">int</span> shmid, <span class="hljs-type">int</span> cmd, <span class="hljs-keyword">struct</span> shmid_ds *buf)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>shmid</code>: 共享内存段的标识符.</li>
+<li><code>cmd</code>: 控制命令. 常见命令包括:
+<ul>
+<li><code>IPC_STAT</code>: 获取共享内存段的信息, 并将信息存储在 <code>buf</code> 指向的 <code>shmid_ds</code> 结构体中.</li>
+<li><code>IPC_SET</code>: 设置共享内存段的属性, 从 <code>buf</code> 指向的 <code>shmid_ds</code> 结构体中获取新的属性.</li>
+<li><code>IPC_RMID</code>: 删除共享内存段. 该命令只会将共享内存段标记为待删除, 直到最后一个映射 (进程地址空间到共享内存段的映射) 解除, 该共享内存段才会被删除.</li>
+</ul>
+</li>
+<li><code>buf</code>: 指向 <code>shmid_ds</code> 结构体的指针, 用于存储或设置共享内存段的信息. 可以为 <code>NULL</code>, 具体取决于 <code>cmd</code> 的值. 其中 <code>shmid_ds</code> 结构体定义如下:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">shmid_ds</span> &#123;</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ipc_perm</span> <span class="hljs-title">shm_perm</span>;</span>    <span class="hljs-comment">// 操作权限结构体</span><br>    <span class="hljs-type">size_t</span>          shm_segsz;   <span class="hljs-comment">// 共享内存段的大小</span><br>    <span class="hljs-type">time_t</span>          shm_atime;   <span class="hljs-comment">// 最后一次 shmat 的时间</span><br>    <span class="hljs-type">time_t</span>          shm_dtime;   <span class="hljs-comment">// 最后一次 shmdt 的时间</span><br>    <span class="hljs-type">time_t</span>          shm_ctime;   <span class="hljs-comment">// 最后一次修改时间</span><br>    <span class="hljs-type">pid_t</span>           shm_cpid;    <span class="hljs-comment">// 创建共享内存段的进程 ID</span><br>    <span class="hljs-type">pid_t</span>           shm_lpid;    <span class="hljs-comment">// 最后一个操作共享内存段的进程 ID</span><br>    <span class="hljs-type">shmatt_t</span>        shm_nattch;  <span class="hljs-comment">// 当前附加到共享内存段的进程数</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回 <code>0</code>.</li>
+<li>失败时返回 <code>-1</code> 并设置 <code>errno</code>.</li>
+</ul>
+<p>具体示例如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/ipc.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/shm.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> <br>&#123;<br>    <span class="hljs-type">key_t</span> key = ftok(<span class="hljs-string">&quot;shmfile&quot;</span>, <span class="hljs-number">65</span>); <span class="hljs-comment">// 生成键值\</span><br><span class="hljs-comment">    int shmid = shmget(key, 1024, 0666 | IPC_CREAT); // 创建共享内存段</span><br><br>    <span class="hljs-keyword">if</span> (shmid == <span class="hljs-number">-1</span>) &#123;<br>        perror(<span class="hljs-string">&quot;shmget failed&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>    &#125;<br><br>    <span class="hljs-type">char</span> *str = (<span class="hljs-type">char</span>*) shmat(shmid, <span class="hljs-literal">NULL</span>, <span class="hljs-number">0</span>); <span class="hljs-comment">// 附加共享内存段</span><br><br>    <span class="hljs-keyword">if</span> (str == (<span class="hljs-type">char</span>*)<span class="hljs-number">-1</span>) &#123;<br>        perror(<span class="hljs-string">&quot;shmat failed&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Write Data: &quot;</span>);<br>    fgets(str, <span class="hljs-number">1024</span>, <span class="hljs-built_in">stdin</span>); <span class="hljs-comment">// 从标准输入读取数据并写入共享内存</span><br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Data written in memory: %s\n&quot;</span>, str);<br><br>    shmdt(str); <span class="hljs-comment">// 分离共享内存段</span><br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="使用共享内存进行进程间通信">使用共享内存进行进程间通信</h3>
+<p>在知道共享内存的键之后, 就可以通过共享内存在两个进程之间通信:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// shm_w</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>	<span class="hljs-type">int</span> shmid = shmget(<span class="hljs-number">1000</span>, <span class="hljs-number">4096</span>, <span class="hljs-number">0600</span> | IPC_CREAT);<br>	ERROR_CHECK(shmid, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;shmget&quot;</span>);<br><br>	<span class="hljs-type">char</span> *p = (<span class="hljs-type">char</span> *) shmat(shmid, <span class="hljs-literal">NULL</span>, <span class="hljs-number">0</span>);<br>	ERROR_CHECK(p, (<span class="hljs-type">char</span> *)<span class="hljs-number">-1</span>, <span class="hljs-string">&quot;shmat&quot;</span>);<br><br>	<span class="hljs-built_in">strcpy</span>(p, <span class="hljs-string">&quot;This is a test.&quot;</span>);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// shm_r</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>	<span class="hljs-type">int</span> shmid = shmget(<span class="hljs-number">1000</span>, <span class="hljs-number">4096</span>, <span class="hljs-number">0600</span> | IPC_CREAT);<br>	ERROR_CHECK(shmid, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;shmget&quot;</span>);<br><br>	<span class="hljs-type">char</span> *p = (<span class="hljs-type">char</span> *) shmat(shmid, <span class="hljs-literal">NULL</span>, <span class="hljs-number">0</span>);<br>	ERROR_CHECK(p, (<span class="hljs-type">char</span> *)<span class="hljs-number">-1</span>, <span class="hljs-string">&quot;shmat&quot;</span>);<br><br>	<span class="hljs-built_in">puts</span>(p);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="虚拟地址和物理地址转换机制">虚拟地址和物理地址转换机制</h3>
+<p>为了实现虚拟内存机制, 操作系统需要和硬件 MMU 配合来实现虚拟地址到物理地址的映射.</p>
+<h4 id="地址的分类">地址的分类</h4>
+<p>在 x86 架构中, 地址通常被分为三类:</p>
+<ul>
+<li><strong>逻辑地址</strong>: 逻辑地址是程序员在编写代码时使用的地址, 由段选择子和段内偏移组成.</li>
+<li><strong>线性地址</strong>: 也称为虚拟地址, 是通过分段机制从逻辑地址转换得到的统一地址空间. 线性地址空间是由操作系统和 CPU 管理的一个虚拟化的地址空间, 可以比实际的物理内存大.</li>
+<li><strong>物理地址</strong>: 物理地址是实际在计算机物理内存 (RAM) 中的地址. 线性地址通过分页机制映射到物理地址. 分页机制使用页表来管理线性地址到物理地址的映射.</li>
+</ul>
+<p>这三种地址的转换过程如下图所示:<br>
+<img src="/img/Pictures/20240717114433.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h4 id="硬件分段机制">硬件分段机制</h4>
+<p>分段是一种将线性地址空间划分为更小的受保护地址空间 (称为段) 的机制.</p>
+<p>分段过程如下图所示:</p>
+<img src="/img/Pictures/20240717115036.png" srcset="/img/loading.gif" lazyload alt="描述" width="350" align = "center">
+<p>从上图可知, 要想将逻辑地址转换为线性地址, 我们需要:</p>
+<ul>
+<li>段选择器: 它是段寄存器中的地址, 用于选择一个段描述符.</li>
+<li>偏移量: 从段描述符中获取基地址, 并加上该偏移量, 可以计算出线性地址.</li>
+<li>全局描述符表: 该表的基地址 (线性地址) 存储在 GDTR 寄存器中, 该表包含了一系列段描述符.</li>
+<li>段描述符: 包含段的基本信息, 如段的起始线性地址、段的大小、访问权限等.</li>
+</ul>
+<h5 id="段选择器">段选择器</h5>
+<p>段选择器是存储在段寄存器中的一个 16 位的值, 用于从两个表中选择一个段描述符:</p>
+<ul>
+<li>GDT, 全局描述符表, 用于全系统.</li>
+<li>LDT, 局部描述符表, 用于每个进程, 在内核切换进程上下文时进行切换.</li>
+</ul>
+<p>有六个段寄存器用于存储段选择器:</p>
+<ul>
+<li><code>CS</code>: 代码段寄存器</li>
+<li><code>SS</code>: 堆栈段寄存器</li>
+<li><code>DS</code>: 数据段寄存器</li>
+<li><code>ES</code>、<code>FS</code>、<code>GS</code>: 附加段寄存器</li>
+</ul>
+<p>想要执行一个程序, 至少需要在 <code>CS</code>、<code>SS</code> 和 <code>DS</code> 段寄存器中装入有效的段选择器.</p>
+<p><img src="/img/Pictures/20240717134253.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>一个<strong>段选择器的格式</strong>如下:</p>
+<p><img src="/img/Pictures/20240717134359.png" srcset="/img/loading.gif" lazyload alt=""><br>
+其中包含以下信息:</p>
+<ul>
+<li>索引 (Index): 指示段描述符在全局描述符表 (GDT) 或局部描述符表 (LDT) 中的位置.</li>
+<li>TI 位 (Table Indicator): 指示段描述符是在 GDT 中还是在 LDT 中. TI 位为 0 表示在 GDT 中, 为 1 表示在 LDT 中.</li>
+<li>请求特权级 (RPL, Request Privilege Level): 2 位, 值在 0 ~ 3 之间, 指示段的权限级别.</li>
+</ul>
+<p>因此, 一个程序中的分段情况可能如下:<br>
+<img src="/img/Pictures/20240717134902.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>下面是一个一个简单的程序:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在将该程序编译并加载到 gdb 后, 可以看到第一条指令位于进程内存的偏移 0x660 处:<br>
+<img src="/img/Pictures/20240717140319.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>然后通过 <code>x/i $rip</code> 查看当前指令地址处的机器指令及其反汇编形式:<br>
+<img src="/img/Pictures/20240717140421.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>此处的 “0x555555554660” 是线性地址, 可见, 当你的 <code>EIP/RIP</code> (32 位/64 位指令指针寄存器) 指向一条指令时, 你隐含地使用 CS (代码段) 寄存器作为代码段选择器. 因此, 你的 <code>eip</code> 实际上是 <code>cs:eip</code>. 类似地, 当你访问堆栈时, 你隐含地使用了一个逻辑地址, 该地址使用 SS (堆栈段) 寄存器作为段选择器, 即 <code>esp == ss:esp</code>.</p>
+<h5 id="全局-局部描述符表">全局/局部描述符表</h5>
+<p>GDTR 寄存器为 GDT 保存基地址 (x32 为 32 位, IA-32e (x64) 为 64 位) 和 16 位表限制:<br>
+<img src="/img/Pictures/20240717150345.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>GDT 是包含所有段描述符的表格. 每个段都有一个段描述符, 它指定了段的大小、访问段所需的访问权限和特权级别、段类型以及段的基地址.</p>
+<p>段描述符一般占 8 字节 (x64 中为 16 字节), 格式如下:<br>
+<img src="/img/Pictures/20240717151017.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>其中几个重要的字段如下所示:</p>
+<ul>
+<li>Base (32 位): 段的起始线性地址.</li>
+<li>Limit (20 位): 段的大小.</li>
+<li>G (Granularity, 粒度) flag: 如果为 0, 则 Limit 以字节为单位; 如果为 1, 则 Limit 以 4kb 为单位.</li>
+<li>D/B: 默认操作大小标记. 0 表示默认 16 位, 1 表示默认 32 位.</li>
+<li>DPL (描述符权限级别, 2 位): 指定描述符所需的权限级别.</li>
+</ul>
+<h5 id="权限级别">权限级别</h5>
+<p>处理器使用权限级别来防止程序或任务以较高的权限运行. 处理器的分段保护机制可识别 4 个特权级别, 从 0 到 3. 数字越大, 特权越小. 如下图所示:<br>
+<img src="/img/Pictures/20240717183936.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>由上图可知, 中心环 (为权限最高的代码、数据和堆栈预留) 用于包含关键软件 (通常是操作系统的内核) 的段. 外环用于关键性较低的软件.</p>
+<p>在分段中, 通过 RPL (请求权限级别) 和 DPL (描述符权限级别) 来定义访问某些资源的权限. <strong>只有段选择器中的 RPL 小于或等于段描述符的 DPL (即 RPL&lt;=DPL ) 时, 程序才能访问该段</strong>.</p>
+<h5 id="64-位处理器中的分段机制">64 位处理器中的分段机制</h5>
+<p>在 64 位模式下, 分段机制通常被禁用, 来创建一个扁平的 64 位线性地址空间 (此时逻辑地址等于线性地址). 处理器将 CS、DS、ES、SS 段的基地址视为零, 从而创建一个等于逻辑地址的线性地址. FS 和 GS 段是例外. 这些段寄存器可以用作线性地址计算中的附加基址寄存器, 它们有助于地址局部数据和某些操作系统数据结构.</p>
+<p>在早期计算机体系结构中, 分段机制用于解决内存小、程序和数据需要灵活管理的问题, 然而, 随着计算机硬件的发展, 内存容量大幅增加, 操作系统和应用程序的需求也发生了变化. 在禁用分段后, 内存地址空间变成了一个连续的 64 位线性地址空间, 这一设计能够简化内存管理, 避免了在分段之间进行地址转换的复杂性; 同时由于不需要额外的分段转换步骤, 也能够减少处理器的开销, 提高了内存访问速度; 此外, 禁用分段意味着不需要进行段限检查, 减少了可能出现的异常情况, 提高了系统的稳定性和性能. 唯一保留的 FS 和 GS 段寄存器提供了一些灵活性, 用于特定的内存访问需求.</p>
+<h4 id="硬件分页机制">硬件分页机制</h4>
+<p>Linux 中的硬件分页机制是虚拟内存管理的一部分, 用于将虚拟地址映射到物理地址. 分页机制的主要目的是为了提供一种抽象, 使程序可以使用比物理内存更大的地址空间, 同时也可以提高内存的使用效率和安全性.</p>
+<p>在该机制中, 虚拟地址空间和物理内存被划分成固定的大小. <strong>虚拟内存</strong>的基本单位是<strong>页</strong>, 通常页的大小为 4KB; <strong>物理内存</strong>的基本单位是<strong>物理页</strong> (也称为<strong>页框</strong>), 大小和虚拟内存的页相同. 在内核访问内存时, 每次访问都是以页为单位的.</p>
+<p><strong>页表</strong>是用来存储虚拟地址到物理地址映射的结构, 关于页表、TLB 缓存和分页机制的介绍可以看<a target="_blank" rel="noopener" href="https://wrd123789.github.io/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E9%A1%B5%E8%A1%A8/">此处</a>.</p>
+<p>整个分页过程如下图的右半部分所示:<br>
+<img src="/img/Pictures/20240717114433.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h5 id="Linux-的页管理">Linux 的页管理</h5>
+<p>在 Linux 中, 每个用户进程都拥有自己独立的页目录表和页表集合, 这样不同进程的相同虚拟地址才可以映射到不同的物理地址.</p>
+<p>用户进程的进程控制块 (在 Linux 中, 由 <code>task_struct</code> 结构体表示) 中的 <code>mm</code> 和 <code>active_mm</code> 成员与进程的内存管理相关. 这两个成员是指向进程地址空间的指针:</p>
+<ul>
+<li><code>mm</code> 成员. <code>mm</code> 成员是指向进程的内存描述符结构体 <code>mm_struct</code> 的指针. 该结构体用于描述该进程的地址空间, 其中包含了与进程地址空间相关的信息, 如:
+<ul>
+<li>所有已经分配的虚拟地址集合, 使用链表和红黑树来管理.</li>
+<li>页目录表, 总共使用的页表的个数.</li>
+<li>代码段、数据段、堆、栈、环境变量、命令行参数的起止地址.</li>
+<li>总共使用的物理页数量, 栈、共享内存、文件映射使用的页数量等.</li>
+</ul>
+</li>
+<li><code>active_mm</code> 成员. 也是指向 <code>mm_struct</code> 结构体的指针, 它用于指向当前正在使用的内存描述符. 该成员在处理内核线程时非常重要: 内核线程没有自己的独立地址空间, 因此它们的 <code>mm</code> 成员为 <code>NULL</code>. 当内核线程执行时, 它会使用最近一个用户进程的地址空间 (即 <code>active_mm</code>) 来进行内存操作.</li>
+</ul>
+<p>上文所说的 <code>mm_struct</code> 结构体定义如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">mm_struct</span> &#123;</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">vm_area_struct</span> *<span class="hljs-title">mmap</span>;</span>        <span class="hljs-comment">// 进程的虚拟内存区域链表</span><br>    <span class="hljs-type">pgd_t</span> *pgd;                         <span class="hljs-comment">// 页全局目录（页表）</span><br>    <span class="hljs-type">atomic_t</span> mm_users;                  <span class="hljs-comment">// 使用此内存描述符的用户进程计数</span><br>    <span class="hljs-type">atomic_t</span> mm_count;                  <span class="hljs-comment">// 引用计数</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> start_code, end_code; <span class="hljs-comment">// 代码段的起始和结束地址</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> start_data, end_data; <span class="hljs-comment">// 数据段的起始和结束地址</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> start_brk, brk;       <span class="hljs-comment">// 堆的起始地址和当前地址</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> start_stack;          <span class="hljs-comment">// 栈的起始地址</span><br>    <span class="hljs-comment">// 其他与内存管理相关的字段</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>相关结构如下图所示:<br>
+<img src="/img/Pictures/20240717220551.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>当进程需要分配虚拟内存空间时, 首先会修改其内存描述符里面的内容, 但是此时并不会真正分配物理页. 当第一次访问到未分配物理页的虚拟地址时, 会触发缺页异常. 如果该虚拟地址有效, 那么内核才会真正分配物理页, 并且在虚拟页和物理页之间建立映射关系 (该机制称为<a target="_blank" rel="noopener" href="https://wrd123789.github.io/2024/07/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E9%A1%B5%E8%A1%A8/#%E5%BB%B6%E8%BF%9F%E9%A1%B5%E9%9D%A2%E5%88%86%E9%85%8D">延迟页面分配</a>).</p>
+<h2 id="信号量">信号量</h2>
+<p>信号量是一种用于进程间同步和控制资源访问的机制. 它可以有效地解决多个进程或线程之间的同步问题, 防止竞争条件和死锁等问题.</p>
+<p>信号量是一个整型变量, 初始值一般为正数, 用来<strong>表示可以被访问的资源数量</strong>. 信号量有两种主要操作:</p>
+<ol>
+<li><strong>P 操作</strong>: 如果信号量的值大于 0, 则将其减 1; 如果信号量的值为 0, 则进程进入等待状态, 直到信号量的值大于 0.</li>
+<li><strong>V 操作</strong>: 将信号量的值加 1, 如果有进程在等待信号量, 则唤醒一个等待进程.</li>
+</ol>
+<p>信号量值的检查和加减操作是<strong>原子操作</strong> (也称为<strong>原语</strong>), 来保证信号量不受进程切换的影响. 如果信号量的值初始为 1, 则可以被称为<strong>二元信号量</strong>.</p>
+<p>下面主要介绍 System V 信号量. System V 信号量实际上是一个信号量集合 (创建后, 会被分配在内核区), 可以包含多个信号量, 用来管理复杂的共享资源情况, 例如多个资源的同步访问.</p>
+<p>System V 信号量的使用主要涉及以下几个操作:</p>
+<ul>
+<li>创建和获取信号量集合: <code>semget</code> 函数用于创建一个信号量集合或获取一个已有的信号量集合.</li>
+<li>操作信号量: <code>semop</code> 函数用于执行 P 操作和 V 操作, 即减小和增加信号量的值.</li>
+<li>控制信号量: <code>semctl</code> 函数用于对信号量集合进行控制操作, 包括初始化信号量、删除信号量等.</li>
+</ul>
+<h3 id="创建-获取信号量集合">创建/获取信号量集合</h3>
+<p>使用 <code>semget</code> 函数可以<strong>创建或获取一个信号量集合</strong>, 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/ipc.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/sem.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">semget</span><span class="hljs-params">(<span class="hljs-type">key_t</span> key, <span class="hljs-type">int</span> nsems, <span class="hljs-type">int</span> semflg)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>key</code>: 信号量集合的键值. 可以使用 <code>ftok</code> 函数生成, 用于唯一标识一个信号量集. 多个进程可以通过相同的 <code>key</code> 值访问同一个信号量集.</li>
+<li><code>nsems</code>: 信号量集合中信号量的数量.</li>
+<li><code>semflg</code>: 标志位, 可以包括以下标志:
+<ul>
+<li><code>IPC_CREAT</code>: 如果信号量集合不存在, 则创建一个新的.</li>
+<li><code>IPC_EXCL</code>: 与 <code>IPC_CREAT</code> 一起使用, 确保如果信号量集合已存在, 则返回错误.</li>
+<li>权限标志, 如 <code>0666</code> (表示读写权限).</li>
+</ul>
+</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回信号量的标识符.</li>
+<li>失败时返回 -1, 并设置 <code>errno</code>.</li>
+</ul>
+<h3 id="控制信号量集合">控制信号量集合</h3>
+<p>使用 <code>semctl</code> 函数用于<strong>控制信号量集合</strong>, 例如初始化信号量、获取信号量值、删除信号量集合等.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/sem.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">union</span> <span class="hljs-title">semun</span> &#123;</span><br>    <span class="hljs-type">int</span> val;               <span class="hljs-comment">// 用于 SETVAL</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">semid_ds</span> *<span class="hljs-title">buf</span>;</span>  <span class="hljs-comment">// 用于 IPC_STAT 和 IPC_SET</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">short</span> *<span class="hljs-built_in">array</span>; <span class="hljs-comment">// 用于 GETALL 和 SETALL</span><br>&#125;;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">semctl</span><span class="hljs-params">(<span class="hljs-type">int</span> semid, <span class="hljs-type">int</span> semnum, <span class="hljs-type">int</span> cmd, ...)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>semid</code>: 信号量集合的标识符.</li>
+<li><code>semnum</code>: 信号量在集合中的索引.</li>
+<li><code>cmd</code>: 控制命令, 如:
+<ul>
+<li><code>IPC_STAT</code>: 获取信号量的状态.</li>
+<li><code>IPC_SET</code>: 设置信号量的状态 (能设置的值比较有限).</li>
+<li><code>IPC_RMID</code>: 删除信号量集合.</li>
+<li><code>SETVAL</code>: 设置单个信号量的值.</li>
+<li><code>GETVAL</code>: 获取单个信号量的值.</li>
+<li><code>SETALL</code>: 设置所有信号量的值 (传入该值时不必关注 <code>semnum</code>, 且传入的数组中元素的数量必须和信号量的数量相同).</li>
+<li><code>GETALL</code>: 获取所有信号量的值 (传入该值时不必关注 <code>semnum</code>, 且传入的数组中元素的数量必须和信号量的数量相同).</li>
+</ul>
+</li>
+<li>变长参数 (<code>...</code>): 根据命令不同而不同, 例如 <code>SETVAL</code> 需要 <code>union semun</code> 作为参数.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回命令的执行结果 (如 <code>IPC_SET</code> 会返回 0, <code>GETVAL</code> 会返回信号量的值).</li>
+<li>失败时返回 -1, 并设置 <code>errno</code>.</li>
+</ul>
+<h3 id="操作信号量-P-V-操作">操作信号量 (P/V 操作)</h3>
+<p><code>semop</code> 用于<strong>对信号量进行操作 (P 操作和 V 操作)</strong>. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/sem.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">semop</span><span class="hljs-params">(<span class="hljs-type">int</span> semid, <span class="hljs-keyword">struct</span> sembuf *sops, <span class="hljs-type">size_t</span> nsops)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>semid</code>: 信号量集合的标识符.</li>
+<li><code>sops</code>: 信号量操作结构数组.</li>
+<li><code>nsops</code>: 数组中的操作数量.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回 0.</li>
+<li>失败时返回 -1, 并设置 <code>errno</code>.</li>
+</ul>
+<p>其中信号量操作结构 <code>sembuf</code> 定义如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sembuf</span> &#123;</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">short</span> sem_num;  <span class="hljs-comment">// 信号量编号</span><br>    <span class="hljs-type">short</span> sem_op;            <span class="hljs-comment">// 操作类型：P操作（-1）或V操作（+1）</span><br>    <span class="hljs-type">short</span> sem_flg;           <span class="hljs-comment">// 操作标志</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>其中:</p>
+<ul>
+<li><code>sem_num</code>: 信号量在集合中的编号.</li>
+<li><code>sem_op</code>: 操作类型, 负值表示 P 操作, 正值表示 V 操作, 0 表示等待信号量值为 0.</li>
+<li><code>sem_flg</code>: 操作标志, 如 <code>IPC_NOWAIT</code> (非阻塞操作) 和 <code>SEM_UNDO</code> (操作会自动撤销, 避免信号量资源泄露, 信号量资源泄露可能会导致死锁).</li>
+</ul>
+<h3 id="使用信号量保护共享资源">使用信号量保护共享资源</h3>
+<p>示例代码如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> N 10000000</span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>	<span class="hljs-comment">// 创建信号量</span><br>	<span class="hljs-type">int</span> semArrid = semget(<span class="hljs-number">1000</span>, <span class="hljs-number">1</span>, IPC_CREAT | <span class="hljs-number">0600</span>);<br>	ERROR_CHECK(semArrid, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;semget&quot;</span>);<br><br>	<span class="hljs-comment">// 初始化信号量</span><br>	<span class="hljs-type">int</span> ret = semctl(semArrid, <span class="hljs-number">0</span>, SETVAL, <span class="hljs-number">1</span>);<br>	ERROR_CHECK(ret, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;semctl&quot;</span>);<br><br>	<span class="hljs-comment">// P 操作</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sembuf</span> <span class="hljs-title">P</span>;</span><br>	P.sem_num = <span class="hljs-number">0</span>;<br>	P.sem_op = <span class="hljs-number">-1</span>;<br>	P.sem_flg = SEM_UNDO; <span class="hljs-comment">// 如果 P 操作被终止, 则自动撤回</span><br><br>	<span class="hljs-comment">// V 操作</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sembuf</span> <span class="hljs-title">V</span>;</span><br>	V.sem_num = <span class="hljs-number">0</span>;<br>	V.sem_op = <span class="hljs-number">1</span>;<br>	V.sem_flg = SEM_UNDO;<br><br>	<span class="hljs-comment">// 创建共享内存段, 大小必须为页的整数倍</span><br>	<span class="hljs-type">int</span> shmid = shmget(<span class="hljs-number">1000</span>, <span class="hljs-number">4096</span>, IPC_CREAT | <span class="hljs-number">0600</span>);<br>	ERROR_CHECK(shmid, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;shmget&quot;</span>);<br>	<br>	<span class="hljs-comment">// 将共享内存段附加到当前进程的地址空间中</span><br>	<span class="hljs-type">int</span> *p = (<span class="hljs-type">int</span> *)shmat(shmid, <span class="hljs-literal">NULL</span>, <span class="hljs-number">0</span>);<br>	ERROR_CHECK(p, (<span class="hljs-type">int</span> *)<span class="hljs-number">-1</span>, <span class="hljs-string">&quot;shmat&quot;</span>);<br><br>	p[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;<br><br>	<span class="hljs-keyword">if</span>(!fork()) &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; N; i += <span class="hljs-number">1</span>) &#123;<br>			semop(semArrid, &amp;P, <span class="hljs-number">1</span>); <span class="hljs-comment">// 执行 P 操作</span><br>			p[<span class="hljs-number">0</span>] += <span class="hljs-number">1</span>;<br>			semop(semArrid, &amp;V, <span class="hljs-number">1</span>); <span class="hljs-comment">// 执行 V 操作</span><br>		&#125;<br><br>		<span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; N; i += <span class="hljs-number">1</span>) &#123;<br>			semop(semArrid, &amp;P, <span class="hljs-number">1</span>); <span class="hljs-comment">// 执行 P 操作</span><br>			p[<span class="hljs-number">0</span>] += <span class="hljs-number">1</span>;<br>			semop(semArrid, &amp;V, <span class="hljs-number">1</span>); <span class="hljs-comment">// 执行 V 操作</span><br>		&#125;<br><br>		wait(<span class="hljs-literal">NULL</span>);<br><br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;result = %d\n&quot;</span>, p[<span class="hljs-number">0</span>]);<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="信号量的性能">信号量的性能</h3>
+<p>虽然信号量能够保证系统的正确性和防止资源竞争, 但是也会对系统性能产生一些影响, 主要原因如下:</p>
+<ul>
+<li>信号量的使用会导致上下文切换. 当一个进程因等待信号量而阻塞时, 操作系统会切换到另一个进程. 这种上下文切换是有开销的, 包括保存和恢复进程状态、切换页表等.</li>
+<li>信号量操作通常涉及系统调用, 例如 <code>semop</code>、<code>semctl</code> 等. 这些系统调用需要在用户态和内核态之间切换, 并执行相应的内核代码. 系统调用的频繁使用会增加系统开销, 降低性能.</li>
+</ul>
+<p>可以使用 <code>gettimeofday</code> 来精确地测量时间.</p>
+<p>该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/time.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">gettimeofday</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> timeval *tv, <span class="hljs-keyword">struct</span> timezone *tz)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>tv</code>: 指向 <code>timeval</code> 结构的指针, 用于存储当前时间. <code>timeval</code> 结构如下所示:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timeval</span> &#123;</span><br>    <span class="hljs-type">time_t</span> tv_sec;  <span class="hljs-comment">// 秒</span><br>    <span class="hljs-type">suseconds_t</span> tv_usec;  <span class="hljs-comment">// 微秒</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+其中:
+<ul>
+<li><code>tv_sec</code>: 从 Epoch 时间 (1970年1月1日00:00:00 UTC) 起的秒数.</li>
+<li><code>tv_usec</code>: 当前秒内的微秒数.</li>
+</ul>
+</li>
+<li><code>tz</code>: 指向 <code>timezone</code> 结构的指针, 已被废弃, 一般传入 <code>NULL</code>.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回 0.</li>
+<li>失败时返回 -1, 并设置 <code>errno</code>.</li>
+</ul>
+<p>下面使用 <code>gettimeofday</code> 来查看使用信号量对时间的影响:</p>
+<p><strong>使用信号量</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> N 10000000</span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>	<span class="hljs-comment">// 创建信号量</span><br>	<span class="hljs-type">int</span> semArrid = semget(<span class="hljs-number">1000</span>, <span class="hljs-number">1</span>, IPC_CREAT | <span class="hljs-number">0600</span>);<br>	ERROR_CHECK(semArrid, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;semget&quot;</span>);<br><br>	<span class="hljs-comment">// 初始化信号量</span><br>	<span class="hljs-type">int</span> ret = semctl(semArrid, <span class="hljs-number">0</span>, SETVAL, <span class="hljs-number">1</span>);<br>	ERROR_CHECK(ret, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;semctl&quot;</span>);<br><br>	<span class="hljs-comment">// P 操作</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sembuf</span> <span class="hljs-title">P</span>;</span><br>	P.sem_num = <span class="hljs-number">0</span>;<br>	P.sem_op = <span class="hljs-number">-1</span>;<br>	P.sem_flg = SEM_UNDO; <span class="hljs-comment">// 如果 P 操作被终止, 则自动撤回</span><br><br>	<span class="hljs-comment">// V 操作</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sembuf</span> <span class="hljs-title">V</span>;</span><br>	V.sem_num = <span class="hljs-number">0</span>;<br>	V.sem_op = <span class="hljs-number">1</span>;<br>	V.sem_flg = SEM_UNDO;<br><br>	<span class="hljs-comment">// 创建共享内存段, 大小必须为页的整数倍</span><br>	<span class="hljs-type">int</span> shmid = shmget(<span class="hljs-number">1000</span>, <span class="hljs-number">4096</span>, IPC_CREAT | <span class="hljs-number">0600</span>);<br>	ERROR_CHECK(shmid, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;shmget&quot;</span>);<br>	<br>	<span class="hljs-comment">// 将共享内存段附加到当前进程的地址空间中</span><br>	<span class="hljs-type">int</span> *p = (<span class="hljs-type">int</span> *)shmat(shmid, <span class="hljs-literal">NULL</span>, <span class="hljs-number">0</span>);<br>	ERROR_CHECK(p, (<span class="hljs-type">int</span> *)<span class="hljs-number">-1</span>, <span class="hljs-string">&quot;shmat&quot;</span>);<br><br>	p[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;<br><br>	<span class="hljs-comment">// 存储任务执行前的时间</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timeval</span> <span class="hljs-title">start</span>, <span class="hljs-title">end</span>;</span><br>	gettimeofday(&amp;start, <span class="hljs-literal">NULL</span>);<br><br>	<span class="hljs-keyword">if</span>(!fork()) &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; N; i += <span class="hljs-number">1</span>) &#123;<br>			semop(semArrid, &amp;P, <span class="hljs-number">1</span>); <span class="hljs-comment">// 执行 P 操作</span><br>			p[<span class="hljs-number">0</span>] += <span class="hljs-number">1</span>;<br>			semop(semArrid, &amp;V, <span class="hljs-number">1</span>); <span class="hljs-comment">// 执行 V 操作</span><br>		&#125;<br><br>		<span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; N; i += <span class="hljs-number">1</span>) &#123;<br>			semop(semArrid, &amp;P, <span class="hljs-number">1</span>); <span class="hljs-comment">// 执行 P 操作</span><br>			p[<span class="hljs-number">0</span>] += <span class="hljs-number">1</span>;<br>			semop(semArrid, &amp;V, <span class="hljs-number">1</span>); <span class="hljs-comment">// 执行 V 操作</span><br>		&#125;<br><br>		wait(<span class="hljs-literal">NULL</span>);<br><br>		<span class="hljs-comment">// 计算任务执行时间</span><br>		gettimeofday(&amp;end, <span class="hljs-literal">NULL</span>);<br>		<span class="hljs-type">time_t</span> s = end.tv_sec - start.tv_sec;<br>		<span class="hljs-type">time_t</span> us = end.tv_usec - start.tv_usec;<br>		<span class="hljs-keyword">if</span> (us &lt; <span class="hljs-number">0</span>) &#123;<br>			us += <span class="hljs-number">1000000</span>;<br>			s -= <span class="hljs-number">1</span>;<br>		&#125;<br><br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;total time = %ld s %ld us\n&quot;</span>, s, us);<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;result = %d\n&quot;</span>, p[<span class="hljs-number">0</span>]);<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>输出结果如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">./test</span><br>total time = 139 s 745398 us<br>result = 20000000<br></code></pre></td></tr></table></figure>
+<p><strong>不使用信号量</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> N 10000000</span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>	<span class="hljs-type">int</span> p[<span class="hljs-number">1</span>] = &#123;<span class="hljs-number">0</span>&#125;;<br><br>	<span class="hljs-comment">// 存储任务执行前的时间</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timeval</span> <span class="hljs-title">start</span>, <span class="hljs-title">end</span>;</span><br>	gettimeofday(&amp;start, <span class="hljs-literal">NULL</span>);<br><br>	<span class="hljs-keyword">if</span>(!fork()) &#123;<br>		<span class="hljs-comment">// 父子进程中的 `p` 的逻辑地址虽然相同, 但是物理地址是不同的, 因此子进程中修改 `p[0]` 不会影响父进程的 `p[0]`</span><br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; N * <span class="hljs-number">2</span>; i += <span class="hljs-number">1</span>)<br>			p[<span class="hljs-number">0</span>] += <span class="hljs-number">1</span>;<br><br>		<span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>		wait(<span class="hljs-literal">NULL</span>);<br><br>		<span class="hljs-comment">// 计算任务执行时间</span><br>		gettimeofday(&amp;end, <span class="hljs-literal">NULL</span>);<br>		<span class="hljs-type">time_t</span> s = end.tv_sec - start.tv_sec;<br>		<span class="hljs-type">time_t</span> us = end.tv_usec - start.tv_usec;<br>		<span class="hljs-keyword">if</span> (us &lt; <span class="hljs-number">0</span>) &#123;<br>			us += <span class="hljs-number">1000000</span>;<br>			s -= <span class="hljs-number">1</span>;<br>		&#125;<br><br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;total time = %ld s %ld us\n&quot;</span>, s, us);<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;result = %d\n&quot;</span>, p[<span class="hljs-number">0</span>]);<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>输出结果如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">./test0</span><br>total time = 0 s 38201 us<br>result = 0<br></code></pre></td></tr></table></figure>
+<p>可见信号量对程序的性能影响较大.</p>
+<h2 id="消息队列">消息队列</h2>
+<p>消息队列是一种进程间通信机制, 它维护了一个消息的链表, 允许进程通过发送和接收消息来通信. 消息队列与其他 IPC 机制相比, 提供了一种更为灵活和可靠的通信方式.</p>
+<h3 id="创建-获取消息队列">创建/获取消息队列</h3>
+<p>可以使用 <code>msgget</code> <strong>创建一个新的消息队列或获取一个现有的消息队列标识符</strong>. 该函数的原型为:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/ipc.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/msg.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">msgget</span><span class="hljs-params">(<span class="hljs-type">key_t</span> key, <span class="hljs-type">int</span> msgflg)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>key</code>: 一个键值, 用于标识唯一的消息队列. 可以通过 <code>ftok</code> 函数生成这个键值.</li>
+<li><code>msgflg</code>: 消息队列的标志. 可以是以下值的组合:
+<ul>
+<li>权限标志 (类似于文件权限, 如 <code>0666</code> 表示所有用户可读写).</li>
+<li>控制标志, 如 <code>IPC_CREAT</code> (如果不存在则创建) 和 <code>IPC_EXCL</code> (与 <code>IPC_CREAT</code> 一起使用, 如果消息队列已存在则返回错误).</li>
+</ul>
+</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回消息队列标识符 (非负整数).</li>
+<li>失败时返回 -1, 并设置 <code>errno</code> 以指示错误原因.</li>
+</ul>
+<h3 id="发送消息">发送消息</h3>
+<p>可以使用 <code>msgsnd</code> <strong>向消息队列发送消息</strong>. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/ipc.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/msg.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">msgsnd</span><span class="hljs-params">(<span class="hljs-type">int</span> msqid, <span class="hljs-type">const</span> <span class="hljs-type">void</span> *msgp, <span class="hljs-type">size_t</span> msgsz, <span class="hljs-type">int</span> msgflg)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>msqid</code>: 消息队列标识符, 由 <code>msgget</code> 返回.</li>
+<li><code>msgp</code>: 指向消息结构的指针. 消息结构必须包含一个 <code>long</code> 类型的成员 (消息类型) 和消息正文, 例如:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">message</span> &#123;</span><br>    <span class="hljs-type">long</span> msg_type;       <span class="hljs-comment">// 消息类型，必须是 long 类型</span><br>    <span class="hljs-type">char</span> msg_text[<span class="hljs-number">100</span>];  <span class="hljs-comment">// 消息正文</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>msgsz</code>: 消息正文的大小 (以字节为单位) , 不包括消息类型.</li>
+<li><code>msgflg</code>: 发送标志, 可以是 0 (默认行为) 或 IPC_NOWAIT (如果消息队列已满则不等待) .</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回 0.</li>
+<li>失败时返回 -1, 并设置 <code>errno</code> 以指示错误原因.</li>
+</ul>
+<h3 id="接收消息">接收消息</h3>
+<p>可以使用 <code>msgrcv</code> <strong>从消息队列接收消息</strong>. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/ipc.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/msg.h&gt;</span></span><br><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">msgrcv</span><span class="hljs-params">(<span class="hljs-type">int</span> msqid, <span class="hljs-type">void</span> *msgp, <span class="hljs-type">size_t</span> msgsz, <span class="hljs-type">long</span> msgtyp, <span class="hljs-type">int</span> msgflg)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>msqid</code>: 消息队列标识符.</li>
+<li><code>msgp</code>: 指向消息结构的指针, 用于存放接收的消息. 消息结构必须包含一个 <code>long</code> 类型的成员 (消息类型) 和消息正文, 例如:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">message</span> &#123;</span><br>    <span class="hljs-type">long</span> msg_type;       <span class="hljs-comment">// 消息类型，必须是 long 类型</span><br>    <span class="hljs-type">char</span> msg_text[<span class="hljs-number">100</span>];  <span class="hljs-comment">// 消息正文</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>msgsz</code>: 期望接收的消息正文的大小.</li>
+<li><code>msgtyp</code>: 指定要接收的消息类型. 如果为 0, 则接收队列中的第一条消息; 如果为正数, 则接收指定类型的第一条消息; 如果为负数, 则接收消息类型小于或等于 <code>abs(msgtyp)</code> 的第一条消息.</li>
+<li><code>msgflg</code>: 接收标志, 可以是 0 (默认行为) 、IPC_NOWAIT (如果没有消息则不等待) 、MSG_NOERROR (如果消息大于 <code>msgsz</code> 则截断) 等.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回接收到的消息正文的大小.</li>
+<li>失败时返回 -1, 并设置 <code>errno</code> 以指示错误原因.</li>
+</ul>
+<h3 id="控制消息队列">控制消息队列</h3>
+<p>可以使用 <code>msgctl</code> <strong>控制消息队列的各种操作</strong>. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/ipc.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/msg.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">msgctl</span><span class="hljs-params">(<span class="hljs-type">int</span> msqid, <span class="hljs-type">int</span> cmd, <span class="hljs-keyword">struct</span> msqid_ds *buf)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>msqid</code>: 消息队列标识符.</li>
+<li><code>cmd</code>: 控制命令, 可以是以下值之一:
+<ul>
+<li><code>IPC_RMID</code>: 删除消息队列.</li>
+<li><code>IPC_SET</code>: 设置消息队列的属性.</li>
+<li><code>IPC_STAT</code>: 获取消息队列的属性.</li>
+</ul>
+</li>
+<li><code>buf</code>: 指向消息队列数据结构 <code>struct msqid_ds</code> 的指针, 根据 <code>cmd</code> 进行不同的操作. 其中消息队列数据结构定义如下:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">msqid_ds</span> &#123;</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ipc_perm</span> <span class="hljs-title">msg_perm</span>;</span>   <span class="hljs-comment">// 消息队列的访问权限</span><br>    <span class="hljs-type">time_t</span> msg_stime;           <span class="hljs-comment">// 最后一个消息发送的时间</span><br>    <span class="hljs-type">time_t</span> msg_rtime;           <span class="hljs-comment">// 最后一个消息接收的时间</span><br>    <span class="hljs-type">time_t</span> msg_ctime;           <span class="hljs-comment">// 最后一次更改消息队列的时间</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> msg_cbytes;   <span class="hljs-comment">// 当前队列中的字节数</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> msg_qnum;     <span class="hljs-comment">// 当前队列中的消息数</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> msg_qbytes;   <span class="hljs-comment">// 队列中允许的最大字节数</span><br>    <span class="hljs-type">pid_t</span> msg_lspid;            <span class="hljs-comment">// 最后发送消息的进程 PID</span><br>    <span class="hljs-type">pid_t</span> msg_lrpid;            <span class="hljs-comment">// 最后接收消息的进程 PID</span><br>&#125;;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ipc_perm</span> &#123;</span><br>    <span class="hljs-type">key_t</span> __key;                <span class="hljs-comment">// IPC 资源的键值</span><br>    <span class="hljs-type">uid_t</span> uid;                  <span class="hljs-comment">// 拥有者的用户 ID</span><br>    <span class="hljs-type">gid_t</span> gid;                  <span class="hljs-comment">// 拥有者的组 ID</span><br>    <span class="hljs-type">uid_t</span> cuid;                 <span class="hljs-comment">// 创建者的用户 ID</span><br>    <span class="hljs-type">gid_t</span> cgid;                 <span class="hljs-comment">// 创建者的组 ID</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">short</span> mode;        <span class="hljs-comment">// 访问权限</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">short</span> __seq;       <span class="hljs-comment">// 序列号</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回 0.</li>
+<li>失败时返回 -1, 并设置 <code>errno</code> 以指示错误原因.</li>
+</ul>
+<p>下面是示例代码:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/ipc.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/msg.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_TEXT 512</span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">message</span> &#123;</span><br>    <span class="hljs-type">long</span> msg_type;<br>    <span class="hljs-type">char</span> msg_text[MAX_TEXT];<br>&#125;;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> <br>&#123;<br>    <span class="hljs-type">key_t</span> key;<br>    <span class="hljs-type">int</span> msgid;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">message</span> <span class="hljs-title">msg</span>;</span><br><br>    <span class="hljs-comment">// 生成唯一的键值</span><br>    key = ftok(<span class="hljs-string">&quot;progfile&quot;</span>, <span class="hljs-number">65</span>);<br><br>    <span class="hljs-comment">// 创建消息队列并返回标识符</span><br>    msgid = msgget(key, <span class="hljs-number">0666</span> | IPC_CREAT);<br>    <span class="hljs-keyword">if</span> (msgid == <span class="hljs-number">-1</span>) &#123;<br>        perror(<span class="hljs-string">&quot;msgget&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>    &#125;<br><br>    <span class="hljs-comment">// 准备消息</span><br>    msg.msg_type = <span class="hljs-number">1</span>;<br>    <span class="hljs-built_in">strcpy</span>(msg.msg_text, <span class="hljs-string">&quot;Hello, World!&quot;</span>);<br><br>    <span class="hljs-comment">// 发送消息到消息队列</span><br>    <span class="hljs-keyword">if</span> (msgsnd(msgid, &amp;msg, <span class="hljs-keyword">sizeof</span>(msg.msg_text), <span class="hljs-number">0</span>) == <span class="hljs-number">-1</span>) &#123;<br>        perror(<span class="hljs-string">&quot;msgsnd&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>    &#125;<br><br>    <span class="hljs-comment">// 接收消息</span><br>    <span class="hljs-keyword">if</span> (msgrcv(msgid, &amp;msg, <span class="hljs-keyword">sizeof</span>(msg.msg_text), <span class="hljs-number">1</span>, <span class="hljs-number">0</span>) == <span class="hljs-number">-1</span>) &#123;<br>        perror(<span class="hljs-string">&quot;msgrcv&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>    &#125;<br><br>    <span class="hljs-comment">// 打印接收到的消息</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Received message: %s\n&quot;</span>, msg.msg_text);<br><br>    <span class="hljs-comment">// 删除消息队列</span><br>    <span class="hljs-keyword">if</span> (msgctl(msgid, IPC_RMID, <span class="hljs-literal">NULL</span>) == <span class="hljs-number">-1</span>) &#123;<br>        perror(<span class="hljs-string">&quot;msgctl&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="proc-目录">/proc 目录</h3>
+<p>/proc 文件系统是一种<strong>虚拟</strong>文件系统, 包含内核和进程的信息, 它为用户和应用程序提供了一个接口来访问内核和系统进程的内部信息. 它不是一个真实存在于磁盘上的文件系统, 而是由内核在运行时动态生成的 (存放在内存中).</p>
+<p>/proc 中的文件常被称作<strong>虚拟文件</strong>, 为了查看及使用上的方便, 这些文件通常会按照相关性进行分类存储于不同的目录甚至子目录中, 基本上可以分为以下几类:</p>
+<ul>
+<li><strong>内核和系统信息</strong>:
+<ul>
+<li><code>/proc/cpuinfo</code>: 显示 CPU 信息.</li>
+<li><code>/proc/meminfo</code>: 显示内存使用情况.</li>
+<li><code>/proc/version</code>: 显示内核版本信息.</li>
+<li><code>/proc/uptime</code>: 显示系统运行时间和空闲时间.</li>
+<li><code>/proc/loadavg</code>: 显示系统的负载平均值.</li>
+</ul>
+</li>
+<li><strong>进程信息</strong>: <code>/proc/[pid]/</code>, 每个运行的进程都有一个对应的目录, 其中 <code>[pid]</code> 是进程 ID. 这个目录包含了与该进程相关的各种信息和状态文件, 例如:
+<ul>
+<li><code>/proc/[pid]/cmdline</code>: 进程的启动命令行.</li>
+<li><code>/proc/[pid]/cwd</code>: 进程的当前工作目录.</li>
+<li><code>/proc/[pid]/exe</code>: 进程的可执行文件.</li>
+<li><code>/proc/[pid]/fd/</code>: 进程的文件描述符.</li>
+</ul>
+</li>
+<li><strong>系统参数和配置</strong>: <code>/proc/sys/</code>, 包含可调节的内核参数, 可以通过 <code>sysctl</code> 命令或直接写入这些文件来调整系统行为. 例如:
+<ul>
+<li><code>/proc/sys/net/ipv4/ip_forward</code>: 控制 IP 转发.</li>
+<li><code>/proc/sys/vm/swappiness</code>: 控制交换空间的使用.</li>
+</ul>
+</li>
+<li><strong>诊断和调试</strong>:
+<ul>
+<li><code>/proc/kmsg</code>: 内核消息.</li>
+<li><code>/proc/modules</code>: 当前加载的内核模块.</li>
+<li><code>/proc/interrupts</code>: 中断处理信息.</li>
+</ul>
+</li>
+</ul>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Segmentation in Intel x64(IA-32e) architecture - explained using Linux: <a target="_blank" rel="noopener" href="https://nixhacker.com/segmentation-in-intel-64-bit/">https://nixhacker.com/segmentation-in-intel-64-bit/</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>王道 C++: <a target="_blank" rel="noopener" href="http://home.cskaoyan.com/#/c++/0">http://home.cskaoyan.com/#/c++/0</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/Linux/" class="category-chain-item">Linux</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/14/Linux/%E8%BF%9B%E7%A8%8B/" title="进程">
+                        <span class="hidden-mobile">进程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
