@@ -1,0 +1,842 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/bg/3.png">
+  <link rel="icon" href="/img/bg/3.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wangrd">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="信号 在进程运行过程中, 经常会产生一些事件, 这些事件的产生和进程的执行往往是异步的, 信号提供了一种在软件层面上的异步事件处理机制. 由于在硬件层面上的异步处理机制是中断, 而信号是中断的软件模拟, 因此信号是一种软件中断. 每个信号都可以用一个整型常量宏表示, 以 SIG 开头, 如 SIGCHLD、SIGINT 等, 它们一般在系统头文件 signal.h 中定义, 可以通过 kill -">
+<meta property="og:type" content="article">
+<meta property="og:title" content="信号">
+<meta property="og:url" content="http://example.com/2024/07/23/Linux/%E4%BF%A1%E5%8F%B7/index.html">
+<meta property="og:site_name" content="Wangrd&#39;s Blog">
+<meta property="og:description" content="信号 在进程运行过程中, 经常会产生一些事件, 这些事件的产生和进程的执行往往是异步的, 信号提供了一种在软件层面上的异步事件处理机制. 由于在硬件层面上的异步处理机制是中断, 而信号是中断的软件模拟, 因此信号是一种软件中断. 每个信号都可以用一个整型常量宏表示, 以 SIG 开头, 如 SIGCHLD、SIGINT 等, 它们一般在系统头文件 signal.h 中定义, 可以通过 kill -">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-23T05:28:34.000Z">
+<meta property="article:modified_time" content="2024-07-23T05:31:00.788Z">
+<meta property="article:author" content="Wangrd">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>信号 - Wangrd&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="信号"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-23 13:28" pubdate>
+          2024年7月23日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          46 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">信号</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>信号</h1>
+<p>在进程运行过程中, 经常会产生一些事件, 这些事件的产生和进程的执行往往是异步的, 信号提供了一种在软件层面上的异步事件处理机制. 由于在硬件层面上的异步处理机制是<strong>中断</strong>, 而信号是中断的软件模拟, 因此信号是一种<strong>软件中断</strong>.</p>
+<p>每个信号都可以用一个整型常量宏表示, 以 <code>SIG</code> 开头, 如 <code>SIGCHLD</code>、<code>SIGINT</code> 等, 它们一般在系统头文件 <code>signal.h</code> 中定义, 可以通过 <code>kill -l</code> 指令查看信号列表.</p>
+<h2 id="信号的产生">信号的产生</h2>
+<p>产生的信号的方法有很多种:</p>
+<ol>
+<li><strong>终端输入</strong>: 用户可以在终端使用键盘组合键产生信号. 例如, 按下 <code>Ctrl+C</code> 会产生 <code>SIGINT</code> 信号, 按下 <code>Ctrl+\</code> 会产生 <code>SIGQUIT</code> 信号.</li>
+<li><strong>系统调用</strong>: 进程可以通过系统调用向自己或其他进程发送信号. 例如:
+<ul>
+<li><code>kill(pid_t pid, int sig)</code>: 向指定进程发送信号.</li>
+<li><code>raise(int sig)</code>: 向自身进程发送信号.</li>
+<li><code>abort()</code>: 向自身进程发送 <code>SIGABRT</code> 信号, 用于异常终止.</li>
+</ul>
+</li>
+<li><strong>定时器</strong>: 进程可以使用定时器函数设置定时器, 当定时器到期时会发送信号. 例如:
+<ul>
+<li><code>alarm(unsigned int seconds)</code>: 在指定的秒数后发送 <code>SIGALRM</code> 信号.</li>
+<li><code>setitimer</code> 和 <code>timer_create</code> 等更高级的定时器函数.</li>
+</ul>
+</li>
+<li><strong>硬件异常</strong>: 当进程执行非法操作 (如非法内存访问、除零操作等) 时, 内核会向进程发送相应的信号. 例如, 非法内存访问会产生 <code>SIGSEGV</code> 信号.</li>
+<li><strong>其他进程</strong>: 一个进程可以使用 <code>kill</code> 系统调用向另一个进程发送信号. 例如, <code>kill(1234, SIGKILL)</code> 向进程号为 1234 的进程发送 <code>SIGKILL</code> 信号.</li>
+</ol>
+<h2 id="信号的处理">信号的处理</h2>
+<p>进程接收到信号后的常见处理方式如下:</p>
+<ol>
+<li><strong>执行默认处理</strong>: 每种信号都有一个默认处理动作, 除非被显式覆盖. 例如, <code>SIGINT</code> 的默认处理是终止进程, <code>SIGSEGV</code> 的默认处理是产生核心转储并终止进程.</li>
+<li><strong>捕获信号</strong>: 进程可以通过 <code>signal</code> 或 <code>sigaction</code> 函数注册一个信号处理程序. 当信号到达时, 内核会调用该处理程序.</li>
+<li><strong>忽略信号</strong>: 进程可以通过 <code>signal</code> 函数设置信号处理程序为 <code>SIG_IGN</code> 来忽略某个信号. 例如, <code>signal(SIGINT, SIG_IGN)</code> 会忽略 <code>SIGINT</code> 信号.</li>
+<li><strong>阻塞信号</strong>: 进程可以使用 <code>sigprocmask</code> 函数阻塞某些信号, 从而暂时不处理这些信号. 阻塞的信号会在解除阻塞时处理.</li>
+</ol>
+<p>但是有两个信号既不能被忽略也不能被捕捉, 它们是 <code>SIGKILL</code> 和 <code>SIGSTOP</code>, 如果进程接收到这两个信号, 只能接受系统的默认处理.</p>
+<h2 id="信号的实现机制">信号的实现机制</h2>
+<p>信号可以被视为一组标志位, 每个信号对应一个标志位. 进程的信号集 (<code>sigset_t</code>) 中每个位置对应一个特定的信号, 定义如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> __val[_SIGSET_NWORDS];<br>&#125; <span class="hljs-type">sigset_t</span>;<br></code></pre></td></tr></table></figure>
+<p>其中两个重要的信号集如下:</p>
+<ul>
+<li><code>sigblock</code> 集 (也称为<strong>信号屏蔽字</strong>). 该信号集包含所有应该被进程阻塞的信号. 当一个信号在 <code>sigblock</code> 集中时, 它不会立即传递给进程进行处理, 而是处于挂起状态.</li>
+<li><code>sigpending</code> 集 (也称为<strong>挂起信号集</strong>). 该信号集包含所有已发送给进程但尚未被处理的信号. <code>sigpending</code> 集中的信号表示已经被内核记录, 但由于该信号被阻塞或进程尚未准备好处理, 它们还没有被传递给进程.</li>
+</ul>
+<p>信号的整个<strong>处理过程</strong>如下:</p>
+<ol>
+<li>当信号产生时, 内核首先会检查目标进程的信号屏蔽字 (<code>sigblock</code> 集).</li>
+<li>如果产生的信号在 <code>sigblock</code> 集中, 那么该信号会被阻塞. 阻塞的信号会被添加到 <code>sigpending</code> 集中, 表示该信号处于挂起状态, 这种信号被称为<strong>挂起信号</strong>或者是<strong>未决信号</strong>; 如果产生的信号不在 <code>sigblock</code> 集中, 目标进程会<strong>立刻</strong>处理该信号. 处理该信号时, 进程会暂停当前的任务, 执行信号处理程序 (如果有自定义处理程序) 或者执行默认处理行为.
+<ul>
+<li>当进程解除对某个信号的阻塞时 (例如通过 <code>sigprocmask</code>), 该信号不会立即被处理, 而是需要等到下一个<strong>信号响应时机</strong> (信号到达并可以被进程处理的时刻, 如从系统调用返回用户态、进程状态切换等).</li>
+</ul>
+</li>
+<li>在信号响应时机, 内核会检查进程的 <code>sigpending</code> 集, 查看是否有未决信号需要处理. 如果有未决信号, 内核会检查该信号是否被 <code>sigblock</code> 集阻塞. 如果未决信号不再被阻塞 (即不在 <code>sigblock</code> 集中), 内核会进行信号处理.</li>
+</ol>
+<p><strong>同步信号</strong>是由进程自身的行为所触发的信号. 这些信号与进程的执行流紧密相关, 通常在特定的代码执行过程中产生, 它们的触发在代码中是可以预测的; <strong>异步信号</strong>是由外部事件触发的信号, 不一定与进程的当前执行流直接相关, 通常由外部资源或用户操作引起, 它们的触发是随机的, 无法在代码中预测到具体的触发时机.</p>
+<h2 id="使用-signal-注册信号">使用 signal 注册信号</h2>
+<p><code>signal</code> 函数用于设置信号处理程序. 当进程收到指定信号时, 将调用相应的处理程序. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><br><span class="hljs-type">void</span> (*signal(<span class="hljs-type">int</span> signum, <span class="hljs-type">void</span> (*handler)(<span class="hljs-type">int</span>)))(<span class="hljs-type">int</span>);<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>signum</code>: 信号的编号. 常用的信号编号定义在 <code>&lt;signal.h&gt;</code> 中, 如 <code>SIGINT</code>、<code>SIGTERM</code>、<code>SIGKILL</code> 等.</li>
+<li><code>handler</code>: 信号处理程序指针. 可以是以下值之一:
+<ul>
+<li><code>SIG_IGN</code>: 忽略信号.</li>
+<li><code>SIG_DFL</code>: 使用默认信号处理程序.</li>
+<li>指向自定义信号处理函数的指针. 这个函数必须符合以下原型:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">handler</span><span class="hljs-params">(<span class="hljs-type">int</span> signum)</span>;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时, 返回信号处理程序指针.</li>
+<li>失败时, 返回 <code>SIG_ERR</code>.</li>
+</ul>
+<p>该函数的使用示例如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-comment">// 自定义信号处理程序</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">handle_sigint</span><span class="hljs-params">(<span class="hljs-type">int</span> signum)</span> <br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Caught signal %d\n&quot;</span>, signum);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> <br>&#123;<br>    <span class="hljs-comment">// 设置 SIGINT 的信号处理程序为 handle_sigint</span><br>    <span class="hljs-keyword">if</span> (signal(SIGINT, handle_sigint) == SIG_ERR) &#123;<br>        perror(<span class="hljs-string">&quot;signal&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Waiting for SIGINT (press Ctrl+C)...\n&quot;</span>);<br>    <br>    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>)<br>        sleep(<span class="hljs-number">1</span>);  <span class="hljs-comment">// 模拟长期运行的进程</span><br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在该示例中, 当用户按下 <code>Ctrl+C</code> (发送 <code>SIGINT</code> 信号) 时, 程序将调用 <code>handle_sigint</code> 函数并打印一条消息.</p>
+<p>在执行信号处理程序时, 如果接收到一个信号, 会根据该信号的类型作出不同的反应:</p>
+<ul>
+<li>如果接收到的是另一个<strong>不同类型的信号</strong>. 当前的信号处理程序会被中断, 此时 CPU 会优先执行新的信号的信号处理程序, 执行完成后, 再恢复原来的信号处理程序的上下文.</li>
+<li>如果接收到的是另一个<strong>相同类型的信号</strong>. 当前的信号处理程序不会被中断, 在执行完当前的信号处理程序后, 才会执行新的信号的信号处理程序.</li>
+<li>如果接收到<strong>多个重复</strong>的<strong>相同类型</strong>的信号, 后面的信号会被忽略.</li>
+</ul>
+<p>当进程在执行某个信号处理函数时, 如果再产生一个同类型信号, 信号处理流程不会中断 (因为在执行该函数时, 信号集 <code>sigblock</code> 会将本信号对应位设置为 1), 而信号集 <code>sigpending</code> 中的对应位会被设置为 1, 表示此时存在一个挂起信号, 随后产生的同类型信号将不再被记录. 之所以设计同类型信号无法被中断, 是考虑到信号处理函数执行过程中可能会修改静态数据或者堆数据 (如 <code>stdout</code>), 如果中断该过程, 可能会破坏这些数据.</p>
+<h2 id="使用-sigaction-注册信号">使用 <code>sigaction</code> 注册信号</h2>
+<p><code>sigaction</code> 函数用于指定或改变信号处理程序, 并<strong>指定</strong>在信号处理程序执行期间<strong>需要屏蔽的信号集合</strong>. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">sigaction</span><span class="hljs-params">(<span class="hljs-type">int</span> signum, <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> sigaction *act, <span class="hljs-keyword">struct</span> sigaction *oldact)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>signum</code>: 要捕获或处理的信号编号, 例如 <code>SIGINT</code>, <code>SIGTERM</code> 等.</li>
+<li><code>act</code>: 一个指向 <code>struct sigaction</code> 结构体的指针, 用于指定新的信号处理方式. 如果为 <code>NULL</code>, 表示不改变当前信号处理方式.</li>
+<li><code>oldact</code>: 一个指向 <code>struct sigaction</code> 结构体的指针, 用于保存之前的信号处理方式. 如果为 <code>NULL</code>, 表示不保存之前的处理方式.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回 0.</li>
+<li>失败时返回 -1, 并设置 <code>errno</code> 以指示错误类型.</li>
+</ul>
+<p>上文中所说的 <strong><code>struct sigaction</code> 结构体</strong>定义如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sigaction</span> &#123;</span><br>    <span class="hljs-type">void</span> (*sa_handler)(<span class="hljs-type">int</span>);          <span class="hljs-comment">// 信号处理函数指针</span><br>    <span class="hljs-type">void</span> (*sa_sigaction)(<span class="hljs-type">int</span>, <span class="hljs-type">siginfo_t</span> *, <span class="hljs-type">void</span> *); <span class="hljs-comment">// 带更多参数的信号处理函数指针</span><br>    <span class="hljs-type">sigset_t</span> sa_mask;                 <span class="hljs-comment">// 在处理该信号期间需要屏蔽的信号集合</span><br>    <span class="hljs-type">int</span> sa_flags;                     <span class="hljs-comment">// 修改信号处理行为的选项</span><br>    <span class="hljs-type">void</span> (*sa_restorer)(<span class="hljs-type">void</span>);        <span class="hljs-comment">// 已不推荐使用</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>其中:</p>
+<ul>
+<li><code>sa_handler</code>: 指向处理信号的函数, 该函数接受一个 <code>int</code> 类型的参数, 即信号编号.</li>
+<li><code>sa_sigaction</code>: 一个更高级的处理函数, 接受三个参数: 信号编号、指向 <code>siginfo_t</code> 结构体的指针和指向包含信号处理时的上下文信息的结构体的指针 (在 Linux 中, 这个结构体是 <code>ucontext_t</code>, 它包含了信号发生时的 CPU 寄存器、堆栈指针等上下文信息). 在使用 <code>sa_sigaction</code> 时, 需要在 <code>sa_flags</code> 中设置 <code>SA_SIGINFO</code> 标志.</li>
+<li><code>sa_mask</code>: <code>sa_mask</code> 指定在信号处理程序执行期间需要屏蔽的信号集合. 可以使用以下函数对其进行操作:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><br><span class="hljs-comment">// 初始化信号集, 清除所有信号</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">sigemptyset</span><span class="hljs-params">(<span class="hljs-type">sigset_t</span> *<span class="hljs-built_in">set</span>)</span>;<br><br><span class="hljs-comment">// 初始化信号集, 包含所有信号</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">sigfillset</span><span class="hljs-params">(<span class="hljs-type">sigset_t</span> *<span class="hljs-built_in">set</span>)</span>;<br><br><span class="hljs-comment">// 增加信号</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">sigaddset</span><span class="hljs-params">(<span class="hljs-type">sigset_t</span> *<span class="hljs-built_in">set</span>, <span class="hljs-type">int</span> signum)</span>;<br><br><span class="hljs-comment">// 从信号集中删除信号</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">sigdelset</span><span class="hljs-params">(<span class="hljs-type">sigset_t</span> *<span class="hljs-built_in">set</span>, <span class="hljs-type">int</span> signum)</span>;<br><br><span class="hljs-comment">// 检测信号是否在信号集中</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">sigismember</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">sigset_t</span> *<span class="hljs-built_in">set</span>, <span class="hljs-type">int</span> signum)</span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>sa_flags</code>: 用于修改信号处理的行为, 可以是以下一个或多个值的组合:
+<ul>
+<li><code>SA_NOCLDSTOP</code>: 该标记只能用于 <code>SIGCHLD</code> 信号. 通常, 当一个子进程停止或继续运行时, 会发送 <code>SIGCHLD</code> 信号给父进程. 如果父进程为 <code>SIGCHLD</code> 信号设置了 <code>SA_NOCLDSTOP</code>, 当子进程停止或继续时, 就不会发送 <code>SIGCHLD</code> 信号给父进程. 在信号处理函数被调用之前生效.</li>
+<li><code>SA_NOCLDWAIT</code>: 该标记只能用于 <code>SIGCHLD</code> 信号. 如果父进程为 <code>SIGCHLD</code> 信号设置了 <code>SA_NOCLDWAIT</code>, 在子进程终止时, 不会创建僵尸进程, 即该父进程不需要调用 <code>wait()</code> 或 <code>waitpid()</code> 来获取子进程的终止状态, 但是此时子进程仍然会发送 <code>SIGCHLD</code> 信号. 在信号处理函数被调用之前生效.</li>
+<li><code>SA_NODEFER</code>: 这个标志表示在调用信号处理程序时, 不自动屏蔽正在处理的信号 (即不将它添加到信号屏蔽字 <code>sa_mask</code> 中). 默认情况下, 在信号处理程序执行期间, 与正在处理的信号相同的信号会被自动屏蔽, 防止信号处理程序重入.</li>
+<li><code>SA_ONSTACK</code>: 使用替代信号栈处理信号. 如果程序使用 <code>sigaltstack()</code> 函数设置了一个备用信号栈, 设置 <code>SA_ONSTACK</code> 标志可以使信号处理程序在备用信号栈上运行, 通常用于处理栈溢出等情况.</li>
+<li><code>SA_RESETHAND</code>: 信号处理程序执行后恢复到默认行为. 也就是说, 信号处理程序只会执行一次, 之后信号的处理方式会重置为默认处理方式.</li>
+<li><code>SA_RESTART</code>: 自动重启被信号中断的系统调用.</li>
+<li><code>SA_SIGINFO</code>: 使用 <code>sa_sigaction</code> 处理信号, 而不是 <code>sa_handler</code>.</li>
+</ul>
+</li>
+</ul>
+<p>示例程序如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">handle_signal</span><span class="hljs-params">(<span class="hljs-type">int</span> signum)</span> <br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Caught signal %d\n&quot;</span>, signum);<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">handle_sigaction</span><span class="hljs-params">(<span class="hljs-type">int</span> signum, <span class="hljs-type">siginfo_t</span> *info, <span class="hljs-type">void</span> *context)</span> <br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Caught signal %d\n&quot;</span>, signum);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Signal originated from process %d\n&quot;</span>, info-&gt;si_pid);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> <br>&#123;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sigaction</span> <span class="hljs-title">sa</span>;</span><br><br>    <span class="hljs-comment">// 使用 sa_handler 设置信号处理程序</span><br>    sa.sa_handler = handle_signal;<br>    sigemptyset(&amp;sa.sa_mask);<br>    sa.sa_flags = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-comment">// 设置 SIGINT 的处理程序</span><br>    <span class="hljs-keyword">if</span> (sigaction(SIGINT, &amp;sa, <span class="hljs-literal">NULL</span>) == <span class="hljs-number">-1</span>) &#123;<br>        perror(<span class="hljs-string">&quot;Error setting SIGINT handler&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// 使用 sa_sigaction 设置带有更多信息的信号处理程序</span><br>    sa.sa_sigaction = handle_sigaction;<br>    sa.sa_flags = SA_SIGINFO;<br>    <span class="hljs-keyword">if</span> (sigaction(SIGTERM, &amp;sa, <span class="hljs-literal">NULL</span>) == <span class="hljs-number">-1</span>) &#123;<br>        perror(<span class="hljs-string">&quot;Error setting SIGTERM handler&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Process ID: %d\n&quot;</span>, getpid());<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Send SIGINT (Ctrl+C) and SIGTERM to this process\n&quot;</span>);<br><br>    <span class="hljs-comment">// 无限循环，以便程序持续运行，等待信号</span><br>    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>)<br>        sleep(<span class="hljs-number">1</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="获取当前进程的挂起信号集">获取当前进程的挂起信号集</h2>
+<p><code>sigpending</code> 系统调用用于获取当前进程的挂起信号集. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">sigpending</span><span class="hljs-params">(<span class="hljs-type">sigset_t</span> *<span class="hljs-built_in">set</span>)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>set</code>: 指向 <code>sigset_t</code> 类型的指针, 用于存储挂起的信号集.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回 0.</li>
+<li>失败时返回 -1, 并设置 <code>errno</code> 以指示错误类型.</li>
+</ul>
+<p>下面是一个示例程序:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">sigfunc</span><span class="hljs-params">(<span class="hljs-type">int</span> signum, <span class="hljs-type">siginfo_t</span> *p, <span class="hljs-type">void</span> *p1)</span><br>&#123;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;before %d is coming\n&quot;</span>, signum);<br><br>	sleep(<span class="hljs-number">3</span>);<br><br>	<span class="hljs-type">sigset_t</span> pendingSet;<br>	sigpending(&amp;pendingSet);<br>	<span class="hljs-keyword">if</span> (sigismember(&amp;pendingSet, SIGQUIT)) <br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;SIGQUIT is pending!\n&quot;</span>);<br>	<span class="hljs-keyword">else</span><br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;SIGQUIT is not pending!\n&quot;</span>);<br><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;after %d is coming\n&quot;</span>, signum);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sigaction</span> <span class="hljs-title">act</span>;</span><br>	<span class="hljs-built_in">memset</span>(&amp;act, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(act));<br>	act.sa_flags = SA_SIGINFO;<br>	act.sa_sigaction = sigfunc;<br>	sigemptyset(&amp;act.sa_mask);<br>	sigaddset(&amp;act.sa_mask, SIGQUIT);<br><br>	<span class="hljs-type">int</span> ret = sigaction(SIGINT, &amp;act, <span class="hljs-literal">NULL</span>);<br>	ERROR_CHECK(ret, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;sigaction&quot;</span>);<br><br>	ret = sigaction(SIGQUIT, &amp;act, <span class="hljs-literal">NULL</span>);<br>	ERROR_CHECK(ret, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;sigaction&quot;</span>);<br><br>	<span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>)<br>		sleep(<span class="hljs-number">1</span>);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="阻塞信号">阻塞信号</h2>
+<p>如果一个进程要写入共享内存, 就需要使用锁, 而在加锁/解锁操作之间, 通常需要阻塞某些信号, 此时就需要使用 <code>sigprocmask</code> 系统调用.</p>
+<p><code>sigprocmask</code> 系统调用用于检查或改变当前进程的信号屏蔽字, 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">sigprocmask</span><span class="hljs-params">(<span class="hljs-type">int</span> how, <span class="hljs-type">const</span> <span class="hljs-type">sigset_t</span> *<span class="hljs-built_in">set</span>, <span class="hljs-type">sigset_t</span> *oldset)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>how</code>: 指定如何修改信号屏蔽字, 可能的值有:
+<ul>
+<li><code>SIG_BLOCK</code>: 将 <code>set</code> 中的信号添加到当前信号屏蔽字中.</li>
+<li><code>SIG_UNBLOCK</code>: 将 <code>set</code> 中的信号从当前信号屏蔽字中移除.</li>
+<li><code>SIG_SETMASK</code>: 将当前信号屏蔽字设置为 <code>set</code> 中的信号.</li>
+</ul>
+</li>
+<li><code>set</code>: 指向 <code>sigset_t</code> 类型的指针, 包含要修改的信号集. 如果为 NULL, 则不改变当前的信号屏蔽字.</li>
+<li><code>oldset</code>: 指向 <code>sigset_t</code> 类型的指针, 用于存储之前的信号屏蔽字. 如果为 NULL, 则不保存之前的信号屏蔽字.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>成功时返回 0.</li>
+<li>失败时返回 -1, 并设置 <code>errno</code> 以指示错误类型.</li>
+</ul>
+<p>示例代码如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;func.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>	<span class="hljs-type">sigset_t</span> mask;<br>	sigemptyset(&amp;mask);<br>	sigaddset(&amp;mask, SIGINT);<br><br>	<span class="hljs-type">int</span> ret = sigprocmask(SIG_BLOCK, &amp;mask, <span class="hljs-literal">NULL</span>);<br>	ERROR_CHECK(ret, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;sigprocmask&quot;</span>);<br><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Block success!\n&quot;</span>);<br><br>	sleep(<span class="hljs-number">3</span>);<br><br>	ret = sigprocmask(SIG_UNBLOCK, &amp;mask, <span class="hljs-literal">NULL</span>);<br>	ERROR_CHECK(ret, <span class="hljs-number">-1</span>, <span class="hljs-string">&quot;sigprocmask&quot;</span>);<br><br>	<span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)<br>		sleep(<span class="hljs-number">1</span>);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="主动发送信号">主动发送信号</h2>
+<p><code>kill</code> 系统调用用于向进程发送信号. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">kill</span><span class="hljs-params">(<span class="hljs-type">pid_t</span> pid, <span class="hljs-type">int</span> sig)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>pid</code>: 这是一个进程 ID. <code>kill</code> 可以向不同类型的进程发送信号, 具体如下:
+<ul>
+<li><code>pid &gt; 0</code>: 发送信号 <code>sig</code> 给 ID 为 <code>pid</code> 的进程.</li>
+<li><code>pid == 0</code>: 发送信号 <code>sig</code> 给当前进程所在进程组中的所有进程.</li>
+<li><code>pid &lt; -1</code>: 发送信号 <code>sig</code> 给进程组 ID 为 <code>-pid</code> 的所有进程.</li>
+<li><code>pid == -1</code>: 发送信号 <code>sig</code> 给系统中所有有权限接收此信号的进程 (除了 PID 为 1 的进程, 即 init 进程).</li>
+</ul>
+</li>
+<li><code>sig</code>: 要发送的信号编号. 常见信号包括：
+<ul>
+<li><code>SIGKILL</code> (9): 强制终止进程.</li>
+<li><code>SIGTERM</code> (15): 请求终止进程，进程可以捕获此信号并进行清理操作.</li>
+<li><code>SIGSTOP</code> (19): 暂停进程.</li>
+<li><code>SIGCONT</code> (18): 继续执行暂停的进程.</li>
+</ul>
+</li>
+</ul>
+<p>返回值</p>
+<ul>
+<li>成功时, 返回 0.</li>
+<li>失败时, 返回 -1, 并设置 <code>errno</code> 来指示具体的错误.</li>
+</ul>
+<p>示例程序如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> <br>&#123;<br>    <span class="hljs-type">pid_t</span> pid;<br>    <span class="hljs-type">int</span> sig;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Enter PID: &quot;</span>);<br>    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;pid);<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Enter signal number: &quot;</span>);<br>    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;sig);<br><br>    <span class="hljs-keyword">if</span> (kill(pid, sig) == <span class="hljs-number">-1</span>) &#123;<br>        perror(<span class="hljs-string">&quot;Error sending signal&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Signal sent successfully\n&quot;</span>);<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="主动挂起进程">主动挂起进程</h2>
+<p><strong><code>pause</code> 系统调用</strong>使调用进程挂起 (暂停执行), 直到收到一个信号. 当接收到信号时, 内核首先会执行信号处理程序. 信号处理程序执行完毕后, <code>pause</code> 系统调用会返回, 并设置 <code>errno</code> 为 <code>EINTR</code>, 表示系统调用被信号中断. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">pause</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br></code></pre></td></tr></table></figure>
+<p>返回值:</p>
+<ul>
+<li>永远返回 -1, 并设置 <code>errno</code> 为 <code>EINTR</code>, 表示系统调用被信号中断.</li>
+</ul>
+<p><strong><code>sigsuspend</code> 系统调用</strong>也可以挂起进程, 直到捕获到一个信号. 与 <code>pause</code> 不同, <code>sigsuspend</code> 可以临时替换进程的信号掩码. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">sigsuspend</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">sigset_t</span> *mask)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>mask</code>: 指向一个信号集 (<code>sigset_t</code>), 指定在挂起期间哪些信号应该被阻塞.</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>永远返回 -1, 并设置 <code>errno</code> 为 <code>EINTR</code>.</li>
+</ul>
+<p>在调用 <code>sigsuspend</code> 时, 会经历以下过程:</p>
+<ol>
+<li>临时替换进程的信号掩码为 <code>mask</code> 指定的掩码.</li>
+<li>挂起进程, 直到捕获到一个未被屏蔽的信号.</li>
+<li>当捕获到一个信号并执行完相应的信号处理程序后，<code>sigsuspend</code> 返回, 并恢复进程的原始信号掩码.</li>
+</ol>
+<p>下面是示例代码:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-keyword">volatile</span> <span class="hljs-type">sig_atomic_t</span> got_signal = <span class="hljs-number">0</span>;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">handle_signal</span><span class="hljs-params">(<span class="hljs-type">int</span> sig)</span> <br>&#123;<br>    got_signal = <span class="hljs-number">1</span>;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Caught signal %d\n&quot;</span>, sig);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> <br>&#123;<br>    <span class="hljs-type">sigset_t</span> newmask, oldmask, zeromask;<br><br>    <span class="hljs-comment">// 设置信号处理程序</span><br>    signal(SIGINT, handle_signal);<br><br>    <span class="hljs-comment">// 初始化信号集</span><br>    sigemptyset(&amp;newmask);<br>    sigaddset(&amp;newmask, SIGINT);<br><br>    sigemptyset(&amp;zeromask);<br><br>    <span class="hljs-comment">// 阻塞 SIGINT 信号</span><br>    <span class="hljs-keyword">if</span> (sigprocmask(SIG_BLOCK, &amp;newmask, &amp;oldmask) &lt; <span class="hljs-number">0</span>) &#123;<br>        perror(<span class="hljs-string">&quot;sigprocmask&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Waiting for signal...\n&quot;</span>);<br><br>    <span class="hljs-comment">// 等待信号</span><br>    <span class="hljs-keyword">while</span> (!got_signal)<br>        sigsuspend(&amp;zeromask);<br><br>    <span class="hljs-comment">// 恢复原始信号掩码</span><br>    <span class="hljs-keyword">if</span> (sigprocmask(SIG_SETMASK, &amp;oldmask, <span class="hljs-literal">NULL</span>) &lt; <span class="hljs-number">0</span>) &#123;<br>        perror(<span class="hljs-string">&quot;sigprocmask&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Signal received, exiting...\n&quot;</span>);<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="时钟处理">时钟处理</h2>
+<p><strong>系统时钟</strong>是由操作系统管理的一个计时器, 通常是通过定时中断来更新的. Linux 内核使用系统时钟来跟踪当前时间和日期. 系统时钟通常由一个定时器中断源来驱动. 该定时器以固定频率生成中断, 内核在每次中断时更新系统时钟, 并处理与时间相关的任务, 如进程调度、维护 uptime、更新系统时间等.</p>
+<p><strong>硬件时钟</strong>, 也称为<strong>实时时钟</strong>, 它是主板上独立于系统时钟的硬件组件, 即使在系统关闭时也能保持运行. 启动时, 系统会读取硬件时钟的时间来设置系统时钟.</p>
+<p>操作系统为每个进程维护三种不同的定时器, 分别是</p>
+<ul>
+<li>真实计时器: 基于<strong>实际经过</strong>的时间的计时器. 它不管进程的状态 (运行、等待或休眠), 只要设定的时间到了, 就会触发一个 <code>SIGALRM</code> 信号.</li>
+<li>虚拟计时器: 仅在进程<strong>运行用户态代码时计时</strong>. 如果进程处于等待状态或执行内核态代码, 则不会计时. 当设定的时间到达时, 系统发送 <code>SIGVTALRM</code> 信号给进程.</li>
+<li>实用计时器: 在进程运行<strong>用户态和内核态代码时都计时</strong>, 但不包括等待时间. 当设定的时间到达时, 系统发送 <code>SIGPROF</code> 信号给进程.</li>
+</ul>
+<p><code>alarm</code>  函数可以<strong>设置一个计时器</strong>, 在指定的秒数后发送 <code>SIGALRM</code> 信号给调用进程. 该函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> <span class="hljs-title function_">alarm</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> seconds)</span>;<br></code></pre></td></tr></table></figure>
+<p>该函数的返回值为上一个定时器剩余的秒数, 如果没有定时器则返回 0.</p>
+<p><code>setitimer</code> 和 <code>getitimer</code> 用于<strong>设置和获取定时器的值</strong>. 这两个函数的原型如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/time.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">setitimer</span><span class="hljs-params">(<span class="hljs-type">int</span> which, <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> itimerval *new_value, <span class="hljs-keyword">struct</span> itimerval *old_value)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">getitimer</span><span class="hljs-params">(<span class="hljs-type">int</span> which, <span class="hljs-keyword">struct</span> itimerval *curr_value)</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">itimerval</span> &#123;</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timeval</span> <span class="hljs-title">it_interval</span>;</span> <span class="hljs-comment">// 计时器间隔</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timeval</span> <span class="hljs-title">it_value</span>;</span>    <span class="hljs-comment">// 下一次到期前的时间</span><br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timeval</span> &#123;</span><br>    <span class="hljs-type">time_t</span> tv_sec;       <span class="hljs-comment">// 秒</span><br>    <span class="hljs-type">suseconds_t</span> tv_usec; <span class="hljs-comment">// 微妙</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>参数:</p>
+<ul>
+<li><code>which</code>: 定时器类型, 通常有以下取值:
+<ul>
+<li><code>ITIMER_REAL</code>: 系统实时时钟定时器, 超时发送 <code>SIGALRM</code> 信号.</li>
+<li><code>ITIMER_VIRTUAL</code>: 仅在进程执行用户态代码时计时, 超时发送 <code>SIGVTALRM</code> 信号.</li>
+<li><code>ITIMER_PROF</code>: 在进程执行用户态或内核态代码时计时, 超时发送 <code>SIGPROF</code> 信号.</li>
+</ul>
+</li>
+<li><code>new_value</code>: 新的定时器值.</li>
+<li><code>old_value</code>:  (可选) 用于存储先前的定时器值.</li>
+<li><code>curr_value</code>: 用于获取当前的定时器值.</li>
+</ul>
+<p>示例代码如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/time.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span><br><br><span class="hljs-comment">// 处理 SIGALRM 信号</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">handle_sigalrm</span><span class="hljs-params">(<span class="hljs-type">int</span> sig)</span> <br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Caught SIGALRM (real timer)!\n&quot;</span>);<br>&#125;<br><br><span class="hljs-comment">// 处理 SIGVTALRM 信号</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">handle_sigvtalrm</span><span class="hljs-params">(<span class="hljs-type">int</span> sig)</span> <br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Caught SIGVTALRM (virtual timer)!\n&quot;</span>);<br>&#125;<br><br><span class="hljs-comment">// 处理 SIGPROF 信号</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">handle_sigprof</span><span class="hljs-params">(<span class="hljs-type">int</span> sig)</span> <br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Caught SIGPROF (prof timer)!\n&quot;</span>);<br>&#125;<br><br><span class="hljs-comment">// 消耗一些用户态时间</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">consume_user_time</span><span class="hljs-params">()</span> <br>&#123;<br>    <span class="hljs-keyword">volatile</span> <span class="hljs-type">int</span> i;<br>    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100000000</span>; i++);<br>&#125;<br><br><span class="hljs-comment">// 消耗一些内核态时间</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">consume_kernel_time</span><span class="hljs-params">()</span> <br>&#123;<br>    <span class="hljs-type">char</span> buffer[<span class="hljs-number">1024</span>];<br>    <span class="hljs-type">int</span> fd = open(<span class="hljs-string">&quot;/dev/zero&quot;</span>, O_RDONLY);<br>    <span class="hljs-keyword">if</span> (fd == <span class="hljs-number">-1</span>) &#123;<br>        perror(<span class="hljs-string">&quot;open&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);<br>    &#125;<br>    read(fd, buffer, <span class="hljs-keyword">sizeof</span>(buffer));<br>    close(fd);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> <br>&#123;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">itimerval</span> <span class="hljs-title">timer</span>;</span><br><br>    <span class="hljs-comment">// 设置 SIGALRM 信号处理器</span><br>    signal(SIGALRM, handle_sigalrm);<br><br>    <span class="hljs-comment">// 设置 5 秒后触发的真实计时器</span><br>    timer.it_value.tv_sec = <span class="hljs-number">5</span>;<br>    timer.it_value.tv_usec = <span class="hljs-number">0</span>;<br>    timer.it_interval.tv_sec = <span class="hljs-number">5</span>;<br>    timer.it_interval.tv_usec = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">if</span> (setitimer(ITIMER_REAL, &amp;timer, <span class="hljs-literal">NULL</span>) == <span class="hljs-number">-1</span>) &#123;<br>        perror(<span class="hljs-string">&quot;setitimer ITIMER_REAL&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);<br>    &#125;<br><br>    <span class="hljs-comment">// 设置 SIGVTALRM 信号处理器</span><br>    signal(SIGVTALRM, handle_sigvtalrm);<br><br>    <span class="hljs-comment">// 设置 2 秒后触发的虚拟计时器</span><br>    timer.it_value.tv_sec = <span class="hljs-number">2</span>;<br>    timer.it_value.tv_usec = <span class="hljs-number">0</span>;<br>    timer.it_interval.tv_sec = <span class="hljs-number">5</span>;<br>    timer.it_interval.tv_usec = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">if</span> (setitimer(ITIMER_VIRTUAL, &amp;timer, <span class="hljs-literal">NULL</span>) == <span class="hljs-number">-1</span>) &#123;<br>        perror(<span class="hljs-string">&quot;setitimer ITIMER_VIRTUAL&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);<br>    &#125;<br><br>    <span class="hljs-comment">// 设置 SIGPROF 信号处理器</span><br>    signal(SIGPROF, handle_sigprof);<br><br>    <span class="hljs-comment">// 设置 3 秒后触发的实用计时器</span><br>    timer.it_value.tv_sec = <span class="hljs-number">3</span>;<br>    timer.it_value.tv_usec = <span class="hljs-number">0</span>;<br>    timer.it_interval.tv_sec = <span class="hljs-number">5</span>;<br>    timer.it_interval.tv_usec = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">if</span> (setitimer(ITIMER_PROF, &amp;timer, <span class="hljs-literal">NULL</span>) == <span class="hljs-number">-1</span>) &#123;<br>        perror(<span class="hljs-string">&quot;setitimer ITIMER_PROF&quot;</span>);<br>        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);<br>    &#125;<br><br>    <span class="hljs-comment">// 循环消耗时间</span><br>    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;<br>        consume_user_time();   <span class="hljs-comment">// 消耗一些用户态时间</span><br>        consume_kernel_time(); <span class="hljs-comment">// 消耗一些内核态时间</span><br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>王道 C++: <a target="_blank" rel="noopener" href="http://home.cskaoyan.com/#/c++/0">http://home.cskaoyan.com/#/c++/0</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/Linux/" class="category-chain-item">Linux</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/20/Linux/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" title="进程间通信">
+                        <span class="hidden-mobile">进程间通信</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
