@@ -224,6 +224,74 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/07/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E4%BC%98%E4%BA%8Eselect%E7%9A%84epoll/" target="_self">
+          优于 select 的 epoll
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/07/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E4%BC%98%E4%BA%8Eselect%E7%9A%84epoll/" target="_self">
+        <div>
+          优于 select 的 epoll 利用 select 函数, 无论如何优化程序性能也无法同时接入上百个客户端, 因此 select 不适合以 Web 服务器端开发为主流的现代开发环境. 基于 select 的 I/O 复用技术速度慢的原因 观察基于 select 的 I/O 复用服务器端, 可以发现调用 select 函数后, 并不是将所有发生变化的文件描述符单独集中到一起, 而是通过观察作为监
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-07-04 18:30" pubdate>
+              2024-07-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="category-chain-item">网络编程</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">#网络编程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/07/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E4%BC%98%E9%9B%85%E5%9C%B0%E6%96%AD%E5%BC%80%E5%A5%97%E6%8E%A5%E5%AD%97%E8%BF%9E%E6%8E%A5/" target="_self">
           优雅地断开套接字连接
         </a>
@@ -785,74 +853,6 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
             <time datetime="2024-07-04 18:23" pubdate>
-              2024-07-04
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E7%AC%94%E8%AE%B0/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="category-chain-item">网络编程</a>
-  
-  
-
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">#网络编程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/07/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E5%A4%9A%E7%A7%8DIO%E5%87%BD%E6%95%B0/" target="_self">
-          多种 I/O 函数
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/07/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E5%A4%9A%E7%A7%8DIO%E5%87%BD%E6%95%B0/" target="_self">
-        <div>
-          多种 I/O 函数 send &amp; recv 基于 Linux 平台的 send 函数定义如下: 12345678910#include&lt;sys/socket.h&gt;/* * 成功时返回发送的字节数, 失败时返回 -1 * sockfd: 套接字文件描述符 * buf: 保存待传输数据的地址 * nbytes: 待传输的字节数 * flags: 传输数据时指定的可选项信息 */ s
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-07-04 18:22" pubdate>
               2024-07-04
             </time>
           </div>

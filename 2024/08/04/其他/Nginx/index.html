@@ -1,0 +1,1035 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/bg/3.png">
+  <link rel="icon" href="/img/bg/3.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wangrd">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Nginx Nginx 是一个轻量级的 HTTP 服务器, 采用事件驱动的、异步非阻塞处理方式的框架, 通常用于服务端的反向代理和负载均衡, 支持高并发. 基本概念 正向代理 正向代理是一个位于客户端和目标服务器之间的服务器, 客户端通过正向代理访问目标服务器. 当客户端想要访问目标服务器时, 首先会向正向代理服务器发送请求, 说明要访问的目标服务器, 正向代理服务器接收到请求后, 代替客户端向目">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx">
+<meta property="og:url" content="http://example.com/2024/08/04/%E5%85%B6%E4%BB%96/Nginx/index.html">
+<meta property="og:site_name" content="Wangrd&#39;s Blog">
+<meta property="og:description" content="Nginx Nginx 是一个轻量级的 HTTP 服务器, 采用事件驱动的、异步非阻塞处理方式的框架, 通常用于服务端的反向代理和负载均衡, 支持高并发. 基本概念 正向代理 正向代理是一个位于客户端和目标服务器之间的服务器, 客户端通过正向代理访问目标服务器. 当客户端想要访问目标服务器时, 首先会向正向代理服务器发送请求, 说明要访问的目标服务器, 正向代理服务器接收到请求后, 代替客户端向目">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/Pictures/20240801175635.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240801175651.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240801181334.png">
+<meta property="og:image" content="http://example.com/img/Pictures/QQ_1722508076997.png">
+<meta property="og:image" content="http://example.com/img/Pictures/QQ_1722518847658.png">
+<meta property="og:image" content="http://example.com/img/Pictures/QQ_1722670721861.png">
+<meta property="og:image" content="http://example.com/img/Pictures/QQ_1722770092194.png">
+<meta property="og:image" content="http://example.com/img/Pictures/20240804190756.png">
+<meta property="article:published_time" content="2024-08-04T11:31:25.000Z">
+<meta property="article:modified_time" content="2024-08-04T11:51:25.334Z">
+<meta property="article:author" content="Wangrd">
+<meta property="article:tag" content="Nginx">
+<meta property="article:tag" content="服务器">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/Pictures/20240801175635.png">
+  
+  
+  
+  <title>Nginx - Wangrd&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wangrd&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Nginx"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-04 19:31" pubdate>
+          2024年8月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          76 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Nginx</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>Nginx</h1>
+<p>Nginx 是一个轻量级的 HTTP 服务器, 采用事件驱动的、异步非阻塞处理方式的框架, 通常用于服务端的<strong>反向代理</strong>和<strong>负载均衡</strong>, 支持高并发.</p>
+<h2 id="基本概念">基本概念</h2>
+<h3 id="正向代理">正向代理</h3>
+<p>正向代理是一个位于客户端和目标服务器之间的服务器, 客户端通过正向代理访问目标服务器.</p>
+<p>当客户端想要访问目标服务器时, 首先会向正向代理服务器发送请求, 说明要访问的目标服务器, 正向代理服务器接收到请求后, 代替客户端向目标服务器发送请求, 目标服务器会将响应返回给正向代理服务器, 再由正向代理服务器转发给客户端.</p>
+<p><img src="/img/Pictures/20240801175635.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>正向代理<strong>主要服务于客户端</strong>, 能够隐藏客户端信息.</p>
+<h3 id="反向代理">反向代理</h3>
+<p>反向代理是一个位于客户端和目标服务器之间的服务器, 但它是代表目标服务器来处理客户端请求.</p>
+<p>当客户端向目标服务器发出请求时, 实际上由反向代理服务器接收请求, 反向代理服务器接收到请求后, 会选择一台实际的目标服务器来处理请求, 目标服务器会将响应返回给反向代理服务器, 再由反向服务器转发给客户端.</p>
+<p><img src="/img/Pictures/20240801175651.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>反向代理<strong>主要服务于服务器</strong>, 能够隐藏服务器信息, 并且能够将客户端请求分配给多台目标服务器, 均衡负载, 提高可用性和性能.</p>
+<h3 id="负载均衡">负载均衡</h3>
+<p>负载均衡提供了一组策略来将请求从代理服务器上分发到真实的服务器上.</p>
+<p>在 Nginx 中, 一共提供了三种负载均衡策略:</p>
+<ul>
+<li>轮询 (默认方式): 每个请求按时间顺序逐一分配到不同的后端服务器上.</li>
+<li>权重: <code>weight</code> 代表权重, 默认为 1, 权重越高被分配的客户端请求越多.</li>
+<li>ip_hash: 每个请求根据访问 IP 的 Hash 结果分配, 这样每个访客可以固定地访问一个后端服务器.</li>
+</ul>
+<p>复杂均衡能够分摊服务器集群压力, 保证客户端访问的稳定性.</p>
+<h3 id="动静分离">动静分离</h3>
+<p>动静分离机制的核心思想是将静态资源 (如HTML、CSS、JavaScript、图像、视频等) 和动态内容 (如需要经过服务器端处理的PHP、Python、Java等脚本生成的内容) 分开处理, 分别由不同的服务器或不同的服务器模块来处理. 这样负责处理动态请求的服务器可以专注于动态请求的处理上, 从而提高效率, 同时, 也可以针对处理静态请求的服务器做优化, 提高静态请求的响应速度.</p>
+<p>Nginx 可以用来处理静态资源, 同时将动态请求反向代理到后端的应用服务器 (如 Tomcat).</p>
+<p><img src="/img/Pictures/20240801181334.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="Nginx-设计理念">Nginx 设计理念</h2>
+<h3 id="Nginx-整体架构">Nginx 整体架构</h3>
+<p>Nginx 的整体架构如下图所示:<br>
+<img src="/img/Pictures/QQ_1722508076997.png" srcset="/img/loading.gif" lazyload alt=""><br>
+Nginx 是一种多进程架构, 其中:</p>
+<ul>
+<li><strong>Master 进程</strong>主要负责管理和控制 Worker 进程; 加载和解析 Nginx 的配置文件, 管理全局配置; 接收和处理外部信号 (如启动、停止、重载配置等), 并将信号传递给 Worker 进程.</li>
+<li><strong>Worker 进程</strong>是 Nginx 处理客户端请求的核心, 每个 Worker 进程都是独立的, 负责处理具体的网络连接和请求.</li>
+<li>Cache loader 和 Cache manager 进程用于处理缓存事宜.</li>
+</ul>
+<p>上面这些进程都是单线程的, 进程之间通过共享内存通信, 其中 Master 进程以 root 的身份启动, 其他进程则是以非特权用户的身份启动.</p>
+<h3 id="Worker-进程工作流程">Worker 进程工作流程</h3>
+<p>Nginx 的代码是高度模块化的, Worker 进程的代码由核心模块和多个功能模块组成. 核心模块的主要功能是维持一个事件循环, 并根据请求的处理阶段分配合适的功能模块来处理. 功能模块负责实现各种表现和应用层的功能, 例如读写网络和存储系统、转换文本内容、过滤输出、运行服务器端代码、反向代理请求到上游服务器等. 这种模块化架构允许开发者在不修改 Nginx 核心代码的情况下扩展 Web 服务器的功能.</p>
+<p>为了高效处理大量连接、请求、网络管理和内容检索等操作, Nginx 使用了事件通知机制 (如 epoll), 以达到最佳性能.</p>
+<p>需要特别注意的是, Nginx 的监听 socket 是由主进程创建的, 并通过 <code>fork</code> 系统调用让多个 Worker 进程共享. Worker 进程从共享的监听 socket 中 <code>accept</code> 新连接, 每个 Worker 进程内部执行高效的事件循环, 可以管理数千个连接. 如果同时运行多个 Worker 进程, 一个连接会分配给哪个 Worker 由操作系统内核决定, 不受 Nginx 控制.</p>
+<p><img src="/img/Pictures/QQ_1722518847658.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>Nginx 中 <strong>Worker 进程的工作流程</strong>如下:</p>
+<ol>
+<li>当 Nginx 启动时, Master 进程读取配置文件, 并根据配置启动多个 Worker 进程.</li>
+<li>每个 Worker 进程初始化必要的资源, 如打开日志文件.</li>
+<li>Worker 进程进入事件循环, 使用 <code>epoll</code> (Linux) 或 <code>kqueue</code> (FreeBSD、macOS) 等高效的 I/O 多路复用机制监听事件.</li>
+<li>事件循环中, Worker 进程会等待文件描述符上的事件, 如新的连接请求、读写事件等. 虽然 Master 进程打开了监听套接字并通过 <code>fork</code> 传递给 Worker 进程, 但实际的连接建立和处理已经建立的连接上的事件都是由 Worker 进程完成的.</li>
+<li>当有新的连接请求到来时, Worker 进程接受连接, 并将其添加到事件循环中.</li>
+<li>Worker 进程会根据配置和请求类型处理 HTTP 请求, 例如读取请求头、请求体, 处理 URL 重写、负载均衡、反向代理等.</li>
+<li>当请求处理完成后, Worker 进程会发送响应给客户端.</li>
+</ol>
+<h3 id="Nginx-配置文件">Nginx 配置文件</h3>
+<p>Nginx 的配置文件是一个用于定义服务器行为和参数的文件. 它使用特定的语法来配置各种模块、虚拟主机、路由、负载均衡、缓存等.</p>
+<p>Nginx 的配置文件采用集中式的文件组织方式, 存在一个主配置文件, 通常位于 <code>/etc/nginx</code> 或 <code>/usr/local/etc/nginx</code>, 命名为 <code>nginx.conf</code>, 而其他的配置属性可以放置在其他文件中, 在主配置文件中使用 <code>include</code> 指令可以将它们组合起来.</p>
+<p>配置文件是由 Master 进程读取和处理的, 在编译后会以只读文件的形式提供给 Worker 进程.</p>
+<h3 id="使用场景">使用场景</h3>
+<p>在目前的市场中, 最常见的 Nginx 的使用场景是<strong>充当企业服务端的边缘节点</strong>. 比如一些企业网站的外部入口由 Nginx 提供. 在用户请求的资源中, 有相当一部分内容是静态的, 这些内容可能在一段时间内不会发生改变, Nginx 能够高效地提供这些静态资源, 而对于其中的动态请求, 由于这些请求十分复杂、迭代速度极快, 所以 Nginx 不适合处理这些请求, 此时就需要使用重量级服务器 (并发量不高, 能处理复杂的业务), 比如 Apache 或 tomcat, 但是直接将这些产品暴露在外网会由于并发量过大而难以负载, 所以一种解决方案是使用反向代理, 客户端的请求会先经过 Nginx, 将高并发的压力转移到 Nginx 上, 再由 Nginx 将这些请求分配给多个业务服务端.</p>
+<p><img src="/img/Pictures/QQ_1722670721861.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>时至今日, Nginx 的功能又得到进一步泛化, 在分布式系统构建的服务端体系中, 这些边缘节点可以完成更多的工作, 从而进化成一个专门的产品, 称为<strong>API 网关</strong>, API网关作为分布式服务端的边缘节点, 支持以下功能:</p>
+<ul>
+<li>路由转发, 为客户端的请求选择合适的服务端.</li>
+<li>请求鉴权, 验证客户端的权限.</li>
+<li>流量控制和负载均衡, 限制接入的流量, 合理地转发流量.</li>
+<li>协议转换, 在外部转入的 HTTP 协议请求和内网的私有协议进行相互转换.</li>
+</ul>
+<h2 id="Nginx-的安装与配置">Nginx 的安装与配置</h2>
+<p>在 Mac OS 上, 根据源码安装 Nginx 的步骤如下:</p>
+<ol>
+<li>从官网获取源代码的压缩包并解压: <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">mkdir ~/nginx-build<br>curl -O http://nginx.org/download/nginx-1.27.0.tar.gz<br>tar xvfz nginx-1.27.0.tar.gz<br></code></pre></td></tr></table></figure>
+</li>
+<li>进入解压后的目录后, 执行以下指令: <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd ~/nginx-build<br>./configure --prefix=/usr/local/Cellar/nginx/1.27.0 --with-http_ssl_module # 生成 Makefile 文件<br>make # 编译<br>sudo make install # 将生成的文件移动到系统中合适的目录下<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>通过这种方式安装的 Nginx 只有最基本的模块, 如果需要安装其他模块, 则需要重新配置和 install.</p>
+<p>下面是一些相关的指令 (应当使用特权用户来启动 Nginx):</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">nginx # 默认方式启动<br></code></pre></td></tr></table></figure>
+<p>可选参数如下:</p>
+<ul>
+<li><code>-h</code>: 查看帮助.</li>
+<li><code>-c x.conf</code>: 指定配置文件 x.conf 启动.</li>
+<li><code>-p /opt/nginx</code>: 指定工作目录是 <code>/opt/nginx</code>. 如果使用相对路径指定配置文件/日志文件路径, 那么 Nginx 将相对于工作目录来解析这个路径.</li>
+<li><code>-s stop</code>: 强制停止 Nginx (如果启动 Nginx 的时候使用了 <code>-c</code>/<code>-p</code>, 那么使用 <code>-s</code> 的时候也必须加上).</li>
+<li><code>-s quit</code>: 优雅地停止 Nginx.</li>
+<li><code>-s reload</code>: 重启 Nginx.</li>
+<li><code>-s reopen</code>: 重新打开日志文件.</li>
+<li><code>-t</code>: 检查默认配置文件.</li>
+<li><code>-T</code>: 检查默认配置文件并输出.</li>
+<li><code>-t -c x.conf</code>: 检查配置文件 x.conf.</li>
+<li><code>-v</code>: 查看版本信息.</li>
+</ul>
+<p>在 Mac OS 中, 如果调用 <code>nginx -v</code> 时提示找不到 Nginx, 可能是因为 Nginx 的可执行文件没有正确添加到系统的路径中. 可以通过以下步骤解决:</p>
+<ol>
+<li>将 Nginx 的安装目录添加到系统的 <code>PATH</code> 环境变量中, 通过编辑你的 shell 配置文件 (例如 <code>.bash_profile</code> 或 <code>.zshrc</code>): <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo vim ~/.zshrc<br></code></pre></td></tr></table></figure>
+添加以下行: <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">export PATH=/usr/local/Cellar/nginx/1.27.0/sbin:$PATH<br></code></pre></td></tr></table></figure>
+根据 Nginx 的安装目录设置.</li>
+<li>保存文件并使其生效: <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">source ~/.zshrc<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>如果想要增加一些额外的模块或者是修改默认的安装位置, 可以使用以下指令:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">./configure [opt]</span><br>[opt]:<br><span class="hljs-meta prompt_">	# </span><span class="language-bash">修改安装位置</span><br>	--prefix=/opt/nginx<br><span class="hljs-meta prompt_">	# </span><span class="language-bash">指定 pcre8.33 的源码路径为 /path/to/pcre-8.33</span><br>	--with-pcre=/path/to/pcre-8.33<br><span class="hljs-meta prompt_">	# </span><span class="language-bash">增加 xxx 模块</span><br>	--with-xxx_module<br><span class="hljs-meta prompt_">	# </span><span class="language-bash">去掉默认的 xxx 模块</span><br>	--without-xxx_module<br><span class="hljs-meta prompt_">	# </span><span class="language-bash">在日志中打印调试信息</span><br>	--with-debug<br><span class="hljs-meta prompt_">	# </span><span class="language-bash">在 gcc 编译时补充 OPTIONS 选项, 通常用于链接库文件</span><br>	--with-ld-opt=OPTIONS<br><span class="hljs-meta prompt_">	# </span><span class="language-bash">添加第三方模块</span><br>	--add_module=PATH<br><span class="hljs-meta prompt_">$ </span><span class="language-bash">make modules <span class="hljs-comment"># 只编译变动的模块</span></span><br></code></pre></td></tr></table></figure>
+<p>例如, <strong>静态</strong>添加其他模块, 可以按以下步骤 (以添加 echo 模块为例):</p>
+<ol>
+<li>下载 <code>ngx_echo</code> 模块的源码 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">git clone https://github.com/openresty/echo-nginx-module.git<br></code></pre></td></tr></table></figure>
+</li>
+<li>进入 Nginx 源码目录并配置编译选项 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">./configure --add-module=echo-nginx-module_path --prefix=/usr/local/Cellar/nginx/1.27.0 --with-http_ssl_module<br></code></pre></td></tr></table></figure>
+</li>
+<li>编译并安装 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">make<br>sudo make install<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="Nginx-配置">Nginx 配置</h3>
+<p>Nginx 的配置文件是用于定义和管理 Nginx 行为和功能的文件. 它使用一种特定的语法来配置服务器、虚拟主机、路由、负载均衡、缓存等功能.</p>
+<p>Nginx 的主配置文件通常是 <code>/etc/nginx/nginx.conf</code>, 配置文件使用层次化的块结构来组织指令. 这些块包括全局块、events 块、http 块, 以及其他可能的块 (如 mail 块、stream 块等).</p>
+<p>Nginx 的配置文件有以下特性:</p>
+<ul>
+<li>使用 <code>&#123; &#125;</code> 来描述作用域.</li>
+<li>使用 <code>#</code> 单行注释.</li>
+<li>配置指令用分号结尾, 多个参数用空格分隔, 如果参数本身有空格, 可以使用引号.</li>
+<li>使用单引号和双引号界定字符串, 使用反斜杠转义.</li>
+<li><code>include</code> 指令可以包含其他配置文件, 支持通配符 <code>*</code>.</li>
+<li>通过 <code>$var</code> 引用变量.</li>
+</ul>
+<p>下面通过 vim 打开一个 Ngnix 提供的默认配置文件:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-comment">#user  nobody;</span><br><span class="hljs-attribute">worker_processes</span>  <span class="hljs-number">1</span>;<br><br><span class="hljs-comment">#error_log  logs/error.log;</span><br><span class="hljs-comment">#error_log  logs/error.log  notice;</span><br><span class="hljs-comment">#error_log  logs/error.log  info;</span><br><br><span class="hljs-comment">#pid        logs/nginx.pid;</span><br><br><br><span class="hljs-section">events</span> &#123;<br>    <span class="hljs-attribute">worker_connections</span>  <span class="hljs-number">1024</span>;<br>&#125;<br><br><br><span class="hljs-section">http</span> &#123;<br>    <span class="hljs-attribute">include</span>       mime.types;<br>    <span class="hljs-attribute">default_type</span>  application/octet-stream;<br><br>    <span class="hljs-comment">#log_format  main  &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#x27;</span><br>    <span class="hljs-comment">#                  &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;</span><br>    <span class="hljs-comment">#                  &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;</span><br><br>    <span class="hljs-comment">#access_log  logs/access.log  main;</span><br><br>    <span class="hljs-attribute">sendfile</span>        <span class="hljs-literal">on</span>;<br>    <span class="hljs-comment">#tcp_nopush     on;</span><br><br>    <span class="hljs-comment">#keepalive_timeout  0;</span><br>    <span class="hljs-attribute">keepalive_timeout</span>  <span class="hljs-number">65</span>;<br><br>    <span class="hljs-comment">#gzip  on;</span><br><br>    <span class="hljs-section">server</span> &#123;<br>        <span class="hljs-attribute">listen</span>       <span class="hljs-number">8080</span>;<br>        <span class="hljs-attribute">server_name</span>  localhost;<br><br>        <span class="hljs-comment">#charset koi8-r;</span><br><br>        <span class="hljs-comment">#access_log  logs/host.access.log  main;</span><br><br>        <span class="hljs-section">location</span> / &#123;<br>            <span class="hljs-attribute">root</span>   html;<br>            <span class="hljs-attribute">index</span>  index.html index.htm;<br>        &#125;<br><br>        <span class="hljs-comment">#error_page  404              /404.html;</span><br><br>        <span class="hljs-comment"># redirect server error pages to the static page /50x.html</span><br>        <span class="hljs-comment">#</span><br>        <span class="hljs-attribute">error_page</span>   <span class="hljs-number">500</span> <span class="hljs-number">502</span> <span class="hljs-number">503</span> <span class="hljs-number">504</span>  /50x.html;<br>        <span class="hljs-section">location</span> = /50x.html &#123;<br>            <span class="hljs-attribute">root</span>   html;<br>        &#125;<br><br>        <br>    <span class="hljs-attribute">include</span> servers/*;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这个配置文件可以划分为三大块: 全局块、events 块和 http 块.</p>
+<h4 id="全局块">全局块</h4>
+<p>上述配置文件中, 这一部分为全局块:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-comment">#user  nobody;</span><br><span class="hljs-attribute">worker_processes</span>  <span class="hljs-number">1</span>;<br><br><span class="hljs-comment">#error_log  logs/error.log;</span><br><span class="hljs-comment">#error_log  logs/error.log  notice;</span><br><span class="hljs-comment">#error_log  logs/error.log  info;</span><br><br><span class="hljs-comment">#pid        logs/nginx.pid;</span><br></code></pre></td></tr></table></figure>
+<p>全局块包含对整个 Nginx 服务器实例有效的配置指令. 它们通常位于配置文件的顶部.</p>
+<p>其中常用的指令有:</p>
+<ul>
+<li><code>user</code>: 指定 Nginx 进程运行的用户和用户组.  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">user</span> nginx;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>worker_processes</code>: 指定 Nginx 启动的工作进程数. 可以是具体的数字或 <code>auto</code>, 自动根据 CPU 核心数调整.  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">worker_processes</span> auto;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>error_log</code>: 定义错误日志文件的位置和日志级别.  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">error_log</span> /var/log/nginx/<span class="hljs-literal">error</span>.log;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>pid</code>: 指定存储 Nginx 主进程 ID 的文件路径.  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">pid</span> /var/run/nginx.pid;<br></code></pre></td></tr></table></figure>
+常用的管理命令如 <code>nginx -s reload</code>、<code>nginx -s stop</code> 等会使用 PID 文件中的 PID 来找到并发送信号给 Nginx 主进程.</li>
+</ul>
+<h4 id="events-块">events 块</h4>
+<p>上述配置文件中, 这一部分为 events 块:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">events</span> &#123;<br>    <span class="hljs-attribute">worker_connections</span>  <span class="hljs-number">1024</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>events 块包含与事件驱动模型相关的配置指令, 这些指令主要控制 Nginx 如何处理连接.</p>
+<p>其中常用的指令有:</p>
+<ul>
+<li><code>worker_connections</code>: 指定每个工作进程可以处理的最大连接数.  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">events</span> &#123;<br>    <span class="hljs-attribute">worker_connections</span> <span class="hljs-number">1024</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>use</code>: 指定 Nginx 使用的事件驱动机制, 例如 epoll、kqueue 等.  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">events</span> &#123;<br>    <span class="hljs-attribute">use</span> <span class="hljs-literal">epoll</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>multi_accept</code>: 控制是否一次接受尽可能多的连接.  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">events</span> &#123; <br>	<span class="hljs-attribute">multi_accept</span> <span class="hljs-literal">on</span>; <br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="http-块">http 块</h4>
+<p>上述配置文件中, 这一部分为 http 块:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">http</span> &#123;<br>    <span class="hljs-attribute">include</span>       mime.types;<br>    <span class="hljs-attribute">default_type</span>  application/octet-stream;<br><br>    <span class="hljs-comment">#log_format  main  &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#x27;</span><br>    <span class="hljs-comment">#                  &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;</span><br>    <span class="hljs-comment">#                  &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;</span><br><br>    <span class="hljs-comment">#access_log  logs/access.log  main;</span><br><br>    <span class="hljs-attribute">sendfile</span>        <span class="hljs-literal">on</span>;<br>    <span class="hljs-comment">#tcp_nopush     on;</span><br><br>    <span class="hljs-comment">#keepalive_timeout  0;</span><br>    <span class="hljs-attribute">keepalive_timeout</span>  <span class="hljs-number">65</span>;<br><br>    <span class="hljs-comment">#gzip  on;</span><br><br>    <span class="hljs-section">server</span> &#123;<br>        <span class="hljs-attribute">listen</span>       <span class="hljs-number">8080</span>;<br>        <span class="hljs-attribute">server_name</span>  localhost;<br><br>        <span class="hljs-comment">#charset koi8-r;</span><br><br>        <span class="hljs-comment">#access_log  logs/host.access.log  main;</span><br><br>        <span class="hljs-section">location</span> / &#123;<br>            <span class="hljs-attribute">root</span>   html;<br>            <span class="hljs-attribute">index</span>  index.html index.htm;<br>        &#125;<br><br>        <span class="hljs-comment">#error_page  404              /404.html;</span><br><br>        <span class="hljs-comment"># redirect server error pages to the static page /50x.html</span><br>        <span class="hljs-comment">#</span><br>        <span class="hljs-attribute">error_page</span>   <span class="hljs-number">500</span> <span class="hljs-number">502</span> <span class="hljs-number">503</span> <span class="hljs-number">504</span>  /50x.html;<br>        <span class="hljs-section">location</span> = /50x.html &#123;<br>            <span class="hljs-attribute">root</span>   html;<br>        &#125;<br>    &#125;<br>        <br>    <span class="hljs-attribute">include</span> servers/*;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>http 块是 Nginx 配置文件中最复杂也是最常用的块, 它包含了与 HTTP 协议相关的所有配置. 这包括服务器配置、虚拟主机、路由、代理、缓存等.</p>
+<p>其中常用的指令有:</p>
+<ul>
+<li><code>include</code>: 包含其他配置文件, 便于模块化管理.  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">http</span> &#123;<br>    <span class="hljs-attribute">include</span> /etc/nginx/mime.types;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>default_type</code>: 指定默认的 MIME 类型. <strong>MIME 类型</strong>用于标识文件、字节流的内容类型, 以便客户端或服务端正确处理传输的数据.  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">http</span> &#123;<br>    <span class="hljs-attribute">default_type</span> application/octet-stream;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>log_format</code>: 定义日志格式, 属于 http 模块的子模块 http_log 模块.  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">http</span> &#123;<br>    <span class="hljs-attribute">log_format</span> main <span class="hljs-string">&#x27;<span class="hljs-variable">$remote_addr</span> - <span class="hljs-variable">$remote_user</span> [<span class="hljs-variable">$time_local</span>] &quot;<span class="hljs-variable">$request</span>&quot; &#x27;</span><br>                      <span class="hljs-string">&#x27;<span class="hljs-variable">$status</span> <span class="hljs-variable">$body_bytes_sent</span> &quot;<span class="hljs-variable">$http_referer</span>&quot; &#x27;</span><br>                      <span class="hljs-string">&#x27;&quot;<span class="hljs-variable">$http_user_agent</span>&quot; &quot;<span class="hljs-variable">$http_x_forwarded_for</span>&quot;&#x27;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<code>log_format</code> 首先为格式起名 (如上例中的 main), 格式的参数是一个字符串, 用来表示记录到日志文件中的内容, 在这个格式参数中可以引用变量.</li>
+<li><code>access_log</code>: 指定访问日志文件的位置和使用的日志格式.  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">http</span> &#123;<br>    <span class="hljs-attribute">access_log</span> /var/log/nginx/access.log main;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>sendfile</code>: 启用高效文件传输.  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">http</span> &#123;<br>    <span class="hljs-attribute">sendfile</span> <span class="hljs-literal">on</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>keepalive_timeout</code>: 指定连接保持的超时时间.</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">http</span> &#123;<br>    <span class="hljs-attribute">keepalive_timeout</span> <span class="hljs-number">65</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>gzip</code>: 启用 gzip 压缩以减少传输数据量.</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">http</span> &#123;<br>    <span class="hljs-attribute">gzip</span> <span class="hljs-literal">on</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="server-块">server 块</h4>
+<p>http 块中的 <strong>server 块</strong>则相当于一个虚拟服务器, 其中定义了虚拟服务器的配置. 一个 http 块可以包含多个 server 块, 每个 server 块处理特定的域名和端口.</p>
+<p>其中常用的指令有:</p>
+<ul>
+<li><code>listen</code>: 指定虚拟服务器监听的端口和 IP 地址.  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>server_name</code>: 指定虚拟服务器的名称或域名. 这样, 在配置文件中, 多个 server 就可以监听同一个端口 (通过名称区分它们), 在用户请求接入时, 可以根据请求的 URL 域名选择对应的虚拟服务端.  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">server_name</span> example.com;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>location</code>: 定义请求路径匹配规则和处理方式.  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-section">location</span> / &#123;<br>        <span class="hljs-attribute">root</span> /usr/share/nginx/html;<br>        <span class="hljs-attribute">index</span> index.html index.htm;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+这段代码的意思是, 当有 URL 的路径部分匹配 <code>/</code> 时, 会找到服务端的 <code>/usr/share/nginx/html</code> 目录, 访问其中的 <code>index.html</code> 文件.</li>
+<li><code>error_page</code>: 自定义错误页面.  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">error_page</span> <span class="hljs-number">404</span> /<span class="hljs-number">404</span>.html;<br>    <span class="hljs-section">location</span> = /<span class="hljs-number">404</span>.html &#123;<br>        <span class="hljs-attribute">root</span> /usr/share/nginx/html;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+这段代码的意思是, 当 HTTP 的响应是 404 时, 将 URL 的路径部分替换为 <code>/404.html</code>. 当有 URL 的路径部分匹配 <code>/404.html</code> 时, 会找到服务器的 <code>/usr/share/nginx/html</code> 目录, 访问其中的 <code>404.html</code> 文件.</li>
+</ul>
+<p>此外, <code>http_rewrite</code> 模块中的 <strong><code>return</code> 指令可以立即返回指定的 HTTP 状态码或重定向 URL</strong>, 可以通过 <code>curl</code> 或 <code>postman</code> 指令 (用于请求 Web 服务器) 进行调试. 例如:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">http</span> &#123;<br>	<span class="hljs-attribute">include</span> mime.types;<br>	<span class="hljs-attribute">default_type</span> application/octet-stream;<br>	...<br>	<br>	<span class="hljs-section">server</span> &#123;<br>		<span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br>		<span class="hljs-attribute">server_name</span> test.org<br><br>		location / &#123;<br>			<span class="hljs-attribute">return</span> <span class="hljs-number">200</span> <span class="hljs-string">&quot;hello&quot;</span>;<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-section">server</span> &#123;<br>		<span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br>		<span class="hljs-attribute">server_name</span> test1.org<br><br>		location / &#123;<br>			<span class="hljs-attribute">return</span> <span class="hljs-number">200</span> <span class="hljs-string">&quot;world&quot;</span>;<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>测试前需要在 <code>/etc/hosts</code> 文件 (用于本地解析域名, 优先于 DNS) 中添加以下内容:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">127.0.0.1 test.org<br>127.0.0.1 test1.org<br></code></pre></td></tr></table></figure>
+<p>之后就可以通过 <code>curl</code> 进行调试:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">curl test.org<br>curl test1.org<br></code></pre></td></tr></table></figure>
+<h4 id="location-块">location 块</h4>
+<p>location 块通常出现在 server 块内, 通过定义 location 块, 可以为特定的 URL 路径配置不同的处理规则.</p>
+<p>location 块的基本格式如下:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">location</span> [modifier] path &#123;<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>其中, <code>modifier</code> 用于指定匹配类型, 可以是以下几种:</p>
+<ul>
+<li><code>=</code>: 精确匹配.</li>
+<li><code>^~</code>: 前缀匹配, 如果匹配成功, 不进行后续的正则表达式匹配.</li>
+<li><code>~</code>: 区分大小写的正则表达式匹配.</li>
+<li><code>~*</code>: 不区分大小写的正则表达式匹配.</li>
+<li><code>@</code>: 命名位置, 通常用于内部重定向.</li>
+</ul>
+<p>location 块的匹配原则是<strong>最左匹配 (也称为最长前缀匹配)</strong>, 也就是说 <code>location /foo &#123; ... &#125;</code> 能匹配以 <code>/foo</code> 开头的 URI, 如 <code>http://example.com/foo/a.txt</code>, 而无法匹配 <code>http://example.com/bar/foo/a.txt</code>.</p>
+<p>Nginx 处理请求时, 会按照以下顺序检查 location 块:</p>
+<ol>
+<li>精确匹配 (<code>modifier</code> 为 <code>=</code>): Nginx 首先检查是否有与请求 URI 完全匹配的 location 块.</li>
+<li>最长前缀匹配 (<code>modifier</code> 为 <code>^~</code>): 如果没有找到精确匹配, Nginx 会查找 <code>^~</code> 修饰符的最长前缀匹配. 这个块的优先级高于正则表达式匹配.</li>
+<li>正则表达式匹配 (<code>modifier</code> 为 <code>~</code> 或 <code>~*</code>): Nginx 按照配置文件中的顺序, 依次检查带 <code>~</code> 或 <code>~*</code> 修饰符的正则表达式匹配块.</li>
+<li>通用最长前缀匹配 (没有 <code>modifier</code>): 如果上述三种方式都没有找到匹配, Nginx 会选择最匹配的前缀. 在这种情况下, 如果有多个匹配的前缀, Nginx 会选择最长的一个.</li>
+</ol>
+<p>一旦找到匹配的 location 块, Nginx 将使用该块中的配置处理请求.</p>
+<h3 id="配置静态资源服务器">配置静态资源服务器</h3>
+<p>在 Nginx 中, 通过 location 块和一系列指令, 可以配置静态资源服务器, 以便根据不同的 URI 为用户提供不同的文件.</p>
+<p>下面是一些常见的指令:</p>
+<ul>
+<li>
+<p><code>root</code> 用于<strong>设置请求的根目录</strong>. 当客户端请求一个 URI 时, Nginx 会从指定的根目录中查找相应的文件. 例如:</p>
+  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br>    <span class="hljs-attribute">server_name</span> example.com;<br><br>    <span class="hljs-section">location</span> /image/ &#123;<br>	    <span class="hljs-attribute">root</span> /dir;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如果 URI 是 <code>http://example.com/image/abc.txt</code>, 那么 Nginx 会查找 <code>/dir/image/abc.txt</code> 文件, 即用 <code>/dir</code> 替换了 <code>http://example.com</code>.</p>
+</li>
+<li>
+<p><code>alias</code> 指令<strong>为特定的 location 块指定一个目录路径</strong>, 用于替换请求的 URI. 这通常用于为特定路径设置不同的根目录. 例如:</p>
+  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br>    <span class="hljs-attribute">server_name</span> example.com;<br><br>    <span class="hljs-section">location</span> /images/ &#123;<br>        <span class="hljs-attribute">alias</span> /dir;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如果 URI 是 <code>http://example.com/image/abc.txt</code>, 那么 Nginx 会查找 <code>/dir/abc.txt</code> 文件, 即用 <code>/dir</code> 替换了 <code>http://example.com/image/</code>.</p>
+</li>
+<li>
+<p><code>index</code> 指令<strong>指定默认文件名</strong>. 当客户端请求一个目录而未指定文件名时, Nginx 会查找这些默认文件. 例如:</p>
+  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br>    <span class="hljs-attribute">server_name</span> example.com;<br><br>    <span class="hljs-section">location</span> / &#123;<br>	    <span class="hljs-attribute">root</span> /path/to/your/static/files;<br>        <span class="hljs-attribute">index</span> index.html index.htm;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在这个配置中, 如果客户端请求 <code>http://example.com/</code>, Nginx 会查找并返回 <code>/path/to/your/static/files/index.html</code> 或 <code>/path/to/your/static/files/index.htm</code> 文件.</p>
+</li>
+<li>
+<p><code>autoindex</code> 指令用于<strong>启用或禁用目录列表显示</strong>. 当请求的 URI 对应的是一个目录且没有找到 <code>index</code> 文件时, Nginx 会生成一个目录列表页面. 例如:</p>
+  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br>    <span class="hljs-attribute">server_name</span> example.com;<br><br>    <span class="hljs-section">location</span> /downloads/ &#123;<br>	    <span class="hljs-attribute">root</span> /path/to/your/static/files;<br>        <span class="hljs-attribute">autoindex</span> <span class="hljs-literal">on</span>;<br>        <span class="hljs-attribute">autoindex_exact_size</span> <span class="hljs-literal">off</span>;  <span class="hljs-comment"># 不显示文件的确切大小</span><br>        <span class="hljs-attribute">autoindex_localtime</span> <span class="hljs-literal">on</span>;    <span class="hljs-comment"># 显示本地时间</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在这个配置中, 如果客户端请求 <code>http://example.com/downloads/</code> 且该目录下没有 <code>index</code> 文件, Nginx 会生成并显示该目录的文件列表.</p>
+</li>
+<li>
+<p><code>gzip</code> 指令用于<strong>启用或禁用对响应数据的 gzip 压缩</strong>. 启用 gzip 压缩可以减小传输数据的大小, 提高传输效率. 例如:</p>
+  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">http</span> &#123;<br>    <span class="hljs-attribute">gzip</span> <span class="hljs-literal">on</span>;<br>    <span class="hljs-attribute">gzip_types</span> text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;<br><br>    <span class="hljs-section">server</span> &#123;<br>        <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br>        <span class="hljs-attribute">server_name</span> example.com;<br><br>        <span class="hljs-section">location</span> / &#123;<br>	        <span class="hljs-attribute">root</span> /path/to/your/static/files;<br>            <span class="hljs-attribute">try_files</span> <span class="hljs-variable">$uri</span> <span class="hljs-variable">$uri</span>/ =<span class="hljs-number">404</span>;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在这个配置中, 启用了 gzip 压缩, 并指定了要压缩的 MIME 类型. 客户端请求这些类型的文件时, Nginx 会对响应内容进行 gzip 压缩.</p>
+</li>
+</ul>
+<p>下面是一个具体的示例, 假设有一个网站 <code>example.com</code>, 我们希望实现以下需求:</p>
+<ul>
+<li>根目录 <code>/</code> 显示主页.</li>
+<li>静态文件 <code>/static/</code> 存储在 <code>/var/www/static</code> 目录下.</li>
+<li>图片文件 <code>.jpg</code>, <code>.jpeg</code>, <code>.png</code>, <code>.gif</code> 存储在 <code>/var/www/images</code> 目录下, 不区分大小写.</li>
+<li>PHP 文件 通过 FastCGI 处理.</li>
+<li>API 请求 <code>/api/</code> 转发到上游服务器 <code>http://backend_server</code>.</li>
+<li>旧路径 <code>/old-path</code> 重定向到 <code>/new-path</code>.</li>
+</ul>
+<p>部分配置文件如下:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br>    <span class="hljs-attribute">server_name</span> example.com;<br><br>    <span class="hljs-comment"># 精确匹配根目录，返回主页</span><br>    <span class="hljs-section">location</span> = / &#123;<br>        <span class="hljs-attribute">root</span> /var/www/html;<br>        <span class="hljs-attribute">index</span> index.html;<br>    &#125;<br><br>    <span class="hljs-comment"># 匹配以 /static/ 开头的请求，服务静态文件</span><br>    <span class="hljs-section">location</span> /static/ &#123;<br>        <span class="hljs-attribute">alias</span> /var/www/static;<br>    &#125;<br><br>    <span class="hljs-comment"># 匹配图片文件，不区分大小写</span><br>    <span class="hljs-section">location</span> <span class="hljs-regexp">~* \.(jpg|jpeg|png|gif)$</span> &#123;<br>        <span class="hljs-attribute">root</span> /var/www/images;<br>    &#125;<br><br>    <span class="hljs-comment"># 匹配以 .php 结尾的请求，通过 FastCGI 处理</span><br>    <span class="hljs-section">location</span> <span class="hljs-regexp">~ \.php$</span> &#123;<br>        <span class="hljs-attribute">fastcgi_pass</span> <span class="hljs-number">127.0.0.1:9000</span>;<br>        <span class="hljs-attribute">fastcgi_index</span> index.php;<br>        <span class="hljs-attribute">fastcgi_param</span> SCRIPT_FILENAME /var/www/html<span class="hljs-variable">$fastcgi_script_name</span>;<br>        <span class="hljs-attribute">include</span> fastcgi_params;<br>    &#125;<br><br>    <span class="hljs-comment"># 匹配 /api/ 请求，转发到上游服务器</span><br>    <span class="hljs-section">location</span> /api/ &#123;<br>        <span class="hljs-attribute">proxy_pass</span> http://backend_server;<br>        <span class="hljs-attribute">proxy_set_header</span> Host <span class="hljs-variable">$host</span>;<br>        <span class="hljs-attribute">proxy_set_header</span> X-Real-IP <span class="hljs-variable">$remote_addr</span>;<br>        <span class="hljs-attribute">proxy_set_header</span> X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;<br>        <span class="hljs-attribute">proxy_set_header</span> X-Forwarded-Proto <span class="hljs-variable">$scheme</span>;<br>    &#125;<br><br>    <span class="hljs-comment"># 重定向旧路径到新路径</span><br>    <span class="hljs-section">location</span> /old-path &#123;<br>        <span class="hljs-attribute">rewrite</span><span class="hljs-regexp"> ^/old-path(.*)$</span> /new-path<span class="hljs-variable">$1</span> <span class="hljs-literal">permanent</span>;<br>    &#125;<br><br>    <span class="hljs-comment"># 默认匹配</span><br>    <span class="hljs-section">location</span> / &#123;<br>        <span class="hljs-attribute">try_files</span> <span class="hljs-variable">$uri</span> <span class="hljs-variable">$uri</span>/ =<span class="hljs-number">404</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>其中:</p>
+<ul>
+<li>存在以 <code>/static/</code> 开头的请求时, 会将它映射到服务器的 <code>/var/www/static</code> 目录. 例如, 请求 <code>/static/css/style.css</code> 将返回 <code>/var/www/static/css/style.css</code> 文件.</li>
+<li>最后的 <code>location / &#123; ... &#125;</code> 是默认匹配, 尝试返回请求的文件或目录. 如果找不到, 就返回 404 Not Found 状态码.</li>
+</ul>
+<h3 id="动态引入第三方模块">动态引入第三方模块</h3>
+<p>可以通过以下指令<strong>动态</strong>引入第三方模块:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-comment"># 指定加载模块的文件名</span><br><span class="hljs-attribute">load_module</span> file;<br></code></pre></td></tr></table></figure>
+<p>该指令只能在全局块中使用, 即出现在 events 块、stream 块和 http 块之前.</p>
+<p>想要动态添加新的模块, 步骤如下:</p>
+<ol>
+<li>找到模块的源码 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">git <span class="hljs-built_in">clone</span> https://github.com/openresty/echo-nginx-module.git</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>进入 Nginx 源代码目录, 执行 configure 程序 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">./configure --add-dynamic-module=module_path</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash">make modules</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>将动态库文件移动到一个合适的位置 (可选) <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">sudo <span class="hljs-built_in">cp</span> objs/ngx_http_echo_module.so /usr/local/nginx/modules</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">这里新建了一个 modules 目录, 来存放动态库文件</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>修改配置文件: <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">load_module</span> modules/ngx_http_echo_module.so;<br><br><span class="hljs-section">http</span> &#123;<br>	...<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li>重启 Nginx.</li>
+</ol>
+<h3 id="其他指令">其他指令</h3>
+<p>Nginx 中其他常用的指令有:</p>
+<ul>
+<li><code>error_page</code> 指令用于<strong>指定自定义错误页面</strong>. 当 Nginx 服务器返回特定的错误状态码时, 会显示相应的自定义错误页面. 格式为:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">error_page</span> code [code...] [=response] uri;<br></code></pre></td></tr></table></figure>
+例如:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">error_page</span> <span class="hljs-number">404</span> /custom_404.html;<br><span class="hljs-section">location</span> = /custom_404.html &#123;<br>    <span class="hljs-attribute">root</span> /usr/share/nginx/html;<br>    internal;<br>&#125;<br></code></pre></td></tr></table></figure>
+如果客户端请求了一个不存在的页面, Nginx 会生成一个 404 错误状态码, 而 <code>error_page 404 /custom_404.html;</code> 则告诉 Nginx 将请求重定向到 <code>/custom_404.html</code>, Nginx 会在 server 块中寻找与 <code>/custom_404.html</code> 匹配的 location, 之后从 <code>/usr/share/nginx/html/custom_404.html</code> 加载文件并返回给客户端.</li>
+<li><code>try_files</code> 指令用于指定一组文件路径或者 URI, Nginx 会按顺序依次检查这些路径, 直到找到存在的文件为止. 如果没有找到, 则返回指定的 URI 或错误代码. 格式为:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">try_files</span> file ... uri;<br></code></pre></td></tr></table></figure>
+例如:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">location</span> / &#123;<br>    <span class="hljs-attribute">try_files</span> <span class="hljs-variable">$uri</span> <span class="hljs-variable">$uri</span>/ /index.html;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>connection_pool_size</code> 指令用于<strong>设置每个连接的内存池大小</strong>. 此内存池用于分配连接相关的数据结构. 格式为:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">connection_pool_size</span> size;<br></code></pre></td></tr></table></figure>
+例如:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">connection_pool_size</span> <span class="hljs-number">4k</span>;<br></code></pre></td></tr></table></figure>
+该配置表示每个连接使用 4KB 的内存池.</li>
+<li><code>request_pool_size</code> 指令用于<strong>设置每个请求的内存池大小</strong>. 此内存池用于分配与请求处理相关的数据结构. 格式为:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">request_pool_size</span> size;<br></code></pre></td></tr></table></figure>
+例如:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">request_pool_size</span> <span class="hljs-number">4k</span>;<br></code></pre></td></tr></table></figure>
+该配置表示每个请求使用 4KB 的内存池.</li>
+<li><code>types</code> 指令用于<strong>设置 MIME 类型与文件扩展名的对应关系</strong>, 可以在 http 或 server 块中定义. 格式为:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">types</span> &#123;<br>    <span class="hljs-attribute">extension</span> MIME-type;<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
+例如:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">http</span> &#123;<br>    <span class="hljs-attribute">include</span>       mime.types;<br>    <span class="hljs-attribute">default_type</span>  application/octet-stream;<br>    <br>    <span class="hljs-section">types</span> &#123;<br>        text/<span class="hljs-attribute">html</span> html;<br>        text/<span class="hljs-attribute">css</span>  css;<br>        text/<span class="hljs-attribute">xml</span>  xml;<br>        image/<span class="hljs-attribute">gif</span> gif;<br>        image/<span class="hljs-attribute">jpeg</span> jpg;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+该配置表示将文件扩展名与相应的 MIME 类型进行关联.</li>
+</ul>
+<h3 id="HTTP-核心模块的变量">HTTP 核心模块的变量</h3>
+<p>Nginx 中 HTTP 核心模块提供了许多预定义的变量, 这些变量可以在配置文件中使用, 用于控制请求的处理和日志记录.</p>
+<p>下面是一些常用的变量:</p>
+<ul>
+<li><code>$arg_PARAMETER</code> 表示请求参数的值.
+<ul>
+<li>例如, 如果请求 URL 是 <code>http://example.com/?id=123</code>, 则 <code>$arg_id</code> 的值是 <code>123</code>.</li>
+</ul>
+</li>
+<li><code>$args</code> 表示请求的参数字符串.
+<ul>
+<li>例如, 对于请求 URL <code>http://example.com/?id=123&amp;name=test</code>, <code>$args</code> 的值是 <code>id=123&amp;name=test</code>.</li>
+</ul>
+</li>
+<li><code>$binary_remote_addr</code> 表示客户端 IP 地址的二进制形式.</li>
+<li><code>$content_length</code> 表示请求的 <code>Content-Length</code> 头字段.</li>
+<li><code>$content_type</code> 表示请求的 <code>Content-Type</code> 头字段.</li>
+<li><code>$uri</code> 表示当前请求的 URI, 不带参数.
+<ul>
+<li>例如, 对于请求 URL <code>http://example.com/path/to/file?arg=value</code>, <code>$uri</code> 的值是 <code>/path/to/file</code>.</li>
+</ul>
+</li>
+<li><code>$remote_addr</code> 表示客户端 IP 地址.</li>
+<li><code>$remote_port</code> 表示客户端端口号.</li>
+<li><code>$status</code> 表示响应状态码.</li>
+<li><code>$request</code> 表示请求的完整字符串.</li>
+</ul>
+<h2 id="HTTP-反向代理">HTTP 反向代理</h2>
+<p>Nginx 中的 HTTP 反向代理功能是通过配置 <code>upstream</code> 块和 <code>proxy_pass</code> 指令来实现的.</p>
+<h3 id="upstream-块">upstream 块</h3>
+<p><code>upstream</code> 块通常位于 http 块中, 用于定义一组服务器, 也称为<strong>上游服务器集群</strong>, 这些服务器可以作为负载均衡组的一部分被 Nginx 代理.</p>
+<p>例如:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">upstream</span> backend &#123;<br>	<span class="hljs-attribute">server</span> backend1.example.com weight=<span class="hljs-number">3</span>;<br>	<span class="hljs-attribute">server</span> <span class="hljs-number">127.0.0.1:8080</span> max_fails=<span class="hljs-number">3</span> fail_timeout=<span class="hljs-number">30s</span>;<br>	<span class="hljs-attribute">server</span> unix:/tmp/backend3;<br>	<span class="hljs-attribute">server</span> backup1.example.com backup;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>其中:</p>
+<ul>
+<li><code>backend</code> 是这个组的名称.</li>
+<li><code>server</code> 指令用于定义上游服务器. 格式为:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">server</span> address [parameters];<br><br>[parameters]:<br>	<span class="hljs-attribute">weight</span>       <span class="hljs-comment"># 设置服务器的权重, 权重越高, 接收的请求就越多</span><br>	max_conns    <span class="hljs-comment"># 限制被代理的服务器的同时连接数, 默认 0 表示无限制</span><br>	max_fails    <span class="hljs-comment"># 限制连接失败次数</span><br>	fail_timeout <span class="hljs-comment"># 限制超时时间</span><br>	backup       <span class="hljs-comment"># 指定备用服务器, 只有在主服务器不可用时才会使用</span><br></code></pre></td></tr></table></figure>
+其中 <code>address</code> 可以是域名、IP 端口或 UNIX 句柄.</li>
+</ul>
+<p>常用的变量有:</p>
+<ul>
+<li><code>$upstream_addr</code> 表示上游服务器的地址.</li>
+<li><code>$upstream_response_time</code> 表示上游服务器的响应时间.</li>
+<li><code>$upstream_status</code> 表示上游服务器的响应状态码.</li>
+</ul>
+<h3 id="proxy-pass-指令">proxy_pass 指令</h3>
+<p><code>proxy_pass</code> 指令<strong>用于将客户端的请求转发到上游服务器</strong>, 通常位于 location 块中. 格式为:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">proxy_pass</span> URL;<br></code></pre></td></tr></table></figure>
+<p>其中, URL 可以是协议名 (http/https) + 主机/域名或 IP 地址 + 端口号或 UNIX 句柄 + 路径. 例如:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">proxy_pass</span> http://localhost:8000/uri/;<br><span class="hljs-attribute">proxy_pass</span> http://unix:/tmp/backend.socket:/uri/;<br></code></pre></td></tr></table></figure>
+<p>另外, 需要注意的是, <strong>当 Nginx 使用 <code>proxy_pass</code> 指令将客户端的请求转发到后端服务器时, 客户端请求的 URI 在转发过程中可能会发生变化</strong>. 这个变化是根据 location 块的匹配规则决定的:</p>
+<ul>
+<li>对于非正则表达式的 location 块:
+<ul>
+<li>如果 location 块没有使用正则表达式, 客户端请求 URI 中匹配 location 的部分会被 <code>proxy_pass</code> 指令中的 URI 部分替换. 例如:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br><br>    <span class="hljs-section">location</span> /app/ &#123;<br>        <span class="hljs-attribute">proxy_pass</span> http://backend/;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+该例中, 对于客户端请求 <code>http://example.com/app/foo/bar</code>, location 块匹配了 <code>/app/</code>, 所以 <code>app/</code> 会被 <code>proxy_pass</code> 中的 URI 部分 (<code>/</code>) 替换, 最终转发到后端的 URI 为 <code>http://backend/foo/bar</code>.</li>
+<li>如果 <code>proxy_pass</code> 指令中的参数不包含路径部分, 则保留客户端请求的路径. 例如:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br><br>    <span class="hljs-section">location</span> /app/ &#123;<br>        <span class="hljs-attribute">proxy_pass</span> http://backend;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+该例中, 对于客户端请求 <code>http://example.com/app/foo/bar</code>, 由于 <code>proxy_pass</code> 指令中没有路径部分, 因此客户端的路径部分保持不变, 最终转发到后端的 URI 为 <code>http://backend/app/foo/bar</code>.</li>
+</ul>
+</li>
+<li>如果 <code>location</code> 块使用了正则表达式匹配, 则 <code>proxy_pass</code> 指令中的参数不能直接指定固定路径. 一般情况下, 客户端请求的 URI 部分是不会被改变, 除非在 <code>proxy_pass</code> 中明确使用了捕获组来修改路径. 例如:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br><br>    <span class="hljs-section">location</span> <span class="hljs-regexp">~ ^/app/(.*)$</span> &#123;<br>        <span class="hljs-attribute">proxy_pass</span> http://backend/<span class="hljs-variable">$1</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+该例中, 对于客户端请求 <code>http://example.com/app/foo/bar</code>, 由于 location 使用正则表达式匹配所有以 <code>/app/</code> 开头的请求, 并捕获后面的部分, 因此最终转发到后端的 URI 为 <code>http://backend/foo/bar</code>.</li>
+</ul>
+<p>下面的示例中将使用 upstream 块, 通过 <code>proxy_pass</code> 指令将客户端请求转发给服务器集群:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">http</span> &#123;<br>	<span class="hljs-section">upstream</span> backend &#123;<br>		<span class="hljs-attribute">server</span> <span class="hljs-number">127.0.0.1:1234</span> weight=<span class="hljs-number">1</span>;<br>		<span class="hljs-attribute">server</span> <span class="hljs-number">127.0.0.1:1235</span> weight=<span class="hljs-number">2</span>;<br>	&#125;<br><br>	<span class="hljs-section">server</span> &#123;<br>		<span class="hljs-attribute">listen</span> <span class="hljs-number">1234</span>;<br>		<span class="hljs-attribute">server_name</span> test1.cc;<br><br>		<span class="hljs-section">location</span> / &#123;<br>			<span class="hljs-attribute">echo</span> <span class="hljs-string">&#x27;test1 <span class="hljs-variable">$uri</span>&#x27;</span>;<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-section">server</span> &#123;<br>		<span class="hljs-attribute">listen</span> <span class="hljs-number">1235</span>;<br>		<span class="hljs-attribute">server_name</span> test2.cc;<br><br>		<span class="hljs-section">location</span> / &#123;<br>			<span class="hljs-attribute">echo</span> <span class="hljs-string">&#x27;test2 <span class="hljs-variable">$uri</span>&#x27;</span>;<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-section">server</span> &#123;<br>		<span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br>		<span class="hljs-attribute">server_name</span> localhost;<br><br>		<span class="hljs-section">location</span> / &#123;<br>			<span class="hljs-attribute">proxy_pass</span> http://backend;<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>此时多次输入 <code>curl http://localhost/abc</code> 得到的结果会不同, 可见该请求被转发到了不同的上游服务器上.</p>
+<p>其他常用的代理指令如下:</p>
+<ul>
+<li><code>proxy_set_header</code> 用于设置发送到上游服务器的请求头. 例如:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">proxy_set_header</span> Host <span class="hljs-variable">$host</span>;<br><span class="hljs-attribute">proxy_set_header</span> X-Real-IP <span class="hljs-variable">$remote_addr</span>;<br><span class="hljs-attribute">proxy_set_header</span> X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>proxy_connect_timeout</code> 设置连接到上游服务器的超时时间. 例如:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">proxy_connect_timeout</span> <span class="hljs-number">10s</span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><code>proxy_read_timeout</code> 设置从上游服务器接收响应的超时时间.</li>
+<li><code>proxy_send_timeout</code> 设置向上游服务器发送请求的超时时间.</li>
+<li><code>proxy_buffering</code> 控制是否启用响应缓冲. 例如:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">proxy_buffering</span> <span class="hljs-literal">on</span>;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="负载均衡算法">负载均衡算法</h3>
+<p>Nginx 中的负载均衡算法是确保流量在服务器集群中均匀分布的关键工具. 下面是一些常用的负载均衡算法:</p>
+<ul>
+<li><strong>轮询</strong>. 轮询是默认的负载均衡算法. 它将请求按顺序轮流分配给每个服务器, 依次循环. 这种方法不考虑每台服务器的当前负载或处理能力. 例如:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">upstream</span> backend &#123;<br>    <span class="hljs-attribute">server</span> backend1.example.com;<br>    <span class="hljs-attribute">server</span> backend2.example.com;<br>    <span class="hljs-attribute">server</span> backend3.example.com;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><strong>加权轮询</strong>. 加权轮询在轮询的基础上增加了权重, 可以根据每台服务器的处理能力分配更多或更少的请求. 权重值越高, 分配到的请求就越多. 例如:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">upstream</span> backend &#123;<br>    <span class="hljs-attribute">server</span> backend1.example.com weight=<span class="hljs-number">3</span>;<br>    <span class="hljs-attribute">server</span> backend2.example.com weight=<span class="hljs-number">2</span>;<br>    <span class="hljs-attribute">server</span> backend3.example.com; <span class="hljs-comment"># 默认 weight=1</span><br>&#125;<br></code></pre></td></tr></table></figure>
+不管是轮询策略还是加权轮询策略都<strong>要求业务是无状态的</strong>. 因为一个用户的多次请求可能被分配到不同的业务服务端上, 所以业务服务端不应该为用户请求保存状态. 并且这两种策略对缓存都不友好, 很容易出现缓存未命中的情况.</li>
+<li><strong>最少连接</strong>. 最少连接算法将请求分配给当前连接数最少的服务器, 适用于需要长时间保持连接的服务. 例如:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">upstream</span> backend &#123;<br>    least_conn;<br>    <span class="hljs-attribute">server</span> backend1.example.com;<br>    <span class="hljs-attribute">server</span> backend2.example.com;<br>    <span class="hljs-attribute">server</span> backend3.example.com;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><strong>IP 哈希</strong>. IP 哈希算法会根据客户端的 IP 地址计算哈希值, 并将相同 IP 地址的请求分配给同一台服务器. 这一策略能保证, 同一个客户端的访问总是会固定到同一个上游服务端上, 从而提高缓存的性能. 例如:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">upstream</span> backend &#123;<br>    ip_hash;<br>    <span class="hljs-attribute">server</span> backend1.example.com;<br>    <span class="hljs-attribute">server</span> backend2.example.com;<br>    <span class="hljs-attribute">server</span> backend3.example.com;<br>&#125;<br></code></pre></td></tr></table></figure>
+当服务器数量变动时, 会对 IP 哈希算法生成的哈希值产生影响, 从而影响请求的分配.</li>
+<li><strong>一致性哈希</strong>. 一致性哈希算法会将请求映射到一组服务器中, 通过哈希环进行分配. 这种方法在服务器数量变动时, 能最小化对现有请求分配的影响. 为了使用一致性哈希, 通常需要第三方模块, 如 <code>nginx-upstream-consistent-hash</code>. 例如:  <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">upstream</span> backend &#123;<br>    <span class="hljs-attribute">hash</span> <span class="hljs-variable">$request_uri</span> consistent;<br>    <span class="hljs-attribute">server</span> backend1.example.com;<br>    <span class="hljs-attribute">server</span> backend2.example.com;<br>    <span class="hljs-attribute">server</span> backend3.example.com;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Nginx-惊群问题">Nginx 惊群问题</h2>
+<p>惊群现象就是当多个进程或线程在阻塞等待同一个事件时, 如果该事件发生, 就会唤醒所有等待的进程/线程, 但最终只可能有一个进程/线程能对该事件进行处理, 其他进程/线程会在争夺失败后重新休眠, 唤醒这些进程/线程会导致大量的上下文切换, 造成系统资源的浪费.</p>
+<h3 id="accept-惊群">accept 惊群</h3>
+<p>当多个进程/线程调用 <code>accept</code> 函数在同一个 <code>socket</code> 上等待连接时, 一个新连接的到来就会导致所有阻塞在该 <code>socket</code> 上的进程/线程被唤醒, 但是最后只有一个进程/线程可以成功调用 <code>accept</code> 接收新连接, 其余的进程/线程会返回失败而重新休眠, 这样就产生了惊群现象.</p>
+<p>针对 <code>accept</code> 惊群问题, Linux 2.6 版本给出了解决方案. 在 Linux 2.6 版本中, 维护了一个等待队列, 队列中的元素为进程, 并且使用了 <code>WQ_FLAG_EXCLUSIVE</code> 标志位 (互斥标志位). 当一个进程在调用 <code>accept</code> 函数时, 发生阻塞, 就会被标记为 <code>exclusive</code> (<code>WQ_FLAG_EXCLUSIVE</code> 标志位被置位). 非 <code>exclusive</code> 的进程会从前面添加到等待队列中, 而 <code>exclusive</code> 的进程会从后面添加到等待队列中. 当有新的连接到来时, 会遍历整个等待队列, 遍历到的每个进程 (这些都是非 <code>exclusive</code> 进程) 都会被唤醒, 直到遇到第一个 <code>exclusive</code> 进程. 这一方案保证了每次连接事件到来时只有一个进程被唤醒.</p>
+<h3 id="epoll-惊群">epoll 惊群</h3>
+<p>当不同的 <code>epfd</code> (epoll 实例的文件描述符, epoll 实例用于保存所有待监听的文件描述符) 监听同一个 <code>socket</code> 时, epoll 也可能出现惊群效应.</p>
+<p>例如, 在 Nginx 的多进程架构中: 主进程 (Master 进程) 首先调用 <code>listen</code> 进行监听, 接着调用 <code>fork</code> 创建多个子进程 (Worker 进程), 子进程中调用 <code>epoll_create</code> 创建各自的 <code>epfd</code>, 并将继承自主进程的监听套接字添加到自己的 <code>epfd</code> 中, 再调用 <code>epoll_wait</code> 等待事件发生. 当连接请求到达时, 每个子进程的 <code>epfd</code> 都能捕捉到该事件, 这些子进程都会被唤醒, 但只有一个子进程可以通过 <code>accept</code> 争夺到该连接请求并建立连接. 如下图所示:</p>
+<p><img src="/img/Pictures/QQ_1722770092194.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<p>针对 epoll 惊群问题, 有三种解决方案:</p>
+<ul>
+<li><code>accept_mutex</code>.</li>
+<li><code>EPOLLEXCLUSIVE</code>.</li>
+<li><code>SO_REUSEPORT</code>.</li>
+</ul>
+<h4 id="accept-mutex">accept_mutex</h4>
+<p>该方案由 Nginx 实现, Nginx 使用了一个全局锁, 当子进程在调用 <code>epoll_ctl</code> 和 <code>epoll_wait</code> 前, 需要获得该全局锁, 该策略确保了只有一个子进程在处理连接请求, 对应的指令是 <code>accept_mutex</code>.</p>
+<h4 id="EPOLLEXCLUSIVE">EPOLLEXCLUSIVE</h4>
+<p>在 Linux 4.5 版本引入了 <code>EPOLLEXCLUSIVE</code> 标志位. 子进程调用 <code>epoll_ctl</code> 将监听套接字加入 <code>epfd</code> 时, 会同时将 <code>EPOLLEXCLUSIVE</code> 标志位显式传入, 这使得子进程带上了 <code>exclusive</code> 属性, 此时同一事件只会通知其中一个等待的线程或进程. 这一方案能够确保当一个事件发生时, 只唤醒一个正在 <code>epoll_wait</code> 阻塞的进程.</p>
+<h4 id="SO-REUSEPORT">SO_REUSEPORT</h4>
+<p>在 Linux 3.9 版本引入了 <code>socket</code> 套接字选项 <code>SO_REUSEPORT</code>. 多个进程或线程可以使用 <code>SO_REUSEPORT</code> 选项创建和绑定 <code>socket</code> 到同一个端口, 内核会在这些 <code>socket</code> 之间进行负载均衡, 当连接请求到来时, 只有一个进程中的 <code>socket</code> 会获得连接.</p>
+<p>而在 Nginx 配置文件中, 可以通过 <code>reuseport</code> 参数来启用这个选项. 例如:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span> reuseport;<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>使用 <code>reuseport</code> 后, Nginx 可以创建多个 worker 进程, 每个进程都绑定到同一个端口. 内核会在这些 worker 进程之间进行负载均衡, 从而提高并发处理能力和性能. 如下图所示:<br>
+<img src="/img/Pictures/20240804190756.png" srcset="/img/loading.gif" lazyload width="500" align = "center"></p>
+<h2 id="Reference">Reference</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>写给后端的Nginx初级入门教程:基础篇: <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903966128635918">https://juejin.cn/post/6844903966128635918</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>写给后端的Nginx初级入门教程:实战篇: <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903983622914062#heading-7">https://juejin.cn/post/6844903983622914062#heading-7</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>Nginx 是如何解决惊群效应的？: <a target="_blank" rel="noopener" href="https://www.linkinstars.com/post/dbe65928.html">https://www.linkinstars.com/post/dbe65928.html</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>Nginx 惊群的原因和解决方案: <a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2161177">https://cloud.tencent.com/developer/article/2161177</a>
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:5" class="footnote-text"><span>探索惊群 ③ - nginx 惊群现象: <a target="_blank" rel="noopener" href="https://wenfh2020.com/2021/09/29/nginx-thundering-herd/">https://wenfh2020.com/2021/09/29/nginx-thundering-herd/</a>
+<a href="#fnref:5" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:6" class="footnote-text"><span>王道 C++: <a target="_blank" rel="noopener" href="http://home.cskaoyan.com/#/c++/0">http://home.cskaoyan.com/#/c++/0</a>
+<a href="#fnref:6" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AC%94%E8%AE%B0/%E5%85%B6%E4%BB%96/" class="category-chain-item">其他</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Nginx/" class="print-no-link">#Nginx</a>
+      
+        <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="print-no-link">#服务器</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/31/Linux/%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" title="网络与网络编程">
+                        <span class="hidden-mobile">网络与网络编程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
