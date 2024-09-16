@@ -24,7 +24,7 @@
 <meta property="og:description" content="decltype decltype 是 C++11 新增的一个用来推导表达式类型的关键字. 和 auto 的功能一样, 用来在编译时期进行自动类型推导. 引入 decltype 是因为 auto 并不适用于所有的自动类型推导场景. 也可以将 decltype 看作是 sizeof 运算符的另一种形式, 因为两者都不会真正计算值, 只充当一种编译期工具. decltype 对比 auto: 12au">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-07-04T11:30:33.000Z">
-<meta property="article:modified_time" content="2024-07-04T11:32:20.476Z">
+<meta property="article:modified_time" content="2024-09-16T15:25:07.320Z">
 <meta property="article:author" content="Wangrd">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary_large_image">
@@ -299,7 +299,7 @@
 </ul>
 <h2 id="decltype-和值类别">decltype 和值类别</h2>
 <p>对于推导规则中的第一种运算, 我们称之为 <strong>variable decltype</strong>, 因为这种 <code>decltype</code> 返回的是变量 (或者字段) 定义时的类型.</p>
-<p>对于推导规则中的第二种运算, 我们称之为 <strong>expression decltype</strong>. 我们可以通过该运算, 推导出表达式的值类别. 如果 <code>decltype((E))</code> 得到的是非引用类型 <code>T</code>, 那么 <code>E</code> 的值类别是 prvalue; 如果是 <code>T&amp;</code>, 那么 <code>E</code> 的值类别是 lvalue; 如果是 <code>T&amp;&amp;</code>, 那么 <code>E</code> 的值类别是 xvalue.</p>
+<p>对于推导规则中的第二种运算, 我们称之为 <strong>expression decltype</strong>. 我们可以通过该运算, 推导出表达式的<a target="_blank" rel="noopener" href="https://wrd123789.github.io/2024/07/04/CPlusPlus/%E5%80%BC%E7%B1%BB%E5%88%AB/">值类别</a>. 如果 <code>decltype((E))</code> 得到的是非引用类型 <code>T</code>, 那么 <code>E</code> 的值类别是 prvalue; 如果是 <code>T&amp;</code>, 那么 <code>E</code> 的值类别是 lvalue; 如果是 <code>T&amp;&amp;</code>, 那么 <code>E</code> 的值类别是 xvalue.</p>
 <p>此时可以将值类别和 expression decltype 的引用类型绑定起来:</p>
 <table>
 <thead>
@@ -323,14 +323,15 @@
 </tr>
 </tbody>
 </table>
-<p>截至 C++17, 一个类型为 <code>T</code> 的 <strong>prvalue</strong> 是一个可以生成一个类型为 <code>T</code> 的对象的抽象配方 (recipe). 值得注意的是, 一个 prvalue 并不对应一个你程序中真实存在的对象, 也不意味着构造函数已经调用过. 字面常量如 <code>5</code>, <code>true</code>, <code>nullptr</code> 和 <code>enum</code> 标签都是 prvalue, 因为可以用他们来初始化对象和操作数.</p>
-<p><code>auto s = std::string(&quot;hello world&quot;);</code> 中的 <code>std::string(&quot;hello world&quot;)</code> 是一个 prvalue. 但是, 得到这么一个 prvalue 的时候, 并没有真的创建一个字符串, 甚至 <code>std::string(const char*)</code> 这个构造函数也没有调用. 这一点是合理的, 因为设想一下如果这个 prvalue 是一个构造好的对象, 那么 <code>s</code> 就必须通过移动构造来初始化. 所以在这个例子中, <code>s</code> 是直接由参数 <code>&quot;hello world&quot;</code> 构造初始化的. 在语言标准里, 一个最终由 prvalue 初始化的对象被称为这个 prvalue 的 <strong>result object</strong>, 而被用于初始化 result object 的值被称为 prvalue 的 result.</p>
-<p>编译器会尽可能地推迟这个将 prvalue 变成一个对象的过程 (materializing), 以避免不必要的移动和拷贝构造. 尽管如此, 即使 prvalue 的值最后没有被使用, 它仍然需要被 materialize, 所以推迟 materialize 并不能省略所有的构造, 它只能避免移动和拷贝构造.</p>
+<p>C++17 之前, prvalue 通常表示程序中临时创建的对象, 但在 C++17 中, 它被重新定义为一种 “生成对象的抽象配方”. 它不再意味着你在程序中一定有一个实际的对象存在, 而是表示一种可以<strong>生成该类型对象的描述</strong>. 这种 prvalue 是可以被用来<strong>构造</strong>或<strong>初始化</strong>对象的. 例如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">int</span> x = <span class="hljs-number">5</span>;<br></code></pre></td></tr></table></figure>
+<p>该例中, <code>5</code> 是一个 prvalue, 它并不直接表示程序中的某个对象. 它代表一个抽象的概念: “可以用来初始化一个 <code>int</code> 类型对象的值 5”. <code>5</code> 本身没有地址, 也没有构造函数调用, 直到它被用来初始化 <code>x</code>, 才真正变成一个对象 (在内存中有具体位置).</p>
+<p>同样, <code>auto s = std::string(&quot;hello world&quot;);</code> 中的 <code>std::string(&quot;hello world&quot;)</code> 也是一个 prvalue. 但是, 得到这么一个 prvalue 的时候, 并没有真的创建一个字符串, 甚至 <code>std::string(const char*)</code> 这个构造函数也没有调用. 这一点是合理的, 因为设想一下如果这个 prvalue 是一个构造好的对象, 那么 <code>s</code> 就必须通过移动构造来初始化, 而这个移动构造函数的调用是不必要的. 所以在这个例子中, <code>s</code> 是直接由参数 <code>&quot;hello world&quot;</code> 构造初始化的. 在语言标准里, 一个最终由 prvalue 初始化的对象被称为这个 prvalue 的 <strong>result object</strong>, 而被用于初始化 result object 的值被称为 prvalue 的 result. 编译器会尽可能地推迟这个将 prvalue 变成一个对象的过程 (称为 materializing), 来避免不必要的移动和拷贝构造.</p>
 <p>一个 <strong>glvalue</strong> 代表了一个程序中真实存在的对象, 它可以唯一地确定一个对象, 它在内存中有确定的地址.</p>
 <p>一个 <strong>xvalue</strong> 是一个即将被丢掉的值. 比如, 一个在表达式中被创建的临时变量的生命周期会在表达式的末尾结束, 此时它将被销毁.</p>
 <p>一个 <strong>lvalue</strong> 就是一个非 xvalue 的 glvalue.</p>
 <p>一个 <strong>rvalue</strong> 就是一个 prvalue 或者 xvalue.</p>
-<p>由于 prvalue 在初始化其 result object 之前必须先被 materialize, 所以 prvalue 必须是一个完整类型, 而不能是前向声明的一个 struct. 类似地, prvalue 也不能是纯虚类, 因为纯虚类并不能实例化. 另外, 有意义的被 <code>const</code> 和 <code>volatile</code> 修饰的 prvalue 只能是类和数组. 比如, 一个 <code>const int</code> 类型的 prvalue 在初始化一个 <code>int</code> 变量的时候, 和普通的 <code>int</code> 类型的 prvalue 没有任何区别.</p>
+<p><code>const</code> 和 <code>volatile</code> 修饰符对基本类型的 prvalue 没有实际影响, 对类和数组类型的 prvalue 则会保留并影响对象的行为.</p>
 <p>内建运算符对其操作数有一定的要求, 并且返回特定的值类别. 比如, 内建二元运算符 <code>+</code> 要求两个操作数都是 prvalue, 并且返回 prvalue. 当然, 即使 <code>+</code> 要求操作数都是 prvalue, 你仍然能让其中一个操作数是 lvalue, 比如 <code>x + 1</code>. 这是因为, 一个非函数或数组的 glvalue 都可以通过一种称为 lvalue-to-rvalue conversion 的转换变成一个 prvalue. 根据上文所述, prvalue 实际上只是一个用来初始化对象的配方. 当从一个非类的 glvalue, 比如 <code>int</code> 转换到 prvalue 的时候, 你得到了这么一个配方: 根据老的 <code>int</code> 的值初始化一个新的 <code>int</code>; 当从一个类的 glvalue 转换到 prvalue 的时候, 这个配方就是: 根据现有的 glvalue, 拷贝或者移动构造一个新的类实例.</p>
 <p>一个表达式的值类别限定了它能绑定到哪些引用上, 如果 <code>T</code> 是一个非引用类型, 那么:</p>
 <ul>
@@ -347,9 +348,8 @@
 <p>其中 <code>int</code> 对应 prvalue, <code>int&amp;</code> 对应 lvalue.</p>
 <p>由于值类别和 expression decltype 的引用类型是一回事, 我们可以调用 <code>decltype((E))</code>, 将其传入一个我们设计好的模板函数, 再通过模板特化来提取引用类型, 以此轻松得到 <code>E</code> 的值类别:</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-keyword">constexpr</span> <span class="hljs-type">const</span> <span class="hljs-type">char</span> *category = <span class="hljs-string">&quot;prvalue&quot;</span>;<br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-keyword">constexpr</span> <span class="hljs-type">const</span> <span class="hljs-type">char</span> *category&lt;T&amp;&gt; = <span class="hljs-string">&quot;lvalue&quot;</span>;<br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-keyword">constexpr</span> <span class="hljs-type">const</span> <span class="hljs-type">char</span> *category&lt;T&amp;&amp;&gt; = <span class="hljs-string">&quot;xvalue&quot;</span>;<br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> SHOW(E) std::cout <span class="hljs-string">&lt;&lt; #E &lt;&lt; &quot;: &quot; &lt;&lt; category&lt;decltype((E))&gt;</span> &lt;&lt; std::endl</span><br></code></pre></td></tr></table></figure>
-<p>注意, 由于转发引用只适用于函数模板参数, 所以模板特化 <code>category&lt;T&amp;&amp;&gt;</code> 并不是一个转发引用.</p>
 <p>下面介绍 expression decltype 的小技巧, 之后我们将 expression decltype 简称为 exprtype.</p>
-<p>我们将表达式分成三种情况: 特例、有名值和无名值. 特例包含字符串字面量和函数, 它们的 exprtype 永远是 <code>T&amp;</code>. 有名值包括变量 (<code>x</code>)、对象的成员变量 (<code>s.f</code>) 和数组元素 (<code>a[i]</code>), 它们的 exprtype 一般都是 <code>T&amp;</code>, 除了几种情况: <code>s</code> 不是 lvalue 而且销毁 <code>s</code> 会导致 <code>s.f</code> 也被销毁, 此时 <code>s.f</code> 的 exprtype 是 <code>T&amp;&amp;</code>;  <code>a</code> 不是 lvalue, 此时 <code>a[i]</code> 的 exprtype 是 <code>T&amp;&amp;</code>. 最后, 无名值的 exprtype 和它们的 C++ 类型相同. 无名值分为两种: 显式地具有类型的值, 即类型转换表达式、函数调用和其他的和内建运算符有关的情况.</p>
+<p>我们将表达式分成三种情况: 特例、有名值和无名值. 特例包含字符串字面量 (<code>const char[]</code>) 和函数, 它们的 exprtype 永远是 <code>T&amp;</code>. 有名值包括变量 (<code>x</code>)、对象的成员变量 (<code>s.f</code>) 和数组元素 (<code>a[i]</code>), 它们的 exprtype 一般都是 <code>T&amp;</code>, 除了几种情况: <code>s</code> 不是 lvalue 而且销毁 <code>s</code> 会导致 <code>s.f</code> 也被销毁, 此时 <code>s.f</code> 的 exprtype 是 <code>T&amp;&amp;</code> (它的值类别实际上是 xvalue);  <code>a</code> 不是 lvalue, 此时 <code>a[i]</code> 的 exprtype 是 <code>T&amp;&amp;</code> (它的值类别同样是 xvalue). 最后, 无名值的 exprtype 和它们的 C++ 类型相同. 无名值分为两种: 显式地具有类型的值, 即类型转换表达式 (类型转换表达式的结果不是一个引用类型时)、函数调用和其他的和内建运算符有关的情况.</p>
 <p>下面是所有情况的详细解释:</p>
 <p><strong>特例 lvalue</strong>: 字符串字面量、函数和函数的引用的 exprtype 永远都是 lvalue 引用.</p>
 <table>
@@ -379,7 +379,7 @@
 </tbody>
 </table>
 <p>由于字符串字面量是内存中的一个 <code>char</code> 数组, 而函数是内存中的指令, 它们都不是 <code>prvalue</code>, 所以让它们具有非引用的 decltype 是没有意义的. 另外, 它们的生命周期贯穿整个程序, 所以允许 rvalue 引用来移动它们也是没有意义的. 所以, 只有 lvalue 引用是有意义的.</p>
-<p><strong>有名值</strong>: 如果 <code>E</code> 是变量 (<code>x</code>)、类或联合体的成员变量 (<code>s.f</code>) 或者是数组的元素 (<code>a[i]</code>), 那么它唯一地对应了一个在内存中存在的、已经构造好的对象, 从而不能是一个 <code>prvalue</code>. 因此, <code>E</code> 的 exprtype 必须是一个引用. 在这种情况下如果 <code>E</code> 是一个 exprtype 为非 lvalue 引用 (即该对象的值类别是 lvalue) 的对象的成员或者是数组的元素, 而且 <code>E</code> 的 variable decltype 不是引用, 那么 <code>E</code> 的 exprtype 是 rvalue 引用; 否则 <code>E</code> 的 exprtype 是 lvalue 引用.</p>
+<p><strong>有名值</strong>: 如果 <code>E</code> 是变量 (<code>x</code>)、类或联合体的成员变量 (<code>s.f</code>) 或者是数组的元素 (<code>a[i]</code>), 那么它唯一地对应了一个在内存中存在的、已经构造好的对象, 从而不能是一个 <code>prvalue</code>. 因此, <code>E</code> 的 exprtype 必须是一个引用. 在这种情况下如果 <code>E</code> 是一个 exprtype 为非 lvalue 引用的对象的成员或者是数组 (即该对象或数组的值类别为 prvalue 或 xvalue) 的元素, 而且 <code>E</code> 的 variable decltype 不是引用, 那么 <code>E</code> 的 exprtype 是 rvalue 引用; 否则 <code>E</code> 的 exprtype 是 lvalue 引用.</p>
 <p>例如:</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">int</span> v;<br><span class="hljs-type">int</span> &amp;vref = v;<br><span class="hljs-type">int</span> a[<span class="hljs-number">10</span>];<br><br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">S</span> &#123;<br>  <span class="hljs-type">static</span> <span class="hljs-type">int</span> static_member;<br>  <span class="hljs-type">int</span> data_member = <span class="hljs-number">0</span>;<br>  <span class="hljs-type">int</span> &amp;lref = static_member;<br>  <span class="hljs-type">int</span> &amp;&amp;rref = std::<span class="hljs-built_in">move</span>(static_member);<br>&#125;;<br>S s;<br><span class="hljs-function">S <span class="hljs-title">f</span><span class="hljs-params">()</span></span>;<br><span class="hljs-function">S &amp;<span class="hljs-title">lvf</span><span class="hljs-params">()</span></span>;<br><span class="hljs-type">int</span> S::*fieldp = &amp;S::data_member;<br></code></pre></td></tr></table></figure>
 <p>上述表达式的 exprtype 如下:</p>
@@ -473,7 +473,7 @@
 </tr>
 </tbody>
 </table>
-<p>这里需要重点解释一个比较难处理的情况: 像 <code>S::data_member</code> 这么一个非静态的成员变量为什么永远是 lvalue? 这是因为在 <code>S</code> 的一个成员函数内, <code>S::data_member</code> 等价于 <code>(*this).S::data_member</code>, 它显然是 lvalue 引用. 在 <code>S</code> 的外部, 对 <code>S::data_member</code> 求值是非法的, 但是 <code>decltype((S::data_member))</code> 并不会对它求值. 甚至这样的语句都是合法的: <code>decltype(S::data_member + 5)</code>.</p>
+<p>这里需要重点解释一个比较难处理的情况: 像 <code>S::data_member</code> 这么一个非静态的成员变量为什么永远是 lvalue? 这是因为在 <code>S</code> 的一个成员函数内, <code>S::data_member</code> 等价于 <code>(*this).S::data_member</code>, 它的 exprtype 显然是 lvalue 引用. 在 <code>S</code> 的外部, 对 <code>S::data_member</code> 求值是非法的, 但是 <code>decltype((S::data_member))</code> 并不会对它求值. 甚至这样的语句都是合法的: <code>decltype(S::data_member + 5)</code>.</p>
 <p><strong>显含类型的值</strong>: 当一个无名值显含类型, 那么其 exprtype 就是这个表达式的类型. 更具体地来说:</p>
 <ul>
 <li>

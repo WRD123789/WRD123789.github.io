@@ -16,15 +16,15 @@
   <meta name="author" content="Wangrd">
   <meta name="keywords" content="">
   
-    <meta name="description" content="auto 在C++中, 变量声明通常需要显式指定其类型, 例如 int、double、char, 在 C++ 中使用 auto 关键字时, 它能够让编译器根据变量初始化的表达式自动推导出变量的类型. auto 关键字的使用在 C++11 中引入, 之后的标准中也得到了进一步增强和扩展. auto 类型的简单使用如下: 1234auto x &#x3D; 5;                &#x2F;&#x2F; x 是 in">
+    <meta name="description" content="auto 在 C++ 中, 变量声明通常需要显式指定其类型, 例如 int、double、char, 在 C++ 中使用 auto 关键字时, 它能够让编译器根据变量初始化的表达式自动推导出变量的类型. auto 关键字的使用在 C++11 中引入, 之后的标准中也得到了进一步增强和扩展. auto 类型的简单使用如下: 1234auto x &#x3D; 5;                &#x2F;&#x2F; x 是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++ auto">
 <meta property="og:url" content="http://example.com/2024/07/04/CPlusPlus/auto/index.html">
 <meta property="og:site_name" content="Wangrd&#39;s Blog">
-<meta property="og:description" content="auto 在C++中, 变量声明通常需要显式指定其类型, 例如 int、double、char, 在 C++ 中使用 auto 关键字时, 它能够让编译器根据变量初始化的表达式自动推导出变量的类型. auto 关键字的使用在 C++11 中引入, 之后的标准中也得到了进一步增强和扩展. auto 类型的简单使用如下: 1234auto x &#x3D; 5;                &#x2F;&#x2F; x 是 in">
+<meta property="og:description" content="auto 在 C++ 中, 变量声明通常需要显式指定其类型, 例如 int、double、char, 在 C++ 中使用 auto 关键字时, 它能够让编译器根据变量初始化的表达式自动推导出变量的类型. auto 关键字的使用在 C++11 中引入, 之后的标准中也得到了进一步增强和扩展. auto 类型的简单使用如下: 1234auto x &#x3D; 5;                &#x2F;&#x2F; x 是">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-07-04T11:28:41.000Z">
-<meta property="article:modified_time" content="2024-07-04T11:30:45.272Z">
+<meta property="article:modified_time" content="2024-09-16T04:07:54.889Z">
 <meta property="article:author" content="Wangrd">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary_large_image">
@@ -274,7 +274,7 @@
               <div class="markdown-body">
                 
                 <h1>auto</h1>
-<p>在C++中, 变量声明通常需要显式指定其类型, 例如 <code>int</code>、<code>double</code>、<code>char</code>, 在 C++ 中使用 <code>auto</code> 关键字时, <strong>它能够让编译器根据变量初始化的表达式自动推导出变量的类型</strong>. <code>auto</code> 关键字的使用在 C++11 中引入, 之后的标准中也得到了进一步增强和扩展.</p>
+<p>在 C++ 中, 变量声明通常需要显式指定其类型, 例如 <code>int</code>、<code>double</code>、<code>char</code>, 在 C++ 中使用 <code>auto</code> 关键字时, <strong>它能够让编译器根据变量初始化的表达式自动推导出变量的类型</strong>. <code>auto</code> 关键字的使用在 C++11 中引入, 之后的标准中也得到了进一步增强和扩展.</p>
 <p><code>auto</code> 类型的简单使用如下:</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">auto</span> x = <span class="hljs-number">5</span>;                <span class="hljs-comment">// x 是 int 类型 </span><br><span class="hljs-keyword">auto</span> pi = <span class="hljs-keyword">new</span> <span class="hljs-built_in">auto</span>(<span class="hljs-number">1</span>);     <span class="hljs-comment">// pi 是 int* 类型</span><br><span class="hljs-type">const</span> <span class="hljs-keyword">auto</span> *v = &amp;x, u = <span class="hljs-number">6</span>; <span class="hljs-comment">// v 是 const int* 类型, u 是 const int 类型</span><br><span class="hljs-type">static</span> <span class="hljs-keyword">auto</span> y = <span class="hljs-number">0.0</span>;       <span class="hljs-comment">// y 是 double 类型</span><br></code></pre></td></tr></table></figure>
 <p>通过上面的例子可以看出, <code>auto</code> 实际上只是一个占位符, <strong><code>auto</code> 关键字的类型推断是在编译期进行的, 在编译器期间, <code>auto</code>会被真正的类型所替代</strong>, 因此使用 <code>auto</code> 不会对程序的运行时效率造成影响. 并且由于编译器通过初始化表达式推导出变量的类型, 所以 <strong><code>auto</code> 关键字必须初始化</strong>.</p>
